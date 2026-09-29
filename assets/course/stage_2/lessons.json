@@ -1,0 +1,74 @@
+[
+  {
+    "id": "multimeter_01",
+    "order": 1,
+    "title": "Знакомство с мультиметром",
+    "description": "Дисплей, переключатель режимов и основные обозначения",
+    "estimatedMinutes": 10,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "multimeter_02",
+    "order": 2,
+    "title": "Измерение напряжения аккумулятора",
+    "description": "Настройка мультиметра, подключение щупов и полярность",
+    "estimatedMinutes": 12,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "multimeter_03",
+    "order": 3,
+    "title": "Сопротивление и поиск обрыва",
+    "description": "Измерение сопротивления и проверка целостности проводника",
+    "estimatedMinutes": 14,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "multimeter_04",
+    "order": 4,
+    "title": "Прозвонка цепи",
+    "description": "Быстрая проверка электрического пути звуковым сигналом",
+    "estimatedMinutes": 12,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "multimeter_05",
+    "order": 5,
+    "title": "Падение напряжения",
+    "description": "Поиск плохого соединения измерением под нагрузкой",
+    "estimatedMinutes": 15,
+    "file": "lesson_05.json"
+  },
+  {
+    "id": "multimeter_06",
+    "order": 6,
+    "title": "Измерение силы тока",
+    "description": "Последовательное включение амперметра и опасные ошибки подключения",
+    "estimatedMinutes": 15,
+    "file": "lesson_06.json"
+  },
+  {
+    "id": "multimeter_07",
+    "order": 7,
+    "title": "Практикум: лампа не работает",
+    "description": "Самостоятельная локализация неисправности электрической цепи",
+    "estimatedMinutes": 18,
+    "file": "lesson_07.json"
+  },
+  {
+    "id": "multimeter_08",
+    "order": 8,
+    "title": "Практикум: поставь диагноз",
+    "description": "Анализ контрольных точек цепи и выбор причины неисправности",
+    "estimatedMinutes": 15,
+    "file": "lesson_08.json"
+  },
+  {
+    "id": "multimeter_09",
+    "order": 9,
+    "title": "Итоговая проверка",
+    "description": "Проверка навыков безопасной работы и основных измерений мультиметром",
+    "estimatedMinutes": 25,
+    "file": "lesson_09.json"
+  }
+]

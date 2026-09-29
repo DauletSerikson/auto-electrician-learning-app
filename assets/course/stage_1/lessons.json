@@ -1,0 +1,66 @@
+[
+  {
+    "id": "electricity_01",
+    "order": 1,
+    "title": "Электрическая цепь",
+    "description": "Источник, проводники, потребитель и выключатель",
+    "estimatedMinutes": 8,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "electricity_02",
+    "order": 2,
+    "title": "Напряжение",
+    "description": "Что измеряется в вольтах и зачем нужно напряжение",
+    "estimatedMinutes": 8,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "electricity_03",
+    "order": 3,
+    "title": "Электрический ток",
+    "description": "Что измеряется в амперах и как возникает ток",
+    "estimatedMinutes": 8,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "electricity_04",
+    "order": 4,
+    "title": "Сопротивление",
+    "description": "Что измеряется в омах и как сопротивление влияет на ток",
+    "estimatedMinutes": 8,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "electricity_05",
+    "order": 5,
+    "title": "Закон Ома",
+    "description": "Связь напряжения, тока и сопротивления",
+    "estimatedMinutes": 12,
+    "file": "lesson_05.json"
+  },
+  {
+    "id": "electricity_06",
+    "order": 6,
+    "title": "Электрическая мощность",
+    "description": "Ватты, мощность потребителей и формула P = U × I",
+    "estimatedMinutes": 10,
+    "file": "lesson_06.json"
+  },
+  {
+    "id": "electricity_07",
+    "order": 7,
+    "title": "Последовательное и параллельное соединение",
+    "description": "Как соединение потребителей изменяет работу электрической цепи",
+    "estimatedMinutes": 12,
+    "file": "lesson_07.json"
+  },
+  {
+    "id": "electricity_08",
+    "order": 8,
+    "title": "Проверка знаний",
+    "description": "Итоговая проверка по основам электричества",
+    "estimatedMinutes": 15,
+    "file": "lesson_08.json"
+  }
+]

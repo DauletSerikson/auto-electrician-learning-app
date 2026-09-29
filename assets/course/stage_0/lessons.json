@@ -1,0 +1,42 @@
+[
+  {
+    "id": "safety_01",
+    "order": 1,
+    "title": "12 В — это тоже электричество",
+    "description": "Чем автомобильная электрика отличается от бытовой",
+    "estimatedMinutes": 6,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "safety_02",
+    "order": 2,
+    "title": "Опасность большого тока",
+    "description": "Почему автомобильный аккумулятор способен быть опасным",
+    "estimatedMinutes": 7,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "safety_03",
+    "order": 3,
+    "title": "Работа с аккумулятором",
+    "description": "Клеммы, полярность и безопасное отключение АКБ",
+    "estimatedMinutes": 8,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "safety_04",
+    "order": 4,
+    "title": "Что нельзя делать",
+    "description": "Основные ошибки при работе с автомобильной электрикой",
+    "estimatedMinutes": 7,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "safety_05",
+    "order": 5,
+    "title": "Проверка знаний",
+    "description": "Закрепляем правила техники безопасности",
+    "estimatedMinutes": 5,
+    "file": "lesson_05.json"
+  }
+]
