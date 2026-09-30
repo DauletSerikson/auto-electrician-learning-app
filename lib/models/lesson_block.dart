@@ -1,4 +1,4 @@
-abstract class LessonBlock {
+sealed class LessonBlock {
   const LessonBlock();
 
   String get type;
