@@ -53,7 +53,8 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
   }
 
   bool get isWireResistance {
-    return widget.block.measurementType == 'wireResistance';
+    return widget.block.measurementType == 'wireResistance' ||
+        widget.block is ResistanceMeasurementLessonBlock;
   }
 
   bool get isWireContinuity {
