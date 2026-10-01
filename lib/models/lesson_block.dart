@@ -3,51 +3,6 @@ sealed class LessonBlock {
 
   String get type;
 
-  // Compatibility getters.
-  //
-  // Они временно сохраняют совместимость существующего UI с прежней
-  // универсальной моделью LessonBlock. По мере миграции виджетов на
-  // конкретные типы блоков эти getters будут удалены.
-  String? get title => null;
-  String? get content => null;
-
-  String? get asset => null;
-  String? get caption => null;
-
-  String? get question => null;
-  List<String>? get answers => null;
-  int? get correctAnswer => null;
-
-  double? get correctValue => null;
-  double? get tolerance => null;
-  String? get unit => null;
-  String? get hint => null;
-
-  String? get circuitType => null;
-  bool? get interactive => null;
-  bool? get initiallyClosed => null;
-
-  String? get multimeterMode => null;
-
-  String? get measurementType => null;
-  double? get sourceVoltage => null;
-
-  double? get goodResistance => null;
-  bool? get initiallyBroken => null;
-  bool? get initiallyPowered => null;
-
-  double? get faultVoltageDrop => null;
-  bool? get initiallyLoaded => null;
-
-  double? get loadCurrent => null;
-  double? get meterFuseRating => null;
-
-  String? get faultType => null;
-  List<String>? get diagnosisOptions => null;
-  int? get correctDiagnosis => null;
-
-  String? get explanation => null;
-
   factory LessonBlock.fromJson(Map<String, dynamic> json) {
     final type = _requiredString(json, 'type');
 
@@ -71,10 +26,8 @@ sealed class LessonBlock {
 }
 
 final class TextLessonBlock extends LessonBlock {
-  @override
   final String title;
 
-  @override
   final String content;
 
   const TextLessonBlock({required this.title, required this.content});
@@ -91,7 +44,6 @@ final class TextLessonBlock extends LessonBlock {
 }
 
 final class RememberLessonBlock extends LessonBlock {
-  @override
   final String content;
 
   const RememberLessonBlock({required this.content});
@@ -105,10 +57,8 @@ final class RememberLessonBlock extends LessonBlock {
 }
 
 final class WarningLessonBlock extends LessonBlock {
-  @override
   final String title;
 
-  @override
   final String content;
 
   const WarningLessonBlock({required this.title, required this.content});
@@ -125,10 +75,8 @@ final class WarningLessonBlock extends LessonBlock {
 }
 
 final class ImageLessonBlock extends LessonBlock {
-  @override
   final String asset;
 
-  @override
   final String caption;
 
   const ImageLessonBlock({required this.asset, required this.caption});
@@ -145,16 +93,12 @@ final class ImageLessonBlock extends LessonBlock {
 }
 
 final class QuestionLessonBlock extends LessonBlock {
-  @override
   final String question;
 
-  @override
   final List<String> answers;
 
-  @override
   final int correctAnswer;
 
-  @override
   final String explanation;
 
   const QuestionLessonBlock({
@@ -195,22 +139,16 @@ final class QuestionLessonBlock extends LessonBlock {
 }
 
 final class CalculationLessonBlock extends LessonBlock {
-  @override
   final String question;
 
-  @override
   final double correctValue;
 
-  @override
   final double tolerance;
 
-  @override
   final String unit;
 
-  @override
   final String hint;
 
-  @override
   final String explanation;
 
   const CalculationLessonBlock({
@@ -238,19 +176,14 @@ final class CalculationLessonBlock extends LessonBlock {
 }
 
 final class CircuitLessonBlock extends LessonBlock {
-  @override
   final String circuitType;
 
-  @override
   final String title;
 
-  @override
   final bool interactive;
 
-  @override
   final bool? initiallyClosed;
 
-  @override
   final String caption;
 
   const CircuitLessonBlock({
@@ -276,16 +209,12 @@ final class CircuitLessonBlock extends LessonBlock {
 }
 
 final class MultimeterLessonBlock extends LessonBlock {
-  @override
   final String title;
 
-  @override
   final bool interactive;
 
-  @override
   final String multimeterMode;
 
-  @override
   final String caption;
 
   const MultimeterLessonBlock({
@@ -314,14 +243,16 @@ abstract class MeasurementLessonBlock extends LessonBlock {
   @override
   String get type => 'measurement';
 
-  @override
   String get measurementType;
 
-  @override
   String get title;
 
-  @override
   String get question;
+
+  double? get sourceVoltage => null;
+  double? get goodResistance => null;
+  bool? get initiallyBroken => null;
+  bool? get initiallyPowered => null;
 
   factory MeasurementLessonBlock.fromJson(Map<String, dynamic> json) {
     final measurementType = _requiredString(json, 'measurementType');
@@ -469,19 +400,14 @@ final class ResistanceMeasurementLessonBlock
 }
 
 final class VoltageDropLessonBlock extends LessonBlock {
-  @override
   final String title;
 
-  @override
   final String question;
 
-  @override
   final double sourceVoltage;
 
-  @override
   final double faultVoltageDrop;
 
-  @override
   final bool initiallyLoaded;
 
   const VoltageDropLessonBlock({
@@ -507,19 +433,14 @@ final class VoltageDropLessonBlock extends LessonBlock {
 }
 
 final class CurrentMeasurementLessonBlock extends LessonBlock {
-  @override
   final String title;
 
-  @override
   final String question;
 
-  @override
   final double sourceVoltage;
 
-  @override
   final double loadCurrent;
 
-  @override
   final double meterFuseRating;
 
   const CurrentMeasurementLessonBlock({
@@ -545,16 +466,12 @@ final class CurrentMeasurementLessonBlock extends LessonBlock {
 }
 
 final class DiagnosticCaseLessonBlock extends LessonBlock {
-  @override
   final String title;
 
-  @override
   final String question;
 
-  @override
   final double sourceVoltage;
 
-  @override
   final String faultType;
 
   const DiagnosticCaseLessonBlock({
@@ -578,25 +495,18 @@ final class DiagnosticCaseLessonBlock extends LessonBlock {
 }
 
 final class DiagnosticChoiceLessonBlock extends LessonBlock {
-  @override
   final String title;
 
-  @override
   final String question;
 
-  @override
   final double sourceVoltage;
 
-  @override
   final String faultType;
 
-  @override
   final List<String> diagnosisOptions;
 
-  @override
   final int correctDiagnosis;
 
-  @override
   final String explanation;
 
   const DiagnosticChoiceLessonBlock({

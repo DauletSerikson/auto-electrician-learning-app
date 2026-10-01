@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/lesson_block.dart';
 
 class QuestionBlock extends StatefulWidget {
-  final LessonBlock block;
+  final QuestionLessonBlock block;
 
   /// Сообщает LessonScreen результат проверенного ответа.
   final ValueChanged<bool>? onAnswered;
@@ -52,7 +52,7 @@ class _QuestionBlockState extends State<QuestionBlock> {
 
   @override
   Widget build(BuildContext context) {
-    final answers = widget.block.answers ?? [];
+    final answers = widget.block.answers;
 
     final isCorrect = selectedAnswer == widget.block.correctAnswer;
 
@@ -77,7 +77,7 @@ class _QuestionBlockState extends State<QuestionBlock> {
             const SizedBox(height: 16),
 
             Text(
-              widget.block.question ?? '',
+              widget.block.question,
               style: Theme.of(context).textTheme.titleMedium,
             ),
 
@@ -123,11 +123,9 @@ class _QuestionBlockState extends State<QuestionBlock> {
                 ),
               ),
 
-              if (widget.block.explanation != null) ...[
-                const SizedBox(height: 8),
+              const SizedBox(height: 8),
 
-                Text(widget.block.explanation!),
-              ],
+              Text(widget.block.explanation),
 
               if (!isCorrect) ...[
                 const SizedBox(height: 16),

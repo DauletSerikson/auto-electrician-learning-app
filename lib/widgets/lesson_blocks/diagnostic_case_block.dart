@@ -12,7 +12,7 @@ enum DiagnosticTest {
 }
 
 class DiagnosticCaseBlock extends StatefulWidget {
-  final LessonBlock block;
+  final DiagnosticCaseLessonBlock block;
 
   final ValueChanged<bool>? onAnswered;
   final VoidCallback? onRetry;
@@ -25,12 +25,10 @@ class DiagnosticCaseBlock extends StatefulWidget {
   });
 
   @override
-  State<DiagnosticCaseBlock> createState() =>
-      _DiagnosticCaseBlockState();
+  State<DiagnosticCaseBlock> createState() => _DiagnosticCaseBlockState();
 }
 
-class _DiagnosticCaseBlockState
-    extends State<DiagnosticCaseBlock> {
+class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
   final List<DiagnosticTest> performedTests = [];
 
   bool powered = true;
@@ -39,32 +37,20 @@ class _DiagnosticCaseBlockState
 
   DiagnosticTest? selectedTest;
 
-  double get sourceVoltage =>
-      widget.block.sourceVoltage ?? 12.6;
+  double get sourceVoltage => widget.block.sourceVoltage;
 
   bool get hasPositiveWireOpen {
-    return widget.block.faultType ==
-        'positiveWireOpen';
+    return widget.block.faultType == 'positiveWireOpen';
   }
 
   bool get requiredTestsPerformed {
-    return performedTests.contains(
-          DiagnosticTest.batteryVoltage,
-        ) &&
-        performedTests.contains(
-          DiagnosticTest.fuseOutputVoltage,
-        ) &&
-        performedTests.contains(
-          DiagnosticTest.lampPositiveVoltage,
-        ) &&
-        performedTests.contains(
-          DiagnosticTest.wireContinuity,
-        );
+    return performedTests.contains(DiagnosticTest.batteryVoltage) &&
+        performedTests.contains(DiagnosticTest.fuseOutputVoltage) &&
+        performedTests.contains(DiagnosticTest.lampPositiveVoltage) &&
+        performedTests.contains(DiagnosticTest.wireContinuity);
   }
 
-  String resultFor(
-    DiagnosticTest test,
-  ) {
+  String resultFor(DiagnosticTest test) {
     switch (test) {
       case DiagnosticTest.batteryVoltage:
         if (!powered) {
@@ -74,14 +60,10 @@ class _DiagnosticCaseBlockState
         return '${sourceVoltage.toStringAsFixed(2)} V';
 
       case DiagnosticTest.fuseInputVoltage:
-        return powered
-            ? '${sourceVoltage.toStringAsFixed(2)} V'
-            : '0.00 V';
+        return powered ? '${sourceVoltage.toStringAsFixed(2)} V' : '0.00 V';
 
       case DiagnosticTest.fuseOutputVoltage:
-        return powered
-            ? '${sourceVoltage.toStringAsFixed(2)} V'
-            : '0.00 V';
+        return powered ? '${sourceVoltage.toStringAsFixed(2)} V' : '0.00 V';
 
       case DiagnosticTest.lampPositiveVoltage:
         if (!powered) {
@@ -110,9 +92,7 @@ class _DiagnosticCaseBlockState
     }
   }
 
-  String descriptionFor(
-    DiagnosticTest test,
-  ) {
+  String descriptionFor(DiagnosticTest test) {
     switch (test) {
       case DiagnosticTest.batteryVoltage:
         return 'Напряжение непосредственно '
@@ -145,9 +125,7 @@ class _DiagnosticCaseBlockState
     }
   }
 
-  String labelFor(
-    DiagnosticTest test,
-  ) {
+  String labelFor(DiagnosticTest test) {
     switch (test) {
       case DiagnosticTest.batteryVoltage:
         return 'Напряжение АКБ';
@@ -169,9 +147,7 @@ class _DiagnosticCaseBlockState
     }
   }
 
-  IconData iconFor(
-    DiagnosticTest test,
-  ) {
+  IconData iconFor(DiagnosticTest test) {
     switch (test) {
       case DiagnosticTest.batteryVoltage:
         return Icons.battery_full;
@@ -183,7 +159,7 @@ class _DiagnosticCaseBlockState
       case DiagnosticTest.lampPositiveVoltage:
         return Icons.lightbulb_outline;
 
-     case DiagnosticTest.lampGroundVoltage:
+      case DiagnosticTest.lampGroundVoltage:
         return Icons.electrical_services_outlined;
 
       case DiagnosticTest.wireContinuity:
@@ -191,9 +167,7 @@ class _DiagnosticCaseBlockState
     }
   }
 
-  void performTest(
-    DiagnosticTest test,
-  ) {
+  void performTest(DiagnosticTest test) {
     if (checked) {
       return;
     }
@@ -223,10 +197,7 @@ class _DiagnosticCaseBlockState
       return;
     }
 
-    final result =
-        requiredTestsPerformed &&
-        !powered &&
-        hasPositiveWireOpen;
+    final result = requiredTestsPerformed && !powered && hasPositiveWireOpen;
 
     setState(() {
       checked = true;
@@ -252,30 +223,20 @@ class _DiagnosticCaseBlockState
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(
-        top: 8,
-        bottom: 24,
-      ),
+      margin: const EdgeInsets.only(top: 8, bottom: 24),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               children: [
-                const Icon(
-                  Icons.car_repair,
-                ),
+                const Icon(Icons.car_repair),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    widget.block.title ??
-                        'Диагностический кейс',
-                    style: const TextStyle(
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+                    widget.block.title,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -284,11 +245,8 @@ class _DiagnosticCaseBlockState
             const SizedBox(height: 12),
 
             Text(
-              widget.block.question ??
-                  'Найди неисправность.',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium,
+              widget.block.question,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
 
             const SizedBox(height: 20),
@@ -301,10 +259,7 @@ class _DiagnosticCaseBlockState
 
             if (selectedTest != null) ...[
               const SizedBox(height: 16),
-              buildMeasurementResult(
-                context,
-                selectedTest!,
-              ),
+              buildMeasurementResult(context, selectedTest!),
             ],
 
             const SizedBox(height: 20),
@@ -314,12 +269,8 @@ class _DiagnosticCaseBlockState
             const SizedBox(height: 20),
 
             FilledButton(
-              onPressed: checked
-                  ? null
-                  : checkDiagnosis,
-              child: const Text(
-                'Указать неисправность',
-              ),
+              onPressed: checked ? null : checkDiagnosis,
+              child: const Text('Указать неисправность'),
             ),
 
             if (checked) ...[
@@ -332,167 +283,97 @@ class _DiagnosticCaseBlockState
     );
   }
 
-  Widget buildCircuit(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildCircuit(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: colorScheme
-            .surfaceContainerHighest,
-        borderRadius:
-            BorderRadius.circular(16),
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         children: [
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Expanded(
                 child: Text(
                   'СИМПТОМ: ЛАМПА НЕ ГОРИТ',
-                  style: TextStyle(
-                    fontWeight:
-                        FontWeight.bold,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
 
-              Chip(
-                label: Text(
-                  powered
-                      ? 'ПИТАНИЕ ВКЛ.'
-                      : 'ОБЕСТОЧЕНО',
-                ),
-              ),
+              Chip(label: Text(powered ? 'ПИТАНИЕ ВКЛ.' : 'ОБЕСТОЧЕНО')),
             ],
           ),
 
           const SizedBox(height: 24),
 
-          const Icon(
-            Icons.battery_full,
-            size: 46,
-          ),
+          const Icon(Icons.battery_full, size: 46),
 
-          Text(
-            'АКБ ${sourceVoltage.toStringAsFixed(1)} V',
-          ),
+          Text('АКБ ${sourceVoltage.toStringAsFixed(1)} V'),
 
           buildLine(context),
 
           const Text(
             'ПРЕДОХРАНИТЕЛЬ',
-            style: TextStyle(
-              fontWeight:
-                  FontWeight.bold,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
 
           buildLine(context),
 
           Container(
-            padding:
-                const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              border: Border.all(
-                color: colorScheme.outline,
-              ),
-              borderRadius:
-                  BorderRadius.circular(8),
+              border: Border.all(color: colorScheme.outline),
+              borderRadius: BorderRadius.circular(8),
             ),
-            child: const Text(
-              'ПРОВОД',
-            ),
+            child: const Text('ПРОВОД'),
           ),
 
           buildLine(context),
 
-          Icon(
-            Icons.lightbulb_outline,
-            size: 54,
-            color: colorScheme.onSurface,
-          ),
+          Icon(Icons.lightbulb_outline, size: 54, color: colorScheme.onSurface),
 
           const Text(
             'ЛАМПА НЕ ГОРИТ',
-            style: TextStyle(
-              fontWeight:
-                  FontWeight.bold,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
 
           buildLine(context),
 
-          const Text(
-            'МАССА',
-            style: TextStyle(
-              fontWeight:
-                  FontWeight.bold,
-            ),
-          ),
+          const Text('МАССА', style: TextStyle(fontWeight: FontWeight.bold)),
 
           const SizedBox(height: 20),
 
           OutlinedButton.icon(
-            onPressed: checked
-                ? null
-                : togglePower,
-            icon: Icon(
-              powered
-                  ? Icons.power_off
-                  : Icons.power,
-            ),
-            label: Text(
-              powered
-                  ? 'Обесточить цепь'
-                  : 'Подать питание',
-            ),
+            onPressed: checked ? null : togglePower,
+            icon: Icon(powered ? Icons.power_off : Icons.power),
+            label: Text(powered ? 'Обесточить цепь' : 'Подать питание'),
           ),
         ],
       ),
     );
   }
 
-  Widget buildLine(
-    BuildContext context,
-  ) {
+  Widget buildLine(BuildContext context) {
     return Container(
-      margin:
-          const EdgeInsets.symmetric(
-        vertical: 8,
-      ),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       width: 4,
       height: 28,
-      color: Theme.of(context)
-          .colorScheme
-          .outline,
+      color: Theme.of(context).colorScheme.outline,
     );
   }
 
-  Widget buildTestPanel(
-    BuildContext context,
-  ) {
+  Widget buildTestPanel(BuildContext context) {
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           'Выбери проверку',
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(
-                fontWeight:
-                    FontWeight.bold,
-              ),
+          style: Theme.of(context).textTheme.titleMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
         ),
 
         const SizedBox(height: 12),
@@ -500,81 +381,53 @@ class _DiagnosticCaseBlockState
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children:
-              DiagnosticTest.values.map(
-            (test) {
-              return OutlinedButton.icon(
-                onPressed: checked
-                    ? null
-                    : () {
-                        performTest(test);
-                      },
-                icon: Icon(
-                  iconFor(test),
-                ),
-                label: Text(
-                  labelFor(test),
-                ),
-              );
-            },
-          ).toList(),
+          children: DiagnosticTest.values.map((test) {
+            return OutlinedButton.icon(
+              onPressed: checked
+                  ? null
+                  : () {
+                      performTest(test);
+                    },
+              icon: Icon(iconFor(test)),
+              label: Text(labelFor(test)),
+            );
+          }).toList(),
         ),
       ],
     );
   }
 
-  Widget buildMeasurementResult(
-    BuildContext context,
-    DiagnosticTest test,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildMeasurementResult(BuildContext context, DiagnosticTest test) {
+    final colorScheme = Theme.of(context).colorScheme;
 
-    final unsafe =
-        test ==
-            DiagnosticTest
-                .wireContinuity &&
-        powered;
+    final unsafe = test == DiagnosticTest.wireContinuity && powered;
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: unsafe
             ? colorScheme.errorContainer
-            : colorScheme
-                .primaryContainer,
-        borderRadius:
-            BorderRadius.circular(12),
+            : colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             labelFor(test),
-            style: const TextStyle(
-              fontWeight:
-                  FontWeight.bold,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
 
           const SizedBox(height: 6),
 
-          Text(
-            descriptionFor(test),
-          ),
+          Text(descriptionFor(test)),
 
           const SizedBox(height: 12),
 
           Text(
             resultFor(test),
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall
-                ?.copyWith(
-                  fontWeight:
-                      FontWeight.bold,
-                ),
+            style: Theme.of(context).textTheme.headlineSmall
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
 
           if (unsafe) ...[
@@ -584,10 +437,7 @@ class _DiagnosticCaseBlockState
               '⚠ Прозвонку выполняют '
               'на обесточенной '
               'исследуемой цепи.',
-              style: TextStyle(
-                fontWeight:
-                    FontWeight.bold,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ],
@@ -595,52 +445,34 @@ class _DiagnosticCaseBlockState
     );
   }
 
-  Widget buildHistory(
-    BuildContext context,
-  ) {
+  Widget buildHistory(BuildContext context) {
     if (performedTests.isEmpty) {
       return Text(
         'Измерений пока нет.',
-        style: Theme.of(context)
-            .textTheme
-            .bodySmall,
+        style: Theme.of(context).textTheme.bodySmall,
       );
     }
 
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           'Журнал измерений',
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(
-                fontWeight:
-                    FontWeight.bold,
-              ),
+          style: Theme.of(context).textTheme.titleMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
         ),
 
         const SizedBox(height: 8),
 
         ...performedTests.map(
           (test) => ListTile(
-            contentPadding:
-                EdgeInsets.zero,
+            contentPadding: EdgeInsets.zero,
             dense: true,
-            leading: Icon(
-              iconFor(test),
-            ),
-            title: Text(
-              labelFor(test),
-            ),
+            leading: Icon(iconFor(test)),
+            title: Text(labelFor(test)),
             trailing: Text(
               resultFor(test),
-              style: const TextStyle(
-                fontWeight:
-                    FontWeight.bold,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -648,31 +480,22 @@ class _DiagnosticCaseBlockState
     );
   }
 
-  Widget buildFinalResult(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildFinalResult(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     if (completed) {
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: colorScheme
-              .primaryContainer,
-          borderRadius:
-              BorderRadius.circular(12),
+          color: colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(12),
         ),
         child: const Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               '✓ Неисправность найдена',
-              style: TextStyle(
-                fontWeight:
-                    FontWeight.bold,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
 
             SizedBox(height: 8),
@@ -693,23 +516,17 @@ class _DiagnosticCaseBlockState
     }
 
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color:
-                colorScheme.errorContainer,
-            borderRadius:
-                BorderRadius.circular(12),
+            color: colorScheme.errorContainer,
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
             buildFailureMessage(),
-            style: TextStyle(
-              color: colorScheme
-                  .onErrorContainer,
-            ),
+            style: TextStyle(color: colorScheme.onErrorContainer),
           ),
         ),
 
@@ -717,12 +534,8 @@ class _DiagnosticCaseBlockState
 
         OutlinedButton.icon(
           onPressed: retry,
-          icon: const Icon(
-            Icons.refresh,
-          ),
-          label: const Text(
-            'Начать диагностику заново',
-          ),
+          icon: const Icon(Icons.refresh),
+          label: const Text('Начать диагностику заново'),
         ),
       ],
     );
@@ -737,32 +550,24 @@ class _DiagnosticCaseBlockState
           'его целостности.';
     }
 
-    if (!performedTests.contains(
-      DiagnosticTest.batteryVoltage,
-    )) {
+    if (!performedTests.contains(DiagnosticTest.batteryVoltage)) {
       return 'Ты ещё не проверил источник '
           'питания. Начни с понимания, '
           'исправен ли сам аккумулятор.';
     }
 
-    if (!performedTests.contains(
-      DiagnosticTest.fuseOutputVoltage,
-    )) {
+    if (!performedTests.contains(DiagnosticTest.fuseOutputVoltage)) {
       return 'Нужно определить, выходит ли '
           'питание из предохранителя.';
     }
 
-    if (!performedTests.contains(
-      DiagnosticTest.lampPositiveVoltage,
-    )) {
+    if (!performedTests.contains(DiagnosticTest.lampPositiveVoltage)) {
       return 'Нужно проверить, доходит ли '
           'питание непосредственно '
           'до плюсового вывода лампы.';
     }
 
-    if (!performedTests.contains(
-      DiagnosticTest.wireContinuity,
-    )) {
+    if (!performedTests.contains(DiagnosticTest.wireContinuity)) {
       return 'Ты сузил область поиска. '
           'Теперь на обесточенной цепи '
           'проверь целостность участка '

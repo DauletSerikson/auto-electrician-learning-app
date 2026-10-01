@@ -11,7 +11,7 @@ enum DiagnosticChoiceTest {
 }
 
 class DiagnosticChoiceBlock extends StatefulWidget {
-  final LessonBlock block;
+  final DiagnosticChoiceLessonBlock block;
 
   final ValueChanged<bool>? onAnswered;
   final VoidCallback? onRetry;
@@ -35,11 +35,11 @@ class _DiagnosticChoiceBlockState extends State<DiagnosticChoiceBlock> {
   bool checked = false;
   bool completed = false;
 
-  double get sourceVoltage => widget.block.sourceVoltage ?? 12.6;
+  double get sourceVoltage => widget.block.sourceVoltage;
 
-  String get faultType => widget.block.faultType ?? 'positiveWireOpen';
+  String get faultType => widget.block.faultType;
 
-  List<String> get diagnosisOptions => widget.block.diagnosisOptions ?? [];
+  List<String> get diagnosisOptions => widget.block.diagnosisOptions;
 
   String labelFor(DiagnosticChoiceTest test) {
     switch (test) {
@@ -136,11 +136,6 @@ class _DiagnosticChoiceBlockState extends State<DiagnosticChoiceBlock> {
     }
 
     final correct = widget.block.correctDiagnosis;
-
-    if (correct == null) {
-      return;
-    }
-
     final result = selectedDiagnosis == correct;
 
     setState(() {
@@ -180,7 +175,7 @@ class _DiagnosticChoiceBlockState extends State<DiagnosticChoiceBlock> {
 
                 Expanded(
                   child: Text(
-                    widget.block.title ?? 'Диагностика',
+                    widget.block.title,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -190,7 +185,7 @@ class _DiagnosticChoiceBlockState extends State<DiagnosticChoiceBlock> {
             const SizedBox(height: 12),
 
             Text(
-              widget.block.question ?? 'Найди неисправность.',
+              widget.block.question,
               style: Theme.of(context).textTheme.titleMedium,
             ),
 
@@ -408,11 +403,9 @@ class _DiagnosticChoiceBlockState extends State<DiagnosticChoiceBlock> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
 
-            if (widget.block.explanation != null) ...[
-              const SizedBox(height: 8),
+            const SizedBox(height: 8),
 
-              Text(widget.block.explanation!),
-            ],
+            Text(widget.block.explanation),
           ],
         ),
       );

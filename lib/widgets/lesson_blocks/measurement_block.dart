@@ -2,33 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
 
-enum MeasurementMode {
-  off,
-  dcVoltage,
-  resistance,
-  continuity,
-  current,
-}
+enum MeasurementMode { off, dcVoltage, resistance, continuity, current }
 
-enum MeasurementRedPort {
-  voltageResistance,
-  current,
-}
+enum MeasurementRedPort { voltageResistance, current }
 
-enum BatteryTerminal {
-  none,
-  positive,
-  negative,
-}
+enum BatteryTerminal { none, positive, negative }
 
-enum WirePoint {
-  none,
-  pointA,
-  pointB,
-}
+enum WirePoint { none, pointA, pointB }
 
 class MeasurementBlock extends StatefulWidget {
-  final LessonBlock block;
+  final MeasurementLessonBlock block;
 
   final ValueChanged<bool>? onAnswered;
   final VoidCallback? onRetry;
@@ -41,31 +24,23 @@ class MeasurementBlock extends StatefulWidget {
   });
 
   @override
-  State<MeasurementBlock> createState() =>
-      _MeasurementBlockState();
+  State<MeasurementBlock> createState() => _MeasurementBlockState();
 }
 
-class _MeasurementBlockState
-    extends State<MeasurementBlock> {
+class _MeasurementBlockState extends State<MeasurementBlock> {
   static const double continuityThreshold = 50.0;
 
-  MeasurementMode mode =
-      MeasurementMode.off;
+  MeasurementMode mode = MeasurementMode.off;
 
-  MeasurementRedPort redPort =
-      MeasurementRedPort.voltageResistance;
+  MeasurementRedPort redPort = MeasurementRedPort.voltageResistance;
 
-  BatteryTerminal redTerminal =
-      BatteryTerminal.none;
+  BatteryTerminal redTerminal = BatteryTerminal.none;
 
-  BatteryTerminal blackTerminal =
-      BatteryTerminal.none;
+  BatteryTerminal blackTerminal = BatteryTerminal.none;
 
-  WirePoint redWirePoint =
-      WirePoint.none;
+  WirePoint redWirePoint = WirePoint.none;
 
-  WirePoint blackWirePoint =
-      WirePoint.none;
+  WirePoint blackWirePoint = WirePoint.none;
 
   late bool wireBroken;
   late bool circuitPowered;
@@ -74,146 +49,105 @@ class _MeasurementBlockState
   bool completed = false;
 
   bool get isBatteryVoltage {
-    return widget.block.measurementType ==
-        'batteryVoltage';
+    return widget.block.measurementType == 'batteryVoltage';
   }
 
   bool get isWireResistance {
-    return widget.block.measurementType ==
-        'wireResistance';
+    return widget.block.measurementType == 'wireResistance';
   }
 
   bool get isWireContinuity {
-    return widget.block.measurementType ==
-        'wireContinuity';
+    return widget.block.measurementType == 'wireContinuity';
   }
 
   bool get isWireMeasurement {
-    return isWireResistance ||
-        isWireContinuity;
+    return isWireResistance || isWireContinuity;
   }
 
-  double get batteryVoltage =>
-      widget.block.sourceVoltage ?? 12.6;
+  double get batteryVoltage => widget.block.sourceVoltage ?? 12.6;
 
-  double get goodResistance =>
-      widget.block.goodResistance ?? 0.3;
+  double get goodResistance => widget.block.goodResistance ?? 0.3;
 
   @override
   void initState() {
     super.initState();
 
-    wireBroken =
-        widget.block.initiallyBroken ??
-            false;
+    wireBroken = widget.block.initiallyBroken ?? false;
 
-    circuitPowered =
-        widget.block.initiallyPowered ??
-            false;
+    circuitPowered = widget.block.initiallyPowered ?? false;
   }
 
   bool get batteryProbesConnected {
-    return redTerminal !=
-            BatteryTerminal.none &&
-        blackTerminal !=
-            BatteryTerminal.none;
+    return redTerminal != BatteryTerminal.none &&
+        blackTerminal != BatteryTerminal.none;
   }
 
   bool get batteryProbesDifferent {
-    return batteryProbesConnected &&
-        redTerminal != blackTerminal;
+    return batteryProbesConnected && redTerminal != blackTerminal;
   }
 
   bool get wireProbesConnected {
-    return redWirePoint !=
-            WirePoint.none &&
-        blackWirePoint !=
-            WirePoint.none;
+    return redWirePoint != WirePoint.none && blackWirePoint != WirePoint.none;
   }
 
   bool get wireProbesAcrossWire {
-    return wireProbesConnected &&
-        redWirePoint != blackWirePoint;
+    return wireProbesConnected && redWirePoint != blackWirePoint;
   }
 
   bool get correctVoltageSetup {
     return isBatteryVoltage &&
-        mode ==
-            MeasurementMode.dcVoltage &&
-        redPort ==
-            MeasurementRedPort
-                .voltageResistance &&
-        redTerminal ==
-            BatteryTerminal.positive &&
-        blackTerminal ==
-            BatteryTerminal.negative;
+        mode == MeasurementMode.dcVoltage &&
+        redPort == MeasurementRedPort.voltageResistance &&
+        redTerminal == BatteryTerminal.positive &&
+        blackTerminal == BatteryTerminal.negative;
   }
 
   bool get reversedVoltageSetup {
     return isBatteryVoltage &&
-        mode ==
-            MeasurementMode.dcVoltage &&
-        redPort ==
-            MeasurementRedPort
-                .voltageResistance &&
-        redTerminal ==
-            BatteryTerminal.negative &&
-        blackTerminal ==
-            BatteryTerminal.positive;
+        mode == MeasurementMode.dcVoltage &&
+        redPort == MeasurementRedPort.voltageResistance &&
+        redTerminal == BatteryTerminal.negative &&
+        blackTerminal == BatteryTerminal.positive;
   }
 
   bool get unsafeCurrentConnection {
     return isBatteryVoltage &&
-        mode ==
-            MeasurementMode.current &&
-        redPort ==
-            MeasurementRedPort.current &&
+        mode == MeasurementMode.current &&
+        redPort == MeasurementRedPort.current &&
         batteryProbesDifferent;
   }
 
   bool get unsafeOhmicMeasurement {
     return isWireMeasurement &&
         circuitPowered &&
-        (mode ==
-                MeasurementMode.resistance ||
-            mode ==
-                MeasurementMode.continuity) &&
+        (mode == MeasurementMode.resistance ||
+            mode == MeasurementMode.continuity) &&
         wireProbesConnected;
   }
 
   bool get correctResistanceSetup {
     return isWireResistance &&
         !circuitPowered &&
-        mode ==
-            MeasurementMode.resistance &&
-        redPort ==
-            MeasurementRedPort
-                .voltageResistance &&
+        mode == MeasurementMode.resistance &&
+        redPort == MeasurementRedPort.voltageResistance &&
         wireProbesAcrossWire;
   }
 
   bool get correctContinuitySetup {
     return isWireContinuity &&
         !circuitPowered &&
-        mode ==
-            MeasurementMode.continuity &&
-        redPort ==
-            MeasurementRedPort
-                .voltageResistance &&
+        mode == MeasurementMode.continuity &&
+        redPort == MeasurementRedPort.voltageResistance &&
         wireProbesAcrossWire;
   }
 
   bool get continuityBeep {
-    return mode ==
-            MeasurementMode.continuity &&
+    return mode == MeasurementMode.continuity &&
         !circuitPowered &&
-        redPort ==
-            MeasurementRedPort
-                .voltageResistance &&
+        redPort == MeasurementRedPort.voltageResistance &&
         wireProbesAcrossWire &&
         !wireBroken &&
-        goodResistance <=
-            continuityThreshold;
+        goodResistance <= continuityThreshold;
   }
 
   String get displayValue {
@@ -221,8 +155,7 @@ class _MeasurementBlockState
       return '────';
     }
 
-    if (unsafeCurrentConnection ||
-        unsafeOhmicMeasurement) {
+    if (unsafeCurrentConnection || unsafeOhmicMeasurement) {
       return '⚠';
     }
 
@@ -238,28 +171,21 @@ class _MeasurementBlockState
   }
 
   String get batteryDisplayValue {
-    if (mode ==
-            MeasurementMode.dcVoltage &&
-        redPort ==
-            MeasurementRedPort
-                .voltageResistance) {
+    if (mode == MeasurementMode.dcVoltage &&
+        redPort == MeasurementRedPort.voltageResistance) {
       if (correctVoltageSetup) {
-        return batteryVoltage
-            .toStringAsFixed(2);
+        return batteryVoltage.toStringAsFixed(2);
       }
 
       if (reversedVoltageSetup) {
-        return (-batteryVoltage)
-            .toStringAsFixed(2);
+        return (-batteryVoltage).toStringAsFixed(2);
       }
 
       return '0.00';
     }
 
-    if (mode ==
-            MeasurementMode.resistance ||
-        mode ==
-            MeasurementMode.continuity) {
+    if (mode == MeasurementMode.resistance ||
+        mode == MeasurementMode.continuity) {
       return 'OL';
     }
 
@@ -267,16 +193,12 @@ class _MeasurementBlockState
   }
 
   String get wireDisplayValue {
-    if (mode !=
-            MeasurementMode.resistance &&
-        mode !=
-            MeasurementMode.continuity) {
+    if (mode != MeasurementMode.resistance &&
+        mode != MeasurementMode.continuity) {
       return '0.00';
     }
 
-    if (redPort !=
-        MeasurementRedPort
-            .voltageResistance) {
+    if (redPort != MeasurementRedPort.voltageResistance) {
       return '----';
     }
 
@@ -292,8 +214,7 @@ class _MeasurementBlockState
       return 'OL';
     }
 
-    return goodResistance
-        .toStringAsFixed(1);
+    return goodResistance.toStringAsFixed(1);
   }
 
   String get displayUnit {
@@ -315,9 +236,7 @@ class _MeasurementBlockState
     }
   }
 
-  void changeMode(
-    MeasurementMode newMode,
-  ) {
+  void changeMode(MeasurementMode newMode) {
     if (checked) {
       return;
     }
@@ -327,9 +246,7 @@ class _MeasurementBlockState
     });
   }
 
-  void changeRedPort(
-    MeasurementRedPort port,
-  ) {
+  void changeRedPort(MeasurementRedPort port) {
     if (checked) {
       return;
     }
@@ -339,9 +256,7 @@ class _MeasurementBlockState
     });
   }
 
-  void setRedTerminal(
-    BatteryTerminal terminal,
-  ) {
+  void setRedTerminal(BatteryTerminal terminal) {
     if (checked) {
       return;
     }
@@ -351,9 +266,7 @@ class _MeasurementBlockState
     });
   }
 
-  void setBlackTerminal(
-    BatteryTerminal terminal,
-  ) {
+  void setBlackTerminal(BatteryTerminal terminal) {
     if (checked) {
       return;
     }
@@ -363,9 +276,7 @@ class _MeasurementBlockState
     });
   }
 
-  void setRedWirePoint(
-    WirePoint point,
-  ) {
+  void setRedWirePoint(WirePoint point) {
     if (checked) {
       return;
     }
@@ -375,9 +286,7 @@ class _MeasurementBlockState
     });
   }
 
-  void setBlackWirePoint(
-    WirePoint point,
-  ) {
+  void setBlackWirePoint(WirePoint point) {
     if (checked) {
       return;
     }
@@ -403,8 +312,7 @@ class _MeasurementBlockState
     }
 
     setState(() {
-      circuitPowered =
-          !circuitPowered;
+      circuitPowered = !circuitPowered;
     });
   }
 
@@ -439,29 +347,19 @@ class _MeasurementBlockState
     setState(() {
       mode = MeasurementMode.off;
 
-      redPort =
-          MeasurementRedPort
-              .voltageResistance;
+      redPort = MeasurementRedPort.voltageResistance;
 
-      redTerminal =
-          BatteryTerminal.none;
+      redTerminal = BatteryTerminal.none;
 
-      blackTerminal =
-          BatteryTerminal.none;
+      blackTerminal = BatteryTerminal.none;
 
-      redWirePoint =
-          WirePoint.none;
+      redWirePoint = WirePoint.none;
 
-      blackWirePoint =
-          WirePoint.none;
+      blackWirePoint = WirePoint.none;
 
-      wireBroken =
-          widget.block.initiallyBroken ??
-              false;
+      wireBroken = widget.block.initiallyBroken ?? false;
 
-      circuitPowered =
-          widget.block.initiallyPowered ??
-              false;
+      circuitPowered = widget.block.initiallyPowered ?? false;
 
       checked = false;
       completed = false;
@@ -473,30 +371,20 @@ class _MeasurementBlockState
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(
-        top: 8,
-        bottom: 24,
-      ),
+      margin: const EdgeInsets.only(top: 8, bottom: 24),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               children: [
-                const Icon(
-                  Icons.electrical_services,
-                ),
+                const Icon(Icons.electrical_services),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    widget.block.title ??
-                        'Виртуальное измерение',
-                    style: const TextStyle(
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+                    widget.block.title,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -505,96 +393,64 @@ class _MeasurementBlockState
             const SizedBox(height: 12),
 
             Text(
-              widget.block.question ??
-                  'Выполни измерение.',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium,
+              widget.block.question,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
 
             const SizedBox(height: 20),
 
-            if (isBatteryVoltage)
-              buildBattery(context),
+            if (isBatteryVoltage) buildBattery(context),
 
-            if (isWireMeasurement)
-              buildWire(context),
+            if (isWireMeasurement) buildWire(context),
 
             const SizedBox(height: 20),
 
             buildMeter(context),
 
-            if (mode ==
-                MeasurementMode.continuity) ...[
+            if (mode == MeasurementMode.continuity) ...[
               const SizedBox(height: 12),
-              buildContinuityIndicator(
-                context,
-              ),
+              buildContinuityIndicator(context),
             ],
 
             const SizedBox(height: 20),
 
-            if (isBatteryVoltage)
-              buildBatteryProbeControls(
-                context,
-              ),
+            if (isBatteryVoltage) buildBatteryProbeControls(context),
 
-            if (isWireMeasurement)
-              buildWireProbeControls(
-                context,
-              ),
+            if (isWireMeasurement) buildWireProbeControls(context),
 
-            if (unsafeCurrentConnection ||
-                unsafeOhmicMeasurement) ...[
+            if (unsafeCurrentConnection || unsafeOhmicMeasurement) ...[
               const SizedBox(height: 16),
-              buildDangerWarning(
-                context,
-              ),
+              buildDangerWarning(context),
             ],
 
             const SizedBox(height: 16),
 
             FilledButton(
-              onPressed: checked
-                  ? null
-                  : checkMeasurement,
-              child: const Text(
-                'Проверить измерение',
-              ),
+              onPressed: checked ? null : checkMeasurement,
+              child: const Text('Проверить измерение'),
             ),
 
-            if (checked) ...[
-              const SizedBox(height: 16),
-              buildResult(context),
-            ],
+            if (checked) ...[const SizedBox(height: 16), buildResult(context)],
           ],
         ),
       ),
     );
   }
 
-  Widget buildBattery(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildBattery(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: colorScheme
-            .surfaceContainerHighest,
-        borderRadius:
-            BorderRadius.circular(16),
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         children: [
           const Text(
             'АККУМУЛЯТОР',
-            style: TextStyle(
-              fontWeight:
-                  FontWeight.bold,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
 
           const SizedBox(height: 6),
@@ -607,20 +463,16 @@ class _MeasurementBlockState
           const SizedBox(height: 20),
 
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment
-                    .spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               buildBatteryTerminal(
                 context,
-                terminal:
-                    BatteryTerminal.positive,
+                terminal: BatteryTerminal.positive,
                 label: '+',
               ),
               buildBatteryTerminal(
                 context,
-                terminal:
-                    BatteryTerminal.negative,
+                terminal: BatteryTerminal.negative,
                 label: '−',
               ),
             ],
@@ -635,26 +487,18 @@ class _MeasurementBlockState
     required BatteryTerminal terminal,
     required String label,
   }) {
-    final redHere =
-        redTerminal == terminal;
+    final redHere = redTerminal == terminal;
 
-    final blackHere =
-        blackTerminal == terminal;
+    final blackHere = blackTerminal == terminal;
 
-    final colorScheme =
-        Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
       children: [
         Text(
           label,
-          style: Theme.of(context)
-              .textTheme
-              .headlineMedium
-              ?.copyWith(
-                fontWeight:
-                    FontWeight.bold,
-              ),
+          style: Theme.of(context).textTheme.headlineMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
         ),
 
         const SizedBox(height: 8),
@@ -664,37 +508,19 @@ class _MeasurementBlockState
           height: 68,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(
-              color:
-                  colorScheme.outline,
-              width: 4,
-            ),
+            border: Border.all(color: colorScheme.outline, width: 4),
           ),
           child: Column(
-            mainAxisAlignment:
-                MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (redHere)
-                Icon(
-                  Icons.circle,
-                  size: 20,
-                  color:
-                      colorScheme.error,
-                ),
+                Icon(Icons.circle, size: 20, color: colorScheme.error),
 
               if (blackHere)
-                Icon(
-                  Icons.circle,
-                  size: 20,
-                  color:
-                      colorScheme.onSurface,
-                ),
+                Icon(Icons.circle, size: 20, color: colorScheme.onSurface),
 
-              if (!redHere &&
-                  !blackHere)
-                const Icon(
-                  Icons.radio_button_unchecked,
-                ),
+              if (!redHere && !blackHere)
+                const Icon(Icons.radio_button_unchecked),
             ],
           ),
         ),
@@ -702,44 +528,28 @@ class _MeasurementBlockState
     );
   }
 
-  Widget buildWire(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildWire(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: colorScheme
-            .surfaceContainerHighest,
-        borderRadius:
-            BorderRadius.circular(16),
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         children: [
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment
-                    .spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Expanded(
                 child: Text(
                   'ИССЛЕДУЕМЫЙ ПРОВОД',
-                  style: TextStyle(
-                    fontWeight:
-                        FontWeight.bold,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
 
-              Chip(
-                label: Text(
-                  circuitPowered
-                      ? 'ПИТАНИЕ ВКЛ.'
-                      : 'ОБЕСТОЧЕНО',
-                ),
-              ),
+              Chip(label: Text(circuitPowered ? 'ПИТАНИЕ ВКЛ.' : 'ОБЕСТОЧЕНО')),
             ],
           ),
 
@@ -747,42 +557,31 @@ class _MeasurementBlockState
 
           Row(
             children: [
-              buildWireEndpoint(
-                context,
-                'A',
-              ),
+              buildWireEndpoint(context, 'A'),
 
               Expanded(
                 child: Stack(
-                  alignment:
-                      Alignment.center,
+                  alignment: Alignment.center,
                   children: [
                     Container(
                       height: 4,
                       color: wireBroken
-                          ? colorScheme
-                              .outlineVariant
-                          : colorScheme
-                              .primary,
+                          ? colorScheme.outlineVariant
+                          : colorScheme.primary,
                     ),
 
                     if (wireBroken)
                       Container(
-                        padding:
-                            const EdgeInsets
-                                .symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 10,
                           vertical: 4,
                         ),
-                        color: colorScheme
-                            .surfaceContainerHighest,
+                        color: colorScheme.surfaceContainerHighest,
                         child: Text(
                           'X',
                           style: TextStyle(
-                            fontWeight:
-                                FontWeight.bold,
-                            color:
-                                colorScheme.error,
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.error,
                             fontSize: 22,
                           ),
                         ),
@@ -791,65 +590,38 @@ class _MeasurementBlockState
                 ),
               ),
 
-              buildWireEndpoint(
-                context,
-                'B',
-              ),
+              buildWireEndpoint(context, 'B'),
             ],
           ),
 
           const SizedBox(height: 20),
 
           Text(
-            wireBroken
-                ? 'Состояние: ОБРЫВ'
-                : 'Состояние: провод исправен',
+            wireBroken ? 'Состояние: ОБРЫВ' : 'Состояние: провод исправен',
             style: TextStyle(
-              fontWeight:
-                  FontWeight.bold,
-              color: wireBroken
-                  ? colorScheme.error
-                  : null,
+              fontWeight: FontWeight.bold,
+              color: wireBroken ? colorScheme.error : null,
             ),
           ),
 
           const SizedBox(height: 16),
 
           Wrap(
-            alignment:
-                WrapAlignment.center,
+            alignment: WrapAlignment.center,
             spacing: 8,
             runSpacing: 8,
             children: [
               OutlinedButton.icon(
-                onPressed: checked
-                    ? null
-                    : toggleWireFault,
-                icon: Icon(
-                  wireBroken
-                      ? Icons.build
-                      : Icons.content_cut,
-                ),
-                label: Text(
-                  wireBroken
-                      ? 'Устранить обрыв'
-                      : 'Создать обрыв',
-                ),
+                onPressed: checked ? null : toggleWireFault,
+                icon: Icon(wireBroken ? Icons.build : Icons.content_cut),
+                label: Text(wireBroken ? 'Устранить обрыв' : 'Создать обрыв'),
               ),
 
               OutlinedButton.icon(
-                onPressed: checked
-                    ? null
-                    : togglePower,
-                icon: Icon(
-                  circuitPowered
-                      ? Icons.power_off
-                      : Icons.power,
-                ),
+                onPressed: checked ? null : togglePower,
+                icon: Icon(circuitPowered ? Icons.power_off : Icons.power),
                 label: Text(
-                  circuitPowered
-                      ? 'Отключить питание'
-                      : 'Подать питание',
+                  circuitPowered ? 'Отключить питание' : 'Подать питание',
                 ),
               ),
             ],
@@ -859,10 +631,7 @@ class _MeasurementBlockState
     );
   }
 
-  Widget buildWireEndpoint(
-    BuildContext context,
-    String label,
-  ) {
+  Widget buildWireEndpoint(BuildContext context, String label) {
     return Container(
       width: 58,
       height: 58,
@@ -870,92 +639,56 @@ class _MeasurementBlockState
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color: Theme.of(context)
-              .colorScheme
-              .outline,
+          color: Theme.of(context).colorScheme.outline,
           width: 4,
         ),
       ),
       child: Text(
         label,
-        style: Theme.of(context)
-            .textTheme
-            .titleLarge
-            ?.copyWith(
-              fontWeight:
-                  FontWeight.bold,
-            ),
+        style: Theme.of(context).textTheme.titleLarge
+            ?.copyWith(fontWeight: FontWeight.bold),
       ),
     );
   }
 
-  Widget buildMeter(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildMeter(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Center(
       child: Container(
         width: 350,
-        padding:
-            const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: colorScheme
-              .surfaceContainerHighest,
-          borderRadius:
-              BorderRadius.circular(24),
-          border: Border.all(
-            color: colorScheme.outline,
-            width: 2,
-          ),
+          color: colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: colorScheme.outline, width: 2),
         ),
         child: Column(
           children: [
             Container(
               width: double.infinity,
               height: 86,
-              padding:
-                  const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: colorScheme
-                    .primaryContainer,
-                borderRadius:
-                    BorderRadius.circular(10),
-                border: Border.all(
-                  color:
-                      colorScheme.outline,
-                ),
+                color: colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: colorScheme.outline),
               ),
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.end,
-                mainAxisAlignment:
-                    MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     displayValue,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineMedium
-                        ?.copyWith(
-                          fontWeight:
-                              FontWeight.bold,
-                          fontFeatures:
-                              const [
-                            FontFeature
-                                .tabularFigures(),
-                          ],
-                        ),
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontFeatures: const [FontFeature.tabularFigures()],
+                    ),
                   ),
 
                   Text(
                     displayUnit,
-                    style:
-                        const TextStyle(
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -964,64 +697,39 @@ class _MeasurementBlockState
             const SizedBox(height: 18),
 
             Wrap(
-              alignment:
-                  WrapAlignment.center,
+              alignment: WrapAlignment.center,
               spacing: 8,
               runSpacing: 8,
               children: [
-                buildModeChip(
-                  MeasurementMode.off,
-                  'OFF',
-                ),
+                buildModeChip(MeasurementMode.off, 'OFF'),
 
-                buildModeChip(
-                  MeasurementMode
-                      .dcVoltage,
-                  'V DC',
-                ),
+                buildModeChip(MeasurementMode.dcVoltage, 'V DC'),
 
-                buildModeChip(
-                  MeasurementMode
-                      .resistance,
-                  'Ω',
-                ),
+                buildModeChip(MeasurementMode.resistance, 'Ω'),
 
-                buildModeChip(
-                  MeasurementMode
-                      .continuity,
-                  '🔊',
-                ),
+                buildModeChip(MeasurementMode.continuity, '🔊'),
 
-                buildModeChip(
-                  MeasurementMode.current,
-                  'A',
-                ),
+                buildModeChip(MeasurementMode.current, 'A'),
               ],
             ),
 
             const SizedBox(height: 20),
 
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment
-                      .spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 buildComPort(context),
 
                 buildRedPort(
                   context,
                   label: 'VΩ',
-                  port:
-                      MeasurementRedPort
-                          .voltageResistance,
+                  port: MeasurementRedPort.voltageResistance,
                 ),
 
                 buildRedPort(
                   context,
                   label: 'A',
-                  port:
-                      MeasurementRedPort
-                          .current,
+                  port: MeasurementRedPort.current,
                 ),
               ],
             ),
@@ -1031,10 +739,7 @@ class _MeasurementBlockState
     );
   }
 
-  Widget buildModeChip(
-    MeasurementMode value,
-    String label,
-  ) {
+  Widget buildModeChip(MeasurementMode value, String label) {
     return ChoiceChip(
       label: Text(label),
       selected: mode == value,
@@ -1046,11 +751,8 @@ class _MeasurementBlockState
     );
   }
 
-  Widget buildComPort(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildComPort(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
       children: [
@@ -1059,25 +761,14 @@ class _MeasurementBlockState
           height: 38,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color:
-                colorScheme.onSurface,
-            border: Border.all(
-              color:
-                  colorScheme.outline,
-              width: 3,
-            ),
+            color: colorScheme.onSurface,
+            border: Border.all(color: colorScheme.outline, width: 3),
           ),
         ),
 
         const SizedBox(height: 6),
 
-        const Text(
-          'COM',
-          style: TextStyle(
-            fontWeight:
-                FontWeight.bold,
-          ),
-        ),
+        const Text('COM', style: TextStyle(fontWeight: FontWeight.bold)),
       ],
     );
   }
@@ -1087,11 +778,9 @@ class _MeasurementBlockState
     required String label,
     required MeasurementRedPort port,
   }) {
-    final selected =
-        redPort == port;
+    final selected = redPort == port;
 
-    final colorScheme =
-        Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return InkWell(
       onTap: checked
@@ -1099,11 +788,9 @@ class _MeasurementBlockState
           : () {
               changeRedPort(port);
             },
-      borderRadius:
-          BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(10),
       child: Padding(
-        padding:
-            const EdgeInsets.all(6),
+        padding: const EdgeInsets.all(6),
         child: Column(
           children: [
             Container(
@@ -1111,14 +798,9 @@ class _MeasurementBlockState
               height: 38,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: selected
-                    ? colorScheme.error
-                    : Colors.transparent,
+                color: selected ? colorScheme.error : Colors.transparent,
                 border: Border.all(
-                  color: selected
-                      ? colorScheme.error
-                      : colorScheme
-                          .outline,
+                  color: selected ? colorScheme.error : colorScheme.outline,
                   width: 3,
                 ),
               ),
@@ -1126,43 +808,30 @@ class _MeasurementBlockState
 
             const SizedBox(height: 6),
 
-            Text(
-              label,
-              style: const TextStyle(
-                fontWeight:
-                    FontWeight.bold,
-              ),
-            ),
+            Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
           ],
         ),
       ),
     );
   }
 
-  Widget buildContinuityIndicator(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildContinuityIndicator(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     String message;
     IconData icon;
 
     if (unsafeOhmicMeasurement) {
-      message =
-          'Прозвонка на запитанной цепи недопустима.';
+      message = 'Прозвонка на запитанной цепи недопустима.';
       icon = Icons.warning_amber;
     } else if (!wireProbesAcrossWire) {
-      message =
-          'Подключи щупы к разным концам провода.';
+      message = 'Подключи щупы к разным концам провода.';
       icon = Icons.volume_off_outlined;
     } else if (continuityBeep) {
-      message =
-          'БИП! Непрерывность обнаружена.';
+      message = 'БИП! Непрерывность обнаружена.';
       icon = Icons.volume_up;
     } else {
-      message =
-          'Сигнала нет. Непрерывный путь не обнаружен.';
+      message = 'Сигнала нет. Непрерывный путь не обнаружен.';
       icon = Icons.volume_off;
     }
 
@@ -1171,10 +840,8 @@ class _MeasurementBlockState
       decoration: BoxDecoration(
         color: unsafeOhmicMeasurement
             ? colorScheme.errorContainer
-            : colorScheme
-                .surfaceContainerHighest,
-        borderRadius:
-            BorderRadius.circular(12),
+            : colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
@@ -1183,10 +850,7 @@ class _MeasurementBlockState
           Expanded(
             child: Text(
               message,
-              style: const TextStyle(
-                fontWeight:
-                    FontWeight.bold,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ],
@@ -1194,18 +858,13 @@ class _MeasurementBlockState
     );
   }
 
-  Widget buildBatteryProbeControls(
-    BuildContext context,
-  ) {
+  Widget buildBatteryProbeControls(BuildContext context) {
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           'Куда подключён красный щуп?',
-          style: Theme.of(context)
-              .textTheme
-              .titleSmall,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
 
         const SizedBox(height: 8),
@@ -1213,31 +872,17 @@ class _MeasurementBlockState
         SegmentedButton<BatteryTerminal>(
           segments: const [
             ButtonSegment(
-              value:
-                  BatteryTerminal.none,
-              label:
-                  Text('Не подключён'),
+              value: BatteryTerminal.none,
+              label: Text('Не подключён'),
             ),
-            ButtonSegment(
-              value:
-                  BatteryTerminal.positive,
-              label: Text('+'),
-            ),
-            ButtonSegment(
-              value:
-                  BatteryTerminal.negative,
-              label: Text('−'),
-            ),
+            ButtonSegment(value: BatteryTerminal.positive, label: Text('+')),
+            ButtonSegment(value: BatteryTerminal.negative, label: Text('−')),
           ],
-          selected: {
-            redTerminal,
-          },
+          selected: {redTerminal},
           onSelectionChanged: checked
               ? null
               : (selection) {
-                  setRedTerminal(
-                    selection.first,
-                  );
+                  setRedTerminal(selection.first);
                 },
         ),
 
@@ -1245,9 +890,7 @@ class _MeasurementBlockState
 
         Text(
           'Куда подключён чёрный щуп?',
-          style: Theme.of(context)
-              .textTheme
-              .titleSmall,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
 
         const SizedBox(height: 8),
@@ -1255,78 +898,45 @@ class _MeasurementBlockState
         SegmentedButton<BatteryTerminal>(
           segments: const [
             ButtonSegment(
-              value:
-                  BatteryTerminal.none,
-              label:
-                  Text('Не подключён'),
+              value: BatteryTerminal.none,
+              label: Text('Не подключён'),
             ),
-            ButtonSegment(
-              value:
-                  BatteryTerminal.positive,
-              label: Text('+'),
-            ),
-            ButtonSegment(
-              value:
-                  BatteryTerminal.negative,
-              label: Text('−'),
-            ),
+            ButtonSegment(value: BatteryTerminal.positive, label: Text('+')),
+            ButtonSegment(value: BatteryTerminal.negative, label: Text('−')),
           ],
-          selected: {
-            blackTerminal,
-          },
+          selected: {blackTerminal},
           onSelectionChanged: checked
               ? null
               : (selection) {
-                  setBlackTerminal(
-                    selection.first,
-                  );
+                  setBlackTerminal(selection.first);
                 },
         ),
       ],
     );
   }
 
-  Widget buildWireProbeControls(
-    BuildContext context,
-  ) {
+  Widget buildWireProbeControls(BuildContext context) {
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           'Куда подключён красный щуп?',
-          style: Theme.of(context)
-              .textTheme
-              .titleSmall,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
 
         const SizedBox(height: 8),
 
         SegmentedButton<WirePoint>(
           segments: const [
-            ButtonSegment(
-              value: WirePoint.none,
-              label:
-                  Text('Не подключён'),
-            ),
-            ButtonSegment(
-              value: WirePoint.pointA,
-              label: Text('A'),
-            ),
-            ButtonSegment(
-              value: WirePoint.pointB,
-              label: Text('B'),
-            ),
+            ButtonSegment(value: WirePoint.none, label: Text('Не подключён')),
+            ButtonSegment(value: WirePoint.pointA, label: Text('A')),
+            ButtonSegment(value: WirePoint.pointB, label: Text('B')),
           ],
-          selected: {
-            redWirePoint,
-          },
+          selected: {redWirePoint},
           onSelectionChanged: checked
               ? null
               : (selection) {
-                  setRedWirePoint(
-                    selection.first,
-                  );
+                  setRedWirePoint(selection.first);
                 },
         ),
 
@@ -1334,49 +944,30 @@ class _MeasurementBlockState
 
         Text(
           'Куда подключён чёрный щуп?',
-          style: Theme.of(context)
-              .textTheme
-              .titleSmall,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
 
         const SizedBox(height: 8),
 
         SegmentedButton<WirePoint>(
           segments: const [
-            ButtonSegment(
-              value: WirePoint.none,
-              label:
-                  Text('Не подключён'),
-            ),
-            ButtonSegment(
-              value: WirePoint.pointA,
-              label: Text('A'),
-            ),
-            ButtonSegment(
-              value: WirePoint.pointB,
-              label: Text('B'),
-            ),
+            ButtonSegment(value: WirePoint.none, label: Text('Не подключён')),
+            ButtonSegment(value: WirePoint.pointA, label: Text('A')),
+            ButtonSegment(value: WirePoint.pointB, label: Text('B')),
           ],
-          selected: {
-            blackWirePoint,
-          },
+          selected: {blackWirePoint},
           onSelectionChanged: checked
               ? null
               : (selection) {
-                  setBlackWirePoint(
-                    selection.first,
-                  );
+                  setBlackWirePoint(selection.first);
                 },
         ),
       ],
     );
   }
 
-  Widget buildDangerWarning(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildDangerWarning(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     String message;
 
@@ -1404,20 +995,13 @@ class _MeasurementBlockState
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color:
-            colorScheme.errorContainer,
-        borderRadius:
-            BorderRadius.circular(12),
+        color: colorScheme.errorContainer,
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.warning_amber,
-            color:
-                colorScheme.onErrorContainer,
-          ),
+          Icon(Icons.warning_amber, color: colorScheme.onErrorContainer),
 
           const SizedBox(width: 12),
 
@@ -1425,10 +1009,8 @@ class _MeasurementBlockState
             child: Text(
               message,
               style: TextStyle(
-                color: colorScheme
-                    .onErrorContainer,
-                fontWeight:
-                    FontWeight.bold,
+                color: colorScheme.onErrorContainer,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -1437,62 +1019,44 @@ class _MeasurementBlockState
     );
   }
 
-  Widget buildResult(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildResult(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     if (completed) {
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: colorScheme
-              .primaryContainer,
-          borderRadius:
-              BorderRadius.circular(12),
+          color: colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               '✓ Измерение выполнено правильно',
-              style: TextStyle(
-                fontWeight:
-                    FontWeight.bold,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 8),
 
-            Text(
-              buildSuccessExplanation(),
-            ),
+            Text(buildSuccessExplanation()),
           ],
         ),
       );
     }
 
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          padding:
-              const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color:
-                colorScheme.errorContainer,
-            borderRadius:
-                BorderRadius.circular(12),
+            color: colorScheme.errorContainer,
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
             buildErrorExplanation(),
-            style: TextStyle(
-              color: colorScheme
-                  .onErrorContainer,
-            ),
+            style: TextStyle(color: colorScheme.onErrorContainer),
           ),
         ),
 
@@ -1500,12 +1064,8 @@ class _MeasurementBlockState
 
         OutlinedButton.icon(
           onPressed: retry,
-          icon: const Icon(
-            Icons.refresh,
-          ),
-          label: const Text(
-            'Попробовать ещё раз',
-          ),
+          icon: const Icon(Icons.refresh),
+          label: const Text('Попробовать ещё раз'),
         ),
       ],
     );
@@ -1578,16 +1138,13 @@ class _MeasurementBlockState
     }
 
     if (isWireContinuity) {
-      if (mode !=
-          MeasurementMode.continuity) {
+      if (mode != MeasurementMode.continuity) {
         return '✗ Неправильный режим.\n\n'
             'Для этого задания выбери '
             'режим прозвонки 🔊.';
       }
 
-      if (redPort !=
-          MeasurementRedPort
-              .voltageResistance) {
+      if (redPort != MeasurementRedPort.voltageResistance) {
         return '✗ Неправильное гнездо '
             'красного провода.\n\n'
             'Для прозвонки используй '
@@ -1613,16 +1170,13 @@ class _MeasurementBlockState
     }
 
     if (isWireResistance) {
-      if (mode !=
-          MeasurementMode.resistance) {
+      if (mode != MeasurementMode.resistance) {
         return '✗ Неправильный режим.\n\n'
             'Для проверки сопротивления '
             'провода выбери Ω.';
       }
 
-      if (redPort !=
-          MeasurementRedPort
-              .voltageResistance) {
+      if (redPort != MeasurementRedPort.voltageResistance) {
         return '✗ Неправильное гнездо '
             'красного провода.\n\n'
             'Для измерения сопротивления '
@@ -1648,17 +1202,14 @@ class _MeasurementBlockState
     }
 
     if (isBatteryVoltage) {
-      if (mode !=
-          MeasurementMode.dcVoltage) {
+      if (mode != MeasurementMode.dcVoltage) {
         return '✗ Неправильный режим.\n\n'
             'Для измерения постоянного '
             'напряжения аккумулятора '
             'выбери V DC.';
       }
 
-      if (redPort !=
-          MeasurementRedPort
-              .voltageResistance) {
+      if (redPort != MeasurementRedPort.voltageResistance) {
         return '✗ Неправильное гнездо '
             'красного провода.\n\n'
             'Для измерения напряжения '
@@ -1679,8 +1230,7 @@ class _MeasurementBlockState
             'а чёрный к −.';
       }
 
-      if (redTerminal ==
-          blackTerminal) {
+      if (redTerminal == blackTerminal) {
         return '✗ Оба щупа находятся '
             'на одном выводе. '
             'Напряжение измеряется '

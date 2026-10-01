@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../../models/lesson_block.dart';
 
 class CalculationBlock extends StatefulWidget {
-  final LessonBlock block;
+  final CalculationLessonBlock block;
 
   final ValueChanged<bool>? onAnswered;
   final VoidCallback? onRetry;
@@ -17,14 +17,11 @@ class CalculationBlock extends StatefulWidget {
   });
 
   @override
-  State<CalculationBlock> createState() =>
-      _CalculationBlockState();
+  State<CalculationBlock> createState() => _CalculationBlockState();
 }
 
-class _CalculationBlockState
-    extends State<CalculationBlock> {
-  final TextEditingController controller =
-      TextEditingController();
+class _CalculationBlockState extends State<CalculationBlock> {
+  final TextEditingController controller = TextEditingController();
 
   bool checked = false;
   bool isCorrect = false;
@@ -33,9 +30,7 @@ class _CalculationBlockState
   int wrongAttempts = 0;
 
   void checkAnswer() {
-    final text = controller.text
-        .trim()
-        .replaceAll(',', '.');
+    final text = controller.text.trim().replaceAll(',', '.');
 
     final value = double.tryParse(text);
 
@@ -47,21 +42,12 @@ class _CalculationBlockState
       return;
     }
 
-    final correctValue =
-        widget.block.correctValue;
+    final correctValue = widget.block.correctValue;
+    final tolerance = widget.block.tolerance;
 
-    if (correctValue == null) {
-      return;
-    }
+    final difference = (value - correctValue).abs();
 
-    final tolerance =
-        widget.block.tolerance ?? 0.01;
-
-    final difference =
-        (value - correctValue).abs();
-
-    final result =
-        difference <= tolerance;
+    final result = difference <= tolerance;
 
     setState(() {
       invalidInput = false;
@@ -95,41 +81,26 @@ class _CalculationBlockState
 
   @override
   Widget build(BuildContext context) {
-    final unit = widget.block.unit ?? '';
+    final unit = widget.block.unit;
 
-    final showHint =
-        checked &&
-        !isCorrect &&
-        widget.block.hint != null;
+    final showHint = checked && !isCorrect;
 
-    final showExplanation =
-        checked &&
-        widget.block.explanation != null &&
-        (isCorrect || wrongAttempts >= 2);
+    final showExplanation = checked && (isCorrect || wrongAttempts >= 2);
 
     return Card(
-      margin: const EdgeInsets.only(
-        top: 8,
-        bottom: 24,
-      ),
+      margin: const EdgeInsets.only(top: 8, bottom: 24),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Row(
               children: [
-                Icon(
-                  Icons.calculate_outlined,
-                ),
+                Icon(Icons.calculate_outlined),
                 SizedBox(width: 8),
                 Text(
                   'Реши задачу',
-                  style: TextStyle(
-                    fontWeight:
-                        FontWeight.bold,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -137,43 +108,31 @@ class _CalculationBlockState
             const SizedBox(height: 16),
 
             Text(
-              widget.block.question ?? '',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium,
+              widget.block.question,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
 
             const SizedBox(height: 16),
 
             Row(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: TextField(
                     controller: controller,
                     enabled: !checked,
-                    keyboardType:
-                        const TextInputType
-                            .numberWithOptions(
+                    keyboardType: const TextInputType.numberWithOptions(
                       decimal: true,
                       signed: false,
                     ),
                     inputFormatters: [
-                      FilteringTextInputFormatter
-                          .allow(
-                        RegExp(r'[0-9.,]'),
-                      ),
+                      FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
                     ],
                     decoration: InputDecoration(
                       labelText: 'Ответ',
-                      hintText:
-                          'Введите число',
-                      border:
-                          const OutlineInputBorder(),
-                      errorText: invalidInput
-                          ? 'Введите число'
-                          : null,
+                      hintText: 'Введите число',
+                      border: const OutlineInputBorder(),
+                      errorText: invalidInput ? 'Введите число' : null,
                     ),
                     onSubmitted: (_) {
                       if (!checked) {
@@ -187,15 +146,10 @@ class _CalculationBlockState
                   const SizedBox(width: 12),
 
                   Padding(
-                    padding:
-                        const EdgeInsets.only(
-                      top: 16,
-                    ),
+                    padding: const EdgeInsets.only(top: 16),
                     child: Text(
                       unit,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                 ],
@@ -205,26 +159,18 @@ class _CalculationBlockState
             const SizedBox(height: 12),
 
             FilledButton(
-              onPressed:
-                  checked ? null : checkAnswer,
-              child: const Text(
-                'Проверить',
-              ),
+              onPressed: checked ? null : checkAnswer,
+              child: const Text('Проверить'),
             ),
 
             if (checked) ...[
               const SizedBox(height: 16),
 
               Text(
-                isCorrect
-                    ? '✓ Правильно!'
-                    : '✗ Неправильно',
+                isCorrect ? '✓ Правильно!' : '✗ Неправильно',
                 style: TextStyle(
-                  fontWeight:
-                      FontWeight.bold,
-                  color: isCorrect
-                      ? Colors.green
-                      : Colors.red,
+                  fontWeight: FontWeight.bold,
+                  color: isCorrect ? Colors.green : Colors.red,
                 ),
               ),
             ],
@@ -234,7 +180,7 @@ class _CalculationBlockState
 
               Text(
                 'Подсказка: '
-                '${widget.block.hint!}',
+                '${widget.block.hint}',
               ),
             ],
 
@@ -242,33 +188,22 @@ class _CalculationBlockState
               const SizedBox(height: 12),
 
               Container(
-                padding:
-                    const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .surfaceContainerHighest,
-                  borderRadius:
-                      BorderRadius.circular(12),
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: Text(
-                  widget.block.explanation!,
-                ),
+                child: Text(widget.block.explanation),
               ),
             ],
 
-            if (checked &&
-                !isCorrect) ...[
+            if (checked && !isCorrect) ...[
               const SizedBox(height: 16),
 
               OutlinedButton.icon(
                 onPressed: retry,
-                icon: const Icon(
-                  Icons.refresh,
-                ),
-                label: const Text(
-                  'Попробовать ещё раз',
-                ),
+                icon: const Icon(Icons.refresh),
+                label: const Text('Попробовать ещё раз'),
               ),
             ],
           ],

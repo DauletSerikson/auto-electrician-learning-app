@@ -8,7 +8,7 @@ void main() {
         'type': 'text',
         'title': 'Напряжение',
         'content': 'Напряжение измеряется в вольтах.',
-      });
+      }) as TextLessonBlock;
 
       expect(block, isA<TextLessonBlock>());
       expect(block.type, 'text');
@@ -20,7 +20,7 @@ void main() {
       final block = LessonBlock.fromJson({
         'type': 'remember',
         'content': 'Запомни это правило.',
-      });
+      }) as RememberLessonBlock;
 
       expect(block, isA<RememberLessonBlock>());
       expect(block.type, 'remember');
@@ -32,7 +32,7 @@ void main() {
         'type': 'warning',
         'title': 'Внимание',
         'content': 'Не допускай короткого замыкания.',
-      });
+      }) as WarningLessonBlock;
 
       expect(block, isA<WarningLessonBlock>());
       expect(block.type, 'warning');
@@ -44,7 +44,7 @@ void main() {
         'type': 'image',
         'asset': 'assets/images/battery.jpg',
         'caption': 'Автомобильный аккумулятор',
-      });
+      }) as ImageLessonBlock;
 
       expect(block, isA<ImageLessonBlock>());
       expect(block.asset, 'assets/images/battery.jpg');
@@ -58,7 +58,7 @@ void main() {
         'answers': ['Напряжение', 'Ток', 'Сопротивление'],
         'correctAnswer': 0,
         'explanation': 'Вольт — единица напряжения.',
-      });
+      }) as QuestionLessonBlock;
 
       expect(block, isA<QuestionLessonBlock>());
 
@@ -80,7 +80,7 @@ void main() {
         'unit': 'A',
         'hint': 'Используй закон Ома.',
         'explanation': 'I = U / R = 2 A.',
-      });
+      }) as CalculationLessonBlock;
 
       expect(block, isA<CalculationLessonBlock>());
 
@@ -97,7 +97,7 @@ void main() {
         'interactive': true,
         'initiallyClosed': false,
         'caption': 'Учебная схема.',
-      });
+      }) as CircuitLessonBlock;
 
       expect(block, isA<CircuitLessonBlock>());
       expect(block.circuitType, 'simpleLamp');
@@ -112,7 +112,7 @@ void main() {
         'interactive': true,
         'multimeterMode': 'off',
         'caption': 'Выбери режим.',
-      });
+      }) as MultimeterLessonBlock;
 
       expect(block, isA<MultimeterLessonBlock>());
 
@@ -127,7 +127,7 @@ void main() {
         'title': 'Напряжение АКБ',
         'question': 'Измерь напряжение.',
         'sourceVoltage': 12.6,
-      });
+      }) as BatteryVoltageMeasurementLessonBlock;
 
       expect(block, isA<BatteryVoltageMeasurementLessonBlock>());
 
@@ -145,7 +145,7 @@ void main() {
         'goodResistance': 0.3,
         'initiallyBroken': false,
         'initiallyPowered': false,
-      });
+      }) as WireResistanceMeasurementLessonBlock;
 
       expect(block, isA<WireResistanceMeasurementLessonBlock>());
 
@@ -165,7 +165,7 @@ void main() {
         'goodResistance': 0.3,
         'initiallyBroken': true,
         'initiallyPowered': false,
-      });
+      }) as WireContinuityMeasurementLessonBlock;
 
       expect(block, isA<WireContinuityMeasurementLessonBlock>());
 
@@ -181,7 +181,7 @@ void main() {
         'goodResistance': 0.3,
         'initiallyBroken': false,
         'initiallyPowered': true,
-      });
+      }) as ResistanceMeasurementLessonBlock;
 
       expect(block, isA<ResistanceMeasurementLessonBlock>());
 
@@ -198,7 +198,7 @@ void main() {
         'sourceVoltage': 12.6,
         'faultVoltageDrop': 4,
         'initiallyLoaded': true,
-      });
+      }) as VoltageDropLessonBlock;
 
       expect(block, isA<VoltageDropLessonBlock>());
 
@@ -215,7 +215,7 @@ void main() {
         'sourceVoltage': 12.6,
         'loadCurrent': 2,
         'meterFuseRating': 10,
-      });
+      }) as CurrentMeasurementLessonBlock;
 
       expect(block, isA<CurrentMeasurementLessonBlock>());
 
@@ -231,7 +231,7 @@ void main() {
         'question': 'Найди неисправность.',
         'sourceVoltage': 12.6,
         'faultType': 'positiveWireOpen',
-      });
+      }) as DiagnosticCaseLessonBlock;
 
       expect(block, isA<DiagnosticCaseLessonBlock>());
 
@@ -253,7 +253,7 @@ void main() {
         ],
         'correctDiagnosis': 2,
         'explanation': 'Неисправна масса.',
-      });
+      }) as DiagnosticChoiceLessonBlock;
 
       expect(block, isA<DiagnosticChoiceLessonBlock>());
 
@@ -308,21 +308,6 @@ void main() {
         }),
         throwsA(isA<FormatException>()),
       );
-    });
-
-    test('keeps unrelated compatibility fields null', () {
-      final block = LessonBlock.fromJson({
-        'type': 'text',
-        'title': 'Обычный текст',
-        'content': 'Содержимое.',
-      });
-
-      expect(block.question, isNull);
-      expect(block.answers, isNull);
-      expect(block.correctValue, isNull);
-      expect(block.sourceVoltage, isNull);
-      expect(block.faultType, isNull);
-      expect(block.diagnosisOptions, isNull);
     });
   });
 }

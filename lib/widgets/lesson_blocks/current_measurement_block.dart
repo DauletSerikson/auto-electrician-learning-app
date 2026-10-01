@@ -2,27 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
 
-enum CurrentMeterMode {
-  off,
-  dcVoltage,
-  current,
-}
+enum CurrentMeterMode { off, dcVoltage, current }
 
-enum CurrentRedPort {
-  voltageResistance,
-  current,
-}
+enum CurrentRedPort { voltageResistance, current }
 
-enum CurrentConnection {
-  disconnected,
-  series,
-  acrossBattery,
-  acrossLamp,
-}
+enum CurrentConnection { disconnected, series, acrossBattery, acrossLamp }
 
-class CurrentMeasurementBlock
-    extends StatefulWidget {
-  final LessonBlock block;
+class CurrentMeasurementBlock extends StatefulWidget {
+  final CurrentMeasurementLessonBlock block;
 
   final ValueChanged<bool>? onAnswered;
   final VoidCallback? onRetry;
@@ -35,35 +22,27 @@ class CurrentMeasurementBlock
   });
 
   @override
-  State<CurrentMeasurementBlock>
-      createState() =>
-          _CurrentMeasurementBlockState();
+  State<CurrentMeasurementBlock> createState() =>
+      _CurrentMeasurementBlockState();
 }
 
-class _CurrentMeasurementBlockState
-    extends State<CurrentMeasurementBlock> {
-  CurrentMeterMode mode =
-      CurrentMeterMode.off;
+class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
+  CurrentMeterMode mode = CurrentMeterMode.off;
 
-  CurrentRedPort redPort =
-      CurrentRedPort.voltageResistance;
+  CurrentRedPort redPort = CurrentRedPort.voltageResistance;
 
-  CurrentConnection connection =
-      CurrentConnection.disconnected;
+  CurrentConnection connection = CurrentConnection.disconnected;
 
   bool meterFuseBlown = false;
 
   bool checked = false;
   bool completed = false;
 
-  double get sourceVoltage =>
-      widget.block.sourceVoltage ?? 12.6;
+  double get sourceVoltage => widget.block.sourceVoltage;
 
-  double get loadCurrent =>
-      widget.block.loadCurrent ?? 2.0;
+  double get loadCurrent => widget.block.loadCurrent;
 
-  double get meterFuseRating =>
-      widget.block.meterFuseRating ?? 10.0;
+  double get meterFuseRating => widget.block.meterFuseRating;
 
   bool get meterConfiguredForCurrent {
     return mode == CurrentMeterMode.current &&
@@ -73,15 +52,13 @@ class _CurrentMeasurementBlockState
   bool get correctSetup {
     return !meterFuseBlown &&
         meterConfiguredForCurrent &&
-        connection ==
-            CurrentConnection.series;
+        connection == CurrentConnection.series;
   }
 
   bool get dangerousBatteryConnection {
     return !meterFuseBlown &&
         meterConfiguredForCurrent &&
-        connection ==
-            CurrentConnection.acrossBattery;
+        connection == CurrentConnection.acrossBattery;
   }
 
   String get displayValue {
@@ -98,29 +75,23 @@ class _CurrentMeasurementBlockState
     }
 
     if (mode == CurrentMeterMode.dcVoltage) {
-      if (connection ==
-          CurrentConnection.acrossBattery) {
-        return sourceVoltage
-            .toStringAsFixed(2);
+      if (connection == CurrentConnection.acrossBattery) {
+        return sourceVoltage.toStringAsFixed(2);
       }
 
       return '0.00';
     }
 
     if (mode == CurrentMeterMode.current) {
-      if (redPort !=
-          CurrentRedPort.current) {
+      if (redPort != CurrentRedPort.current) {
         return '----';
       }
 
-      if (connection ==
-          CurrentConnection.series) {
-        return loadCurrent
-            .toStringAsFixed(2);
+      if (connection == CurrentConnection.series) {
+        return loadCurrent.toStringAsFixed(2);
       }
 
-      if (connection ==
-          CurrentConnection.acrossLamp) {
+      if (connection == CurrentConnection.acrossLamp) {
         return '⚠';
       }
 
@@ -143,9 +114,7 @@ class _CurrentMeasurementBlockState
     }
   }
 
-  void changeMode(
-    CurrentMeterMode newMode,
-  ) {
+  void changeMode(CurrentMeterMode newMode) {
     if (checked || meterFuseBlown) {
       return;
     }
@@ -157,9 +126,7 @@ class _CurrentMeasurementBlockState
     evaluateDanger();
   }
 
-  void changeRedPort(
-    CurrentRedPort port,
-  ) {
+  void changeRedPort(CurrentRedPort port) {
     if (checked || meterFuseBlown) {
       return;
     }
@@ -171,9 +138,7 @@ class _CurrentMeasurementBlockState
     evaluateDanger();
   }
 
-  void changeConnection(
-    CurrentConnection newConnection,
-  ) {
+  void changeConnection(CurrentConnection newConnection) {
     if (checked || meterFuseBlown) {
       return;
     }
@@ -205,16 +170,13 @@ class _CurrentMeasurementBlockState
     setState(() {
       meterFuseBlown = false;
       mode = CurrentMeterMode.off;
-      redPort =
-          CurrentRedPort.voltageResistance;
-      connection =
-          CurrentConnection.disconnected;
+      redPort = CurrentRedPort.voltageResistance;
+      connection = CurrentConnection.disconnected;
     });
   }
 
   void checkMeasurement() {
-    if (checked ||
-        meterFuseBlown) {
+    if (checked || meterFuseBlown) {
       return;
     }
 
@@ -232,11 +194,9 @@ class _CurrentMeasurementBlockState
     setState(() {
       mode = CurrentMeterMode.off;
 
-      redPort =
-          CurrentRedPort.voltageResistance;
+      redPort = CurrentRedPort.voltageResistance;
 
-      connection =
-          CurrentConnection.disconnected;
+      connection = CurrentConnection.disconnected;
 
       meterFuseBlown = false;
 
@@ -250,32 +210,22 @@ class _CurrentMeasurementBlockState
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(
-        top: 8,
-        bottom: 24,
-      ),
+      margin: const EdgeInsets.only(top: 8, bottom: 24),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               children: [
-                const Icon(
-                  Icons.electric_meter_outlined,
-                ),
+                const Icon(Icons.electric_meter_outlined),
 
                 const SizedBox(width: 8),
 
                 Expanded(
                   child: Text(
-                    widget.block.title ??
-                        'Измерение тока',
-                    style: const TextStyle(
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+                    widget.block.title,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -284,11 +234,8 @@ class _CurrentMeasurementBlockState
             const SizedBox(height: 12),
 
             Text(
-              widget.block.question ??
-                  'Измерь ток нагрузки.',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium,
+              widget.block.question,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
 
             const SizedBox(height: 20),
@@ -301,270 +248,166 @@ class _CurrentMeasurementBlockState
 
             const SizedBox(height: 20),
 
-            buildConfiguration(
-              context,
-            ),
+            buildConfiguration(context),
 
             if (meterFuseBlown) ...[
               const SizedBox(height: 16),
 
-              buildFuseWarning(
-                context,
-              ),
+              buildFuseWarning(context),
             ],
 
             const SizedBox(height: 16),
 
             FilledButton(
-              onPressed:
-                  checked || meterFuseBlown
-                      ? null
-                      : checkMeasurement,
-              child: const Text(
-                'Проверить измерение',
-              ),
+              onPressed: checked || meterFuseBlown ? null : checkMeasurement,
+              child: const Text('Проверить измерение'),
             ),
 
-            if (checked) ...[
-              const SizedBox(height: 16),
-
-              buildResult(context),
-            ],
+            if (checked) ...[const SizedBox(height: 16), buildResult(context)],
           ],
         ),
       ),
     );
   }
 
-  Widget buildCircuit(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildCircuit(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
-    final seriesMeter =
-        connection ==
-            CurrentConnection.series;
+    final seriesMeter = connection == CurrentConnection.series;
 
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: colorScheme
-            .surfaceContainerHighest,
-        borderRadius:
-            BorderRadius.circular(16),
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         children: [
           const Text(
             'ЦЕПЬ ЛАМПЫ',
-            style: TextStyle(
-              fontWeight:
-                  FontWeight.bold,
-            ),
+            style: TextStyle(fontWeight: FontWeight.bold),
           ),
 
           const SizedBox(height: 20),
 
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(
-                Icons.battery_full,
-                size: 42,
-              ),
+              const Icon(Icons.battery_full, size: 42),
 
               const SizedBox(width: 8),
 
               Text(
                 '${sourceVoltage.toStringAsFixed(1)} V',
-                style: const TextStyle(
-                  fontWeight:
-                      FontWeight.bold,
-                ),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
           ),
 
           const SizedBox(height: 14),
 
-          const Icon(
-            Icons.arrow_downward,
-          ),
+          const Icon(Icons.arrow_downward),
 
           const SizedBox(height: 8),
 
           if (seriesMeter)
             Container(
-              padding:
-                  const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                border: Border.all(
-                  color:
-                      colorScheme.primary,
-                  width: 2,
-                ),
-                borderRadius:
-                    BorderRadius.circular(
-                  12,
-                ),
+                border: Border.all(color: colorScheme.primary, width: 2),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: const Column(
                 children: [
-                  Icon(
-                    Icons
-                        .electric_meter_outlined,
-                  ),
+                  Icon(Icons.electric_meter_outlined),
                   SizedBox(height: 4),
-                  Text(
-                    'A',
-                    style: TextStyle(
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
-                  ),
+                  Text('A', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(
                     'мультиметр включён\n'
                     'в разрыв цепи',
-                    textAlign:
-                        TextAlign.center,
+                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
             )
           else
             Container(
-              padding:
-                  const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                border: Border.all(
-                  color:
-                      colorScheme.outline,
-                ),
-                borderRadius:
-                    BorderRadius.circular(
-                  12,
-                ),
+                border: Border.all(color: colorScheme.outline),
+                borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text(
-                'Провод питания',
-              ),
+              child: const Text('Провод питания'),
             ),
 
           const SizedBox(height: 8),
 
-          const Icon(
-            Icons.arrow_downward,
-          ),
+          const Icon(Icons.arrow_downward),
 
           const SizedBox(height: 8),
 
-          const Icon(
-            Icons.lightbulb,
-            size: 54,
-          ),
+          const Icon(Icons.lightbulb, size: 54),
 
           const SizedBox(height: 4),
 
           Text(
-            seriesMeter &&
-                    meterConfiguredForCurrent &&
-                    !meterFuseBlown
+            seriesMeter && meterConfiguredForCurrent && !meterFuseBlown
                 ? 'Ток через лампу: '
-                    '${loadCurrent.toStringAsFixed(2)} A'
+                      '${loadCurrent.toStringAsFixed(2)} A'
                 : 'Лампа',
-            textAlign:
-                TextAlign.center,
+            textAlign: TextAlign.center,
           ),
 
           const SizedBox(height: 8),
 
-          const Icon(
-            Icons.arrow_downward,
-          ),
+          const Icon(Icons.arrow_downward),
 
           const SizedBox(height: 8),
 
-          const Text(
-            'МАССА',
-            style: TextStyle(
-              fontWeight:
-                  FontWeight.bold,
-            ),
-          ),
+          const Text('МАССА', style: TextStyle(fontWeight: FontWeight.bold)),
         ],
       ),
     );
   }
 
-  Widget buildMeter(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildMeter(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Center(
       child: Container(
-        constraints:
-            const BoxConstraints(
-          maxWidth: 350,
-        ),
+        constraints: const BoxConstraints(maxWidth: 350),
         width: double.infinity,
-        padding:
-            const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: colorScheme
-              .surfaceContainerHighest,
-          borderRadius:
-              BorderRadius.circular(24),
-          border: Border.all(
-            color: colorScheme.outline,
-            width: 2,
-          ),
+          color: colorScheme.surfaceContainerHighest,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: colorScheme.outline, width: 2),
         ),
         child: Column(
           children: [
             Container(
               height: 86,
               width: double.infinity,
-              padding:
-                  const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: meterFuseBlown
-                    ? colorScheme
-                        .errorContainer
-                    : colorScheme
-                        .primaryContainer,
-                borderRadius:
-                    BorderRadius.circular(
-                  10,
-                ),
+                    ? colorScheme.errorContainer
+                    : colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.end,
-                mainAxisAlignment:
-                    MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     displayValue,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineMedium
-                        ?.copyWith(
-                          fontWeight:
-                              FontWeight.bold,
-                        ),
+                    style: Theme.of(context).textTheme.headlineMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
 
                   Text(
                     displayUnit,
-                    style:
-                        const TextStyle(
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -573,52 +416,32 @@ class _CurrentMeasurementBlockState
             const SizedBox(height: 18),
 
             Wrap(
-              alignment:
-                  WrapAlignment.center,
+              alignment: WrapAlignment.center,
               spacing: 8,
               runSpacing: 8,
               children: [
-                buildModeChip(
-                  CurrentMeterMode.off,
-                  'OFF',
-                ),
+                buildModeChip(CurrentMeterMode.off, 'OFF'),
 
-                buildModeChip(
-                  CurrentMeterMode
-                      .dcVoltage,
-                  'V DC',
-                ),
+                buildModeChip(CurrentMeterMode.dcVoltage, 'V DC'),
 
-                buildModeChip(
-                  CurrentMeterMode.current,
-                  'A',
-                ),
+                buildModeChip(CurrentMeterMode.current, 'A'),
               ],
             ),
 
             const SizedBox(height: 20),
 
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment
-                      .spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 buildComPort(context),
 
                 buildRedPort(
                   context,
                   label: 'VΩ',
-                  port:
-                      CurrentRedPort
-                          .voltageResistance,
+                  port: CurrentRedPort.voltageResistance,
                 ),
 
-                buildRedPort(
-                  context,
-                  label: 'A',
-                  port:
-                      CurrentRedPort.current,
-                ),
+                buildRedPort(context, label: 'A', port: CurrentRedPort.current),
               ],
             ),
           ],
@@ -627,27 +450,20 @@ class _CurrentMeasurementBlockState
     );
   }
 
-  Widget buildModeChip(
-    CurrentMeterMode value,
-    String label,
-  ) {
+  Widget buildModeChip(CurrentMeterMode value, String label) {
     return ChoiceChip(
       label: Text(label),
       selected: mode == value,
-      onSelected:
-          checked || meterFuseBlown
-              ? null
-              : (_) {
-                  changeMode(value);
-                },
+      onSelected: checked || meterFuseBlown
+          ? null
+          : (_) {
+              changeMode(value);
+            },
     );
   }
 
-  Widget buildComPort(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildComPort(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
       children: [
@@ -656,27 +472,15 @@ class _CurrentMeasurementBlockState
           height: 38,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color:
-                colorScheme.onSurface,
+            color: colorScheme.onSurface,
           ),
         ),
 
         const SizedBox(height: 6),
 
-        const Text(
-          'COM',
-          style: TextStyle(
-            fontWeight:
-                FontWeight.bold,
-          ),
-        ),
+        const Text('COM', style: TextStyle(fontWeight: FontWeight.bold)),
 
-        const Text(
-          'чёрный',
-          style: TextStyle(
-            fontSize: 11,
-          ),
-        ),
+        const Text('чёрный', style: TextStyle(fontSize: 11)),
       ],
     );
   }
@@ -686,24 +490,19 @@ class _CurrentMeasurementBlockState
     required String label,
     required CurrentRedPort port,
   }) {
-    final selected =
-        redPort == port;
+    final selected = redPort == port;
 
-    final colorScheme =
-        Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return InkWell(
-      onTap:
-          checked || meterFuseBlown
-              ? null
-              : () {
-                  changeRedPort(port);
-                },
-      borderRadius:
-          BorderRadius.circular(10),
+      onTap: checked || meterFuseBlown
+          ? null
+          : () {
+              changeRedPort(port);
+            },
+      borderRadius: BorderRadius.circular(10),
       child: Padding(
-        padding:
-            const EdgeInsets.all(6),
+        padding: const EdgeInsets.all(6),
         child: Column(
           children: [
             Container(
@@ -711,14 +510,9 @@ class _CurrentMeasurementBlockState
               height: 38,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: selected
-                    ? colorScheme.error
-                    : Colors.transparent,
+                color: selected ? colorScheme.error : Colors.transparent,
                 border: Border.all(
-                  color: selected
-                      ? colorScheme.error
-                      : colorScheme
-                          .outline,
+                  color: selected ? colorScheme.error : colorScheme.outline,
                   width: 3,
                 ),
               ),
@@ -726,21 +520,11 @@ class _CurrentMeasurementBlockState
 
             const SizedBox(height: 6),
 
-            Text(
-              label,
-              style: const TextStyle(
-                fontWeight:
-                    FontWeight.bold,
-              ),
-            ),
+            Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
 
             Text(
-              selected
-                  ? 'красный'
-                  : '',
-              style: const TextStyle(
-                fontSize: 11,
-              ),
+              selected ? 'красный' : '',
+              style: const TextStyle(fontSize: 11),
             ),
           ],
         ),
@@ -748,18 +532,13 @@ class _CurrentMeasurementBlockState
     );
   }
 
-  Widget buildConfiguration(
-    BuildContext context,
-  ) {
+  Widget buildConfiguration(BuildContext context) {
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           'Подключение мультиметра',
-          style: Theme.of(context)
-              .textTheme
-              .titleSmall,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
 
         const SizedBox(height: 8),
@@ -779,42 +558,30 @@ class _CurrentMeasurementBlockState
           },
           child: Column(
             children: const [
-              RadioListTile<
-                  CurrentConnection>(
-                value: CurrentConnection
-                    .disconnected,
-                title: Text(
-                  'Не подключён',
-                ),
+              RadioListTile<CurrentConnection>(
+                value: CurrentConnection.disconnected,
+                title: Text('Не подключён'),
               ),
 
-              RadioListTile<
-                  CurrentConnection>(
-                value:
-                    CurrentConnection.series,
+              RadioListTile<CurrentConnection>(
+                value: CurrentConnection.series,
                 title: Text(
                   'В разрыв цепи '
                   '(последовательно)',
                 ),
               ),
 
-              RadioListTile<
-                  CurrentConnection>(
-                value: CurrentConnection
-                    .acrossBattery,
+              RadioListTile<CurrentConnection>(
+                value: CurrentConnection.acrossBattery,
                 title: Text(
                   'Между + и − '
                   'аккумулятора',
                 ),
               ),
 
-              RadioListTile<
-                  CurrentConnection>(
-                value: CurrentConnection
-                    .acrossLamp,
-                title: Text(
-                  'Параллельно лампе',
-                ),
+              RadioListTile<CurrentConnection>(
+                value: CurrentConnection.acrossLamp,
+                title: Text('Параллельно лампе'),
               ),
             ],
           ),
@@ -823,33 +590,22 @@ class _CurrentMeasurementBlockState
     );
   }
 
-  Widget buildFuseWarning(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildFuseWarning(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color:
-            colorScheme.errorContainer,
-        borderRadius:
-            BorderRadius.circular(12),
+        color: colorScheme.errorContainer,
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
-                Icons.warning_amber,
-                color: colorScheme
-                    .onErrorContainer,
-              ),
+              Icon(Icons.warning_amber, color: colorScheme.onErrorContainer),
 
               const SizedBox(width: 12),
 
@@ -863,10 +619,8 @@ class _CurrentMeasurementBlockState
                   'сработал предохранитель '
                   'токового входа.',
                   style: TextStyle(
-                    color: colorScheme
-                        .onErrorContainer,
-                    fontWeight:
-                        FontWeight.bold,
+                    color: colorScheme.onErrorContainer,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -877,9 +631,7 @@ class _CurrentMeasurementBlockState
 
           OutlinedButton.icon(
             onPressed: replaceFuse,
-            icon: const Icon(
-              Icons.build,
-            ),
+            icon: const Icon(Icons.build),
             label: const Text(
               'Заменить предохранитель '
               'мультиметра',
@@ -890,20 +642,15 @@ class _CurrentMeasurementBlockState
     );
   }
 
-  Widget buildResult(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildResult(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     if (completed) {
       return Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: colorScheme
-              .primaryContainer,
-          borderRadius:
-              BorderRadius.circular(12),
+          color: colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
           '✓ Правильно.\n\n'
@@ -919,24 +666,17 @@ class _CurrentMeasurementBlockState
     }
 
     return Column(
-      crossAxisAlignment:
-          CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          padding:
-              const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color:
-                colorScheme.errorContainer,
-            borderRadius:
-                BorderRadius.circular(12),
+            color: colorScheme.errorContainer,
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
             buildErrorMessage(),
-            style: TextStyle(
-              color: colorScheme
-                  .onErrorContainer,
-            ),
+            style: TextStyle(color: colorScheme.onErrorContainer),
           ),
         ),
 
@@ -944,28 +684,22 @@ class _CurrentMeasurementBlockState
 
         OutlinedButton.icon(
           onPressed: retry,
-          icon: const Icon(
-            Icons.refresh,
-          ),
-          label: const Text(
-            'Попробовать ещё раз',
-          ),
+          icon: const Icon(Icons.refresh),
+          label: const Text('Попробовать ещё раз'),
         ),
       ],
     );
   }
 
   String buildErrorMessage() {
-    if (mode !=
-        CurrentMeterMode.current) {
+    if (mode != CurrentMeterMode.current) {
       return '✗ Неправильный режим.\n\n'
           'Для этого задания необходимо '
           'измерить силу тока, поэтому '
           'выбери режим A.';
     }
 
-    if (redPort !=
-        CurrentRedPort.current) {
+    if (redPort != CurrentRedPort.current) {
       return '✗ Красный провод находится '
           'в VΩ.\n\n'
           'В нашем учебном мультиметре '
@@ -974,14 +708,12 @@ class _CurrentMeasurementBlockState
           'гнездо A.';
     }
 
-    if (connection ==
-        CurrentConnection.disconnected) {
+    if (connection == CurrentConnection.disconnected) {
       return '✗ Мультиметр не включён '
           'в электрическую цепь.';
     }
 
-    if (connection ==
-        CurrentConnection.acrossLamp) {
+    if (connection == CurrentConnection.acrossLamp) {
       return '✗ Амперметр нельзя '
           'подключать параллельно '
           'потребителю.\n\n'

@@ -2,52 +2,32 @@ import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
 
-enum MultimeterMode {
-  off,
-  dcVoltage,
-  acVoltage,
-  resistance,
-  current,
-}
+enum MultimeterMode { off, dcVoltage, acVoltage, resistance, current }
 
-enum RedProbePort {
-  voltageResistance,
-  current,
-}
+enum RedProbePort { voltageResistance, current }
 
 class MultimeterBlock extends StatefulWidget {
-  final LessonBlock block;
+  final MultimeterLessonBlock block;
 
-  const MultimeterBlock({
-    super.key,
-    required this.block,
-  });
+  const MultimeterBlock({super.key, required this.block});
 
   @override
-  State<MultimeterBlock> createState() =>
-      _MultimeterBlockState();
+  State<MultimeterBlock> createState() => _MultimeterBlockState();
 }
 
-class _MultimeterBlockState
-    extends State<MultimeterBlock> {
-  MultimeterMode selectedMode =
-      MultimeterMode.off;
+class _MultimeterBlockState extends State<MultimeterBlock> {
+  MultimeterMode selectedMode = MultimeterMode.off;
 
-  RedProbePort redProbePort =
-      RedProbePort.voltageResistance;
+  RedProbePort redProbePort = RedProbePort.voltageResistance;
 
   @override
   void initState() {
     super.initState();
 
-    selectedMode = modeFromString(
-      widget.block.multimeterMode,
-    );
+    selectedMode = modeFromString(widget.block.multimeterMode);
   }
 
-  MultimeterMode modeFromString(
-    String? value,
-  ) {
+  MultimeterMode modeFromString(String? value) {
     switch (value) {
       case 'dcVoltage':
         return MultimeterMode.dcVoltage;
@@ -169,28 +149,22 @@ class _MultimeterBlockState
       case MultimeterMode.dcVoltage:
       case MultimeterMode.acVoltage:
       case MultimeterMode.resistance:
-        return redProbePort ==
-            RedProbePort.voltageResistance;
+        return redProbePort == RedProbePort.voltageResistance;
 
       case MultimeterMode.current:
-        return redProbePort ==
-            RedProbePort.current;
+        return redProbePort == RedProbePort.current;
     }
   }
 
   bool get showProbeStatus {
-    return selectedMode !=
-        MultimeterMode.off;
+    return selectedMode != MultimeterMode.off;
   }
 
   bool get isCurrentMode {
-    return selectedMode ==
-        MultimeterMode.current;
+    return selectedMode == MultimeterMode.current;
   }
 
-  void selectMode(
-    MultimeterMode mode,
-  ) {
+  void selectMode(MultimeterMode mode) {
     if (widget.block.interactive != true) {
       return;
     }
@@ -200,9 +174,7 @@ class _MultimeterBlockState
     });
   }
 
-  void selectRedProbePort(
-    RedProbePort port,
-  ) {
+  void selectRedProbePort(RedProbePort port) {
     if (widget.block.interactive != true) {
       return;
     }
@@ -214,33 +186,23 @@ class _MultimeterBlockState
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Card(
-      margin: const EdgeInsets.only(
-        bottom: 24,
-      ),
+      margin: const EdgeInsets.only(bottom: 24),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               children: [
-                const Icon(
-                  Icons.speed_outlined,
-                ),
+                const Icon(Icons.speed_outlined),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    widget.block.title ??
-                        'Виртуальный мультиметр',
-                    style: const TextStyle(
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+                    widget.block.title,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -251,18 +213,11 @@ class _MultimeterBlockState
             Center(
               child: Container(
                 width: 350,
-                padding:
-                    const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: colorScheme
-                      .surfaceContainerHighest,
-                  borderRadius:
-                      BorderRadius.circular(28),
-                  border: Border.all(
-                    color:
-                        colorScheme.outline,
-                    width: 2,
-                  ),
+                  color: colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(28),
+                  border: Border.all(color: colorScheme.outline, width: 2),
                 ),
                 child: Column(
                   children: [
@@ -282,154 +237,94 @@ class _MultimeterBlockState
 
             const SizedBox(height: 20),
 
-            buildModeInformation(
-              context,
-            ),
+            buildModeInformation(context),
 
             if (showProbeStatus) ...[
               const SizedBox(height: 12),
 
-              buildProbeStatus(
-                context,
-              ),
+              buildProbeStatus(context),
             ],
 
-            if (widget.block.caption !=
-                null) ...[
-              const SizedBox(height: 12),
+            const SizedBox(height: 12),
 
-              Text(
-                widget.block.caption!,
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall,
-              ),
-            ],
+            Text(
+              widget.block.caption,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget buildDisplay(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildDisplay(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       height: 90,
       width: double.infinity,
-      padding:
-          const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 10,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        color: selectedMode ==
-                MultimeterMode.off
+        color: selectedMode == MultimeterMode.off
             ? colorScheme.surface
-            : colorScheme
-                .primaryContainer,
-        borderRadius:
-            BorderRadius.circular(10),
-        border: Border.all(
-          color: colorScheme.outline,
-        ),
+            : colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: colorScheme.outline),
       ),
       child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.end,
-        mainAxisAlignment:
-            MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            displayText.isEmpty
-                ? '────'
-                : displayText,
-            style: Theme.of(context)
-                .textTheme
-                .headlineMedium
-                ?.copyWith(
-                  fontWeight:
-                      FontWeight.bold,
-                  fontFeatures: const [
-                    FontFeature
-                        .tabularFigures(),
-                  ],
-                ),
+            displayText.isEmpty ? '────' : displayText,
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              fontFeatures: const [FontFeature.tabularFigures()],
+            ),
           ),
 
           Text(
             displayUnit,
-            style: const TextStyle(
-              fontWeight:
-                  FontWeight.bold,
-            ),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ],
       ),
     );
   }
 
-  Widget buildSelector(
-    BuildContext context,
-  ) {
+  Widget buildSelector(BuildContext context) {
     return Column(
       children: [
         const Text(
           'Переключатель режимов',
-          style: TextStyle(
-            fontWeight:
-                FontWeight.bold,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
 
         const SizedBox(height: 12),
 
         Wrap(
-          alignment:
-              WrapAlignment.center,
+          alignment: WrapAlignment.center,
           spacing: 8,
           runSpacing: 8,
           children: [
-            buildModeButton(
-              MultimeterMode.off,
-              'OFF',
-            ),
+            buildModeButton(MultimeterMode.off, 'OFF'),
 
-            buildModeButton(
-              MultimeterMode.dcVoltage,
-              'V DC',
-            ),
+            buildModeButton(MultimeterMode.dcVoltage, 'V DC'),
 
-            buildModeButton(
-              MultimeterMode.acVoltage,
-              'V AC',
-            ),
+            buildModeButton(MultimeterMode.acVoltage, 'V AC'),
 
-            buildModeButton(
-              MultimeterMode.resistance,
-              'Ω',
-            ),
+            buildModeButton(MultimeterMode.resistance, 'Ω'),
 
-            buildModeButton(
-              MultimeterMode.current,
-              'A',
-            ),
+            buildModeButton(MultimeterMode.current, 'A'),
           ],
         ),
       ],
     );
   }
 
-  Widget buildModeButton(
-    MultimeterMode mode,
-    String label,
-  ) {
-    final selected =
-        selectedMode == mode;
+  Widget buildModeButton(MultimeterMode mode, String label) {
+    final selected = selectedMode == mode;
 
     return ChoiceChip(
       label: Text(label),
@@ -440,47 +335,34 @@ class _MultimeterBlockState
     );
   }
 
-  Widget buildPorts(
-    BuildContext context,
-  ) {
+  Widget buildPorts(BuildContext context) {
     return Column(
       children: [
         const Text(
           'Гнёзда щупов',
-          style: TextStyle(
-            fontWeight:
-                FontWeight.bold,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
 
         const SizedBox(height: 16),
 
         Row(
-          mainAxisAlignment:
-              MainAxisAlignment
-                  .spaceEvenly,
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildFixedComPort(
-              context,
-            ),
+            buildFixedComPort(context),
 
             buildSelectablePort(
               context,
               label: 'VΩ',
-              subtitle:
-                  'напряжение\nсопротивление',
-              port: RedProbePort
-                  .voltageResistance,
+              subtitle: 'напряжение\nсопротивление',
+              port: RedProbePort.voltageResistance,
             ),
 
             buildSelectablePort(
               context,
               label: 'A',
               subtitle: 'ток',
-              port:
-                  RedProbePort.current,
+              port: RedProbePort.current,
             ),
           ],
         ),
@@ -491,19 +373,14 @@ class _MultimeterBlockState
           'Нажми на VΩ или A, '
           'чтобы переставить красный щуп.',
           textAlign: TextAlign.center,
-          style: Theme.of(context)
-              .textTheme
-              .bodySmall,
+          style: Theme.of(context).textTheme.bodySmall,
         ),
       ],
     );
   }
 
-  Widget buildFixedComPort(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildFixedComPort(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return SizedBox(
       width: 88,
@@ -514,41 +391,22 @@ class _MultimeterBlockState
             height: 44,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: colorScheme
-                  .onSurface,
-              border: Border.all(
-                color:
-                    colorScheme.outline,
-                width: 4,
-              ),
+              color: colorScheme.onSurface,
+              border: Border.all(color: colorScheme.outline, width: 4),
             ),
-            child: Icon(
-              Icons.cable,
-              size: 20,
-              color:
-                  colorScheme.surface,
-            ),
+            child: Icon(Icons.cable, size: 20, color: colorScheme.surface),
           ),
 
           const SizedBox(height: 8),
 
-          const Text(
-            'COM',
-            style: TextStyle(
-              fontWeight:
-                  FontWeight.bold,
-            ),
-          ),
+          const Text('COM', style: TextStyle(fontWeight: FontWeight.bold)),
 
           const SizedBox(height: 2),
 
           Text(
             'чёрный щуп',
-            textAlign:
-                TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
       ),
@@ -561,82 +419,50 @@ class _MultimeterBlockState
     required String subtitle,
     required RedProbePort port,
   }) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
-    final selected =
-        redProbePort == port;
+    final selected = redProbePort == port;
 
     return SizedBox(
       width: 88,
       child: InkWell(
-        borderRadius:
-            BorderRadius.circular(12),
-        onTap:
-            widget.block.interactive ==
-                    true
-                ? () {
-                    selectRedProbePort(
-                      port,
-                    );
-                  }
-                : null,
+        borderRadius: BorderRadius.circular(12),
+        onTap: widget.block.interactive == true
+            ? () {
+                selectRedProbePort(port);
+              }
+            : null,
         child: Padding(
-          padding:
-              const EdgeInsets.all(6),
+          padding: const EdgeInsets.all(6),
           child: Column(
             children: [
               AnimatedContainer(
-                duration: const Duration(
-                  milliseconds: 180,
-                ),
+                duration: const Duration(milliseconds: 180),
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: selected
-                      ? colorScheme.error
-                      : Colors.transparent,
+                  color: selected ? colorScheme.error : Colors.transparent,
                   border: Border.all(
-                    color: selected
-                        ? colorScheme.error
-                        : colorScheme
-                            .outline,
+                    color: selected ? colorScheme.error : colorScheme.outline,
                     width: 4,
                   ),
                 ),
                 child: selected
-                    ? Icon(
-                        Icons.cable,
-                        size: 20,
-                        color: colorScheme
-                            .onError,
-                      )
+                    ? Icon(Icons.cable, size: 20, color: colorScheme.onError)
                     : null,
               ),
 
               const SizedBox(height: 8),
 
-              Text(
-                label,
-                style: const TextStyle(
-                  fontWeight:
-                      FontWeight.bold,
-                ),
-              ),
+              Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
 
               const SizedBox(height: 2),
 
               Text(
-                selected
-                    ? 'красный щуп'
-                    : subtitle,
-                textAlign:
-                    TextAlign.center,
-                style:
-                    Theme.of(context)
-                        .textTheme
-                        .bodySmall,
+                selected ? 'красный щуп' : subtitle,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ),
@@ -645,37 +471,25 @@ class _MultimeterBlockState
     );
   }
 
-  Widget buildModeInformation(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildModeInformation(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      padding:
-          const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isCurrentMode
-            ? colorScheme
-                .errorContainer
-            : colorScheme
-                .surfaceContainerHighest,
-        borderRadius:
-            BorderRadius.circular(12),
+            ? colorScheme.errorContainer
+            : colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             modeTitle,
             style: TextStyle(
-              fontWeight:
-                  FontWeight.bold,
-              color: isCurrentMode
-                  ? colorScheme
-                      .onErrorContainer
-                  : null,
+              fontWeight: FontWeight.bold,
+              color: isCurrentMode ? colorScheme.onErrorContainer : null,
             ),
           ),
 
@@ -684,10 +498,7 @@ class _MultimeterBlockState
           Text(
             modeDescription,
             style: TextStyle(
-              color: isCurrentMode
-                  ? colorScheme
-                      .onErrorContainer
-                  : null,
+              color: isCurrentMode ? colorScheme.onErrorContainer : null,
             ),
           ),
 
@@ -701,10 +512,8 @@ class _MultimeterBlockState
               'нельзя подключать напрямую '
               'параллельно аккумулятору.',
               style: TextStyle(
-                fontWeight:
-                    FontWeight.bold,
-                color: colorScheme
-                    .onErrorContainer,
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onErrorContainer,
               ),
             ),
           ],
@@ -713,70 +522,46 @@ class _MultimeterBlockState
     );
   }
 
-  Widget buildProbeStatus(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildProbeStatus(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     if (redProbeCorrect) {
       return Container(
-        padding:
-            const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: colorScheme
-              .primaryContainer,
-          borderRadius:
-              BorderRadius.circular(12),
+          color: colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(
-              Icons.check_circle_outline,
-            ),
+            const Icon(Icons.check_circle_outline),
 
             const SizedBox(width: 12),
 
-            Expanded(
-              child: Text(
-                correctProbeMessage,
-              ),
-            ),
+            Expanded(child: Text(correctProbeMessage)),
           ],
         ),
       );
     }
 
     return Container(
-      padding:
-          const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color:
-            colorScheme.errorContainer,
-        borderRadius:
-            BorderRadius.circular(12),
+        color: colorScheme.errorContainer,
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.warning_amber,
-            color:
-                colorScheme.onErrorContainer,
-          ),
+          Icon(Icons.warning_amber, color: colorScheme.onErrorContainer),
 
           const SizedBox(width: 12),
 
           Expanded(
             child: Text(
               incorrectProbeMessage,
-              style: TextStyle(
-                color: colorScheme
-                    .onErrorContainer,
-              ),
+              style: TextStyle(color: colorScheme.onErrorContainer),
             ),
           ),
         ],

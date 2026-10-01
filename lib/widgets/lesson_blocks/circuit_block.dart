@@ -3,20 +3,15 @@ import 'package:flutter/material.dart';
 import '../../models/lesson_block.dart';
 
 class CircuitBlock extends StatefulWidget {
-  final LessonBlock block;
+  final CircuitLessonBlock block;
 
-  const CircuitBlock({
-    super.key,
-    required this.block,
-  });
+  const CircuitBlock({super.key, required this.block});
 
   @override
-  State<CircuitBlock> createState() =>
-      _CircuitBlockState();
+  State<CircuitBlock> createState() => _CircuitBlockState();
 }
 
-class _CircuitBlockState
-    extends State<CircuitBlock> {
+class _CircuitBlockState extends State<CircuitBlock> {
   late bool isClosed;
 
   bool isParallel = true;
@@ -29,8 +24,7 @@ class _CircuitBlockState
   void initState() {
     super.initState();
 
-    isClosed =
-        widget.block.initiallyClosed ?? false;
+    isClosed = widget.block.initiallyClosed ?? false;
   }
 
   void toggleCircuit() {
@@ -74,34 +68,24 @@ class _CircuitBlockState
 
       default:
         return Card(
-          margin: const EdgeInsets.only(
-            bottom: 24,
-          ),
+          margin: const EdgeInsets.only(bottom: 24),
           child: const Padding(
             padding: EdgeInsets.all(16),
-            child: Text(
-              'Неизвестный тип электрической схемы',
-            ),
+            child: Text('Неизвестный тип электрической схемы'),
           ),
         );
     }
   }
 
-  Widget buildSimpleLamp(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildSimpleLamp(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Card(
-      margin: const EdgeInsets.only(
-        bottom: 24,
-      ),
+      margin: const EdgeInsets.only(bottom: 24),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             buildHeader(),
 
@@ -111,21 +95,15 @@ class _CircuitBlockState
               aspectRatio: 1.8,
               child: Container(
                 decoration: BoxDecoration(
-                  color: colorScheme
-                      .surfaceContainerHighest,
-                  borderRadius:
-                      BorderRadius.circular(16),
+                  color: colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: CustomPaint(
-                  painter:
-                      SimpleLampCircuitPainter(
+                  painter: SimpleLampCircuitPainter(
                     isClosed: isClosed,
-                    activeColor:
-                        colorScheme.primary,
-                    inactiveColor:
-                        colorScheme.outline,
-                    textColor:
-                        colorScheme.onSurface,
+                    activeColor: colorScheme.primary,
+                    inactiveColor: colorScheme.outline,
+                    textColor: colorScheme.onSurface,
                   ),
                 ),
               ),
@@ -134,55 +112,37 @@ class _CircuitBlockState
             const SizedBox(height: 16),
 
             Container(
-              padding:
-                  const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: isClosed
-                    ? colorScheme
-                        .primaryContainer
-                    : colorScheme
-                        .surfaceContainerHighest,
-                borderRadius:
-                    BorderRadius.circular(12),
+                    ? colorScheme.primaryContainer
+                    : colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 children: [
-                  Icon(
-                    isClosed
-                        ? Icons.lightbulb
-                        : Icons
-                            .lightbulb_outline,
-                  ),
+                  Icon(isClosed ? Icons.lightbulb : Icons.lightbulb_outline),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       isClosed
                           ? 'Цепь замкнута. '
-                              'Лампа включена.'
+                                'Лампа включена.'
                           : 'Цепь разомкнута. '
-                              'Лампа выключена.',
+                                'Лампа выключена.',
                     ),
                   ),
                 ],
               ),
             ),
 
-            if (widget.block.interactive ==
-                true) ...[
+            if (widget.block.interactive == true) ...[
               const SizedBox(height: 12),
 
               FilledButton.icon(
                 onPressed: toggleCircuit,
-                icon: Icon(
-                  isClosed
-                      ? Icons.toggle_off
-                      : Icons.toggle_on,
-                ),
-                label: Text(
-                  isClosed
-                      ? 'Разомкнуть цепь'
-                      : 'Замкнуть цепь',
-                ),
+                icon: Icon(isClosed ? Icons.toggle_off : Icons.toggle_on),
+                label: Text(isClosed ? 'Разомкнуть цепь' : 'Замкнуть цепь'),
               ),
             ],
 
@@ -193,40 +153,29 @@ class _CircuitBlockState
     );
   }
 
-  Widget buildTwoLamps(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildTwoLamps(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     final lamp1Works = !lamp1Open;
 
-    final lamp2Works = isParallel
-        ? true
-        : !lamp1Open;
+    final lamp2Works = isParallel ? true : !lamp1Open;
 
     return Card(
-      margin: const EdgeInsets.only(
-        bottom: 24,
-      ),
+      margin: const EdgeInsets.only(bottom: 24),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             buildHeader(),
 
             const SizedBox(height: 16),
 
             Container(
-              padding:
-                  const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: colorScheme
-                    .primaryContainer,
-                borderRadius:
-                    BorderRadius.circular(12),
+                color: colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
                 children: [
@@ -235,15 +184,10 @@ class _CircuitBlockState
                         ? 'ПАРАЛЛЕЛЬНОЕ СОЕДИНЕНИЕ'
                         : 'ПОСЛЕДОВАТЕЛЬНОЕ СОЕДИНЕНИЕ',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 4),
-                  const Text(
-                    'Источник: 12 V',
-                  ),
+                  const Text('Источник: 12 V'),
                 ],
               ),
             ),
@@ -254,24 +198,17 @@ class _CircuitBlockState
               aspectRatio: 1.7,
               child: Container(
                 decoration: BoxDecoration(
-                  color: colorScheme
-                      .surfaceContainerHighest,
-                  borderRadius:
-                      BorderRadius.circular(16),
+                  color: colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: CustomPaint(
-                  painter:
-                      TwoLampCircuitPainter(
+                  painter: TwoLampCircuitPainter(
                     isParallel: isParallel,
                     lamp1Open: lamp1Open,
-                    activeColor:
-                        colorScheme.primary,
-                    wireColor:
-                        colorScheme.outline,
-                    textColor:
-                        colorScheme.onSurface,
-                    errorColor:
-                        colorScheme.error,
+                    activeColor: colorScheme.primary,
+                    wireColor: colorScheme.outline,
+                    textColor: colorScheme.onSurface,
+                    errorColor: colorScheme.error,
                   ),
                 ),
               ),
@@ -288,20 +225,15 @@ class _CircuitBlockState
             if (lamp1Open) ...[
               const SizedBox(height: 12),
 
-              buildFaultExplanation(
-                context,
-              ),
+              buildFaultExplanation(context),
             ],
 
-            if (widget.block.interactive ==
-                true) ...[
+            if (widget.block.interactive == true) ...[
               const SizedBox(height: 12),
 
               FilledButton.icon(
                 onPressed: toggleConnection,
-                icon: const Icon(
-                  Icons.swap_horiz,
-                ),
+                icon: const Icon(Icons.swap_horiz),
                 label: Text(
                   isParallel
                       ? 'Показать последовательное'
@@ -316,8 +248,7 @@ class _CircuitBlockState
                 icon: Icon(
                   lamp1Open
                       ? Icons.build_circle_outlined
-                      : Icons
-                          .warning_amber_outlined,
+                      : Icons.warning_amber_outlined,
                 ),
                 label: Text(
                   lamp1Open
@@ -339,8 +270,7 @@ class _CircuitBlockState
     required bool lamp1Works,
     required bool lamp2Works,
   }) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     String lamp1Voltage;
     String lamp2Voltage;
@@ -359,22 +289,18 @@ class _CircuitBlockState
         lamp2Voltage = '12 V';
       } else {
         lamp1Voltage = 'обрыв';
-        lamp2Voltage =
-            'ток не проходит';
+        lamp2Voltage = 'ток не проходит';
       }
     }
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: colorScheme
-            .surfaceContainerHighest,
-        borderRadius:
-            BorderRadius.circular(12),
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildLampStatus(
             context,
@@ -397,9 +323,9 @@ class _CircuitBlockState
           Text(
             isParallel
                 ? 'Каждая лампа находится '
-                    'в собственной ветви.'
+                      'в собственной ветви.'
                 : 'Обе лампы находятся '
-                    'в одном пути тока.',
+                      'в одном пути тока.',
           ),
         ],
       ),
@@ -412,66 +338,44 @@ class _CircuitBlockState
     required bool works,
     required String value,
   }) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Row(
       children: [
         Icon(
-          works
-              ? Icons.lightbulb
-              : Icons.lightbulb_outline,
-          color: works
-              ? null
-              : colorScheme.error,
+          works ? Icons.lightbulb : Icons.lightbulb_outline,
+          color: works ? null : colorScheme.error,
         ),
 
         const SizedBox(width: 8),
 
-        Expanded(
-          child: Text(
-            'Лампа $number: $value',
-          ),
-        ),
+        Expanded(child: Text('Лампа $number: $value')),
 
         Text(
-          works
-              ? 'РАБОТАЕТ'
-              : 'НЕ РАБОТАЕТ',
+          works ? 'РАБОТАЕТ' : 'НЕ РАБОТАЕТ',
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
-            color: works
-                ? colorScheme.primary
-                : colorScheme.error,
+            color: works ? colorScheme.primary : colorScheme.error,
           ),
         ),
       ],
     );
   }
 
-  Widget buildFaultExplanation(
-    BuildContext context,
-  ) {
-    final colorScheme =
-        Theme.of(context).colorScheme;
+  Widget buildFaultExplanation(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: colorScheme.errorContainer,
-        borderRadius:
-            BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            Icons.warning_amber,
-            color:
-                colorScheme.onErrorContainer,
-          ),
+          Icon(Icons.warning_amber, color: colorScheme.onErrorContainer),
 
           const SizedBox(width: 12),
 
@@ -479,19 +383,16 @@ class _CircuitBlockState
             child: Text(
               isParallel
                   ? 'Обрыв произошёл только '
-                      'в ветви лампы 1. '
-                      'Ветка лампы 2 остаётся '
-                      'замкнутой, поэтому '
-                      'лампа 2 продолжает работать.'
+                        'в ветви лампы 1. '
+                        'Ветка лампы 2 остаётся '
+                        'замкнутой, поэтому '
+                        'лампа 2 продолжает работать.'
                   : 'Обрыв лампы 1 разорвал '
-                      'единственный путь тока. '
-                      'Поэтому ток не проходит '
-                      'ни через лампу 1, '
-                      'ни через лампу 2.',
-              style: TextStyle(
-                color:
-                    colorScheme.onErrorContainer,
-              ),
+                        'единственный путь тока. '
+                        'Поэтому ток не проходит '
+                        'ни через лампу 1, '
+                        'ни через лампу 2.',
+              style: TextStyle(color: colorScheme.onErrorContainer),
             ),
           ),
         ],
@@ -502,46 +403,31 @@ class _CircuitBlockState
   Widget buildHeader() {
     return Row(
       children: [
-        const Icon(
-          Icons.electrical_services,
-        ),
+        const Icon(Icons.electrical_services),
         const SizedBox(width: 8),
         Expanded(
           child: Text(
-            widget.block.title ??
-                'Электрическая схема',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
+            widget.block.title,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
       ],
     );
   }
 
-  Widget buildCaption(
-    BuildContext context,
-  ) {
-    if (widget.block.caption == null) {
-      return const SizedBox.shrink();
-    }
-
+  Widget buildCaption(BuildContext context) {
     return Padding(
-      padding:
-          const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.only(top: 12),
       child: Text(
-        widget.block.caption!,
+        widget.block.caption,
         textAlign: TextAlign.center,
-        style: Theme.of(context)
-            .textTheme
-            .bodySmall,
+        style: Theme.of(context).textTheme.bodySmall,
       ),
     );
   }
 }
 
-class SimpleLampCircuitPainter
-    extends CustomPainter {
+class SimpleLampCircuitPainter extends CustomPainter {
   final bool isClosed;
   final Color activeColor;
   final Color inactiveColor;
@@ -555,13 +441,8 @@ class SimpleLampCircuitPainter
   });
 
   @override
-  void paint(
-    Canvas canvas,
-    Size size,
-  ) {
-    final circuitColor = isClosed
-        ? activeColor
-        : inactiveColor;
+  void paint(Canvas canvas, Size size) {
+    final circuitColor = isClosed ? activeColor : inactiveColor;
 
     final wirePaint = Paint()
       ..color = circuitColor
@@ -575,14 +456,10 @@ class SimpleLampCircuitPainter
       ..style = PaintingStyle.stroke;
 
     final lampGlowPaint = Paint()
-      ..color = activeColor.withValues(
-        alpha: 0.20,
-      )
+      ..color = activeColor.withValues(alpha: 0.20)
       ..style = PaintingStyle.fill;
 
-    final textPainter = TextPainter(
-      textDirection: TextDirection.ltr,
-    );
+    final textPainter = TextPainter(textDirection: TextDirection.ltr);
 
     final left = size.width * 0.12;
     final right = size.width * 0.88;
@@ -594,11 +471,7 @@ class SimpleLampCircuitPainter
     final switchX = size.width * 0.42;
     final lampX = size.width * 0.72;
 
-    canvas.drawLine(
-      Offset(left, top),
-      Offset(switchX - 35, top),
-      wirePaint,
-    );
+    canvas.drawLine(Offset(left, top), Offset(switchX - 35, top), wirePaint);
 
     canvas.drawLine(
       Offset(switchX + 35, top),
@@ -606,66 +479,33 @@ class SimpleLampCircuitPainter
       wirePaint,
     );
 
-    canvas.drawLine(
-      Offset(lampX + 28, top),
-      Offset(right, top),
-      wirePaint,
-    );
+    canvas.drawLine(Offset(lampX + 28, top), Offset(right, top), wirePaint);
+
+    canvas.drawLine(Offset(right, top), Offset(right, bottom), wirePaint);
+
+    canvas.drawLine(Offset(right, bottom), Offset(left, bottom), wirePaint);
 
     canvas.drawLine(
-      Offset(right, top),
-      Offset(right, bottom),
-      wirePaint,
-    );
-
-    canvas.drawLine(
-      Offset(right, bottom),
-      Offset(left, bottom),
-      wirePaint,
-    );
-
-    canvas.drawLine(
-      Offset(
-        batteryX - 12,
-        top + 35,
-      ),
-      Offset(
-        batteryX + 12,
-        top + 35,
-      ),
+      Offset(batteryX - 12, top + 35),
+      Offset(batteryX + 12, top + 35),
       componentPaint,
     );
 
     canvas.drawLine(
-      Offset(
-        batteryX - 20,
-        top + 50,
-      ),
-      Offset(
-        batteryX + 20,
-        top + 50,
-      ),
+      Offset(batteryX - 20, top + 50),
+      Offset(batteryX + 20, top + 50),
       componentPaint,
     );
 
     canvas.drawLine(
       Offset(batteryX, top),
-      Offset(
-        batteryX,
-        top + 35,
-      ),
+      Offset(batteryX, top + 35),
       wirePaint,
     );
 
     canvas.drawLine(
-      Offset(
-        batteryX,
-        top + 50,
-      ),
-      Offset(
-        batteryX,
-        bottom,
-      ),
+      Offset(batteryX, top + 50),
+      Offset(batteryX, bottom),
       wirePaint,
     );
 
@@ -673,10 +513,7 @@ class SimpleLampCircuitPainter
       canvas,
       textPainter,
       '+',
-      Offset(
-        batteryX + 24,
-        top + 24,
-      ),
+      Offset(batteryX + 24, top + 24),
       textColor,
       18,
     );
@@ -685,87 +522,46 @@ class SimpleLampCircuitPainter
       canvas,
       textPainter,
       '−',
-      Offset(
-        batteryX + 24,
-        top + 45,
-      ),
+      Offset(batteryX + 24, top + 45),
       textColor,
       18,
     );
 
-    final switchLeft =
-        Offset(switchX - 35, top);
+    final switchLeft = Offset(switchX - 35, top);
 
-    final switchRight =
-        Offset(switchX + 35, top);
+    final switchRight = Offset(switchX + 35, top);
 
-    canvas.drawCircle(
-      switchLeft,
-      5,
-      componentPaint,
-    );
+    canvas.drawCircle(switchLeft, 5, componentPaint);
 
-    canvas.drawCircle(
-      switchRight,
-      5,
-      componentPaint,
-    );
+    canvas.drawCircle(switchRight, 5, componentPaint);
 
     if (isClosed) {
-      canvas.drawLine(
-        switchLeft,
-        switchRight,
-        componentPaint,
-      );
+      canvas.drawLine(switchLeft, switchRight, componentPaint);
     } else {
       canvas.drawLine(
         switchLeft,
-        Offset(
-          switchX + 22,
-          top - 28,
-        ),
+        Offset(switchX + 22, top - 28),
         componentPaint,
       );
     }
 
-    final lampCenter =
-        Offset(lampX, top);
+    final lampCenter = Offset(lampX, top);
 
     if (isClosed) {
-      canvas.drawCircle(
-        lampCenter,
-        38,
-        lampGlowPaint,
-      );
+      canvas.drawCircle(lampCenter, 38, lampGlowPaint);
     }
 
-    canvas.drawCircle(
-      lampCenter,
-      27,
+    canvas.drawCircle(lampCenter, 27, componentPaint);
+
+    canvas.drawLine(
+      Offset(lampX - 17, top - 17),
+      Offset(lampX + 17, top + 17),
       componentPaint,
     );
 
     canvas.drawLine(
-      Offset(
-        lampX - 17,
-        top - 17,
-      ),
-      Offset(
-        lampX + 17,
-        top + 17,
-      ),
-      componentPaint,
-    );
-
-    canvas.drawLine(
-      Offset(
-        lampX + 17,
-        top - 17,
-      ),
-      Offset(
-        lampX - 17,
-        top + 17,
-      ),
+      Offset(lampX + 17, top - 17),
+      Offset(lampX - 17, top + 17),
       componentPaint,
     );
 
@@ -773,10 +569,7 @@ class SimpleLampCircuitPainter
       canvas,
       textPainter,
       'АКБ',
-      Offset(
-        batteryX - 18,
-        bottom + 10,
-      ),
+      Offset(batteryX - 18, bottom + 10),
       textColor,
       14,
     );
@@ -785,10 +578,7 @@ class SimpleLampCircuitPainter
       canvas,
       textPainter,
       'Выключатель',
-      Offset(
-        switchX - 45,
-        top + 28,
-      ),
+      Offset(switchX - 45, top + 28),
       textColor,
       12,
     );
@@ -797,10 +587,7 @@ class SimpleLampCircuitPainter
       canvas,
       textPainter,
       'Лампа',
-      Offset(
-        lampX - 22,
-        top + 38,
-      ),
+      Offset(lampX - 22, top + 38),
       textColor,
       12,
     );
@@ -809,10 +596,7 @@ class SimpleLampCircuitPainter
       canvas,
       textPainter,
       'Обратный путь',
-      Offset(
-        size.width * 0.48,
-        bottom + 10,
-      ),
+      Offset(size.width * 0.48, bottom + 10),
       textColor,
       12,
     );
@@ -828,38 +612,24 @@ class SimpleLampCircuitPainter
   ) {
     painter.text = TextSpan(
       text: text,
-      style: TextStyle(
-        color: color,
-        fontSize: fontSize,
-      ),
+      style: TextStyle(color: color, fontSize: fontSize),
     );
 
     painter.layout();
 
-    painter.paint(
-      canvas,
-      position,
-    );
+    painter.paint(canvas, position);
   }
 
   @override
-  bool shouldRepaint(
-    covariant SimpleLampCircuitPainter
-        oldDelegate,
-  ) {
-    return oldDelegate.isClosed !=
-            isClosed ||
-        oldDelegate.activeColor !=
-            activeColor ||
-        oldDelegate.inactiveColor !=
-            inactiveColor ||
-        oldDelegate.textColor !=
-            textColor;
+  bool shouldRepaint(covariant SimpleLampCircuitPainter oldDelegate) {
+    return oldDelegate.isClosed != isClosed ||
+        oldDelegate.activeColor != activeColor ||
+        oldDelegate.inactiveColor != inactiveColor ||
+        oldDelegate.textColor != textColor;
   }
 }
 
-class TwoLampCircuitPainter
-    extends CustomPainter {
+class TwoLampCircuitPainter extends CustomPainter {
   final bool isParallel;
   final bool lamp1Open;
 
@@ -878,10 +648,7 @@ class TwoLampCircuitPainter
   });
 
   @override
-  void paint(
-    Canvas canvas,
-    Size size,
-  ) {
+  void paint(Canvas canvas, Size size) {
     final wirePaint = Paint()
       ..color = wireColor
       ..strokeWidth = 4
@@ -900,24 +667,18 @@ class TwoLampCircuitPainter
       ..strokeCap = StrokeCap.round;
 
     final brightGlow = Paint()
-      ..color = activeColor.withValues(
-        alpha: 0.28,
-      )
+      ..color = activeColor.withValues(alpha: 0.28)
       ..style = PaintingStyle.fill;
 
     final weakGlow = Paint()
-      ..color = activeColor.withValues(
-        alpha: 0.10,
-      )
+      ..color = activeColor.withValues(alpha: 0.10)
       ..style = PaintingStyle.fill;
 
     final noGlow = Paint()
       ..color = Colors.transparent
       ..style = PaintingStyle.fill;
 
-    final textPainter = TextPainter(
-      textDirection: TextDirection.ltr,
-    );
+    final textPainter = TextPainter(textDirection: TextDirection.ltr);
 
     if (isParallel) {
       _drawParallel(
@@ -956,24 +717,18 @@ class TwoLampCircuitPainter
   ) {
     final left = size.width * 0.12;
 
-
     final top = size.height * 0.25;
     final bottom = size.height * 0.75;
 
-    final branchStart =
-        size.width * 0.34;
+    final branchStart = size.width * 0.34;
 
-    final branchEnd =
-        size.width * 0.76;
+    final branchEnd = size.width * 0.76;
 
-    final lampX =
-        (branchStart + branchEnd) / 2;
+    final lampX = (branchStart + branchEnd) / 2;
 
-    final upperY =
-        size.height * 0.36;
+    final upperY = size.height * 0.36;
 
-    final lowerY =
-        size.height * 0.64;
+    final lowerY = size.height * 0.64;
 
     _drawBattery(
       canvas,
@@ -985,11 +740,7 @@ class TwoLampCircuitPainter
       textPainter,
     );
 
-    canvas.drawLine(
-      Offset(left, top),
-      Offset(branchStart, top),
-      wirePaint,
-    );
+    canvas.drawLine(Offset(left, top), Offset(branchStart, top), wirePaint);
 
     canvas.drawLine(
       Offset(branchStart, top),
@@ -1029,47 +780,27 @@ class TwoLampCircuitPainter
       wirePaint,
     );
 
-    canvas.drawLine(
-      Offset(branchEnd, bottom),
-      Offset(left, bottom),
-      wirePaint,
-    );
+    canvas.drawLine(Offset(branchEnd, bottom), Offset(left, bottom), wirePaint);
 
     _drawLamp(
       canvas,
       Offset(lampX, upperY),
       componentPaint,
-      lamp1Open
-          ? noGlow
-          : glowPaint,
+      lamp1Open ? noGlow : glowPaint,
     );
 
-    _drawLamp(
-      canvas,
-      Offset(lampX, lowerY),
-      componentPaint,
-      glowPaint,
-    );
+    _drawLamp(canvas, Offset(lampX, lowerY), componentPaint, glowPaint);
 
     if (lamp1Open) {
-      _drawFault(
-        canvas,
-        Offset(lampX, upperY),
-        faultPaint,
-      );
+      _drawFault(canvas, Offset(lampX, upperY), faultPaint);
     }
 
     _drawText(
       canvas,
       textPainter,
       lamp1Open ? 'ОБРЫВ' : '12 V',
-      Offset(
-        lampX - 20,
-        upperY - 48,
-      ),
-      lamp1Open
-          ? errorColor
-          : textColor,
+      Offset(lampX - 20, upperY - 48),
+      lamp1Open ? errorColor : textColor,
       12,
     );
 
@@ -1077,10 +808,7 @@ class TwoLampCircuitPainter
       canvas,
       textPainter,
       '12 V',
-      Offset(
-        lampX - 14,
-        lowerY + 30,
-      ),
+      Offset(lampX - 14, lowerY + 30),
       textColor,
       12,
     );
@@ -1089,10 +817,7 @@ class TwoLampCircuitPainter
       canvas,
       textPainter,
       'Лампа 1',
-      Offset(
-        lampX + 35,
-        upperY - 8,
-      ),
+      Offset(lampX + 35, upperY - 8),
       textColor,
       11,
     );
@@ -1101,10 +826,7 @@ class TwoLampCircuitPainter
       canvas,
       textPainter,
       'Лампа 2',
-      Offset(
-        lampX + 35,
-        lowerY - 8,
-      ),
+      Offset(lampX + 35, lowerY - 8),
       textColor,
       11,
     );
@@ -1126,11 +848,9 @@ class TwoLampCircuitPainter
     final top = size.height * 0.32;
     final bottom = size.height * 0.72;
 
-    final lamp1X =
-        size.width * 0.43;
+    final lamp1X = size.width * 0.43;
 
-    final lamp2X =
-        size.width * 0.69;
+    final lamp2X = size.width * 0.69;
 
     _drawBattery(
       canvas,
@@ -1142,11 +862,7 @@ class TwoLampCircuitPainter
       textPainter,
     );
 
-    canvas.drawLine(
-      Offset(left, top),
-      Offset(lamp1X - 25, top),
-      wirePaint,
-    );
+    canvas.drawLine(Offset(left, top), Offset(lamp1X - 25, top), wirePaint);
 
     canvas.drawLine(
       Offset(lamp1X + 25, top),
@@ -1154,23 +870,11 @@ class TwoLampCircuitPainter
       wirePaint,
     );
 
-    canvas.drawLine(
-      Offset(lamp2X + 25, top),
-      Offset(right, top),
-      wirePaint,
-    );
+    canvas.drawLine(Offset(lamp2X + 25, top), Offset(right, top), wirePaint);
 
-    canvas.drawLine(
-      Offset(right, top),
-      Offset(right, bottom),
-      wirePaint,
-    );
+    canvas.drawLine(Offset(right, top), Offset(right, bottom), wirePaint);
 
-    canvas.drawLine(
-      Offset(right, bottom),
-      Offset(left, bottom),
-      wirePaint,
-    );
+    canvas.drawLine(Offset(right, bottom), Offset(left, bottom), wirePaint);
 
     // Если есть обрыв в первой лампе,
     // ток отсутствует во всей
@@ -1179,57 +883,35 @@ class TwoLampCircuitPainter
       canvas,
       Offset(lamp1X, top),
       componentPaint,
-      lamp1Open
-          ? noGlow
-          : glowPaint,
+      lamp1Open ? noGlow : glowPaint,
     );
 
     _drawLamp(
       canvas,
       Offset(lamp2X, top),
       componentPaint,
-      lamp1Open
-          ? noGlow
-          : glowPaint,
+      lamp1Open ? noGlow : glowPaint,
     );
 
     if (lamp1Open) {
-      _drawFault(
-        canvas,
-        Offset(lamp1X, top),
-        faultPaint,
-      );
+      _drawFault(canvas, Offset(lamp1X, top), faultPaint);
     }
 
     _drawText(
       canvas,
       textPainter,
-      lamp1Open
-          ? 'ОБРЫВ'
-          : '≈ 6 V',
-      Offset(
-        lamp1X - 20,
-        top - 48,
-      ),
-      lamp1Open
-          ? errorColor
-          : textColor,
+      lamp1Open ? 'ОБРЫВ' : '≈ 6 V',
+      Offset(lamp1X - 20, top - 48),
+      lamp1Open ? errorColor : textColor,
       12,
     );
 
     _drawText(
       canvas,
       textPainter,
-      lamp1Open
-          ? 'НЕТ ТОКА'
-          : '≈ 6 V',
-      Offset(
-        lamp2X - 28,
-        top - 48,
-      ),
-      lamp1Open
-          ? errorColor
-          : textColor,
+      lamp1Open ? 'НЕТ ТОКА' : '≈ 6 V',
+      Offset(lamp2X - 28, top - 48),
+      lamp1Open ? errorColor : textColor,
       12,
     );
 
@@ -1237,10 +919,7 @@ class TwoLampCircuitPainter
       canvas,
       textPainter,
       'Лампа 1',
-      Offset(
-        lamp1X - 26,
-        top + 35,
-      ),
+      Offset(lamp1X - 26, top + 35),
       textColor,
       11,
     );
@@ -1249,10 +928,7 @@ class TwoLampCircuitPainter
       canvas,
       textPainter,
       'Лампа 2',
-      Offset(
-        lamp2X - 26,
-        top + 35,
-      ),
+      Offset(lamp2X - 26, top + 35),
       textColor,
       11,
     );
@@ -1270,11 +946,7 @@ class TwoLampCircuitPainter
     final plate1 = top + 35;
     final plate2 = top + 50;
 
-    canvas.drawLine(
-      Offset(x, top),
-      Offset(x, plate1),
-      wirePaint,
-    );
+    canvas.drawLine(Offset(x, top), Offset(x, plate1), wirePaint);
 
     canvas.drawLine(
       Offset(x - 12, plate1),
@@ -1288,20 +960,13 @@ class TwoLampCircuitPainter
       componentPaint,
     );
 
-    canvas.drawLine(
-      Offset(x, plate2),
-      Offset(x, bottom),
-      wirePaint,
-    );
+    canvas.drawLine(Offset(x, plate2), Offset(x, bottom), wirePaint);
 
     _drawText(
       canvas,
       textPainter,
       '+',
-      Offset(
-        x + 24,
-        plate1 - 10,
-      ),
+      Offset(x + 24, plate1 - 10),
       textColor,
       16,
     );
@@ -1310,10 +975,7 @@ class TwoLampCircuitPainter
       canvas,
       textPainter,
       '−',
-      Offset(
-        x + 24,
-        plate2 - 7,
-      ),
+      Offset(x + 24, plate2 - 7),
       textColor,
       16,
     );
@@ -1322,10 +984,7 @@ class TwoLampCircuitPainter
       canvas,
       textPainter,
       '12 V',
-      Offset(
-        x - 15,
-        bottom + 8,
-      ),
+      Offset(x - 15, bottom + 8),
       textColor,
       12,
     );
@@ -1337,69 +996,33 @@ class TwoLampCircuitPainter
     Paint componentPaint,
     Paint glowPaint,
   ) {
-    canvas.drawCircle(
-      center,
-      34,
-      glowPaint,
-    );
+    canvas.drawCircle(center, 34, glowPaint);
 
-    canvas.drawCircle(
-      center,
-      24,
+    canvas.drawCircle(center, 24, componentPaint);
+
+    canvas.drawLine(
+      Offset(center.dx - 15, center.dy - 15),
+      Offset(center.dx + 15, center.dy + 15),
       componentPaint,
     );
 
     canvas.drawLine(
-      Offset(
-        center.dx - 15,
-        center.dy - 15,
-      ),
-      Offset(
-        center.dx + 15,
-        center.dy + 15,
-      ),
-      componentPaint,
-    );
-
-    canvas.drawLine(
-      Offset(
-        center.dx + 15,
-        center.dy - 15,
-      ),
-      Offset(
-        center.dx - 15,
-        center.dy + 15,
-      ),
+      Offset(center.dx + 15, center.dy - 15),
+      Offset(center.dx - 15, center.dy + 15),
       componentPaint,
     );
   }
 
-  void _drawFault(
-    Canvas canvas,
-    Offset center,
-    Paint faultPaint,
-  ) {
+  void _drawFault(Canvas canvas, Offset center, Paint faultPaint) {
     canvas.drawLine(
-      Offset(
-        center.dx - 32,
-        center.dy - 32,
-      ),
-      Offset(
-        center.dx + 32,
-        center.dy + 32,
-      ),
+      Offset(center.dx - 32, center.dy - 32),
+      Offset(center.dx + 32, center.dy + 32),
       faultPaint,
     );
 
     canvas.drawLine(
-      Offset(
-        center.dx + 32,
-        center.dy - 32,
-      ),
-      Offset(
-        center.dx - 32,
-        center.dy + 32,
-      ),
+      Offset(center.dx + 32, center.dy - 32),
+      Offset(center.dx - 32, center.dy + 32),
       faultPaint,
     );
   }
@@ -1414,36 +1037,21 @@ class TwoLampCircuitPainter
   ) {
     painter.text = TextSpan(
       text: text,
-      style: TextStyle(
-        color: color,
-        fontSize: fontSize,
-      ),
+      style: TextStyle(color: color, fontSize: fontSize),
     );
 
     painter.layout();
 
-    painter.paint(
-      canvas,
-      position,
-    );
+    painter.paint(canvas, position);
   }
 
   @override
-  bool shouldRepaint(
-    covariant TwoLampCircuitPainter
-        oldDelegate,
-  ) {
-    return oldDelegate.isParallel !=
-            isParallel ||
-        oldDelegate.lamp1Open !=
-            lamp1Open ||
-        oldDelegate.activeColor !=
-            activeColor ||
-        oldDelegate.wireColor !=
-            wireColor ||
-        oldDelegate.textColor !=
-            textColor ||
-        oldDelegate.errorColor !=
-            errorColor;
+  bool shouldRepaint(covariant TwoLampCircuitPainter oldDelegate) {
+    return oldDelegate.isParallel != isParallel ||
+        oldDelegate.lamp1Open != lamp1Open ||
+        oldDelegate.activeColor != activeColor ||
+        oldDelegate.wireColor != wireColor ||
+        oldDelegate.textColor != textColor ||
+        oldDelegate.errorColor != errorColor;
   }
 }
