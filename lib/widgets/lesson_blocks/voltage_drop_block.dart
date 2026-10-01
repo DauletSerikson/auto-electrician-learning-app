@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
-
-enum VoltageDropPoint { batteryPositive, afterFault, ground }
+import '../../simulation/voltage_drop_simulation.dart';
 
 class VoltageDropBlock extends StatefulWidget {
   final VoltageDropLessonBlock block;
@@ -34,64 +33,19 @@ class _VoltageDropBlockState extends State<VoltageDropBlock> {
 
   double get faultVoltageDrop => widget.block.faultVoltageDrop;
 
-  double get loadVoltage => sourceVoltage - faultVoltageDrop;
+  VoltageDropSimulation get simulation => VoltageDropSimulation(
+    sourceVoltage: sourceVoltage,
+    faultVoltageDrop: faultVoltageDrop,
+    loadOn: loadOn,
+    redPoint: redPoint,
+    blackPoint: blackPoint,
+  );
 
   @override
   void initState() {
     super.initState();
 
     loadOn = widget.block.initiallyLoaded;
-  }
-
-  double potentialAt(VoltageDropPoint point) {
-    if (!loadOn) {
-      switch (point) {
-        case VoltageDropPoint.batteryPositive:
-          return sourceVoltage;
-
-        case VoltageDropPoint.afterFault:
-          return sourceVoltage;
-
-        case VoltageDropPoint.ground:
-          return 0;
-      }
-    }
-
-    switch (point) {
-      case VoltageDropPoint.batteryPositive:
-        return sourceVoltage;
-
-      case VoltageDropPoint.afterFault:
-        return loadVoltage;
-
-      case VoltageDropPoint.ground:
-        return 0;
-    }
-  }
-
-  double? get meterReading {
-    if (redPoint == null || blackPoint == null) {
-      return null;
-    }
-
-    return potentialAt(redPoint!) - potentialAt(blackPoint!);
-  }
-
-  bool get probesConnected {
-    return redPoint != null && blackPoint != null;
-  }
-
-  bool get measuringAcrossFault {
-    if (!probesConnected) {
-      return false;
-    }
-
-    return redPoint == VoltageDropPoint.batteryPositive &&
-        blackPoint == VoltageDropPoint.afterFault;
-  }
-
-  bool get correctSetup {
-    return loadOn && measuringAcrossFault;
   }
 
   void setRedPoint(VoltageDropPoint point) {
@@ -129,7 +83,7 @@ class _VoltageDropBlockState extends State<VoltageDropBlock> {
       return;
     }
 
-    final result = correctSetup;
+    final result = simulation.correctSetup;
 
     setState(() {
       checked = true;
@@ -267,11 +221,9 @@ class _VoltageDropBlockState extends State<VoltageDropBlock> {
           buildCircuitPoint(
             context,
             title: 'B',
-            subtitle: loadOn
-                ? 'После плохого контакта\n'
-                      '${loadVoltage.toStringAsFixed(1)} V'
-                : 'После плохого контакта\n'
-                      '${sourceVoltage.toStringAsFixed(1)} V',
+            subtitle:
+                'После плохого контакта\n'
+                '${simulation.potentialAt(VoltageDropPoint.afterFault).toStringAsFixed(1)} V',
             point: VoltageDropPoint.afterFault,
           ),
 
@@ -372,7 +324,7 @@ class _VoltageDropBlockState extends State<VoltageDropBlock> {
   Widget buildMeter(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final reading = meterReading;
+    final reading = simulation.meterReading;
 
     return Center(
       child: Container(
@@ -526,7 +478,7 @@ class _VoltageDropBlockState extends State<VoltageDropBlock> {
           'Включи лампу.';
     }
 
-    if (!probesConnected) {
+    if (!simulation.probesConnected) {
       return '✗ Подключены не оба щупа.';
     }
 

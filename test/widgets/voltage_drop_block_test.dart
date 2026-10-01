@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:electrician/models/lesson.dart';
 import 'package:electrician/models/lesson_block.dart';
+import 'package:electrician/simulation/voltage_drop_simulation.dart';
 import 'package:electrician/widgets/lesson_blocks/voltage_drop_block.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
