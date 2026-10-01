@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import '../models/course_lesson.dart';
 
 import 'package:flutter/services.dart';
@@ -9,8 +10,9 @@ import '../models/lesson_summary.dart';
 
 class CourseService {
   Future<List<CourseModule>> loadModules() async {
-    final jsonString =
-        await rootBundle.loadString('assets/course/modules.json');
+    final jsonString = await rootBundle.loadString(
+      'assets/course/modules.json',
+    );
 
     final List<dynamic> jsonData = jsonDecode(jsonString);
 
@@ -48,23 +50,18 @@ class CourseService {
   }
 
   Future<List<CourseLesson>> loadAllLessons() async {
-  final modules = await loadModules();
+    final modules = await loadModules();
 
-  final List<CourseLesson> allLessons = [];
+    final List<CourseLesson> allLessons = [];
 
-  for (final module in modules) {
-    final lessons = await loadLessons(module.id);
+    for (final module in modules) {
+      final lessons = await loadLessons(module.id);
 
-    for (final lesson in lessons) {
-      allLessons.add(
-        CourseLesson(
-          module: module,
-          lesson: lesson,
-        ),
-      );
+      for (final lesson in lessons) {
+        allLessons.add(CourseLesson(module: module, lesson: lesson));
+      }
     }
-  }
 
-  return allLessons;
-}
+    return allLessons;
+  }
 }

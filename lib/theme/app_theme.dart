@@ -13,17 +13,12 @@ class AppTheme {
 
       scaffoldBackgroundColor: const Color(0xFFF7F7F8),
 
-      appBarTheme: const AppBarTheme(
-        centerTitle: false,
-        elevation: 0,
-      ),
+      appBarTheme: const AppBarTheme(centerTitle: false, elevation: 0),
 
       cardTheme: CardThemeData(
         elevation: 0,
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
 
       filledButtonTheme: FilledButtonThemeData(
@@ -35,8 +30,7 @@ class AppTheme {
         ),
       ),
 
-      progressIndicatorTheme:
-          const ProgressIndicatorThemeData(
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
         linearMinHeight: 8,
       ),
     );
@@ -52,20 +46,14 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: colorScheme,
 
-      scaffoldBackgroundColor:
-          const Color(0xFF111318),
+      scaffoldBackgroundColor: const Color(0xFF111318),
 
-      appBarTheme: const AppBarTheme(
-        centerTitle: false,
-        elevation: 0,
-      ),
+      appBarTheme: const AppBarTheme(centerTitle: false, elevation: 0),
 
       cardTheme: CardThemeData(
         elevation: 0,
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
 
       filledButtonTheme: FilledButtonThemeData(
@@ -77,8 +65,7 @@ class AppTheme {
         ),
       ),
 
-      progressIndicatorTheme:
-          const ProgressIndicatorThemeData(
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
         linearMinHeight: 8,
       ),
     );

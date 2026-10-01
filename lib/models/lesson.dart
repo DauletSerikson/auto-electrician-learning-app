@@ -22,9 +22,7 @@ class Lesson {
     required this.blocks,
   });
 
-  factory Lesson.fromJson(
-    Map<String, dynamic> json,
-  ) {
+  factory Lesson.fromJson(Map<String, dynamic> json) {
     return Lesson(
       id: json['id'],
       moduleId: json['moduleId'],
@@ -33,16 +31,10 @@ class Lesson {
       description: json['description'],
       estimatedMinutes: json['estimatedMinutes'],
 
-      completion: LessonCompletion.fromJson(
-        json['completion'],
-      ),
+      completion: LessonCompletion.fromJson(json['completion']),
 
       blocks: (json['blocks'] as List)
-          .map(
-            (block) => LessonBlock.fromJson(
-              block,
-            ),
-          )
+          .map((block) => LessonBlock.fromJson(block))
           .toList(),
     );
   }

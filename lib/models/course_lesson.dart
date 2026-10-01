@@ -5,8 +5,5 @@ class CourseLesson {
   final CourseModule module;
   final LessonSummary lesson;
 
-  CourseLesson({
-    required this.module,
-    required this.lesson,
-  });
+  CourseLesson({required this.module, required this.lesson});
 }

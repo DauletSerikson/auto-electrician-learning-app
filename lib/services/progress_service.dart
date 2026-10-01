@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/course_lesson.dart';
 import '../models/home_progress.dart';
 
@@ -8,8 +9,7 @@ class ProgressService {
   Future<Set<String>> getCompletedLessons() async {
     final prefs = await SharedPreferences.getInstance();
 
-    final completed =
-        prefs.getStringList(_completedLessonsKey) ?? [];
+    final completed = prefs.getStringList(_completedLessonsKey) ?? [];
 
     return completed.toSet();
   }
@@ -27,22 +27,14 @@ class ProgressService {
 
     completed.add(lessonId);
 
-    await prefs.setStringList(
-      _completedLessonsKey,
-      completed.toList(),
-    );
+    await prefs.setStringList(_completedLessonsKey, completed.toList());
   }
-  Future<HomeProgress> calculateProgress(
-    List<CourseLesson> allLessons,
-  ) async {
+
+  Future<HomeProgress> calculateProgress(List<CourseLesson> allLessons) async {
     final completed = await getCompletedLessons();
 
     final completedCount = allLessons
-        .where(
-          (item) => completed.contains(
-            item.lesson.id,
-          ),
-        )
+        .where((item) => completed.contains(item.lesson.id))
         .length;
 
     CourseLesson? nextLesson;
