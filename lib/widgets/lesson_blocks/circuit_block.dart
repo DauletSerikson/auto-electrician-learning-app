@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
+import '../../simulation/circuit_simulation.dart';
 
 class CircuitBlock extends StatefulWidget {
   final CircuitLessonBlock block;
@@ -78,6 +79,7 @@ class _CircuitBlockState extends State<CircuitBlock> {
   }
 
   Widget buildSimpleLamp(BuildContext context) {
+    final simulation = SimpleLampSimulation(isClosed: isClosed);
     final colorScheme = Theme.of(context).colorScheme;
 
     return Card(
@@ -100,7 +102,7 @@ class _CircuitBlockState extends State<CircuitBlock> {
                 ),
                 child: CustomPaint(
                   painter: SimpleLampCircuitPainter(
-                    isClosed: isClosed,
+                    simulation: simulation,
                     activeColor: colorScheme.primary,
                     inactiveColor: colorScheme.outline,
                     textColor: colorScheme.onSurface,
@@ -114,18 +116,22 @@ class _CircuitBlockState extends State<CircuitBlock> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: isClosed
+                color: simulation.lampActive
                     ? colorScheme.primaryContainer
                     : colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 children: [
-                  Icon(isClosed ? Icons.lightbulb : Icons.lightbulb_outline),
+                  Icon(
+                    simulation.lampActive
+                        ? Icons.lightbulb
+                        : Icons.lightbulb_outline,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      isClosed
+                      simulation.lampActive
                           ? 'Цепь замкнута. '
                                 'Лампа включена.'
                           : 'Цепь разомкнута. '
@@ -156,9 +162,10 @@ class _CircuitBlockState extends State<CircuitBlock> {
   Widget buildTwoLamps(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final lamp1Works = !lamp1Open;
-
-    final lamp2Works = isParallel ? true : !lamp1Open;
+    final simulation = TwoLampSimulation(
+      topology: isParallel ? LampTopology.parallel : LampTopology.series,
+      lamp1Open: lamp1Open,
+    );
 
     return Card(
       margin: const EdgeInsets.only(bottom: 24),
@@ -187,7 +194,9 @@ class _CircuitBlockState extends State<CircuitBlock> {
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 4),
-                  const Text('Источник: 12 V'),
+                  Text(
+                    'Источник: ${simulation.sourceVoltage.toStringAsFixed(0)} V',
+                  ),
                 ],
               ),
             ),
@@ -203,8 +212,7 @@ class _CircuitBlockState extends State<CircuitBlock> {
                 ),
                 child: CustomPaint(
                   painter: TwoLampCircuitPainter(
-                    isParallel: isParallel,
-                    lamp1Open: lamp1Open,
+                    simulation: simulation,
                     activeColor: colorScheme.primary,
                     wireColor: colorScheme.outline,
                     textColor: colorScheme.onSurface,
@@ -216,11 +224,7 @@ class _CircuitBlockState extends State<CircuitBlock> {
 
             const SizedBox(height: 16),
 
-            buildConnectionInfo(
-              context,
-              lamp1Works: lamp1Works,
-              lamp2Works: lamp2Works,
-            ),
+            buildConnectionInfo(context, simulation),
 
             if (lamp1Open) ...[
               const SizedBox(height: 12),
@@ -266,32 +270,10 @@ class _CircuitBlockState extends State<CircuitBlock> {
   }
 
   Widget buildConnectionInfo(
-    BuildContext context, {
-    required bool lamp1Works,
-    required bool lamp2Works,
-  }) {
+    BuildContext context,
+    TwoLampSimulation simulation,
+  ) {
     final colorScheme = Theme.of(context).colorScheme;
-
-    String lamp1Voltage;
-    String lamp2Voltage;
-
-    if (!lamp1Open) {
-      if (isParallel) {
-        lamp1Voltage = '12 V';
-        lamp2Voltage = '12 V';
-      } else {
-        lamp1Voltage = '≈ 6 V';
-        lamp2Voltage = '≈ 6 V';
-      }
-    } else {
-      if (isParallel) {
-        lamp1Voltage = 'обрыв';
-        lamp2Voltage = '12 V';
-      } else {
-        lamp1Voltage = 'обрыв';
-        lamp2Voltage = 'ток не проходит';
-      }
-    }
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -305,8 +287,8 @@ class _CircuitBlockState extends State<CircuitBlock> {
           buildLampStatus(
             context,
             number: 1,
-            works: lamp1Works,
-            value: lamp1Voltage,
+            works: simulation.lamp1.isActive,
+            value: _widgetIndication(simulation.lamp1.indication),
           ),
 
           const SizedBox(height: 10),
@@ -314,8 +296,8 @@ class _CircuitBlockState extends State<CircuitBlock> {
           buildLampStatus(
             context,
             number: 2,
-            works: lamp2Works,
-            value: lamp2Voltage,
+            works: simulation.lamp2.isActive,
+            value: _widgetIndication(simulation.lamp2.indication),
           ),
 
           const SizedBox(height: 12),
@@ -428,13 +410,13 @@ class _CircuitBlockState extends State<CircuitBlock> {
 }
 
 class SimpleLampCircuitPainter extends CustomPainter {
-  final bool isClosed;
+  final SimpleLampSimulation simulation;
   final Color activeColor;
   final Color inactiveColor;
   final Color textColor;
 
   SimpleLampCircuitPainter({
-    required this.isClosed,
+    required this.simulation,
     required this.activeColor,
     required this.inactiveColor,
     required this.textColor,
@@ -442,7 +424,7 @@ class SimpleLampCircuitPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final circuitColor = isClosed ? activeColor : inactiveColor;
+    final circuitColor = simulation.lampActive ? activeColor : inactiveColor;
 
     final wirePaint = Paint()
       ..color = circuitColor
@@ -535,7 +517,7 @@ class SimpleLampCircuitPainter extends CustomPainter {
 
     canvas.drawCircle(switchRight, 5, componentPaint);
 
-    if (isClosed) {
+    if (simulation.isClosed) {
       canvas.drawLine(switchLeft, switchRight, componentPaint);
     } else {
       canvas.drawLine(
@@ -547,7 +529,7 @@ class SimpleLampCircuitPainter extends CustomPainter {
 
     final lampCenter = Offset(lampX, top);
 
-    if (isClosed) {
+    if (simulation.lampActive) {
       canvas.drawCircle(lampCenter, 38, lampGlowPaint);
     }
 
@@ -622,7 +604,7 @@ class SimpleLampCircuitPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant SimpleLampCircuitPainter oldDelegate) {
-    return oldDelegate.isClosed != isClosed ||
+    return oldDelegate.simulation.isClosed != simulation.isClosed ||
         oldDelegate.activeColor != activeColor ||
         oldDelegate.inactiveColor != inactiveColor ||
         oldDelegate.textColor != textColor;
@@ -630,8 +612,7 @@ class SimpleLampCircuitPainter extends CustomPainter {
 }
 
 class TwoLampCircuitPainter extends CustomPainter {
-  final bool isParallel;
-  final bool lamp1Open;
+  final TwoLampSimulation simulation;
 
   final Color activeColor;
   final Color wireColor;
@@ -639,8 +620,7 @@ class TwoLampCircuitPainter extends CustomPainter {
   final Color errorColor;
 
   TwoLampCircuitPainter({
-    required this.isParallel,
-    required this.lamp1Open,
+    required this.simulation,
     required this.activeColor,
     required this.wireColor,
     required this.textColor,
@@ -666,29 +646,20 @@ class TwoLampCircuitPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
-    final brightGlow = Paint()
-      ..color = activeColor.withValues(alpha: 0.28)
-      ..style = PaintingStyle.fill;
-
-    final weakGlow = Paint()
-      ..color = activeColor.withValues(alpha: 0.10)
-      ..style = PaintingStyle.fill;
-
-    final noGlow = Paint()
-      ..color = Colors.transparent
-      ..style = PaintingStyle.fill;
+    final lamp1Glow = _lampGlow(simulation.lamp1.activity);
+    final lamp2Glow = _lampGlow(simulation.lamp2.activity);
 
     final textPainter = TextPainter(textDirection: TextDirection.ltr);
 
-    if (isParallel) {
+    if (simulation.topology == LampTopology.parallel) {
       _drawParallel(
         canvas,
         size,
         wirePaint,
         componentPaint,
         faultPaint,
-        brightGlow,
-        noGlow,
+        lamp1Glow,
+        lamp2Glow,
         textPainter,
       );
     } else {
@@ -698,12 +669,25 @@ class TwoLampCircuitPainter extends CustomPainter {
         wirePaint,
         componentPaint,
         faultPaint,
-        weakGlow,
-        noGlow,
+        lamp1Glow,
+        lamp2Glow,
         textPainter,
       );
     }
   }
+
+  Paint _lampGlow(LampActivity activity) => Paint()
+    ..color = switch (activity) {
+      LampActivity.off => Colors.transparent,
+      LampActivity.reduced => activeColor.withValues(alpha: 0.10),
+      LampActivity.nominal => activeColor.withValues(alpha: 0.28),
+    }
+    ..style = PaintingStyle.fill;
+
+  Color _indicationColor(LampIndication indication) => switch (indication) {
+    VoltageIndication() => textColor,
+    OpenCircuitIndication() || NoCurrentIndication() => errorColor,
+  };
 
   void _drawParallel(
     Canvas canvas,
@@ -711,8 +695,8 @@ class TwoLampCircuitPainter extends CustomPainter {
     Paint wirePaint,
     Paint componentPaint,
     Paint faultPaint,
-    Paint glowPaint,
-    Paint noGlow,
+    Paint lamp1Glow,
+    Paint lamp2Glow,
     TextPainter textPainter,
   ) {
     final left = size.width * 0.12;
@@ -782,32 +766,27 @@ class TwoLampCircuitPainter extends CustomPainter {
 
     canvas.drawLine(Offset(branchEnd, bottom), Offset(left, bottom), wirePaint);
 
-    _drawLamp(
-      canvas,
-      Offset(lampX, upperY),
-      componentPaint,
-      lamp1Open ? noGlow : glowPaint,
-    );
+    _drawLamp(canvas, Offset(lampX, upperY), componentPaint, lamp1Glow);
 
-    _drawLamp(canvas, Offset(lampX, lowerY), componentPaint, glowPaint);
+    _drawLamp(canvas, Offset(lampX, lowerY), componentPaint, lamp2Glow);
 
-    if (lamp1Open) {
+    if (simulation.lamp1Open) {
       _drawFault(canvas, Offset(lampX, upperY), faultPaint);
     }
 
     _drawText(
       canvas,
       textPainter,
-      lamp1Open ? 'ОБРЫВ' : '12 V',
+      _canvasIndication(simulation.lamp1.indication),
       Offset(lampX - 20, upperY - 48),
-      lamp1Open ? errorColor : textColor,
+      _indicationColor(simulation.lamp1.indication),
       12,
     );
 
     _drawText(
       canvas,
       textPainter,
-      '12 V',
+      _canvasIndication(simulation.lamp2.indication),
       Offset(lampX - 14, lowerY + 30),
       textColor,
       12,
@@ -838,8 +817,8 @@ class TwoLampCircuitPainter extends CustomPainter {
     Paint wirePaint,
     Paint componentPaint,
     Paint faultPaint,
-    Paint glowPaint,
-    Paint noGlow,
+    Paint lamp1Glow,
+    Paint lamp2Glow,
     TextPainter textPainter,
   ) {
     final left = size.width * 0.12;
@@ -876,42 +855,29 @@ class TwoLampCircuitPainter extends CustomPainter {
 
     canvas.drawLine(Offset(right, bottom), Offset(left, bottom), wirePaint);
 
-    // Если есть обрыв в первой лампе,
-    // ток отсутствует во всей
-    // последовательной цепи.
-    _drawLamp(
-      canvas,
-      Offset(lamp1X, top),
-      componentPaint,
-      lamp1Open ? noGlow : glowPaint,
-    );
+    _drawLamp(canvas, Offset(lamp1X, top), componentPaint, lamp1Glow);
 
-    _drawLamp(
-      canvas,
-      Offset(lamp2X, top),
-      componentPaint,
-      lamp1Open ? noGlow : glowPaint,
-    );
+    _drawLamp(canvas, Offset(lamp2X, top), componentPaint, lamp2Glow);
 
-    if (lamp1Open) {
+    if (simulation.lamp1Open) {
       _drawFault(canvas, Offset(lamp1X, top), faultPaint);
     }
 
     _drawText(
       canvas,
       textPainter,
-      lamp1Open ? 'ОБРЫВ' : '≈ 6 V',
+      _canvasIndication(simulation.lamp1.indication),
       Offset(lamp1X - 20, top - 48),
-      lamp1Open ? errorColor : textColor,
+      _indicationColor(simulation.lamp1.indication),
       12,
     );
 
     _drawText(
       canvas,
       textPainter,
-      lamp1Open ? 'НЕТ ТОКА' : '≈ 6 V',
+      _canvasIndication(simulation.lamp2.indication),
       Offset(lamp2X - 28, top - 48),
-      lamp1Open ? errorColor : textColor,
+      _indicationColor(simulation.lamp2.indication),
       12,
     );
 
@@ -983,7 +949,7 @@ class TwoLampCircuitPainter extends CustomPainter {
     _drawText(
       canvas,
       textPainter,
-      '12 V',
+      '${simulation.sourceVoltage.toStringAsFixed(0)} V',
       Offset(x - 15, bottom + 8),
       textColor,
       12,
@@ -1047,11 +1013,26 @@ class TwoLampCircuitPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant TwoLampCircuitPainter oldDelegate) {
-    return oldDelegate.isParallel != isParallel ||
-        oldDelegate.lamp1Open != lamp1Open ||
+    return oldDelegate.simulation.topology != simulation.topology ||
+        oldDelegate.simulation.lamp1Open != simulation.lamp1Open ||
         oldDelegate.activeColor != activeColor ||
         oldDelegate.wireColor != wireColor ||
         oldDelegate.textColor != textColor ||
         oldDelegate.errorColor != errorColor;
   }
 }
+
+String _voltageLabel(VoltageIndication indication) =>
+    '${indication.isApproximate ? '≈ ' : ''}${indication.volts.toStringAsFixed(0)} V';
+
+String _widgetIndication(LampIndication indication) => switch (indication) {
+  VoltageIndication() => _voltageLabel(indication),
+  OpenCircuitIndication() => 'обрыв',
+  NoCurrentIndication() => 'ток не проходит',
+};
+
+String _canvasIndication(LampIndication indication) => switch (indication) {
+  VoltageIndication() => _voltageLabel(indication),
+  OpenCircuitIndication() => 'ОБРЫВ',
+  NoCurrentIndication() => 'НЕТ ТОКА',
+};
