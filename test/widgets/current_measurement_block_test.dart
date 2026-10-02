@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:electrician/simulation/current_measurement_simulation.dart';
 import 'package:electrician/models/lesson.dart';
 import 'package:electrician/models/lesson_block.dart';
 import 'package:electrician/widgets/lesson_blocks/current_measurement_block.dart';

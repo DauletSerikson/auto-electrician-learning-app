@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
 import '../../simulation/multimeter.dart';
-
-enum CurrentConnection { disconnected, series, acrossBattery, acrossLamp }
+import '../../simulation/current_measurement_simulation.dart';
 
 class CurrentMeasurementBlock extends StatefulWidget {
   final CurrentMeasurementLessonBlock block;
@@ -41,61 +40,22 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
 
   double get meterFuseRating => widget.block.meterFuseRating;
 
-  bool get meterConfiguredForCurrent {
-    return mode == MultimeterMode.current && redPort == MultimeterPort.current;
-  }
+  CurrentMeasurementSimulation get simulation => CurrentMeasurementSimulation(
+    mode: mode,
+    redPort: redPort,
+    connection: connection,
+    meterFuseBlown: meterFuseBlown,
+    sourceVoltage: sourceVoltage,
+    loadCurrent: loadCurrent,
+  );
 
-  bool get correctSetup {
-    return !meterFuseBlown &&
-        meterConfiguredForCurrent &&
-        connection == CurrentConnection.series;
-  }
-
-  bool get dangerousBatteryConnection {
-    return !meterFuseBlown &&
-        meterConfiguredForCurrent &&
-        connection == CurrentConnection.acrossBattery;
-  }
-
-  String get displayValue {
-    if (meterFuseBlown) {
-      return 'FUSE';
-    }
-
-    if (mode == MultimeterMode.off) {
-      return '────';
-    }
-
-    if (dangerousBatteryConnection) {
-      return '⚠';
-    }
-
-    if (mode == MultimeterMode.dcVoltage) {
-      if (connection == CurrentConnection.acrossBattery) {
-        return sourceVoltage.toStringAsFixed(2);
-      }
-
-      return '0.00';
-    }
-
-    if (mode == MultimeterMode.current) {
-      if (redPort != MultimeterPort.current) {
-        return '----';
-      }
-
-      if (connection == CurrentConnection.series) {
-        return loadCurrent.toStringAsFixed(2);
-      }
-
-      if (connection == CurrentConnection.acrossLamp) {
-        return '⚠';
-      }
-
-      return '0.00';
-    }
-
-    return '----';
-  }
+  String get displayValue => switch (simulation.readout) {
+    FuseBlownReadout() => 'FUSE',
+    OffReadout() => '────',
+    WarningReadout() => '⚠',
+    UnavailableReadout() => '----',
+    NumericReadout(:final value) => value.toStringAsFixed(2),
+  };
 
   String get displayUnit {
     switch (mode) {
@@ -158,7 +118,7 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
       return;
     }
 
-    if (dangerousBatteryConnection) {
+    if (simulation.dangerousBatteryConnection) {
       setState(() {
         meterFuseBlown = true;
       });
@@ -183,7 +143,7 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
       return;
     }
 
-    final result = correctSetup;
+    final result = simulation.correctSetup;
 
     setState(() {
       checked = true;
@@ -354,7 +314,7 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
           const SizedBox(height: 4),
 
           Text(
-            seriesMeter && meterConfiguredForCurrent && !meterFuseBlown
+            simulation.correctSetup
                 ? 'Ток через лампу: '
                       '${loadCurrent.toStringAsFixed(2)} A'
                 : 'Лампа',
@@ -695,39 +655,34 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
   }
 
   String buildErrorMessage() {
-    if (mode != MultimeterMode.current) {
-      return '✗ Неправильный режим.\n\n'
-          'Для этого задания необходимо '
-          'измерить силу тока, поэтому '
-          'выбери режим A.';
+    switch (simulation.errorReason) {
+      case CurrentMeasurementErrorReason.wrongMode:
+        return '✗ Неправильный режим.\n\n'
+            'Для этого задания необходимо '
+            'измерить силу тока, поэтому '
+            'выбери режим A.';
+      case CurrentMeasurementErrorReason.wrongPort:
+        return '✗ Красный провод находится '
+            'в VΩ.\n\n'
+            'В нашем учебном мультиметре '
+            'для этого измерения его нужно '
+            'переставить в токовое '
+            'гнездо A.';
+      case CurrentMeasurementErrorReason.disconnected:
+        return '✗ Мультиметр не включён '
+            'в электрическую цепь.';
+      case CurrentMeasurementErrorReason.parallelAcrossLoad:
+        return '✗ Амперметр нельзя '
+            'подключать параллельно '
+            'потребителю.\n\n'
+            'Чтобы измерить ток лампы, '
+            'разорви цепь и включи '
+            'мультиметр последовательно.';
+      case CurrentMeasurementErrorReason.incorrectSetup:
+        return '✗ Для измерения тока '
+            'мультиметр должен быть '
+            'правильно настроен и включён '
+            'последовательно с нагрузкой.';
     }
-
-    if (redPort != MultimeterPort.current) {
-      return '✗ Красный провод находится '
-          'в VΩ.\n\n'
-          'В нашем учебном мультиметре '
-          'для этого измерения его нужно '
-          'переставить в токовое '
-          'гнездо A.';
-    }
-
-    if (connection == CurrentConnection.disconnected) {
-      return '✗ Мультиметр не включён '
-          'в электрическую цепь.';
-    }
-
-    if (connection == CurrentConnection.acrossLamp) {
-      return '✗ Амперметр нельзя '
-          'подключать параллельно '
-          'потребителю.\n\n'
-          'Чтобы измерить ток лампы, '
-          'разорви цепь и включи '
-          'мультиметр последовательно.';
-    }
-
-    return '✗ Для измерения тока '
-        'мультиметр должен быть '
-        'правильно настроен и включён '
-        'последовательно с нагрузкой.';
   }
 }
