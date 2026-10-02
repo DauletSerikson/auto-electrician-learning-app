@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
-
-enum MeasurementMode { off, dcVoltage, resistance, continuity, current }
-
-enum MeasurementRedPort { voltageResistance, current }
+import '../../simulation/multimeter.dart';
 
 enum BatteryTerminal { none, positive, negative }
 
@@ -30,9 +27,9 @@ class MeasurementBlock extends StatefulWidget {
 class _MeasurementBlockState extends State<MeasurementBlock> {
   static const double continuityThreshold = 50.0;
 
-  MeasurementMode mode = MeasurementMode.off;
+  MultimeterMode mode = MultimeterMode.off;
 
-  MeasurementRedPort redPort = MeasurementRedPort.voltageResistance;
+  MultimeterPort redPort = MultimeterPort.voltageResistance;
 
   BatteryTerminal redTerminal = BatteryTerminal.none;
 
@@ -97,62 +94,62 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
 
   bool get correctVoltageSetup {
     return isBatteryVoltage &&
-        mode == MeasurementMode.dcVoltage &&
-        redPort == MeasurementRedPort.voltageResistance &&
+        mode == MultimeterMode.dcVoltage &&
+        redPort == MultimeterPort.voltageResistance &&
         redTerminal == BatteryTerminal.positive &&
         blackTerminal == BatteryTerminal.negative;
   }
 
   bool get reversedVoltageSetup {
     return isBatteryVoltage &&
-        mode == MeasurementMode.dcVoltage &&
-        redPort == MeasurementRedPort.voltageResistance &&
+        mode == MultimeterMode.dcVoltage &&
+        redPort == MultimeterPort.voltageResistance &&
         redTerminal == BatteryTerminal.negative &&
         blackTerminal == BatteryTerminal.positive;
   }
 
   bool get unsafeCurrentConnection {
     return isBatteryVoltage &&
-        mode == MeasurementMode.current &&
-        redPort == MeasurementRedPort.current &&
+        mode == MultimeterMode.current &&
+        redPort == MultimeterPort.current &&
         batteryProbesDifferent;
   }
 
   bool get unsafeOhmicMeasurement {
     return isWireMeasurement &&
         circuitPowered &&
-        (mode == MeasurementMode.resistance ||
-            mode == MeasurementMode.continuity) &&
+        (mode == MultimeterMode.resistance ||
+            mode == MultimeterMode.continuity) &&
         wireProbesConnected;
   }
 
   bool get correctResistanceSetup {
     return isWireResistance &&
         !circuitPowered &&
-        mode == MeasurementMode.resistance &&
-        redPort == MeasurementRedPort.voltageResistance &&
+        mode == MultimeterMode.resistance &&
+        redPort == MultimeterPort.voltageResistance &&
         wireProbesAcrossWire;
   }
 
   bool get correctContinuitySetup {
     return isWireContinuity &&
         !circuitPowered &&
-        mode == MeasurementMode.continuity &&
-        redPort == MeasurementRedPort.voltageResistance &&
+        mode == MultimeterMode.continuity &&
+        redPort == MultimeterPort.voltageResistance &&
         wireProbesAcrossWire;
   }
 
   bool get continuityBeep {
-    return mode == MeasurementMode.continuity &&
+    return mode == MultimeterMode.continuity &&
         !circuitPowered &&
-        redPort == MeasurementRedPort.voltageResistance &&
+        redPort == MultimeterPort.voltageResistance &&
         wireProbesAcrossWire &&
         !wireBroken &&
         goodResistance <= continuityThreshold;
   }
 
   String get displayValue {
-    if (mode == MeasurementMode.off) {
+    if (mode == MultimeterMode.off) {
       return '────';
     }
 
@@ -172,8 +169,8 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
   }
 
   String get batteryDisplayValue {
-    if (mode == MeasurementMode.dcVoltage &&
-        redPort == MeasurementRedPort.voltageResistance) {
+    if (mode == MultimeterMode.dcVoltage &&
+        redPort == MultimeterPort.voltageResistance) {
       if (correctVoltageSetup) {
         return batteryVoltage.toStringAsFixed(2);
       }
@@ -185,8 +182,8 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
       return '0.00';
     }
 
-    if (mode == MeasurementMode.resistance ||
-        mode == MeasurementMode.continuity) {
+    if (mode == MultimeterMode.resistance ||
+        mode == MultimeterMode.continuity) {
       return 'OL';
     }
 
@@ -194,12 +191,12 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
   }
 
   String get wireDisplayValue {
-    if (mode != MeasurementMode.resistance &&
-        mode != MeasurementMode.continuity) {
+    if (mode != MultimeterMode.resistance &&
+        mode != MultimeterMode.continuity) {
       return '0.00';
     }
 
-    if (redPort != MeasurementRedPort.voltageResistance) {
+    if (redPort != MultimeterPort.voltageResistance) {
       return '----';
     }
 
@@ -220,24 +217,27 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
 
   String get displayUnit {
     switch (mode) {
-      case MeasurementMode.off:
+      case MultimeterMode.acVoltage:
+        throw StateError('Unsupported mode for measurement_block: $mode');
+
+      case MultimeterMode.off:
         return 'OFF';
 
-      case MeasurementMode.dcVoltage:
+      case MultimeterMode.dcVoltage:
         return 'V DC';
 
-      case MeasurementMode.resistance:
+      case MultimeterMode.resistance:
         return 'Ω';
 
-      case MeasurementMode.continuity:
+      case MultimeterMode.continuity:
         return '🔊';
 
-      case MeasurementMode.current:
+      case MultimeterMode.current:
         return 'A';
     }
   }
 
-  void changeMode(MeasurementMode newMode) {
+  void changeMode(MultimeterMode newMode) {
     if (checked) {
       return;
     }
@@ -247,7 +247,7 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
     });
   }
 
-  void changeRedPort(MeasurementRedPort port) {
+  void changeRedPort(MultimeterPort port) {
     if (checked) {
       return;
     }
@@ -346,9 +346,9 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
 
   void retry() {
     setState(() {
-      mode = MeasurementMode.off;
+      mode = MultimeterMode.off;
 
-      redPort = MeasurementRedPort.voltageResistance;
+      redPort = MultimeterPort.voltageResistance;
 
       redTerminal = BatteryTerminal.none;
 
@@ -408,7 +408,7 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
 
             buildMeter(context),
 
-            if (mode == MeasurementMode.continuity) ...[
+            if (mode == MultimeterMode.continuity) ...[
               const SizedBox(height: 12),
               buildContinuityIndicator(context),
             ],
@@ -702,15 +702,15 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                buildModeChip(MeasurementMode.off, 'OFF'),
+                buildModeChip(MultimeterMode.off, 'OFF'),
 
-                buildModeChip(MeasurementMode.dcVoltage, 'V DC'),
+                buildModeChip(MultimeterMode.dcVoltage, 'V DC'),
 
-                buildModeChip(MeasurementMode.resistance, 'Ω'),
+                buildModeChip(MultimeterMode.resistance, 'Ω'),
 
-                buildModeChip(MeasurementMode.continuity, '🔊'),
+                buildModeChip(MultimeterMode.continuity, '🔊'),
 
-                buildModeChip(MeasurementMode.current, 'A'),
+                buildModeChip(MultimeterMode.current, 'A'),
               ],
             ),
 
@@ -724,14 +724,10 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
                 buildRedPort(
                   context,
                   label: 'VΩ',
-                  port: MeasurementRedPort.voltageResistance,
+                  port: MultimeterPort.voltageResistance,
                 ),
 
-                buildRedPort(
-                  context,
-                  label: 'A',
-                  port: MeasurementRedPort.current,
-                ),
+                buildRedPort(context, label: 'A', port: MultimeterPort.current),
               ],
             ),
           ],
@@ -740,7 +736,7 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
     );
   }
 
-  Widget buildModeChip(MeasurementMode value, String label) {
+  Widget buildModeChip(MultimeterMode value, String label) {
     return ChoiceChip(
       label: Text(label),
       selected: mode == value,
@@ -777,7 +773,7 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
   Widget buildRedPort(
     BuildContext context, {
     required String label,
-    required MeasurementRedPort port,
+    required MultimeterPort port,
   }) {
     final selected = redPort == port;
 
@@ -1139,13 +1135,13 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
     }
 
     if (isWireContinuity) {
-      if (mode != MeasurementMode.continuity) {
+      if (mode != MultimeterMode.continuity) {
         return '✗ Неправильный режим.\n\n'
             'Для этого задания выбери '
             'режим прозвонки 🔊.';
       }
 
-      if (redPort != MeasurementRedPort.voltageResistance) {
+      if (redPort != MultimeterPort.voltageResistance) {
         return '✗ Неправильное гнездо '
             'красного провода.\n\n'
             'Для прозвонки используй '
@@ -1171,13 +1167,13 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
     }
 
     if (isWireResistance) {
-      if (mode != MeasurementMode.resistance) {
+      if (mode != MultimeterMode.resistance) {
         return '✗ Неправильный режим.\n\n'
             'Для проверки сопротивления '
             'провода выбери Ω.';
       }
 
-      if (redPort != MeasurementRedPort.voltageResistance) {
+      if (redPort != MultimeterPort.voltageResistance) {
         return '✗ Неправильное гнездо '
             'красного провода.\n\n'
             'Для измерения сопротивления '
@@ -1203,14 +1199,14 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
     }
 
     if (isBatteryVoltage) {
-      if (mode != MeasurementMode.dcVoltage) {
+      if (mode != MultimeterMode.dcVoltage) {
         return '✗ Неправильный режим.\n\n'
             'Для измерения постоянного '
             'напряжения аккумулятора '
             'выбери V DC.';
       }
 
-      if (redPort != MeasurementRedPort.voltageResistance) {
+      if (redPort != MultimeterPort.voltageResistance) {
         return '✗ Неправильное гнездо '
             'красного провода.\n\n'
             'Для измерения напряжения '

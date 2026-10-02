@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
-
-enum CurrentMeterMode { off, dcVoltage, current }
-
-enum CurrentRedPort { voltageResistance, current }
+import '../../simulation/multimeter.dart';
 
 enum CurrentConnection { disconnected, series, acrossBattery, acrossLamp }
 
@@ -27,9 +24,9 @@ class CurrentMeasurementBlock extends StatefulWidget {
 }
 
 class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
-  CurrentMeterMode mode = CurrentMeterMode.off;
+  MultimeterMode mode = MultimeterMode.off;
 
-  CurrentRedPort redPort = CurrentRedPort.voltageResistance;
+  MultimeterPort redPort = MultimeterPort.voltageResistance;
 
   CurrentConnection connection = CurrentConnection.disconnected;
 
@@ -45,8 +42,7 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
   double get meterFuseRating => widget.block.meterFuseRating;
 
   bool get meterConfiguredForCurrent {
-    return mode == CurrentMeterMode.current &&
-        redPort == CurrentRedPort.current;
+    return mode == MultimeterMode.current && redPort == MultimeterPort.current;
   }
 
   bool get correctSetup {
@@ -66,7 +62,7 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
       return 'FUSE';
     }
 
-    if (mode == CurrentMeterMode.off) {
+    if (mode == MultimeterMode.off) {
       return '────';
     }
 
@@ -74,7 +70,7 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
       return '⚠';
     }
 
-    if (mode == CurrentMeterMode.dcVoltage) {
+    if (mode == MultimeterMode.dcVoltage) {
       if (connection == CurrentConnection.acrossBattery) {
         return sourceVoltage.toStringAsFixed(2);
       }
@@ -82,8 +78,8 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
       return '0.00';
     }
 
-    if (mode == CurrentMeterMode.current) {
-      if (redPort != CurrentRedPort.current) {
+    if (mode == MultimeterMode.current) {
+      if (redPort != MultimeterPort.current) {
         return '----';
       }
 
@@ -103,18 +99,25 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
 
   String get displayUnit {
     switch (mode) {
-      case CurrentMeterMode.off:
+      case MultimeterMode.acVoltage:
+      case MultimeterMode.resistance:
+      case MultimeterMode.continuity:
+        throw StateError(
+          'Unsupported mode for current_measurement_block: $mode',
+        );
+
+      case MultimeterMode.off:
         return 'OFF';
 
-      case CurrentMeterMode.dcVoltage:
+      case MultimeterMode.dcVoltage:
         return 'V DC';
 
-      case CurrentMeterMode.current:
+      case MultimeterMode.current:
         return 'A';
     }
   }
 
-  void changeMode(CurrentMeterMode newMode) {
+  void changeMode(MultimeterMode newMode) {
     if (checked || meterFuseBlown) {
       return;
     }
@@ -126,7 +129,7 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
     evaluateDanger();
   }
 
-  void changeRedPort(CurrentRedPort port) {
+  void changeRedPort(MultimeterPort port) {
     if (checked || meterFuseBlown) {
       return;
     }
@@ -169,8 +172,8 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
 
     setState(() {
       meterFuseBlown = false;
-      mode = CurrentMeterMode.off;
-      redPort = CurrentRedPort.voltageResistance;
+      mode = MultimeterMode.off;
+      redPort = MultimeterPort.voltageResistance;
       connection = CurrentConnection.disconnected;
     });
   }
@@ -192,9 +195,9 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
 
   void retry() {
     setState(() {
-      mode = CurrentMeterMode.off;
+      mode = MultimeterMode.off;
 
-      redPort = CurrentRedPort.voltageResistance;
+      redPort = MultimeterPort.voltageResistance;
 
       connection = CurrentConnection.disconnected;
 
@@ -420,11 +423,11 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                buildModeChip(CurrentMeterMode.off, 'OFF'),
+                buildModeChip(MultimeterMode.off, 'OFF'),
 
-                buildModeChip(CurrentMeterMode.dcVoltage, 'V DC'),
+                buildModeChip(MultimeterMode.dcVoltage, 'V DC'),
 
-                buildModeChip(CurrentMeterMode.current, 'A'),
+                buildModeChip(MultimeterMode.current, 'A'),
               ],
             ),
 
@@ -438,10 +441,10 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
                 buildRedPort(
                   context,
                   label: 'VΩ',
-                  port: CurrentRedPort.voltageResistance,
+                  port: MultimeterPort.voltageResistance,
                 ),
 
-                buildRedPort(context, label: 'A', port: CurrentRedPort.current),
+                buildRedPort(context, label: 'A', port: MultimeterPort.current),
               ],
             ),
           ],
@@ -450,7 +453,7 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
     );
   }
 
-  Widget buildModeChip(CurrentMeterMode value, String label) {
+  Widget buildModeChip(MultimeterMode value, String label) {
     return ChoiceChip(
       label: Text(label),
       selected: mode == value,
@@ -488,7 +491,7 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
   Widget buildRedPort(
     BuildContext context, {
     required String label,
-    required CurrentRedPort port,
+    required MultimeterPort port,
   }) {
     final selected = redPort == port;
 
@@ -692,14 +695,14 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
   }
 
   String buildErrorMessage() {
-    if (mode != CurrentMeterMode.current) {
+    if (mode != MultimeterMode.current) {
       return '✗ Неправильный режим.\n\n'
           'Для этого задания необходимо '
           'измерить силу тока, поэтому '
           'выбери режим A.';
     }
 
-    if (redPort != CurrentRedPort.current) {
+    if (redPort != MultimeterPort.current) {
       return '✗ Красный провод находится '
           'в VΩ.\n\n'
           'В нашем учебном мультиметре '

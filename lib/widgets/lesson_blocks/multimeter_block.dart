@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
-
-enum MultimeterMode { off, dcVoltage, acVoltage, resistance, current }
-
-enum RedProbePort { voltageResistance, current }
+import '../../simulation/multimeter.dart';
 
 class MultimeterBlock extends StatefulWidget {
   final MultimeterLessonBlock block;
@@ -18,7 +15,7 @@ class MultimeterBlock extends StatefulWidget {
 class _MultimeterBlockState extends State<MultimeterBlock> {
   MultimeterMode selectedMode = MultimeterMode.off;
 
-  RedProbePort redProbePort = RedProbePort.voltageResistance;
+  MultimeterPort redProbePort = MultimeterPort.voltageResistance;
 
   @override
   void initState() {
@@ -48,6 +45,11 @@ class _MultimeterBlockState extends State<MultimeterBlock> {
 
   String get displayText {
     switch (selectedMode) {
+      case MultimeterMode.continuity:
+        throw StateError(
+          'Unsupported mode for multimeter_block: $selectedMode',
+        );
+
       case MultimeterMode.off:
         return '';
 
@@ -67,6 +69,11 @@ class _MultimeterBlockState extends State<MultimeterBlock> {
 
   String get displayUnit {
     switch (selectedMode) {
+      case MultimeterMode.continuity:
+        throw StateError(
+          'Unsupported mode for multimeter_block: $selectedMode',
+        );
+
       case MultimeterMode.off:
         return 'OFF';
 
@@ -86,6 +93,11 @@ class _MultimeterBlockState extends State<MultimeterBlock> {
 
   String get modeTitle {
     switch (selectedMode) {
+      case MultimeterMode.continuity:
+        throw StateError(
+          'Unsupported mode for multimeter_block: $selectedMode',
+        );
+
       case MultimeterMode.off:
         return 'Мультиметр выключен';
 
@@ -105,6 +117,11 @@ class _MultimeterBlockState extends State<MultimeterBlock> {
 
   String get modeDescription {
     switch (selectedMode) {
+      case MultimeterMode.continuity:
+        throw StateError(
+          'Unsupported mode for multimeter_block: $selectedMode',
+        );
+
       case MultimeterMode.off:
         return 'В положении OFF прибор '
             'выключен.';
@@ -142,18 +159,8 @@ class _MultimeterBlockState extends State<MultimeterBlock> {
   }
 
   bool get redProbeCorrect {
-    switch (selectedMode) {
-      case MultimeterMode.off:
-        return true;
-
-      case MultimeterMode.dcVoltage:
-      case MultimeterMode.acVoltage:
-      case MultimeterMode.resistance:
-        return redProbePort == RedProbePort.voltageResistance;
-
-      case MultimeterMode.current:
-        return redProbePort == RedProbePort.current;
-    }
+    final requiredPort = requiredRedPort(selectedMode);
+    return requiredPort == null || redProbePort == requiredPort;
   }
 
   bool get showProbeStatus {
@@ -174,7 +181,7 @@ class _MultimeterBlockState extends State<MultimeterBlock> {
     });
   }
 
-  void selectRedProbePort(RedProbePort port) {
+  void selectRedProbePort(MultimeterPort port) {
     if (widget.block.interactive != true) {
       return;
     }
@@ -355,14 +362,14 @@ class _MultimeterBlockState extends State<MultimeterBlock> {
               context,
               label: 'VΩ',
               subtitle: 'напряжение\nсопротивление',
-              port: RedProbePort.voltageResistance,
+              port: MultimeterPort.voltageResistance,
             ),
 
             buildSelectablePort(
               context,
               label: 'A',
               subtitle: 'ток',
-              port: RedProbePort.current,
+              port: MultimeterPort.current,
             ),
           ],
         ),
@@ -417,7 +424,7 @@ class _MultimeterBlockState extends State<MultimeterBlock> {
     BuildContext context, {
     required String label,
     required String subtitle,
-    required RedProbePort port,
+    required MultimeterPort port,
   }) {
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -571,6 +578,11 @@ class _MultimeterBlockState extends State<MultimeterBlock> {
 
   String get correctProbeMessage {
     switch (selectedMode) {
+      case MultimeterMode.continuity:
+        throw StateError(
+          'Unsupported mode for multimeter_block: $selectedMode',
+        );
+
       case MultimeterMode.off:
         return '';
 
@@ -602,6 +614,11 @@ class _MultimeterBlockState extends State<MultimeterBlock> {
 
   String get incorrectProbeMessage {
     switch (selectedMode) {
+      case MultimeterMode.continuity:
+        throw StateError(
+          'Unsupported mode for multimeter_block: $selectedMode',
+        );
+
       case MultimeterMode.off:
         return '';
 
