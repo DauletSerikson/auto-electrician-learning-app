@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
-
-enum DiagnosticChoiceTest {
-  batteryVoltage,
-  fuseInputVoltage,
-  fuseOutputVoltage,
-  lampPositiveVoltage,
-  lampGroundVoltage,
-}
+import '../../simulation/diagnostic_choice_measurements.dart';
 
 class DiagnosticChoiceBlock extends StatefulWidget {
   final DiagnosticChoiceLessonBlock block;
@@ -34,10 +27,6 @@ class _DiagnosticChoiceBlockState extends State<DiagnosticChoiceBlock> {
 
   bool checked = false;
   bool completed = false;
-
-  double get sourceVoltage => widget.block.sourceVoltage;
-
-  String get faultType => widget.block.faultType;
 
   List<String> get diagnosisOptions => widget.block.diagnosisOptions;
 
@@ -78,34 +67,11 @@ class _DiagnosticChoiceBlockState extends State<DiagnosticChoiceBlock> {
   }
 
   String resultFor(DiagnosticChoiceTest test) {
-    switch (test) {
-      case DiagnosticChoiceTest.batteryVoltage:
-        return '${sourceVoltage.toStringAsFixed(2)} V';
-
-      case DiagnosticChoiceTest.fuseInputVoltage:
-        return '${sourceVoltage.toStringAsFixed(2)} V';
-
-      case DiagnosticChoiceTest.fuseOutputVoltage:
-        if (faultType == 'blownFuse') {
-          return '0.00 V';
-        }
-
-        return '${sourceVoltage.toStringAsFixed(2)} V';
-
-      case DiagnosticChoiceTest.lampPositiveVoltage:
-        if (faultType == 'blownFuse' || faultType == 'positiveWireOpen') {
-          return '0.00 V';
-        }
-
-        return '${sourceVoltage.toStringAsFixed(2)} V';
-
-      case DiagnosticChoiceTest.lampGroundVoltage:
-        if (faultType == 'groundOpen') {
-          return '${sourceVoltage.toStringAsFixed(2)} V';
-        }
-
-        return '0.00 V';
-    }
+    final measurements = DiagnosticChoiceMeasurements(
+      faultType: widget.block.faultType,
+      sourceVoltage: widget.block.sourceVoltage,
+    );
+    return '${measurements.voltageFor(test).toStringAsFixed(2)} V';
   }
 
   void performTest(DiagnosticChoiceTest test) {
