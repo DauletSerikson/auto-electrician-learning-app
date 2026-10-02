@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
 import '../../simulation/multimeter.dart';
+import '../../simulation/battery_voltage_simulation.dart';
+import '../../simulation/conductor_measurement_simulation.dart';
 
-enum BatteryTerminal { none, positive, negative }
-
-enum WirePoint { none, pointA, pointB }
+export '../../simulation/battery_voltage_simulation.dart' show BatteryTerminal;
+export '../../simulation/conductor_measurement_simulation.dart' show WirePoint;
 
 class MeasurementBlock extends StatefulWidget {
   final MeasurementLessonBlock block;
@@ -25,8 +26,6 @@ class MeasurementBlock extends StatefulWidget {
 }
 
 class _MeasurementBlockState extends State<MeasurementBlock> {
-  static const double continuityThreshold = 50.0;
-
   MultimeterMode mode = MultimeterMode.off;
 
   MultimeterPort redPort = MultimeterPort.voltageResistance;
@@ -45,26 +44,44 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
   bool checked = false;
   bool completed = false;
 
-  bool get isBatteryVoltage {
-    return widget.block.measurementType == 'batteryVoltage';
-  }
+  bool get isBatteryVoltage =>
+      widget.block is BatteryVoltageMeasurementLessonBlock;
+  bool get isWireResistance =>
+      widget.block is WireResistanceMeasurementLessonBlock ||
+      widget.block is ResistanceMeasurementLessonBlock;
+  bool get isWireContinuity =>
+      widget.block is WireContinuityMeasurementLessonBlock;
+  bool get isWireMeasurement => widget.block is ConductorMeasurementLessonBlock;
+  double get batteryVoltage =>
+      (widget.block as BatteryVoltageMeasurementLessonBlock).sourceVoltage;
+  double get goodResistance =>
+      (widget.block as ConductorMeasurementLessonBlock).goodResistance;
 
-  bool get isWireResistance {
-    return widget.block.measurementType == 'wireResistance' ||
-        widget.block is ResistanceMeasurementLessonBlock;
-  }
-
-  bool get isWireContinuity {
-    return widget.block.measurementType == 'wireContinuity';
-  }
-
-  bool get isWireMeasurement {
-    return isWireResistance || isWireContinuity;
-  }
-
-  double get batteryVoltage => widget.block.sourceVoltage ?? 12.6;
-
-  double get goodResistance => widget.block.goodResistance ?? 0.3;
+  BatteryVoltageSimulation get batterySimulation => BatteryVoltageSimulation(
+    mode: mode,
+    redPort: redPort,
+    redTerminal: redTerminal,
+    blackTerminal: blackTerminal,
+    sourceVoltage: batteryVoltage,
+  );
+  ConductorMeasurementSimulation get conductorSimulation =>
+      ConductorMeasurementSimulation(
+        mode: mode,
+        redPort: redPort,
+        redWirePoint: redWirePoint,
+        blackWirePoint: blackWirePoint,
+        powered: circuitPowered,
+        broken: wireBroken,
+        resistance: goodResistance,
+        kind: switch (widget.block) {
+          WireResistanceMeasurementLessonBlock() ||
+          ResistanceMeasurementLessonBlock() =>
+            ConductorMeasurementKind.resistance,
+          WireContinuityMeasurementLessonBlock() =>
+            ConductorMeasurementKind.continuity,
+          _ => throw StateError('Not a conductor measurement exercise'),
+        },
+      );
 
   @override
   void initState() {
@@ -75,144 +92,38 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
     circuitPowered = widget.block.initiallyPowered ?? false;
   }
 
-  bool get batteryProbesConnected {
-    return redTerminal != BatteryTerminal.none &&
-        blackTerminal != BatteryTerminal.none;
-  }
-
-  bool get batteryProbesDifferent {
-    return batteryProbesConnected && redTerminal != blackTerminal;
-  }
-
-  bool get wireProbesConnected {
-    return redWirePoint != WirePoint.none && blackWirePoint != WirePoint.none;
-  }
-
-  bool get wireProbesAcrossWire {
-    return wireProbesConnected && redWirePoint != blackWirePoint;
-  }
-
-  bool get correctVoltageSetup {
-    return isBatteryVoltage &&
-        mode == MultimeterMode.dcVoltage &&
-        redPort == MultimeterPort.voltageResistance &&
-        redTerminal == BatteryTerminal.positive &&
-        blackTerminal == BatteryTerminal.negative;
-  }
-
-  bool get reversedVoltageSetup {
-    return isBatteryVoltage &&
-        mode == MultimeterMode.dcVoltage &&
-        redPort == MultimeterPort.voltageResistance &&
-        redTerminal == BatteryTerminal.negative &&
-        blackTerminal == BatteryTerminal.positive;
-  }
-
-  bool get unsafeCurrentConnection {
-    return isBatteryVoltage &&
-        mode == MultimeterMode.current &&
-        redPort == MultimeterPort.current &&
-        batteryProbesDifferent;
-  }
-
-  bool get unsafeOhmicMeasurement {
-    return isWireMeasurement &&
-        circuitPowered &&
-        (mode == MultimeterMode.resistance ||
-            mode == MultimeterMode.continuity) &&
-        wireProbesConnected;
-  }
-
-  bool get correctResistanceSetup {
-    return isWireResistance &&
-        !circuitPowered &&
-        mode == MultimeterMode.resistance &&
-        redPort == MultimeterPort.voltageResistance &&
-        wireProbesAcrossWire;
-  }
-
-  bool get correctContinuitySetup {
-    return isWireContinuity &&
-        !circuitPowered &&
-        mode == MultimeterMode.continuity &&
-        redPort == MultimeterPort.voltageResistance &&
-        wireProbesAcrossWire;
-  }
-
-  bool get continuityBeep {
-    return mode == MultimeterMode.continuity &&
-        !circuitPowered &&
-        redPort == MultimeterPort.voltageResistance &&
-        wireProbesAcrossWire &&
-        !wireBroken &&
-        goodResistance <= continuityThreshold;
-  }
+  bool get wireProbesAcrossWire =>
+      isWireMeasurement && conductorSimulation.probesAcrossWire;
+  bool get unsafeCurrentConnection =>
+      isBatteryVoltage && batterySimulation.unsafeCurrentConnection;
+  bool get unsafeOhmicMeasurement =>
+      isWireMeasurement && conductorSimulation.unsafeOhmicMeasurement;
+  bool get continuityBeep =>
+      isWireMeasurement && conductorSimulation.continuityBeep;
 
   String get displayValue {
-    if (mode == MultimeterMode.off) {
-      return '────';
-    }
-
-    if (unsafeCurrentConnection || unsafeOhmicMeasurement) {
-      return '⚠';
-    }
-
     if (isBatteryVoltage) {
-      return batteryDisplayValue;
+      return switch (batterySimulation.readout) {
+        BatteryOffReadout() => '────',
+        BatteryWarningReadout() => '⚠',
+        BatteryOpenLoopReadout() => 'OL',
+        BatteryNumericReadout(:final value) => value.toStringAsFixed(2),
+      };
     }
-
     if (isWireMeasurement) {
-      return wireDisplayValue;
+      return switch (conductorSimulation.readout) {
+        ConductorOffReadout() => '────',
+        ConductorWarningReadout() => '⚠',
+        ConductorUnavailableReadout() => '----',
+        ConductorOpenLoopReadout() => 'OL',
+        ConductorNumericReadout(:final value) => value.toStringAsFixed(
+          mode == MultimeterMode.resistance || mode == MultimeterMode.continuity
+              ? 1
+              : 2,
+        ),
+      };
     }
-
     return '----';
-  }
-
-  String get batteryDisplayValue {
-    if (mode == MultimeterMode.dcVoltage &&
-        redPort == MultimeterPort.voltageResistance) {
-      if (correctVoltageSetup) {
-        return batteryVoltage.toStringAsFixed(2);
-      }
-
-      if (reversedVoltageSetup) {
-        return (-batteryVoltage).toStringAsFixed(2);
-      }
-
-      return '0.00';
-    }
-
-    if (mode == MultimeterMode.resistance ||
-        mode == MultimeterMode.continuity) {
-      return 'OL';
-    }
-
-    return '0.00';
-  }
-
-  String get wireDisplayValue {
-    if (mode != MultimeterMode.resistance &&
-        mode != MultimeterMode.continuity) {
-      return '0.00';
-    }
-
-    if (redPort != MultimeterPort.voltageResistance) {
-      return '----';
-    }
-
-    if (!wireProbesAcrossWire) {
-      return 'OL';
-    }
-
-    if (circuitPowered) {
-      return '⚠';
-    }
-
-    if (wireBroken) {
-      return 'OL';
-    }
-
-    return goodResistance.toStringAsFixed(1);
   }
 
   String get displayUnit {
@@ -322,19 +233,9 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
       return;
     }
 
-    bool result = false;
-
-    if (isBatteryVoltage) {
-      result = correctVoltageSetup;
-    }
-
-    if (isWireResistance) {
-      result = correctResistanceSetup;
-    }
-
-    if (isWireContinuity) {
-      result = correctContinuitySetup;
-    }
+    final result = isBatteryVoltage
+        ? batterySimulation.success
+        : conductorSimulation.success;
 
     setState(() {
       checked = true;
@@ -1085,7 +986,7 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
           'концам провода. Сопротивление '
           '${goodResistance.toStringAsFixed(1)} Ω '
           'ниже учебного порога '
-          '${continuityThreshold.toStringAsFixed(0)} Ω, '
+          '${ConductorMeasurementSimulation.continuityThreshold.toStringAsFixed(0)} Ω, '
           'поэтому симулятор подаёт '
           'звуковой сигнал.';
     }
@@ -1119,124 +1020,110 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
   }
 
   String buildErrorExplanation() {
-    if (unsafeOhmicMeasurement) {
-      return '✗ Нельзя выполнять '
-          'измерение сопротивления '
-          'или прозвонку на запитанной '
-          'исследуемой цепи.\n\n'
-          'Сначала отключи питание.';
-    }
-
-    if (unsafeCurrentConnection) {
-      return '✗ Выбран режим измерения '
-          'тока и прибор подключён '
-          'поперёк аккумулятора. '
-          'Это опасная ошибка.';
-    }
-
-    if (isWireContinuity) {
-      if (mode != MultimeterMode.continuity) {
-        return '✗ Неправильный режим.\n\n'
-            'Для этого задания выбери '
-            'режим прозвонки 🔊.';
-      }
-
-      if (redPort != MultimeterPort.voltageResistance) {
-        return '✗ Неправильное гнездо '
-            'красного провода.\n\n'
-            'Для прозвонки используй '
-            'вход VΩ.';
-      }
-
-      if (circuitPowered) {
-        return '✗ Перед прозвонкой '
-            'исследуемую цепь необходимо '
-            'обесточить.';
-      }
-
-      if (!wireProbesConnected) {
-        return '✗ Подключи оба щупа '
-            'к исследуемому участку.';
-      }
-
-      if (!wireProbesAcrossWire) {
-        return '✗ Один щуп должен '
-            'находиться на A, '
-            'а второй — на B.';
-      }
-    }
-
-    if (isWireResistance) {
-      if (mode != MultimeterMode.resistance) {
-        return '✗ Неправильный режим.\n\n'
-            'Для проверки сопротивления '
-            'провода выбери Ω.';
-      }
-
-      if (redPort != MultimeterPort.voltageResistance) {
-        return '✗ Неправильное гнездо '
-            'красного провода.\n\n'
-            'Для измерения сопротивления '
-            'используй вход VΩ.';
-      }
-
-      if (circuitPowered) {
-        return '✗ Сначала необходимо '
-            'обесточить исследуемую цепь.';
-      }
-
-      if (!wireProbesConnected) {
-        return '✗ Подключи оба щупа '
-            'к исследуемому проводу.';
-      }
-
-      if (!wireProbesAcrossWire) {
-        return '✗ Щупы должны находиться '
-            'на разных концах '
-            'исследуемого участка: '
-            'один на A, другой на B.';
-      }
-    }
-
     if (isBatteryVoltage) {
-      if (mode != MultimeterMode.dcVoltage) {
-        return '✗ Неправильный режим.\n\n'
-            'Для измерения постоянного '
-            'напряжения аккумулятора '
-            'выбери V DC.';
-      }
-
-      if (redPort != MultimeterPort.voltageResistance) {
-        return '✗ Неправильное гнездо '
-            'красного провода.\n\n'
-            'Для измерения напряжения '
-            'красный провод должен '
-            'находиться в VΩ.';
-      }
-
-      if (!batteryProbesConnected) {
-        return '✗ Щупы подключены '
-            'не полностью.';
-      }
-
-      if (reversedVoltageSetup) {
-        return '✗ Полярность щупов '
-            'обратная.\n\n'
-            'Для задания подключи '
-            'красный щуп к +, '
-            'а чёрный к −.';
-      }
-
-      if (redTerminal == blackTerminal) {
-        return '✗ Оба щупа находятся '
-            'на одном выводе. '
-            'Напряжение измеряется '
-            'между двумя точками.';
-      }
+      return buildBatteryErrorExplanation(batterySimulation.errorReason);
     }
-
+    if (isWireMeasurement) {
+      return buildConductorErrorExplanation(conductorSimulation.errorReason);
+    }
     return '✗ Конфигурация измерения '
         'неверна. Проверь режим, '
         'гнёзда и положение щупов.';
+  }
+
+  String buildBatteryErrorExplanation(BatteryVoltageErrorReason reason) {
+    return switch (reason) {
+      BatteryVoltageErrorReason.unsafeCurrentConnection =>
+        '✗ Выбран режим измерения '
+            'тока и прибор подключён '
+            'поперёк аккумулятора. '
+            'Это опасная ошибка.',
+      BatteryVoltageErrorReason.wrongMode =>
+        '✗ Неправильный режим.\n\n'
+            'Для измерения постоянного '
+            'напряжения аккумулятора '
+            'выбери V DC.',
+      BatteryVoltageErrorReason.wrongPort =>
+        '✗ Неправильное гнездо '
+            'красного провода.\n\n'
+            'Для измерения напряжения '
+            'красный провод должен '
+            'находиться в VΩ.',
+      BatteryVoltageErrorReason.missingProbes =>
+        '✗ Щупы подключены '
+            'не полностью.',
+      BatteryVoltageErrorReason.reversedPolarity =>
+        '✗ Полярность щупов '
+            'обратная.\n\n'
+            'Для задания подключи '
+            'красный щуп к +, '
+            'а чёрный к −.',
+      BatteryVoltageErrorReason.sameTerminal =>
+        '✗ Оба щупа находятся '
+            'на одном выводе. '
+            'Напряжение измеряется '
+            'между двумя точками.',
+      BatteryVoltageErrorReason.incorrectSetup =>
+        '✗ Конфигурация измерения '
+            'неверна. Проверь режим, '
+            'гнёзда и положение щупов.',
+    };
+  }
+
+  String buildConductorErrorExplanation(
+    ConductorMeasurementErrorReason reason,
+  ) {
+    return switch (reason) {
+      ConductorMeasurementErrorReason.unsafeOhmicMeasurement =>
+        '✗ Нельзя выполнять '
+            'измерение сопротивления '
+            'или прозвонку на запитанной '
+            'исследуемой цепи.\n\n'
+            'Сначала отключи питание.',
+      ConductorMeasurementErrorReason.wrongMode =>
+        isWireContinuity
+            ? '✗ Неправильный режим.\n\n'
+                  'Для этого задания выбери '
+                  'режим прозвонки 🔊.'
+            : '✗ Неправильный режим.\n\n'
+                  'Для проверки сопротивления '
+                  'провода выбери Ω.',
+      ConductorMeasurementErrorReason.wrongPort =>
+        isWireContinuity
+            ? '✗ Неправильное гнездо '
+                  'красного провода.\n\n'
+                  'Для прозвонки используй '
+                  'вход VΩ.'
+            : '✗ Неправильное гнездо '
+                  'красного провода.\n\n'
+                  'Для измерения сопротивления '
+                  'используй вход VΩ.',
+      ConductorMeasurementErrorReason.powered =>
+        isWireContinuity
+            ? '✗ Перед прозвонкой '
+                  'исследуемую цепь необходимо '
+                  'обесточить.'
+            : '✗ Сначала необходимо '
+                  'обесточить исследуемую цепь.',
+      ConductorMeasurementErrorReason.missingProbes =>
+        isWireContinuity
+            ? '✗ Подключи оба щупа '
+                  'к исследуемому участку.'
+            : '✗ Подключи оба щупа '
+                  'к исследуемому проводу.',
+      ConductorMeasurementErrorReason.samePoint =>
+        isWireContinuity
+            ? '✗ Один щуп должен '
+                  'находиться на A, '
+                  'а второй — на B.'
+            : '✗ Щупы должны находиться '
+                  'на разных концах '
+                  'исследуемого участка: '
+                  'один на A, другой на B.',
+      ConductorMeasurementErrorReason.incorrectSetup =>
+        '✗ Конфигурация измерения '
+            'неверна. Проверь режим, '
+            'гнёзда и положение щупов.',
+    };
   }
 }
