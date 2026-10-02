@@ -283,7 +283,7 @@ void main() {
   );
 
   testWidgets(
-    'known bug: forbidden continuity counts toward successful completion',
+    'forbidden continuity fails completion and preserves history until retry',
     (tester) async {
       final e = _Exercise(tester);
       await e.pump(realBlock);
@@ -294,11 +294,89 @@ void main() {
       await e.toggle();
       expect(e.readings.last, _forbidden);
       await e.tap(e.check);
-      e.expectResult(true);
-      expect(e.answers, [true]);
+      e.expectResult(false);
+      expect(
+        find.text(
+          'Ты сузил область поиска. Теперь на обесточенной цепи проверь целостность участка между предохранителем и лампой.',
+        ),
+        findsOneWidget,
+      );
+      expect(e.historyLabels, _required.map((i) => _labels[i]).toList());
+      expect(e.readings, ['12.60 V', '12.60 V', '0.00 V', _forbidden]);
+      await e.tap(e.check);
+      await e.measure(5);
+      expect(e.readings.last, _forbidden);
+      expect(e.answers, [false]);
       expect(e.retries, 0);
+      await e.tap(e.retry);
+      e.expectInitial();
+      expect(e.retries, 1);
+      await e.toggle();
+      await e.measureAll(_required);
+      expect(e.readings.last, 'OL');
+      await e.tap(e.check);
+      e.expectResult(true);
+      await e.tap(e.check);
+      expect(e.answers, [false, true]);
+      expect(e.retries, 1);
     },
   );
+
+  testWidgets('forbidden continuity replaced by open loop permits completion', (
+    tester,
+  ) async {
+    final e = _Exercise(tester);
+    await e.pump(realBlock);
+    await e.measure(5);
+    expect(e.readings, [_forbidden]);
+    await e.toggle();
+    expect(e.readings, [_forbidden]);
+    await e.measure(5);
+    expect(e.historyLabels, [_labels[5]]);
+    expect(e.readings, ['OL']);
+    expect(find.text('OL'), findsNWidgets(2));
+    await e.measureAll([0, 2, 3]);
+    expect(e.historyLabels, [5, 0, 2, 3].map((i) => _labels[i]).toList());
+    await e.tap(e.check);
+    e.expectResult(true);
+    await e.tap(e.check);
+    expect(e.answers, [true]);
+  });
+
+  testWidgets('powered voltage tests then unpowered continuity succeed', (
+    tester,
+  ) async {
+    final e = _Exercise(tester);
+    await e.pump(realBlock);
+    await e.measureAll([0, 2, 3]);
+    await e.toggle();
+    await e.measure(5);
+    expect(e.readings, ['12.60 V', '12.60 V', '0.00 V', 'OL']);
+    await e.tap(e.check);
+    e.expectResult(true);
+    await e.tap(e.check);
+    expect(e.answers, [true]);
+  });
+
+  testWidgets('valid continuity replaced by forbidden no longer completes', (
+    tester,
+  ) async {
+    final e = _Exercise(tester);
+    await e.pump(realBlock);
+    await e.toggle();
+    await e.measureAll(_required);
+    expect(e.readings.last, 'OL');
+    await e.toggle();
+    await e.measure(5);
+    await e.toggle();
+    expect(e.historyLabels, _required.map((i) => _labels[i]).toList());
+    expect(e.readings.last, _forbidden);
+    await e.tap(e.check);
+    e.expectResult(false);
+    expect(e.readings.last, _forbidden);
+    await e.tap(e.check);
+    expect(e.answers, [false]);
+  });
 
   for (final order in [
     _required,

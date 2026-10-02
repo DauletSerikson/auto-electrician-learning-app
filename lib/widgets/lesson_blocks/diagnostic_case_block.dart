@@ -39,11 +39,18 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
     return hasPerformed(DiagnosticTest.batteryVoltage) &&
         hasPerformed(DiagnosticTest.fuseOutputVoltage) &&
         hasPerformed(DiagnosticTest.lampPositiveVoltage) &&
-        hasPerformed(DiagnosticTest.wireContinuity);
+        hasValidContinuityMeasurement;
   }
 
   bool hasPerformed(DiagnosticTest test) =>
       performedMeasurements.any((record) => record.test == test);
+
+  bool get hasValidContinuityMeasurement => performedMeasurements.any(
+    (record) =>
+        record.test == DiagnosticTest.wireContinuity &&
+        (record.result is DiagnosticCaseOpenLoop ||
+            record.result is DiagnosticCaseContinuity),
+  );
 
   String formatResult(DiagnosticCaseMeasurementResult result) {
     return switch (result) {
@@ -547,7 +554,7 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
           'до плюсового вывода лампы.';
     }
 
-    if (!hasPerformed(DiagnosticTest.wireContinuity)) {
+    if (!hasValidContinuityMeasurement) {
       return 'Ты сузил область поиска. '
           'Теперь на обесточенной цепи '
           'проверь целостность участка '
