@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
-
-enum DiagnosticTest {
-  batteryVoltage,
-  fuseInputVoltage,
-  fuseOutputVoltage,
-  lampPositiveVoltage,
-  lampGroundVoltage,
-  wireContinuity,
-}
+import '../../simulation/diagnostic_case_measurements.dart';
 
 class DiagnosticCaseBlock extends StatefulWidget {
   final DiagnosticCaseLessonBlock block;
@@ -51,45 +43,18 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
   }
 
   String resultFor(DiagnosticTest test) {
-    switch (test) {
-      case DiagnosticTest.batteryVoltage:
-        if (!powered) {
-          return '12.60 V';
-        }
-
-        return '${sourceVoltage.toStringAsFixed(2)} V';
-
-      case DiagnosticTest.fuseInputVoltage:
-        return powered ? '${sourceVoltage.toStringAsFixed(2)} V' : '0.00 V';
-
-      case DiagnosticTest.fuseOutputVoltage:
-        return powered ? '${sourceVoltage.toStringAsFixed(2)} V' : '0.00 V';
-
-      case DiagnosticTest.lampPositiveVoltage:
-        if (!powered) {
-          return '0.00 V';
-        }
-
-        if (hasPositiveWireOpen) {
-          return '0.00 V';
-        }
-
-        return '${sourceVoltage.toStringAsFixed(2)} V';
-
-      case DiagnosticTest.lampGroundVoltage:
-        return '0.00 V';
-
-      case DiagnosticTest.wireContinuity:
-        if (powered) {
-          return 'НЕЛЬЗЯ: цепь запитана';
-        }
-
-        if (hasPositiveWireOpen) {
-          return 'OL';
-        }
-
-        return '0.3 Ω / БИП';
-    }
+    final measurements = DiagnosticCaseMeasurements(
+      faultType: widget.block.faultType,
+      sourceVoltage: sourceVoltage,
+      powered: powered,
+    );
+    return switch (measurements.resultFor(test)) {
+      DiagnosticCaseVoltage(:final value) => '${value.toStringAsFixed(2)} V',
+      DiagnosticCaseContinuity(:final resistance, :final beep) =>
+        '${resistance.toStringAsFixed(1)} Ω${beep ? ' / БИП' : ''}',
+      DiagnosticCaseOpenLoop() => 'OL',
+      DiagnosticCaseForbidden() => 'НЕЛЬЗЯ: цепь запитана',
+    };
   }
 
   String descriptionFor(DiagnosticTest test) {
