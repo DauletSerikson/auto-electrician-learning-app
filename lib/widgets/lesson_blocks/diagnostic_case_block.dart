@@ -21,13 +21,13 @@ class DiagnosticCaseBlock extends StatefulWidget {
 }
 
 class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
-  final List<DiagnosticTest> performedTests = [];
+  final List<DiagnosticMeasurementRecord> performedMeasurements = [];
 
   bool powered = true;
   bool checked = false;
   bool completed = false;
 
-  DiagnosticTest? selectedTest;
+  DiagnosticMeasurementRecord? selectedMeasurement;
 
   double get sourceVoltage => widget.block.sourceVoltage;
 
@@ -36,19 +36,17 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
   }
 
   bool get requiredTestsPerformed {
-    return performedTests.contains(DiagnosticTest.batteryVoltage) &&
-        performedTests.contains(DiagnosticTest.fuseOutputVoltage) &&
-        performedTests.contains(DiagnosticTest.lampPositiveVoltage) &&
-        performedTests.contains(DiagnosticTest.wireContinuity);
+    return hasPerformed(DiagnosticTest.batteryVoltage) &&
+        hasPerformed(DiagnosticTest.fuseOutputVoltage) &&
+        hasPerformed(DiagnosticTest.lampPositiveVoltage) &&
+        hasPerformed(DiagnosticTest.wireContinuity);
   }
 
-  String resultFor(DiagnosticTest test) {
-    final measurements = DiagnosticCaseMeasurements(
-      faultType: widget.block.faultType,
-      sourceVoltage: sourceVoltage,
-      powered: powered,
-    );
-    return switch (measurements.resultFor(test)) {
+  bool hasPerformed(DiagnosticTest test) =>
+      performedMeasurements.any((record) => record.test == test);
+
+  String formatResult(DiagnosticCaseMeasurementResult result) {
+    return switch (result) {
       DiagnosticCaseVoltage(:final value) => '${value.toStringAsFixed(2)} V',
       DiagnosticCaseContinuity(:final resistance, :final beep) =>
         '${resistance.toStringAsFixed(1)} Ω${beep ? ' / БИП' : ''}',
@@ -137,11 +135,24 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
       return;
     }
 
+    final measurements = DiagnosticCaseMeasurements(
+      faultType: widget.block.faultType,
+      sourceVoltage: sourceVoltage,
+      powered: powered,
+    );
+    final record = DiagnosticMeasurementRecord(
+      test: test,
+      result: measurements.resultFor(test),
+    );
     setState(() {
-      selectedTest = test;
-
-      if (!performedTests.contains(test)) {
-        performedTests.add(test);
+      selectedMeasurement = record;
+      final index = performedMeasurements.indexWhere(
+        (previous) => previous.test == test,
+      );
+      if (index == -1) {
+        performedMeasurements.add(record);
+      } else {
+        performedMeasurements[index] = record;
       }
     });
   }
@@ -153,7 +164,7 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
 
     setState(() {
       powered = !powered;
-      selectedTest = null;
+      selectedMeasurement = null;
     });
   }
 
@@ -174,8 +185,8 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
 
   void retry() {
     setState(() {
-      performedTests.clear();
-      selectedTest = null;
+      performedMeasurements.clear();
+      selectedMeasurement = null;
 
       powered = true;
       checked = false;
@@ -222,9 +233,9 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
 
             buildTestPanel(context),
 
-            if (selectedTest != null) ...[
+            if (selectedMeasurement != null) ...[
               const SizedBox(height: 16),
-              buildMeasurementResult(context, selectedTest!),
+              buildMeasurementResult(context, selectedMeasurement!),
             ],
 
             const SizedBox(height: 20),
@@ -362,10 +373,14 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
     );
   }
 
-  Widget buildMeasurementResult(BuildContext context, DiagnosticTest test) {
+  Widget buildMeasurementResult(
+    BuildContext context,
+    DiagnosticMeasurementRecord record,
+  ) {
+    final test = record.test;
     final colorScheme = Theme.of(context).colorScheme;
 
-    final unsafe = test == DiagnosticTest.wireContinuity && powered;
+    final unsafe = record.result is DiagnosticCaseForbidden;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -390,7 +405,7 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
           const SizedBox(height: 12),
 
           Text(
-            resultFor(test),
+            formatResult(record.result),
             style: Theme.of(context).textTheme.headlineSmall
                 ?.copyWith(fontWeight: FontWeight.bold),
           ),
@@ -411,7 +426,7 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
   }
 
   Widget buildHistory(BuildContext context) {
-    if (performedTests.isEmpty) {
+    if (performedMeasurements.isEmpty) {
       return Text(
         'Измерений пока нет.',
         style: Theme.of(context).textTheme.bodySmall,
@@ -429,14 +444,14 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
 
         const SizedBox(height: 8),
 
-        ...performedTests.map(
-          (test) => ListTile(
+        ...performedMeasurements.map(
+          (record) => ListTile(
             contentPadding: EdgeInsets.zero,
             dense: true,
-            leading: Icon(iconFor(test)),
-            title: Text(labelFor(test)),
+            leading: Icon(iconFor(record.test)),
+            title: Text(labelFor(record.test)),
             trailing: Text(
-              resultFor(test),
+              formatResult(record.result),
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
@@ -515,24 +530,24 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
           'его целостности.';
     }
 
-    if (!performedTests.contains(DiagnosticTest.batteryVoltage)) {
+    if (!hasPerformed(DiagnosticTest.batteryVoltage)) {
       return 'Ты ещё не проверил источник '
           'питания. Начни с понимания, '
           'исправен ли сам аккумулятор.';
     }
 
-    if (!performedTests.contains(DiagnosticTest.fuseOutputVoltage)) {
+    if (!hasPerformed(DiagnosticTest.fuseOutputVoltage)) {
       return 'Нужно определить, выходит ли '
           'питание из предохранителя.';
     }
 
-    if (!performedTests.contains(DiagnosticTest.lampPositiveVoltage)) {
+    if (!hasPerformed(DiagnosticTest.lampPositiveVoltage)) {
       return 'Нужно проверить, доходит ли '
           'питание непосредственно '
           'до плюсового вывода лампы.';
     }
 
-    if (!performedTests.contains(DiagnosticTest.wireContinuity)) {
+    if (!hasPerformed(DiagnosticTest.wireContinuity)) {
       return 'Ты сузил область поиска. '
           'Теперь на обесточенной цепи '
           'проверь целостность участка '

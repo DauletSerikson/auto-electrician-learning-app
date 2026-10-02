@@ -11,6 +11,14 @@ sealed class DiagnosticCaseMeasurementResult {
   const DiagnosticCaseMeasurementResult();
 }
 
+/// A reading captured when a diagnostic test is performed.
+final class DiagnosticMeasurementRecord {
+  final DiagnosticTest test;
+  final DiagnosticCaseMeasurementResult result;
+
+  const DiagnosticMeasurementRecord({required this.test, required this.result});
+}
+
 final class DiagnosticCaseVoltage extends DiagnosticCaseMeasurementResult {
   final double value;
   const DiagnosticCaseVoltage(this.value);

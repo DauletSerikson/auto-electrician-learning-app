@@ -230,7 +230,7 @@ void main() {
 
   for (final initiallyPowered in [true, false]) {
     testWidgets(
-      'known bug: continuity history changes when power ${initiallyPowered ? 'turns off' : 'turns on'} without remeasurement',
+      'continuity snapshot survives when power ${initiallyPowered ? 'turns off' : 'turns on'} and updates only after remeasurement',
       (tester) async {
         final e = _Exercise(tester);
         await e.pump(realBlock);
@@ -241,8 +241,16 @@ void main() {
         expect(e.readings, [initiallyPowered ? _forbidden : 'OL']);
         await e.toggle();
         expect(e.historyLabels, [_labels[5]]);
-        expect(e.readings, [initiallyPowered ? 'OL' : _forbidden]);
+        expect(e.readings, [initiallyPowered ? _forbidden : 'OL']);
         e.expectCurrent(null);
+        await e.measure(5);
+        expect(e.readings, [initiallyPowered ? 'OL' : _forbidden]);
+        expect(e.historyLabels, [_labels[5]]);
+        expect(
+          find.text(initiallyPowered ? 'OL' : _forbidden),
+          findsNWidgets(2),
+        );
+        e.expectCurrent(5);
         expect(e.answers, isEmpty);
         expect(e.retries, 0);
       },
@@ -250,16 +258,24 @@ void main() {
   }
 
   testWidgets(
-    'known bug: battery and fuse history recompute on power toggles',
+    'battery and fuse snapshots survive toggles and update in place',
     (tester) async {
       final e = _Exercise(tester);
       await e.pump(_fallback);
       await e.measureAll([0, 1]);
       expect(e.readings, ['13.25 V', '13.25 V']);
       await e.toggle();
-      expect(e.readings, ['12.60 V', '0.00 V']);
-      await e.toggle();
       expect(e.readings, ['13.25 V', '13.25 V']);
+      await e.measure(0);
+      expect(e.readings, ['12.60 V', '13.25 V']);
+      expect(find.text('12.60 V'), findsNWidgets(2));
+      e.expectCurrent(0);
+      await e.measure(1);
+      expect(e.readings, ['12.60 V', '0.00 V']);
+      expect(find.text('0.00 V'), findsNWidgets(2));
+      e.expectCurrent(1);
+      await e.toggle();
+      expect(e.readings, ['12.60 V', '0.00 V']);
       expect(e.historyLabels, [_labels[0], _labels[1]]);
       e.expectCurrent(null);
       expect(e.answers, isEmpty);
@@ -276,7 +292,7 @@ void main() {
       expect(find.textContaining('⚠ Прозвонку выполняют'), findsOneWidget);
       expect(e.answers, isEmpty);
       await e.toggle();
-      expect(e.readings.last, 'OL');
+      expect(e.readings.last, _forbidden);
       await e.tap(e.check);
       e.expectResult(true);
       expect(e.answers, [true]);
@@ -473,7 +489,7 @@ void main() {
   }
 
   testWidgets(
-    'same-key pending replacement preserves identifiers and selection but recomputes voltage',
+    'same-key pending replacement preserves voltage snapshots and current result',
     (tester) async {
       final e = _Exercise(tester);
       await e.pump(realBlock);
@@ -483,7 +499,8 @@ void main() {
       e.expectPower(true);
       e.expectCurrent(3);
       expect(e.historyLabels, [_labels[0], _labels[2], _labels[3]]);
-      expect(e.readings, ['13.25 V', '13.25 V', '13.25 V']);
+      expect(e.readings, ['12.60 V', '12.60 V', '0.00 V']);
+      expect(find.text('0.00 V'), findsNWidgets(2));
       expect(find.text('Synthetic fallback'), findsOneWidget);
       expect(find.text('Synthetic question'), findsOneWidget);
       expect(tester.widget<FilledButton>(e.check).onPressed, isNotNull);
@@ -492,9 +509,26 @@ void main() {
     },
   );
 
+  testWidgets('remeasurement after replacement updates only its original row', (
+    tester,
+  ) async {
+    final e = _Exercise(tester);
+    await e.pump(realBlock);
+    await e.measureAll([3, 0, 2]);
+    await e.pump(_fallback);
+    expect(e.readings, ['0.00 V', '12.60 V', '12.60 V']);
+    await e.measure(3);
+    expect(e.historyLabels, [_labels[3], _labels[0], _labels[2]]);
+    expect(e.readings, ['13.25 V', '12.60 V', '12.60 V']);
+    e.expectCurrent(3);
+    expect(find.text('13.25 V'), findsNWidgets(2));
+    expect(e.answers, isEmpty);
+    expect(e.retries, 0);
+  });
+
   for (final success in [true, false]) {
     testWidgets(
-      'same-key replacement retains checked ${success ? 'success' : 'failure'} while continuity changes',
+      'same-key replacement retains checked ${success ? 'success' : 'failure'} and continuity snapshot',
       (tester) async {
         final e = _Exercise(tester);
         await e.pump(realBlock);
@@ -507,7 +541,8 @@ void main() {
         e.expectPower(false);
         e.expectCurrent(5);
         expect(e.historyLabels, labels);
-        expect(e.readings.last, '0.3 Ω / БИП');
+        expect(e.readings.last, 'OL');
+        expect(find.text('OL'), findsNWidgets(2));
         expect(find.text('АКБ 13.3 V'), findsOneWidget);
         expect(tester.widget<FilledButton>(e.check).onPressed, isNull);
         e.expectResult(success);
