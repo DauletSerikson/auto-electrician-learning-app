@@ -288,7 +288,7 @@ void main() {
   }
 
   for (final connection in CurrentConnection.values) {
-    testWidgets('V DC ignores port for ${connection.name} readout', (
+    testWidgets('V DC requires VΩ for ${connection.name} readout', (
       tester,
     ) async {
       final h = _Harness(_block(voltage: 14.25));
@@ -301,7 +301,12 @@ void main() {
           connection: connection,
         );
         _expectReadout(
-          connection == CurrentConnection.acrossBattery ? '14.25' : '0.00',
+          port == 'A'
+              ? '----'
+              : connection == CurrentConnection.acrossBattery ||
+                    connection == CurrentConnection.acrossLamp
+              ? '14.25'
+              : '0.00',
           'V DC',
         );
         _expectFuse(blown: false);

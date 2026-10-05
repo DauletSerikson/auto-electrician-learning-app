@@ -19,12 +19,17 @@ void main() {
     (
       mode: MultimeterMode.dcVoltage,
       port: MultimeterPort.voltageResistance,
-      readings: <Object>[0.0, 0.0, 14.257, 0.0],
+      readings: <Object>[0.0, 0.0, 14.257, 14.257],
     ),
     (
       mode: MultimeterMode.dcVoltage,
       port: MultimeterPort.current,
-      readings: <Object>[0.0, 0.0, 14.257, 0.0],
+      readings: <Object>[
+        'unavailable',
+        'unavailable',
+        'unavailable',
+        'unavailable',
+      ],
     ),
     (
       mode: MultimeterMode.current,

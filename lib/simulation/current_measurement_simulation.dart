@@ -71,11 +71,17 @@ final class CurrentMeasurementSimulation {
     if (meterFuseBlown) return const FuseBlownReadout();
     if (mode == MultimeterMode.off) return const OffReadout();
     if (dangerousBatteryConnection) return const WarningReadout();
-    // Preserve the exercise's voltage readout even with the current input.
     if (mode == MultimeterMode.dcVoltage) {
-      return NumericReadout(
-        connection == CurrentConnection.acrossBattery ? sourceVoltage : 0,
-      );
+      if (redPort != MultimeterPort.voltageResistance) {
+        return const UnavailableReadout();
+      }
+      // Parallel presets use positive-to-negative polarity. The load is
+      // connected between the source and ground in this exercise.
+      return NumericReadout(switch (connection) {
+        CurrentConnection.acrossBattery ||
+        CurrentConnection.acrossLamp => sourceVoltage,
+        CurrentConnection.disconnected || CurrentConnection.series => 0,
+      });
     }
     if (mode == MultimeterMode.current) {
       if (redPort != MultimeterPort.current) {
