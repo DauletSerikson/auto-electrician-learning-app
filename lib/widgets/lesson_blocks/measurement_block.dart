@@ -98,6 +98,9 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
       isBatteryVoltage && batterySimulation.unsafeCurrentConnection;
   bool get unsafeOhmicMeasurement =>
       isWireMeasurement && conductorSimulation.unsafeOhmicMeasurement;
+  bool get batteryOhmicMode =>
+      isBatteryVoltage &&
+      (mode == MultimeterMode.resistance || mode == MultimeterMode.continuity);
   bool get continuityBeep =>
       isWireMeasurement && conductorSimulation.continuityBeep;
 
@@ -320,7 +323,9 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
 
             if (isWireMeasurement) buildWireProbeControls(context),
 
-            if (unsafeCurrentConnection || unsafeOhmicMeasurement) ...[
+            if (unsafeCurrentConnection ||
+                unsafeOhmicMeasurement ||
+                batteryOhmicMode) ...[
               const SizedBox(height: 16),
               buildDangerWarning(context),
             ],
@@ -723,8 +728,10 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
       message = 'Прозвонка на запитанной цепи недопустима.';
       icon = Icons.warning_amber;
     } else if (isBatteryVoltage) {
-      message = 'Подключи щупы к разным концам провода.';
-      icon = Icons.volume_off_outlined;
+      message =
+          'Прозвонка аккумулятора недопустима: это источник напряжения. '
+          'Для измерения напряжения выбери V DC.';
+      icon = Icons.warning_amber;
     } else if (isWireMeasurement && redPort != requiredRedPort(mode)) {
       message = 'Недействительное измерение: для прозвонки используй вход VΩ.';
       icon = Icons.warning_amber;
@@ -758,7 +765,7 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: unsafeOhmicMeasurement
+        color: unsafeOhmicMeasurement || batteryOhmicMode
             ? colorScheme.errorContainer
             : colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(12),
@@ -891,7 +898,15 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
 
     String message;
 
-    if (unsafeOhmicMeasurement) {
+    if (batteryOhmicMode) {
+      message =
+          'НЕПРАВИЛЬНОЕ ИЗМЕРЕНИЕ\n\n'
+          'Нельзя измерять сопротивление или выполнять прозвонку '
+          'на аккумуляторе: это источник напряжения. '
+          'Эти режимы предназначены для обесточенных участков. '
+          'OL в этом режиме не является результатом проверки аккумулятора. '
+          'Для измерения напряжения используй V DC и вход VΩ.';
+    } else if (unsafeOhmicMeasurement) {
       message =
           'НЕПРАВИЛЬНОЕ ИЗМЕРЕНИЕ\n\n'
           'Режимы сопротивления и прозвонки '
@@ -1066,10 +1081,14 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
             'поперёк аккумулятора. '
             'Это опасная ошибка.',
       BatteryVoltageErrorReason.wrongMode =>
-        '✗ Неправильный режим.\n\n'
-            'Для измерения постоянного '
-            'напряжения аккумулятора '
-            'выбери V DC.',
+        batteryOhmicMode
+            ? '✗ Нельзя измерять сопротивление или выполнять прозвонку '
+                  'на аккумуляторе: это источник напряжения.\n\n'
+                  'Для измерения напряжения выбери V DC и вход VΩ.'
+            : '✗ Неправильный режим.\n\n'
+                  'Для измерения постоянного '
+                  'напряжения аккумулятора '
+                  'выбери V DC.',
       BatteryVoltageErrorReason.wrongPort =>
         '✗ Неправильное гнездо '
             'красного провода.\n\n'

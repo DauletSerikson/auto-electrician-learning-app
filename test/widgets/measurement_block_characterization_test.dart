@@ -24,6 +24,10 @@ const _batteryDangerError =
 const _batteryModeError =
     '✗ Неправильный режим.\n\nДля измерения постоянного напряжения '
     'аккумулятора выбери V DC.';
+const _batteryOhmicError =
+    '✗ Нельзя измерять сопротивление или выполнять прозвонку '
+    'на аккумуляторе: это источник напряжения.\n\n'
+    'Для измерения напряжения выбери V DC и вход VΩ.';
 const _batteryPortError =
     '✗ Неправильное гнездо красного провода.\n\nДля измерения напряжения '
     'красный провод должен находиться в VΩ.';
@@ -297,6 +301,42 @@ void main() {
   // Do not reuse asset futures created in another widget test's async zone.
   setUp(() => rootBundle.clear());
 
+  for (final mode in ['Ω', '🔊']) {
+    for (final port in ['VΩ', 'A']) {
+      testWidgets('battery $mode/$port explains unsafe procedure and OL', (
+        tester,
+      ) async {
+        final harness = _Harness(
+          await _asset<BatteryVoltageMeasurementLessonBlock>('lesson_02'),
+        );
+        await tester.pumpWidget(harness.host());
+        await _battery(tester, mode: mode, port: port);
+        expect(_readout(tester), 'OL');
+        expect(
+          find.textContaining('OL в этом режиме не является результатом'),
+          findsOneWidget,
+        );
+        expect(find.textContaining('концам провода'), findsNothing);
+        expect(find.textContaining('концы провода'), findsNothing);
+        if (mode == '🔊') {
+          expect(
+            find.textContaining('Прозвонка аккумулятора недопустима'),
+            findsOneWidget,
+          );
+        }
+        await _tap(tester, find.text(_check));
+        expect(harness.answers, [false]);
+        expect(find.text(_batteryOhmicError), findsOneWidget);
+        await _tap(tester, find.text(_retry));
+        expect(find.textContaining('OL в этом режиме'), findsNothing);
+        await _battery(tester);
+        expect(_readout(tester), '12.60');
+        await _tap(tester, find.text(_check));
+        expect(harness.answers, [false, true]);
+      });
+    }
+  }
+
   testWidgets('continuity indicator never interprets invalid setup as open', (
     tester,
   ) async {
@@ -385,7 +425,7 @@ void main() {
       red: '+',
       black: '−',
       value: 'OL',
-      error: _batteryModeError,
+      error: _batteryOhmicError,
     ),
     (
       name: 'mode masks missing probes',
