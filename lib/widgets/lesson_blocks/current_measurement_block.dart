@@ -47,6 +47,7 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
     meterFuseBlown: meterFuseBlown,
     sourceVoltage: sourceVoltage,
     loadCurrent: loadCurrent,
+    meterFuseRating: meterFuseRating,
   );
 
   String get displayValue => switch (simulation.readout) {
@@ -118,7 +119,7 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
       return;
     }
 
-    if (simulation.dangerousBatteryConnection) {
+    if (simulation.shouldBlowFuse) {
       setState(() {
         meterFuseBlown = true;
       });
@@ -574,13 +575,19 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
 
               Expanded(
                 child: Text(
-                  'ОПАСНАЯ ОШИБКА\n\n'
-                  'Токовый вход мультиметра '
-                  'подключён непосредственно '
-                  'между плюсом и минусом '
-                  'источника. В симуляторе '
-                  'сработал предохранитель '
-                  'токового входа.',
+                  connection == CurrentConnection.series
+                      ? 'ОПАСНАЯ ОШИБКА\n\n'
+                            'Ток нагрузки превышает номинал предохранителя '
+                            'токового входа мультиметра. В учебной модели '
+                            'предохранитель срабатывает сразу. '
+                            'Для продолжения требуется его замена.'
+                      : 'ОПАСНАЯ ОШИБКА\n\n'
+                            'Токовый вход мультиметра '
+                            'подключён непосредственно '
+                            'между плюсом и минусом '
+                            'источника. В симуляторе '
+                            'сработал предохранитель '
+                            'токового входа.',
                   style: TextStyle(
                     color: colorScheme.onErrorContainer,
                     fontWeight: FontWeight.bold,

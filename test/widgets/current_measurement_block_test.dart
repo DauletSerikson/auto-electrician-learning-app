@@ -474,19 +474,119 @@ void main() {
     });
   }
 
-  // These characterize existing simplifications, not physically correct fuse rules.
-  testWidgets('series current above fuse rating remains successful', (
+  testWidgets('series overload persists until replacement and blows again', (
     tester,
   ) async {
     final h = _Harness(_block(current: 12, rating: 1));
     await tester.pumpWidget(h.host());
     await _configure(tester);
-    _expectReadout('12.00', 'A');
+    _expectReadout('FUSE', 'A');
+    _expectFuse(blown: true);
+    expect(
+      find.textContaining('Ток нагрузки превышает номинал'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('между плюсом и минусом'), findsNothing);
+    await _expectLocked(
+      tester,
+      mode: 'A',
+      port: 'A',
+      connection: CurrentConnection.series,
+    );
+    await tester.pumpWidget(h.host());
+    _expectReadout('FUSE', 'A');
+    expect(h.answers, isEmpty);
+    await _tap(tester, find.text(_replace));
+    _expectConfiguration(tester, 'OFF', 'VΩ', CurrentConnection.disconnected);
+    _expectReadout('────', 'OFF');
     _expectFuse(blown: false);
-    await _tap(tester, find.text(_check));
-    expect(h.answers, [true]);
-    expect(find.textContaining('Показание: 12.00 A.'), findsOneWidget);
+    _expectCheck(tester, enabled: true);
+    // Replacement restores controls; the content still exceeds the rating.
+    await _configure(
+      tester,
+      mode: 'V DC',
+      port: 'VΩ',
+      connection: CurrentConnection.acrossLamp,
+    );
+    _expectReadout('12.60', 'V DC');
+    await _configure(tester, mode: 'OFF');
+    await _tap(tester, _chip('A'));
+    _expectReadout('FUSE', 'A');
+    _expectFuse(blown: true);
+    _expectCheck(tester, enabled: false);
+    expect(h.answers, isEmpty);
+    expect(h.retries, 0);
   });
+
+  for (final current in [9.99, 10.0, 10.01]) {
+    testWidgets('series fuse rating boundary $current / 10 A', (tester) async {
+      final h = _Harness(_block(current: current));
+      await tester.pumpWidget(h.host());
+      await _configure(tester);
+      final overloaded = current > 10;
+      _expectReadout(overloaded ? 'FUSE' : current.toStringAsFixed(2), 'A');
+      _expectFuse(blown: overloaded);
+      _expectCheck(tester, enabled: !overloaded);
+      await _tap(tester, find.text(_check));
+      expect(h.answers, overloaded ? isEmpty : [true]);
+    });
+  }
+
+  for (final lastAction in ['connection', 'mode', 'port']) {
+    testWidgets('series overload blows fuse when $lastAction completes setup', (
+      tester,
+    ) async {
+      final h = _Harness(_block(current: 10.01));
+      await tester.pumpWidget(h.host());
+      await _configure(
+        tester,
+        mode: lastAction == 'mode' ? 'OFF' : 'A',
+        port: lastAction == 'port' ? 'VΩ' : 'A',
+        connection: lastAction == 'connection'
+            ? CurrentConnection.disconnected
+            : CurrentConnection.series,
+      );
+      _expectFuse(blown: false);
+      if (lastAction == 'connection') {
+        await _tap(tester, find.text(_connections[CurrentConnection.series]!));
+      } else if (lastAction == 'mode') {
+        await _tap(tester, _chip('A'));
+      } else {
+        await _tap(tester, _port('A'));
+      }
+      _expectReadout('FUSE', 'A');
+      _expectFuse(blown: true);
+      _expectCheck(tester, enabled: false);
+      expect(h.answers, isEmpty);
+    });
+  }
+
+  for (final current in [0.0, 2.0, 100.0]) {
+    testWidgets('acrossBattery still blows fuse with load current $current', (
+      tester,
+    ) async {
+      final h = _Harness(_block(current: current));
+      await tester.pumpWidget(h.host());
+      await _configure(tester, connection: CurrentConnection.acrossBattery);
+      _expectReadout('FUSE', 'A');
+      _expectFuse(blown: true);
+      expect(h.answers, isEmpty);
+    });
+  }
+
+  testWidgets(
+    'acrossLamp high load current retains warning without fuse blow',
+    (tester) async {
+      final h = _Harness(_block(current: 100));
+      await tester.pumpWidget(h.host());
+      await _configure(tester, connection: CurrentConnection.acrossLamp);
+      _expectReadout('⚠', 'A');
+      _expectFuse(blown: false);
+      await _tap(tester, find.text(_check));
+      expect(find.text(_parallelError), findsOneWidget);
+      expect(h.answers, [false]);
+    },
+  );
 
   for (final c in [
     (voltage: 12.6, rating: 0.1),
@@ -498,12 +598,13 @@ void main() {
       (tester) async {
         final h = _Harness(_block(voltage: c.voltage, rating: c.rating));
         await tester.pumpWidget(h.host());
-        await _configure(tester);
+        await _configure(tester, mode: 'OFF');
         _expectFuse(blown: false);
         await _tap(
           tester,
           find.text(_connections[CurrentConnection.acrossBattery]!),
         );
+        await _tap(tester, _chip('A'));
         _expectFuse(blown: true);
         _expectReadout('FUSE', 'A');
         _expectCheck(tester, enabled: false);

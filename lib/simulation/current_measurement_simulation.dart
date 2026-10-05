@@ -44,6 +44,7 @@ final class CurrentMeasurementSimulation {
   final bool meterFuseBlown;
   final double sourceVoltage;
   final double loadCurrent;
+  final double meterFuseRating;
 
   const CurrentMeasurementSimulation({
     required this.mode,
@@ -52,6 +53,7 @@ final class CurrentMeasurementSimulation {
     required this.meterFuseBlown,
     required this.sourceVoltage,
     required this.loadCurrent,
+    required this.meterFuseRating,
   });
 
   bool get meterConfiguredForCurrent =>
@@ -59,8 +61,18 @@ final class CurrentMeasurementSimulation {
 
   bool get correctSetup =>
       !meterFuseBlown &&
+      !currentInputOverload &&
       meterConfiguredForCurrent &&
       connection == CurrentConnection.series;
+
+  /// Educational instantaneous overload model, without a time-current curve.
+  bool get currentInputOverload =>
+      !meterFuseBlown &&
+      meterConfiguredForCurrent &&
+      connection == CurrentConnection.series &&
+      loadCurrent > meterFuseRating;
+
+  bool get shouldBlowFuse => dangerousBatteryConnection || currentInputOverload;
 
   bool get dangerousBatteryConnection =>
       !meterFuseBlown &&
@@ -68,7 +80,7 @@ final class CurrentMeasurementSimulation {
       connection == CurrentConnection.acrossBattery;
 
   CurrentMeasurementReadout get readout {
-    if (meterFuseBlown) return const FuseBlownReadout();
+    if (meterFuseBlown || currentInputOverload) return const FuseBlownReadout();
     if (mode == MultimeterMode.off) return const OffReadout();
     if (dangerousBatteryConnection) return const WarningReadout();
     if (mode == MultimeterMode.dcVoltage) {
