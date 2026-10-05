@@ -29,6 +29,30 @@ Matcher _numeric(double value) => isA<ConductorNumericReadout>().having(
 );
 
 void main() {
+  for (final point in [WirePoint.pointA, WirePoint.pointB]) {
+    for (final broken in [false, true]) {
+      test(
+        'same-point $point broken=$broken reads zero but cannot complete A–B',
+        () {
+          final simulation = _snapshot(
+            kind: ConductorMeasurementKind.continuity,
+            mode: MultimeterMode.continuity,
+            red: point,
+            black: point,
+            broken: broken,
+            resistance: 100,
+          );
+          expect(simulation.readout, _numeric(0));
+          expect(simulation.continuityBeep, isTrue);
+          expect(simulation.success, isFalse);
+          expect(
+            simulation.errorReason,
+            ConductorMeasurementErrorReason.samePoint,
+          );
+        },
+      );
+    }
+  }
   for (final kind in ConductorMeasurementKind.values) {
     final mode = kind == ConductorMeasurementKind.resistance
         ? MultimeterMode.resistance
@@ -125,11 +149,14 @@ void main() {
         );
         expect(simulation.probesConnected, row.connected);
         expect(simulation.probesAcrossWire, isFalse);
-        expect(simulation.readout, isA<ConductorOpenLoopReadout>());
+        expect(
+          simulation.readout,
+          row.connected ? _numeric(0) : isA<ConductorOpenLoopReadout>(),
+        );
         expect(simulation.errorReason, row.error);
         expect(simulation.correctSetup, isFalse);
         expect(simulation.success, isFalse);
-        expect(simulation.continuityBeep, isFalse);
+        expect(simulation.continuityBeep, continuity && row.connected);
       });
     }
 
@@ -307,7 +334,6 @@ void main() {
         ),
         _snapshot(mode: MultimeterMode.continuity, red: WirePoint.none),
         _snapshot(mode: MultimeterMode.continuity, black: WirePoint.none),
-        _snapshot(mode: MultimeterMode.continuity, black: WirePoint.pointA),
       ]) {
         expect(simulation.continuityBeep, isFalse);
       }

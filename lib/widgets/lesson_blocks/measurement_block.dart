@@ -731,6 +731,13 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
     } else if (isWireMeasurement && circuitPowered) {
       message = 'Перед прозвонкой отключи питание исследуемой цепи.';
       icon = Icons.warning_amber;
+    } else if (isWireMeasurement &&
+        conductorSimulation.probesConnected &&
+        !wireProbesAcrossWire) {
+      message =
+          'БИП: оба щупа на одной точке, сопротивление 0 Ω. '
+          'Для проверки участка A–B подключи щупы к разным концам провода.';
+      icon = Icons.volume_up;
     } else if (!wireProbesAcrossWire) {
       message = 'Подключи щупы к разным концам провода.';
       icon = Icons.volume_off_outlined;

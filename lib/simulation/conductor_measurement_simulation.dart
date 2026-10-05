@@ -92,9 +92,8 @@ final class ConductorMeasurementSimulation {
       mode == MultimeterMode.continuity &&
       !powered &&
       redPort == requiredRedPort(mode) &&
-      probesAcrossWire &&
-      !broken &&
-      resistance <= continuityThreshold;
+      probesConnected &&
+      (!probesAcrossWire || (!broken && resistance <= continuityThreshold));
 
   ConductorMeasurementReadout get readout {
     if (mode == MultimeterMode.off) return const ConductorOffReadout();
@@ -107,7 +106,9 @@ final class ConductorMeasurementSimulation {
     if (redPort != requiredRedPort(mode)) {
       return const ConductorUnavailableReadout();
     }
-    if (!probesAcrossWire) return const ConductorOpenLoopReadout();
+    if (!probesConnected) return const ConductorOpenLoopReadout();
+    // Ideal probes on one electrical point measure zero, even if A–B is open.
+    if (!probesAcrossWire) return const ConductorNumericReadout(0);
     // Across-wire powered setups have already returned the danger readout.
     if (broken) return const ConductorOpenLoopReadout();
     return ConductorNumericReadout(resistance);

@@ -315,7 +315,8 @@ void main() {
     expect(find.text('Подключи щупы к разным концам провода.'), findsOneWidget);
     expect(find.text(_noBeep), findsNothing);
     await _probe<WirePoint>(tester, 1, 'A');
-    expect(find.text('Подключи щупы к разным концам провода.'), findsOneWidget);
+    expect(_readout(tester), '0.0');
+    expect(find.textContaining('БИП: оба щупа на одной точке'), findsOneWidget);
     expect(find.text(_noBeep), findsNothing);
     await _tap(tester, find.text('Подать питание'));
     expect(
@@ -324,6 +325,20 @@ void main() {
     );
     expect(find.text(_noBeep), findsNothing);
     expect(harness.answers, isEmpty);
+  });
+
+  testWidgets('same-point beep cannot complete a broken A–B exercise', (
+    tester,
+  ) async {
+    final harness = _Harness(_conductor('wireContinuity', broken: true));
+    await tester.pumpWidget(harness.host());
+    await _wire(tester, mode: '🔊', red: 'B', black: 'B');
+    expect(_readout(tester), '0.0');
+    expect(find.textContaining('БИП: оба щупа на одной точке'), findsOneWidget);
+    expect(find.text(_noBeep), findsNothing);
+    await _tap(tester, find.text(_check));
+    expect(harness.answers, [false]);
+    expect(find.text(_conductorError(true, 'same')), findsOneWidget);
   });
 
   final batteryCases = [
@@ -731,7 +746,7 @@ void main() {
         powered: false,
         red: 'A',
         black: 'A',
-        value: 'OL',
+        value: '0.0',
       ),
     ];
     for (final row in priorityCases) {
@@ -794,7 +809,7 @@ void main() {
         await _tap(tester, find.text(_retry));
         _expectReset(tester, harness.block);
         await _wire(tester, red: 'B');
-        expect(_readout(tester), 'OL');
+        expect(_readout(tester), '0.0');
         await _tap(tester, find.text(_check));
         expect(harness.answers, [false, false]);
         expect(find.text(_conductorError(false, 'same')), findsOneWidget);
@@ -802,7 +817,7 @@ void main() {
         _expectReset(tester, harness.block);
         await _wire(tester, red: 'Не подключён');
         await _probe<WirePoint>(tester, 0, 'B');
-        expect(_readout(tester), 'OL');
+        expect(_readout(tester), '0.0');
         await _tap(tester, _port('A'));
         expect(_readout(tester), '----');
         await _probe<WirePoint>(tester, 0, 'A');
