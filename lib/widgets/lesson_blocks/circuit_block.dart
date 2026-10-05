@@ -468,14 +468,14 @@ class SimpleLampCircuitPainter extends CustomPainter {
     canvas.drawLine(Offset(right, bottom), Offset(left, bottom), wirePaint);
 
     canvas.drawLine(
-      Offset(batteryX - 12, top + 35),
-      Offset(batteryX + 12, top + 35),
+      Offset(batteryX - 20, top + 35),
+      Offset(batteryX + 20, top + 35),
       componentPaint,
     );
 
     canvas.drawLine(
-      Offset(batteryX - 20, top + 50),
-      Offset(batteryX + 20, top + 50),
+      Offset(batteryX - 12, top + 50),
+      Offset(batteryX + 12, top + 50),
       componentPaint,
     );
 
@@ -915,14 +915,14 @@ class TwoLampCircuitPainter extends CustomPainter {
     canvas.drawLine(Offset(x, top), Offset(x, plate1), wirePaint);
 
     canvas.drawLine(
-      Offset(x - 12, plate1),
-      Offset(x + 12, plate1),
+      Offset(x - 20, plate1),
+      Offset(x + 20, plate1),
       componentPaint,
     );
 
     canvas.drawLine(
-      Offset(x - 20, plate2),
-      Offset(x + 20, plate2),
+      Offset(x - 12, plate2),
+      Offset(x + 12, plate2),
       componentPaint,
     );
 
