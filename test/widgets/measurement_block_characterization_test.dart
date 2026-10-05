@@ -477,6 +477,41 @@ void main() {
             await _tap(tester, find.text(_check));
             expect(harness.answers, [true]);
             expect(find.text(_success), findsOneWidget);
+            if (continuity) {
+              if (broken) {
+                expect(
+                  find.textContaining('При обрыве прибор показывает OL'),
+                  findsOneWidget,
+                );
+                expect(
+                  find.textContaining('звукового сигнала нет'),
+                  findsOneWidget,
+                );
+                expect(
+                  find.textContaining('симулятор подаёт звуковой сигнал'),
+                  findsNothing,
+                );
+              } else {
+                expect(
+                  find.textContaining('Сопротивление 0.3 Ω'),
+                  findsOneWidget,
+                );
+                expect(
+                  find.textContaining(
+                    'не превышает учебный порог прозвонки 50 Ω',
+                  ),
+                  findsOneWidget,
+                );
+                expect(
+                  find.textContaining('симулятор подаёт звуковой сигнал'),
+                  findsOneWidget,
+                );
+                expect(
+                  find.textContaining('звукового сигнала нет'),
+                  findsNothing,
+                );
+              }
+            }
             _expectLocked(tester, block);
           },
         );
@@ -515,11 +550,32 @@ void main() {
         await _tap(tester, find.text(_check));
         expect(harness.answers, [true]);
         expect(find.text(_success), findsOneWidget);
-        // Preserve the existing explanation, including its inaccurate >50 claim.
-        expect(
-          find.textContaining('поэтому симулятор подаёт звуковой сигнал.'),
-          findsOneWidget,
-        );
+        expect(find.textContaining('ниже учебного порога'), findsNothing);
+        if (resistance == 50.0) {
+          expect(
+            find.textContaining('не превышает учебный порог прозвонки 50 Ω'),
+            findsOneWidget,
+          );
+          expect(
+            find.textContaining('симулятор подаёт звуковой сигнал'),
+            findsOneWidget,
+          );
+          expect(find.textContaining('звукового сигнала нет'), findsNothing);
+        } else {
+          expect(
+            find.textContaining(
+              'Сопротивление превышает учебный порог прозвонки 50 Ω',
+            ),
+            findsOneWidget,
+          );
+          expect(find.textContaining('звукового сигнала нет'), findsOneWidget);
+          expect(
+            find.textContaining('симулятор подаёт звуковой сигнал'),
+            findsNothing,
+          );
+          expect(find.textContaining('не означает обрыв'), findsOneWidget);
+          expect(find.textContaining('При обрыве прибор'), findsNothing);
+        }
       },
     );
   }

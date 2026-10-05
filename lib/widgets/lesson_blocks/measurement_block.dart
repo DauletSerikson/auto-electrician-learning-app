@@ -980,15 +980,20 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
             'сигнала нет.';
       }
 
+      final threshold = ConductorMeasurementSimulation.continuityThreshold
+          .toStringAsFixed(0);
+      final measurementExplanation = continuityBeep
+          ? 'Сопротивление ${goodResistance.toStringAsFixed(1)} Ω '
+                'не превышает учебный порог прозвонки $threshold Ω, '
+                'поэтому симулятор подаёт звуковой сигнал.'
+          : 'Сопротивление превышает учебный порог прозвонки $threshold Ω, '
+                'поэтому звукового сигнала нет. '
+                'Отсутствие сигнала само по себе не означает обрыв.';
+
       return 'Режим прозвонки выбран '
           'правильно, цепь обесточена, '
           'а щупы подключены к разным '
-          'концам провода. Сопротивление '
-          '${goodResistance.toStringAsFixed(1)} Ω '
-          'ниже учебного порога '
-          '${ConductorMeasurementSimulation.continuityThreshold.toStringAsFixed(0)} Ω, '
-          'поэтому симулятор подаёт '
-          'звуковой сигнал.';
+          'концам провода. $measurementExplanation';
     }
 
     if (isWireResistance) {
