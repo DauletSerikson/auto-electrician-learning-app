@@ -11,7 +11,10 @@ const _check = 'Проверить измерение';
 const _retry = 'Попробовать ещё раз';
 const _success = '✓ Измерение выполнено правильно';
 const _beep = 'БИП! Непрерывность обнаружена.';
-const _noBeep = 'Сигнала нет. Непрерывный путь не обнаружен.';
+const _noBeep = 'Сигнала нет. OL: обнаружен обрыв между A и B.';
+const _aboveThreshold =
+    'Сигнала нет: сопротивление превышает порог прозвонки. '
+    'Это не означает обрыв.';
 const _ohmicError =
     '✗ Нельзя выполнять измерение сопротивления или прозвонку на запитанной '
     'исследуемой цепи.\n\nСначала отключи питание.';
@@ -294,6 +297,35 @@ void main() {
   // Do not reuse asset futures created in another widget test's async zone.
   setUp(() => rootBundle.clear());
 
+  testWidgets('continuity indicator never interprets invalid setup as open', (
+    tester,
+  ) async {
+    final harness = _Harness(
+      await _asset<WireContinuityMeasurementLessonBlock>('lesson_04', index: 1),
+    );
+    await tester.pumpWidget(harness.host());
+    await _wire(tester, mode: '🔊', port: 'A');
+    expect(_readout(tester), '----');
+    expect(find.textContaining('Недействительное измерение:'), findsOneWidget);
+    expect(find.text(_noBeep), findsNothing);
+    await _tap(tester, _port('VΩ'));
+    expect(_readout(tester), 'OL');
+    expect(find.text(_noBeep), findsOneWidget);
+    await _probe<WirePoint>(tester, 1, 'Не подключён');
+    expect(find.text('Подключи щупы к разным концам провода.'), findsOneWidget);
+    expect(find.text(_noBeep), findsNothing);
+    await _probe<WirePoint>(tester, 1, 'A');
+    expect(find.text('Подключи щупы к разным концам провода.'), findsOneWidget);
+    expect(find.text(_noBeep), findsNothing);
+    await _tap(tester, find.text('Подать питание'));
+    expect(
+      find.text('Прозвонка на запитанной цепи недопустима.'),
+      findsOneWidget,
+    );
+    expect(find.text(_noBeep), findsNothing);
+    expect(harness.answers, isEmpty);
+  });
+
   final batteryCases = [
     (
       name: 'correct',
@@ -545,8 +577,15 @@ void main() {
         await tester.pumpWidget(harness.host());
         await _wire(tester, mode: '🔊');
         expect(_readout(tester), '50.0');
-        expect(find.text(resistance <= 50 ? _beep : _noBeep), findsOneWidget);
-        expect(find.text(resistance <= 50 ? _noBeep : _beep), findsNothing);
+        expect(
+          find.text(resistance <= 50 ? _beep : _aboveThreshold),
+          findsOneWidget,
+        );
+        expect(
+          find.text(resistance <= 50 ? _aboveThreshold : _beep),
+          findsNothing,
+        );
+        expect(find.text(_noBeep), findsNothing);
         await _tap(tester, find.text(_check));
         expect(harness.answers, [true]);
         expect(find.text(_success), findsOneWidget);
@@ -573,7 +612,7 @@ void main() {
             find.textContaining('симулятор подаёт звуковой сигнал'),
             findsNothing,
           );
-          expect(find.textContaining('не означает обрыв'), findsOneWidget);
+          expect(find.textContaining('не означает обрыв'), findsNWidgets(2));
           expect(find.textContaining('При обрыве прибор'), findsNothing);
         }
       },

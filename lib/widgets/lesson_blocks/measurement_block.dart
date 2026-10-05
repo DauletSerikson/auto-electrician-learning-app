@@ -722,14 +722,29 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
     if (unsafeOhmicMeasurement) {
       message = 'Прозвонка на запитанной цепи недопустима.';
       icon = Icons.warning_amber;
+    } else if (isBatteryVoltage) {
+      message = 'Подключи щупы к разным концам провода.';
+      icon = Icons.volume_off_outlined;
+    } else if (isWireMeasurement && redPort != requiredRedPort(mode)) {
+      message = 'Недействительное измерение: для прозвонки используй вход VΩ.';
+      icon = Icons.warning_amber;
+    } else if (isWireMeasurement && circuitPowered) {
+      message = 'Перед прозвонкой отключи питание исследуемой цепи.';
+      icon = Icons.warning_amber;
     } else if (!wireProbesAcrossWire) {
       message = 'Подключи щупы к разным концам провода.';
       icon = Icons.volume_off_outlined;
     } else if (continuityBeep) {
       message = 'БИП! Непрерывность обнаружена.';
       icon = Icons.volume_up;
+    } else if (isWireMeasurement &&
+        conductorSimulation.readout is ConductorOpenLoopReadout) {
+      message = 'Сигнала нет. OL: обнаружен обрыв между A и B.';
+      icon = Icons.volume_off;
     } else {
-      message = 'Сигнала нет. Непрерывный путь не обнаружен.';
+      message =
+          'Сигнала нет: сопротивление превышает порог прозвонки. '
+          'Это не означает обрыв.';
       icon = Icons.volume_off;
     }
 
