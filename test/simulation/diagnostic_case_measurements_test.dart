@@ -2,6 +2,37 @@ import 'package:electrician/simulation/diagnostic_case_measurements.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test(
+    'positive-wire-open evidence requires powered branch voltage snapshots',
+    () {
+      DiagnosticMeasurementRecord record(DiagnosticTest test, bool powered) =>
+          DiagnosticMeasurementRecord(
+            test: test,
+            powered: powered,
+            result: DiagnosticCaseMeasurements(
+              faultType: 'positiveWireOpen',
+              sourceVoltage: 12.6,
+              powered: powered,
+            ).resultFor(test),
+          );
+      final evidence = [
+        record(DiagnosticTest.batteryVoltage, false),
+        record(DiagnosticTest.fuseOutputVoltage, true),
+        record(DiagnosticTest.lampPositiveVoltage, true),
+        record(DiagnosticTest.wireContinuity, false),
+      ];
+      expect(hasPositiveWireOpenEvidence(evidence.reversed, 12.6), isTrue);
+      for (final index in [1, 2]) {
+        final changed = [...evidence];
+        changed[index] = record(evidence[index].test, false);
+        expect(hasPositiveWireOpenEvidence(changed, 12.6), isFalse);
+      }
+      final forbidden = [...evidence];
+      forbidden[3] = record(DiagnosticTest.wireContinuity, true);
+      expect(hasPositiveWireOpenEvidence(forbidden, 12.6), isFalse);
+    },
+  );
+
   for (final fault in ['positiveWireOpen', 'unknownNonEmptyFault']) {
     for (final powered in [true, false]) {
       test('$fault complete semantic table powered=$powered', () {

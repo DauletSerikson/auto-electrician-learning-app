@@ -15,8 +15,36 @@ sealed class DiagnosticCaseMeasurementResult {
 final class DiagnosticMeasurementRecord {
   final DiagnosticTest test;
   final DiagnosticCaseMeasurementResult result;
+  final bool powered;
 
-  const DiagnosticMeasurementRecord({required this.test, required this.result});
+  const DiagnosticMeasurementRecord({
+    required this.test,
+    required this.result,
+    required this.powered,
+  });
+}
+
+/// Evidence for the existing positive-wire-open exercise, in any order.
+bool hasPositiveWireOpenEvidence(
+  Iterable<DiagnosticMeasurementRecord> records,
+  double sourceVoltage,
+) {
+  bool voltage(DiagnosticTest test, double expected) => records.any(
+    (record) =>
+        record.test == test &&
+        (test == DiagnosticTest.batteryVoltage || record.powered) &&
+        record.result is DiagnosticCaseVoltage &&
+        (record.result as DiagnosticCaseVoltage).value == expected,
+  );
+  return voltage(DiagnosticTest.batteryVoltage, sourceVoltage) &&
+      voltage(DiagnosticTest.fuseOutputVoltage, sourceVoltage) &&
+      voltage(DiagnosticTest.lampPositiveVoltage, 0) &&
+      records.any(
+        (record) =>
+            record.test == DiagnosticTest.wireContinuity &&
+            !record.powered &&
+            record.result is DiagnosticCaseOpenLoop,
+      );
 }
 
 final class DiagnosticCaseVoltage extends DiagnosticCaseMeasurementResult {

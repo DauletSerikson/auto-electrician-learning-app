@@ -36,10 +36,7 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
   }
 
   bool get requiredTestsPerformed {
-    return hasPerformed(DiagnosticTest.batteryVoltage) &&
-        hasPerformed(DiagnosticTest.fuseOutputVoltage) &&
-        hasPerformed(DiagnosticTest.lampPositiveVoltage) &&
-        hasValidContinuityMeasurement;
+    return hasPositiveWireOpenEvidence(performedMeasurements, sourceVoltage);
   }
 
   bool hasPerformed(DiagnosticTest test) =>
@@ -150,6 +147,7 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
     final record = DiagnosticMeasurementRecord(
       test: test,
       result: measurements.resultFor(test),
+      powered: powered,
     );
     setState(() {
       selectedMeasurement = record;
@@ -559,6 +557,13 @@ class _DiagnosticCaseBlockState extends State<DiagnosticCaseBlock> {
           'Теперь на обесточенной цепи '
           'проверь целостность участка '
           'между предохранителем и лампой.';
+    }
+
+    if (hasPositiveWireOpen && !requiredTestsPerformed) {
+      return 'Сохранённые измерения не подтверждают диагноз. '
+          'При включённом питании проверь напряжение АКБ, '
+          'выхода предохранителя и плюса лампы. '
+          'Затем обесточь цепь и прозвони подозрительный участок.';
     }
 
     return 'Продолжи последовательную '

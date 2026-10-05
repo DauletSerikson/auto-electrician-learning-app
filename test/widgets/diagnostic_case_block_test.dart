@@ -88,6 +88,12 @@ class _Exercise {
   }
 
   Future<void> toggle() => tap(power);
+  Future<void> collectEvidence() async {
+    await measureAll([0, 2, 3]);
+    await toggle();
+    await measure(5);
+  }
+
   void expectPower(bool powered) {
     expect(find.text(powered ? 'ПИТАНИЕ ВКЛ.' : 'ОБЕСТОЧЕНО'), findsOneWidget);
   }
@@ -311,8 +317,7 @@ void main() {
       await e.tap(e.retry);
       e.expectInitial();
       expect(e.retries, 1);
-      await e.toggle();
-      await e.measureAll(_required);
+      await e.collectEvidence();
       expect(e.readings.last, 'OL');
       await e.tap(e.check);
       e.expectResult(true);
@@ -335,7 +340,9 @@ void main() {
     expect(e.historyLabels, [_labels[5]]);
     expect(e.readings, ['OL']);
     expect(find.text('OL'), findsNWidgets(2));
+    await e.toggle();
     await e.measureAll([0, 2, 3]);
+    await e.toggle();
     expect(e.historyLabels, [5, 0, 2, 3].map((i) => _labels[i]).toList());
     await e.tap(e.check);
     e.expectResult(true);
@@ -382,7 +389,7 @@ void main() {
     _required,
     [5, 3, 2, 0],
   ]) {
-    testWidgets('required tests alone succeed unpowered in order $order', (
+    testWidgets('all unpowered readings fail diagnosis in order $order', (
       tester,
     ) async {
       final e = _Exercise(tester);
@@ -393,9 +400,43 @@ void main() {
       expect(e.historyLabels, isNot(contains(_labels[1])));
       expect(e.historyLabels, isNot(contains(_labels[4])));
       await e.tap(e.check);
-      e.expectResult(true);
-      expect(e.answers, [true]);
+      e.expectResult(false);
+      expect(e.answers, [false]);
     });
+  }
+
+  testWidgets('continuity first succeeds with later powered voltage evidence', (
+    tester,
+  ) async {
+    final e = _Exercise(tester);
+    await e.pump(realBlock);
+    await e.toggle();
+    await e.measure(5);
+    await e.toggle();
+    await e.measureAll([3, 2, 0]);
+    await e.toggle();
+    await e.tap(e.check);
+    e.expectResult(true);
+    expect(e.answers, [true]);
+  });
+
+  for (final index in [2, 3]) {
+    testWidgets(
+      'unpowered remeasurement of voltage $index invalidates evidence',
+      (tester) async {
+        final e = _Exercise(tester);
+        await e.pump(realBlock);
+        await e.collectEvidence();
+        await e.measure(index);
+        await e.tap(e.check);
+        e.expectResult(false);
+        expect(
+          find.textContaining('Сохранённые измерения не подтверждают'),
+          findsOneWidget,
+        );
+        expect(e.answers, [false]);
+      },
+    );
   }
 
   final priorities = [
@@ -446,10 +487,9 @@ void main() {
     testWidgets('failure priority: ${scenario.name}', (tester) async {
       final e = _Exercise(tester);
       await e.pump(scenario.fallback ? _fallback : realBlock);
-      if (!scenario.powered) {
-        await e.toggle();
-      }
-      await e.measureAll(scenario.tests);
+      await e.measureAll(scenario.tests.where((index) => index != 5));
+      if (!scenario.powered) await e.toggle();
+      if (scenario.tests.contains(5)) await e.measure(5);
       await e.tap(e.check);
       expect(find.text(scenario.message), findsOneWidget);
       e.expectResult(false);
@@ -476,8 +516,7 @@ void main() {
         final e = _Exercise(tester);
         await e.pump(realBlock);
         if (success) {
-          await e.toggle();
-          await e.measureAll(_required);
+          await e.collectEvidence();
         }
         final labels = e.historyLabels;
         final readings = e.readings;
@@ -514,8 +553,7 @@ void main() {
       e.expectInitial();
       expect(e.answers, [false]);
       expect(e.retries, 1);
-      await e.toggle();
-      await e.measureAll(_required);
+      await e.collectEvidence();
       await e.tap(e.check);
       e.expectResult(true);
       expect(e.answers, [false, true]);
@@ -548,8 +586,12 @@ void main() {
       (tester) async {
         final e = _Exercise(tester);
         await e.pump(realBlock);
-        await e.toggle();
-        await e.measureAll(success ? _required : [0, 5]);
+        if (success) {
+          await e.collectEvidence();
+        } else {
+          await e.toggle();
+          await e.measureAll([0, 5]);
+        }
         await e.tap(e.check);
         final labels = e.historyLabels;
         final readings = e.readings;
@@ -610,8 +652,12 @@ void main() {
       (tester) async {
         final e = _Exercise(tester);
         await e.pump(realBlock);
-        await e.toggle();
-        await e.measureAll(success ? _required : [0, 5]);
+        if (success) {
+          await e.collectEvidence();
+        } else {
+          await e.toggle();
+          await e.measureAll([0, 5]);
+        }
         await e.tap(e.check);
         final labels = e.historyLabels;
         expect(e.readings.last, 'OL');
