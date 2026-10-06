@@ -16,6 +16,30 @@ class LessonScreen extends StatefulWidget {
 
 class _LessonScreenState extends State<LessonScreen> {
   final Map<int, bool> taskResults = {};
+  bool saving = false;
+  bool saveFailed = false;
+
+  Future<void> completeLesson() async {
+    if (saving || !canCompleteLesson) return;
+    setState(() {
+      saving = true;
+      saveFailed = false;
+    });
+    try {
+      await ProgressService().completeLesson(widget.lesson.id);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        saving = false;
+        saveFailed = true;
+      });
+      return;
+    }
+    if (!mounted) return;
+    // Explicit pop returns the confirmed result; PopScope blocks user back
+    // while persistence is pending.
+    Navigator.of(context).pop(true);
+  }
 
   bool isTaskBlock(LessonBlock block) {
     return block is QuestionLessonBlock ||
@@ -103,71 +127,81 @@ class _LessonScreenState extends State<LessonScreen> {
   Widget build(BuildContext context) {
     final lesson = widget.lesson;
 
-    return Scaffold(
-      appBar: AppBar(title: Text(lesson.title)),
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 760),
-          child: ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              Text(
-                lesson.title,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '≈ ${lesson.estimatedMinutes} мин.',
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-              if (lesson.completion.isQuiz) ...[
+    return PopScope(
+      canPop: !saving,
+      child: Scaffold(
+        appBar: AppBar(title: Text(lesson.title)),
+        body: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 760),
+            child: ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                Text(
+                  lesson.title,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
                 const SizedBox(height: 8),
                 Text(
-                  'Итоговая проверка • '
-                  'проходной балл '
-                  '$passingScore%',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  '≈ ${lesson.estimatedMinutes} мин.',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-              ],
-              const SizedBox(height: 24),
-              ...List.generate(lesson.blocks.length, (index) {
-                return LessonBlockRenderer(
-                  block: lesson.blocks[index],
-                  blockIndex: index,
-                  onAnswered: (isCorrect) {
-                    registerAnswer(index, isCorrect);
-                  },
-                  onRetry: () {
-                    resetAnswer(index);
-                  },
-                );
-              }),
-              if (totalTasks > 0) buildTestResult(context),
-              const SizedBox(height: 24),
-              FilledButton(
-                onPressed: canCompleteLesson
-                    ? () async {
-                        await ProgressService().completeLesson(lesson.id);
-
-                        if (!context.mounted) {
-                          return;
-                        }
-
-                        Navigator.pop(context, true);
-                      }
-                    : null,
-                child: Text(
-                  lesson.completion.isQuiz
-                      ? 'Завершить проверку'
-                      : 'Завершить урок',
+                if (lesson.completion.isQuiz) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    'Итоговая проверка • '
+                    'проходной балл '
+                    '$passingScore%',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+                const SizedBox(height: 24),
+                ...List.generate(lesson.blocks.length, (index) {
+                  return LessonBlockRenderer(
+                    block: lesson.blocks[index],
+                    blockIndex: index,
+                    onAnswered: (isCorrect) {
+                      registerAnswer(index, isCorrect);
+                    },
+                    onRetry: () {
+                      resetAnswer(index);
+                    },
+                  );
+                }),
+                if (totalTasks > 0) buildTestResult(context),
+                const SizedBox(height: 24),
+                FilledButton(
+                  onPressed: canCompleteLesson && !saving
+                      ? completeLesson
+                      : null,
+                  child: Text(
+                    lesson.completion.isQuiz
+                        ? 'Завершить проверку'
+                        : 'Завершить урок',
+                  ),
                 ),
-              ),
-              if (!canCompleteLesson) ...[
-                const SizedBox(height: 8),
-                buildCompletionHint(context),
+                if (saving) ...[
+                  const SizedBox(height: 12),
+                  const LinearProgressIndicator(),
+                  const Text(
+                    'Сохранение прогресса…',
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+                if (saveFailed) ...[
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Не удалось сохранить прогресс. Попробуй завершить урок ещё раз.',
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+                if (!canCompleteLesson) ...[
+                  const SizedBox(height: 8),
+                  buildCompletionHint(context),
+                ],
+                const SizedBox(height: 32),
               ],
-              const SizedBox(height: 32),
-            ],
+            ),
           ),
         ),
       ),

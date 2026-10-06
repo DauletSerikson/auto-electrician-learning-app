@@ -9,6 +9,10 @@ class ProgressService {
   Future<Set<String>> getCompletedLessons() async {
     final prefs = await SharedPreferences.getInstance();
 
+    // A setter updates the plugin cache before the platform confirms the write.
+    // Read persisted values so a failed write cannot appear as completion.
+    await prefs.reload();
+
     final completed = prefs.getStringList(_completedLessonsKey) ?? [];
 
     return completed.toSet();
@@ -20,6 +24,7 @@ class ProgressService {
     return completed.contains(lessonId);
   }
 
+  /// Completes after a confirmed write; false results and storage errors throw.
   Future<void> completeLesson(String lessonId) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -27,7 +32,13 @@ class ProgressService {
 
     completed.add(lessonId);
 
-    await prefs.setStringList(_completedLessonsKey, completed.toList());
+    final saved = await prefs.setStringList(
+      _completedLessonsKey,
+      completed.toList(),
+    );
+    if (!saved) {
+      throw StateError('Could not save lesson completion');
+    }
   }
 
   Future<HomeProgress> calculateProgress(List<CourseLesson> allLessons) async {
