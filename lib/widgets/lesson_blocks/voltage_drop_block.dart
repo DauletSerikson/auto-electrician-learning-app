@@ -173,14 +173,15 @@ class _VoltageDropBlockState extends State<VoltageDropBlock> {
       ),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 8,
             children: [
-              const Expanded(
-                child: Text(
-                  'ЦЕПЬ ЛАМПЫ',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+              const Text(
+                'ЦЕПЬ ЛАМПЫ',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
 
               Chip(label: Text(loadOn ? 'ЛАМПА ВКЛ.' : 'ЛАМПА ВЫКЛ.')),
@@ -316,7 +317,7 @@ class _VoltageDropBlockState extends State<VoltageDropBlock> {
 
         const SizedBox(width: 12),
 
-        SizedBox(width: 190, child: Text(subtitle)),
+        Flexible(child: Text(subtitle)),
       ],
     );
   }
@@ -343,7 +344,7 @@ class _VoltageDropBlockState extends State<VoltageDropBlock> {
 
             Container(
               width: double.infinity,
-              height: 90,
+              constraints: const BoxConstraints(minHeight: 90),
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(

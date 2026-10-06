@@ -139,6 +139,49 @@ void _expectStatus(String mode, String port) {
 }
 
 void main() {
+  for (final width in [320.0, 360.0, 412.0]) {
+    for (final scale in [1.0, 1.5]) {
+      testWidgets('ports remain usable at $width px and text scale $scale', (
+        tester,
+      ) async {
+        tester.view.devicePixelRatio = 1;
+        tester.view.physicalSize = Size(width, 800);
+        addTearDown(tester.view.resetDevicePixelRatio);
+        addTearDown(tester.view.resetPhysicalSize);
+        await tester.pumpWidget(
+          MaterialApp(
+            builder: (context, child) => MediaQuery(
+              data: MediaQuery.of(context)
+                  .copyWith(textScaler: TextScaler.linear(scale)),
+              child: child!,
+            ),
+            home: Scaffold(
+              body: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: MultimeterBlock(block: _block('dcVoltage')),
+              ),
+            ),
+          ),
+        );
+        expect(tester.takeException(), isNull);
+        for (final port in ['A', 'VΩ']) {
+          await _tap(tester, _port(port));
+          _expectPort(port);
+          _expectStatus('V DC', port);
+          expect(tester.takeException(), isNull);
+          final bounds = tester.getRect(_port(port));
+          expect(bounds.left, greaterThanOrEqualTo(0));
+          expect(bounds.right, lessThanOrEqualTo(width));
+          expect(bounds.width, greaterThanOrEqualTo(48));
+          expect(bounds.height, greaterThanOrEqualTo(48));
+        }
+        await _tap(tester, _chip('A'));
+        _expectStatus('A', 'VΩ');
+        expect(tester.takeException(), isNull);
+      });
+    }
+  }
+
   group('initialization', () {
     for (final mode in _modes) {
       testWidgets('${mode.label} starts with the red probe in VΩ', (

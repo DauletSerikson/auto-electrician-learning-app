@@ -269,7 +269,7 @@ class _MultimeterBlockState extends State<MultimeterBlock> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      height: 90,
+      constraints: const BoxConstraints(minHeight: 90),
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
@@ -352,9 +352,10 @@ class _MultimeterBlockState extends State<MultimeterBlock> {
 
         const SizedBox(height: 16),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Wrap(
+          alignment: WrapAlignment.spaceEvenly,
+          spacing: 8,
+          runSpacing: 16,
           children: [
             buildFixedComPort(context),
 

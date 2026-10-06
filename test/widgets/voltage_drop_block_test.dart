@@ -19,11 +19,17 @@ class _Exercise {
   Finder get checkButton =>
       find.widgetWithText(FilledButton, 'Проверить измерение');
 
-  Future<void> pump({bool quiz = false}) async {
+  Future<void> pump({bool quiz = false, double textScale = 1}) async {
     await tester.pumpWidget(
       MaterialApp(
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(context)
+              .copyWith(textScaler: TextScaler.linear(textScale)),
+          child: child!,
+        ),
         home: Scaffold(
           body: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
             child: VoltageDropBlock(
               block: _blocks[quiz]!,
               onAnswered: answers.add,
@@ -106,6 +112,41 @@ void main() {
       _blocks[quiz] = lesson.blocks.whereType<VoltageDropLessonBlock>().single;
     }
   });
+  for (final width in [320.0, 360.0, 412.0]) {
+    for (final scale in [1.0, 1.5]) {
+      testWidgets('points remain usable at $width px and text scale $scale', (
+        tester,
+      ) async {
+        tester.view.devicePixelRatio = 1;
+        tester.view.physicalSize = Size(width, 800);
+        addTearDown(tester.view.resetDevicePixelRatio);
+        addTearDown(tester.view.resetPhysicalSize);
+        final exercise = _Exercise(tester);
+        await exercise.pump(textScale: scale);
+        expect(tester.takeException(), isNull);
+        await exercise.connect('B', 'A');
+        expect(find.text('-4.00 V'), findsOneWidget);
+        await exercise.tap(exercise.checkButton);
+        expect(exercise.answers, [false]);
+        expect(tester.takeException(), isNull);
+        await exercise.tap(find.text('Попробовать ещё раз'));
+        await exercise.connect('A', 'B');
+        for (final selector in [
+          exercise.selectors.first,
+          exercise.selectors.last,
+        ]) {
+          final bounds = tester.getRect(selector);
+          expect(bounds.left, greaterThanOrEqualTo(0));
+          expect(bounds.right, lessThanOrEqualTo(width));
+        }
+        expect(find.text('4.00 V'), findsOneWidget);
+        await exercise.tap(exercise.checkButton);
+        expect(exercise.answers, [false, true]);
+        expect(find.textContaining('✓ Правильно.'), findsOneWidget);
+        expect(tester.takeException(), isNull);
+      });
+    }
+  }
   for (final quiz in [false, true]) {
     testWidgets('initial state follows ${quiz ? 'quiz' : 'lesson'} asset', (
       tester,
