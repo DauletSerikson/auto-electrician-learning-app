@@ -29,16 +29,26 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> loadProgress() async {
-    final allLessons = await courseService.loadAllLessons();
-
-    final result = await progressService.calculateProgress(allLessons);
-
     if (!mounted) return;
-
     setState(() {
-      progress = result;
-      loading = false;
+      loading = true;
+      progress = null;
     });
+    try {
+      final allLessons = await courseService.loadAllLessons();
+      final result = await progressService.calculateProgress(allLessons);
+      if (!mounted) return;
+      setState(() {
+        progress = result;
+        loading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        loading = false;
+        progress = null;
+      });
+    }
   }
 
   @override
@@ -55,7 +65,15 @@ class _HomeScreenState extends State<HomeScreen> {
     final data = progress;
 
     if (data == null) {
-      return const Center(child: Text('Не удалось загрузить прогресс'));
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Не удалось загрузить прогресс'),
+            TextButton(onPressed: loadProgress, child: const Text('Повторить')),
+          ],
+        ),
+      );
     }
 
     return ListView(

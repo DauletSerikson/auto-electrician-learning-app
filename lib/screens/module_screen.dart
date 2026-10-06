@@ -22,6 +22,8 @@ class _ModuleScreenState extends State<ModuleScreen> {
   late Future<List<LessonSummary>> lessonsFuture;
 
   Set<String> completedLessons = {};
+  bool progressLoading = true;
+  bool progressFailed = false;
 
   @override
   void initState() {
@@ -33,13 +35,25 @@ class _ModuleScreenState extends State<ModuleScreen> {
   }
 
   Future<void> loadProgress() async {
-    final completed = await progressService.getCompletedLessons();
-
     if (!mounted) return;
-
     setState(() {
-      completedLessons = completed;
+      progressLoading = true;
+      progressFailed = false;
     });
+    try {
+      final completed = await progressService.getCompletedLessons();
+      if (!mounted) return;
+      setState(() {
+        completedLessons = completed;
+        progressLoading = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        progressLoading = false;
+        progressFailed = true;
+      });
+    }
   }
 
   @override
@@ -49,7 +63,22 @@ class _ModuleScreenState extends State<ModuleScreen> {
       body: FutureBuilder<List<LessonSummary>>(
         future: lessonsFuture,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (progressFailed) {
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('Не удалось загрузить прогресс'),
+                  TextButton(
+                    onPressed: loadProgress,
+                    child: const Text('Повторить'),
+                  ),
+                ],
+              ),
+            );
+          }
+          if (progressLoading ||
+              snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
 
