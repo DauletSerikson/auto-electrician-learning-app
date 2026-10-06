@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../domain/course_progress.dart';
 import '../models/course_lesson.dart';
 import '../models/home_progress.dart';
 
@@ -44,23 +45,6 @@ class ProgressService {
   Future<HomeProgress> calculateProgress(List<CourseLesson> allLessons) async {
     final completed = await getCompletedLessons();
 
-    final completedCount = allLessons
-        .where((item) => completed.contains(item.lesson.id))
-        .length;
-
-    CourseLesson? nextLesson;
-
-    for (final item in allLessons) {
-      if (!completed.contains(item.lesson.id)) {
-        nextLesson = item;
-        break;
-      }
-    }
-
-    return HomeProgress(
-      totalLessons: allLessons.length,
-      completedLessons: completedCount,
-      nextLesson: nextLesson,
-    );
+    return calculateCourseProgress(allLessons, completed);
   }
 }
