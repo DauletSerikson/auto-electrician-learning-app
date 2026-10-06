@@ -42,12 +42,12 @@ void main() {
     test('creates ImageLessonBlock', () {
       final block = LessonBlock.fromJson({
         'type': 'image',
-        'asset': 'assets/images/battery.jpg',
+        'asset': 'assets/images/automotive_12v_battery.png',
         'caption': 'Автомобильный аккумулятор',
       }) as ImageLessonBlock;
 
       expect(block, isA<ImageLessonBlock>());
-      expect(block.asset, 'assets/images/battery.jpg');
+      expect(block.asset, 'assets/images/automotive_12v_battery.png');
       expect(block.caption, 'Автомобильный аккумулятор');
     });
 
