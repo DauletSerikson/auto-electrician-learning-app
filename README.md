@@ -151,7 +151,10 @@ git diff --check
 Тесты проверяют parsing/validation, реальные course assets и их
 согласованность, domain completion/progress rules, физические модели,
 ошибки и concurrency storage, ввод в симуляторах, навигацию/сохранение
-экранов и узкие компоновки. Фактические проверки — в
+экранов, узкие компоновки и полный app smoke путь Home → Course → Module →
+реальный урок → completion → обновление прогресса. App smoke использует
+widget test и изолированный SharedPreferences platform fake; физическую
+Android проверку он не заменяет. Фактические проверки — в
 [docs/verification](docs/verification/).
 
 ## Android APK
