@@ -140,18 +140,13 @@ multimeter_block.dart
 Не переписывай все симуляторы одновременно. Сохраняй существующее
 поведение, если задача явно не требует его изменения.
 
-Известный технический долг
+Диагностические измерения
 
 DiagnosticCaseBlock
 
-Ранее выполненное измерение может отображаться с использованием текущего
-состояния питания цепи. Из-за этого история измерений потенциально может
-визуально измениться после переключения питания.
-
-Будущее решение: сохранять неизменяемый snapshot/result измерения в
-момент выполнения измерения.
-
-Не исправляй это скрытно в несвязанном рефакторинге.
+После R3 выполнено сохранение immutable DiagnosticMeasurementRecord/result
+в момент измерения, включая состояние питания. История не должна меняться
+при переключении питания. Сохраняй это поведение и regression tests.
 
 Проверка массы
 
@@ -270,31 +265,36 @@ Typed sealed hierarchy, строгий JSON parsing, отказ от giant nulla
 model, LessonBlockRenderer, typed widget inputs, удаление временного
 compatibility layer.
 
-Этап завершён только при чистом flutter analyze и успешном test suite.
+Этап завершён; typed widgets и LessonBlockRenderer используются без
+compatibility layer.
 
 R3 — Simulator/domain separation
 
-Следующее крупное направление: постепенно отделить
-физическую/диагностическую модель симуляторов от Flutter UI.
-
-Сначала анализ существующих simulator widgets и безопасная
-последовательность декомпозиции. Не начинай массовый rewrite.
+Этап завершён: расчёты и диагностические правила вынесены в pure Dart
+lib/simulation/. Дальнейшие изменения выполняй постепенно, без mass rewrite.
 
 R4 — Simulator architecture and correctness
 
-Улучшение общей архитектуры, уменьшение дублирования, повышение
-технической корректности диагностики, тестирование domain logic.
+Этап завершён: correctness fixes и regression tests для симуляторов,
+immutable diagnostic results и доказательная диагностика.
 
-R5 — Progress/domain layer
+R5 — Progress Reliability & Domain Rules
 
-План: completion, attempts, scores, unlocking, module progress и более
-явная domain model прогресса. Не реализовывай заранее без отдельной
-задачи.
+Этап завершён: pure Dart lesson attempt/course progress, read/save error
+handling и serialization completion writes. Persistent storage хранит
+completed lesson IDs. History, unlocking и module progress UX остаются
+будущими задачами; не реализовывай без отдельного запроса.
 
 R6 — Portfolio polish
 
 README, screenshots, architecture diagram, дополнительные tests,
 launcher icon, metadata, GitHub cleanup и release preparation.
+
+Выполняется по docs/roadmap/R6_PLAN.txt. Версия 0.1.0+1, Android applicationId
+com.dauletserikson.autoelectrician, label «Автоэлектрика с нуля».
+Flutter 3.47.5 / Dart 3.13.4. R6.1–R6.4 завершены; physical Android smoke
+и итоговый release audit ещё обязательны. Debug signing release APK допустим
+только для portfolio/sideload; не называй его production-store signing.
 
 Текущий приоритет
 

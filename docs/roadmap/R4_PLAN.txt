@@ -1,0 +1,878 @@
+R4 — SIMULATOR CORRECTNESS
+Проект: Auto Electrician Learning App
+
+Статус перед началом R4
+=======================
+
+R1 — Stabilization: завершён.
+R2 — Typed lesson blocks / renderer migration: завершён.
+R3 — Simulator/domain separation: завершён.
+
+После R3:
+- основные электрические правила вынесены из Flutter UI в pure Dart simulation layer;
+- simulation layer не зависит от Flutter UI;
+- widget state и lifecycle намеренно остаются в StatefulWidget;
+- введение Bloc/Provider/Riverpod/controller layer не требуется;
+- characterization tests защищают observable behavior.
+
+После R3 отдельно выполнены два correctness fix для DiagnosticCase:
+
+1. Measurement history переведена на immutable snapshots.
+   Историческое измерение больше не пересчитывается при изменении состояния цепи.
+
+2. DiagnosticCaseForbidden больше не считается допустимой continuity measurement.
+   Запрещённая прозвонка остаётся в history, но не удовлетворяет completion requirement.
+
+Baseline перед R4:
+- flutter analyze: No issues found!
+- flutter test: 458 tests passed.
+
+R4 не является архитектурным рефакторингом.
+Основная цель R4 — повысить электрическую, диагностическую, safety и учебную корректность существующих симуляторов.
+
+
+============================================================
+1. ГЛАВНАЯ ЦЕЛЬ R4
+============================================================
+
+Проверять и исправлять расхождения между:
+
+1. pure simulation rules;
+2. observable behavior Flutter widgets;
+3. текстами и explanations;
+4. учебной задачей;
+5. базовым физическим смыслом автомобильной электрической цепи.
+
+Основной вопрос R4:
+
+«Правильно ли приложение учит пользователя выполнять измерения и интерпретировать результаты?»
+
+Не переписывать приложение ради более красивой архитектуры.
+
+
+============================================================
+2. ОБЩИЙ ПРИНЦИП РАБОТЫ
+============================================================
+
+Работать последовательно маленькими независимыми correctness fixes.
+
+Предпочтительный цикл:
+
+1. изучить текущий код;
+2. изучить существующие tests;
+3. определить observable contract;
+4. подтвердить проблему;
+5. при необходимости сначала добавить regression/characterization test;
+6. выполнить минимальный fix;
+7. запустить полный verification;
+8. проверить diff;
+9. сообщить результат;
+10. создать отдельный commit только после явного разрешения либо если текущая инструкция явно разрешает commits;
+11. перейти к следующему пункту только после успешного завершения предыдущего.
+
+Не объединять несколько независимых correctness problems в один fix.
+
+
+============================================================
+3. КЛАССИФИКАЦИЯ ПРОБЛЕМ
+============================================================
+
+При обнаружении новой проблемы классифицировать её:
+
+A — Confirmed correctness bug
+
+Код, UI, explanation или completion противоречат друг другу либо собственным правилам simulation.
+
+B — Pedagogical / physical simplification
+
+Модель физически упрощена, но внутренне согласована и подходит учебной цели.
+
+C — Needs domain decision
+
+Из текущего кода/content нельзя однозначно определить желаемую физическую или продуктовую semantics.
+
+D — Architecture / UX only
+
+Проблема не является electrical correctness bug.
+
+Исправлять автоматически в рамках R4 в первую очередь проблемы класса A.
+
+Проблемы B обычно документировать, но не усложнять модель без необходимости.
+
+Для C не придумывать semantics самостоятельно.
+Остановиться, описать варианты и запросить решение.
+
+D не смешивать с electrical correctness fixes, если UX-проблема не приводит к неправильному обучению.
+
+
+============================================================
+4. ОБЩИЕ ОГРАНИЧЕНИЯ R4
+============================================================
+
+Без отдельного обоснования НЕ:
+
+- вводить Bloc;
+- вводить Provider;
+- вводить Riverpod;
+- вводить GetX;
+- создавать общий state-management framework;
+- создавать универсальный circuit solver;
+- создавать общий diagnostic engine;
+- объединять разные simulation classes только ради DRY;
+- переносить StatefulWidget state в controllers только ради архитектуры;
+- переписывать LessonBlock hierarchy;
+- менять renderer;
+- менять CourseService;
+- менять ProgressService;
+- менять storage architecture;
+- менять course JSON во время code-only correctness fix;
+- менять несколько независимых физических правил одним commit;
+- выполнять большой refactor одновременно с correctness fix.
+
+Pure simulation layer должен оставаться независимым от:
+
+- Flutter widgets;
+- BuildContext;
+- colors;
+- IconData;
+- UI strings;
+- screens;
+- SharedPreferences;
+- LessonScreen.
+
+
+============================================================
+5. TESTING POLICY
+============================================================
+
+Существующие characterization tests не являются доказательством того, что текущее поведение правильно.
+
+Если characterization test фиксирует известный bug, при correctness fix этот test МОЖНО и НУЖНО сознательно изменить.
+
+При этом:
+
+- unrelated characterization tests должны оставаться зелёными;
+- simulation rules желательно тестировать pure unit tests;
+- observable interaction — widget tests;
+- не добавлять tests только ради количества;
+- regression test должен защищать конкретно исправленный дефект.
+
+После каждой задачи выполнить:
+
+dart format lib test
+
+Если обычный Dart не может записать telemetry-файл, использовать уже проверенный вариант с:
+
+--suppress-analytics
+
+Затем:
+
+flutter analyze
+flutter test
+git diff --check
+
+После каждой задачи сообщать:
+
+- что было неправильно;
+- почему это было неправильно;
+- что изменено;
+- какие tests добавлены/изменены;
+- итоговое число tests;
+- результаты analyze/test/diff check;
+- diff stat;
+- были ли изменены JSON/assets;
+- был ли выполнен commit;
+- был ли выполнен push.
+
+
+============================================================
+6. R4.1 — CONTINUITY SUCCESS EXPLANATION
+============================================================
+
+Проблема подтверждена.
+
+ConductorMeasurementSimulation использует continuity threshold:
+
+R <= 50.0 Ω → beep
+R > 50.0 Ω → no beep
+
+При этом success predicate проверяет правильность процедуры измерения, а не исправность провода.
+
+Поэтому возможны:
+
+- исправный низкоомный провод → success + beep;
+- исправный провод с сопротивлением выше threshold → success + no beep;
+- оборванный провод → success + OL + no beep;
+
+если сама процедура выполнена правильно.
+
+Текущий UI success explanation ошибочно ориентируется в основном на wireBroken и может утверждать наличие beep для сопротивления выше threshold.
+
+Отдельная boundary-проблема:
+
+50.0 Ω → beep
+
+поэтому формулировка «ниже 50 Ω» неверна.
+Нужно использовать semantics «не превышает порог» либо эквивалентную.
+
+Требуемый результат:
+
+1. broken/open:
+   - OL;
+   - no beep;
+   - explanation сообщает об обнаруженном разрыве.
+
+2. intact + beep:
+   - measurement success;
+   - explanation сообщает, что сопротивление находится в пределах continuity threshold;
+   - beep присутствует.
+
+3. intact + no beep:
+   - measurement success;
+   - explanation сообщает, что сопротивление превышает threshold;
+   - отсутствие beep не трактуется автоматически как обрыв.
+
+Не менять:
+
+- threshold;
+- success predicate;
+- resistance formatting;
+- simulation physics;
+- course assets.
+
+Особо протестировать:
+
+- 0.3 Ω;
+- 50.0 Ω;
+- 50.01 Ω;
+- broken conductor.
+
+
+============================================================
+7. R4.2 — CONTINUITY INDICATOR SEMANTICS
+============================================================
+
+После R4.1 отдельно исправить indicator/status во время measurement.
+
+Подтверждённая проблема:
+
+UI может показывать формулировку вроде:
+
+«Непрерывный путь не обнаружен»
+
+в ситуациях, когда измерение вообще недействительно, например из-за неправильного порта.
+
+Также отсутствие beep при resistance > threshold не означает автоматически физический обрыв.
+
+Нужно различать минимум:
+
+1. invalid measurement configuration;
+2. open circuit;
+3. valid resistance above continuity threshold;
+4. valid continuity with beep.
+
+Не менять completion logic без необходимости.
+
+Не смешивать с same-point probes fix.
+
+
+============================================================
+8. R4.3 — DIAGNOSTIC CASE: EVIDENCE-AWARE COMPLETION
+============================================================
+
+Это подтверждённый reachable correctness bug.
+
+После предыдущих fixes DiagnosticCase уже:
+
+- сохраняет immutable measurement snapshots;
+- не считает Forbidden continuity допустимой measurement.
+
+Но voltage requirements пока проверяются преимущественно по наличию identifiers.
+
+Из-за этого в реальном positiveWireOpen exercise возможна последовательность:
+
+обесточить цепь
+→ battery = 12.6 V
+→ fuse output = 0 V
+→ lamp positive = 0 V
+→ continuity = OL
+→ check
+→ success
+
+После чего success explanation утверждает, что после предохранителя питание есть.
+
+Это внутреннее противоречие.
+
+Цель:
+
+completion должен опираться не только на наличие voltage measurements, но и на диагностически значимые сохранённые результаты.
+
+Для positiveWireOpen ожидаемое доказательство должно соответствовать фактической диагностической логике.
+
+Перед изменением:
+
+1. восстановить точную intended sequence из lesson content;
+2. определить необходимые measurement evidence;
+3. добавить regression tests;
+4. только затем менять completion predicate.
+
+Сохранить:
+
+- immutable snapshots;
+- возможность свободного порядка измерений, если порядок сам по себе не является частью задания;
+- valid continuity requirement;
+- history;
+- retry lifecycle.
+
+Не превращать DiagnosticCase в общий diagnostic engine.
+
+Не менять hardcoded unpowered battery 12.6 в этой задаче.
+
+
+============================================================
+9. R4.4 — CURRENT MEASUREMENT: V DC CORRECTNESS
+============================================================
+
+Подтверждён отдельный bug во вспомогательном V DC behavior CurrentMeasurementSimulation.
+
+Требуется отдельно проверить и исправить:
+
+- V DC mode;
+- VΩ port;
+- A port;
+- acrossBattery;
+- acrossLamp;
+- disconnected;
+- polarity/reference assumptions.
+
+Из аудита:
+
+- acrossBattery может показывать voltage даже при красном проводе в A-port;
+- acrossLamp с правильным VΩ может показывать 0 V, хотя текущая схема предполагает лампу между источником и массой.
+
+Не смешивать эту задачу с основной A-mode current measurement.
+
+Не менять одновременно:
+
+- fuse rating behavior;
+- overload model;
+- acrossBattery short-circuit model;
+- acrossLamp current-mode consequence.
+
+Добавить regression tests для V DC table.
+
+
+============================================================
+10. R4.5 — CONDUCTOR SAME-POINT PROBES
+============================================================
+
+Подтверждённая проблема:
+
+текущая simulation может объединять:
+
+- отсутствующий щуп;
+- два щупа на одной точке;
+
+и возвращать OL.
+
+Для двух щупов, поставленных на одну электрическую точку/проводник, OL физически вводит в заблуждение.
+
+Нужно отдельно определить минимальную учебную модель same-point measurement.
+
+При этом:
+
+- same-point measurement НЕ должна засчитывать упражнение, требующее измерения A–B;
+- показание и beep должны быть физически/учебно согласованными;
+- не нужен сложный contact resistance model.
+
+Перед fix добавить regression tests.
+
+Не смешивать с continuity indicator fix.
+
+
+============================================================
+11. R4.6 — CIRCUIT BATTERY SYMBOL
+============================================================
+
+Подтверждённая reachable графическая ошибка.
+
+В Circuit painters короткая и длинная пластины батареи имеют неправильное соответствие знакам полярности.
+
+Стандартная semantics:
+
+- длинная пластина — positive;
+- короткая пластина — negative.
+
+Исправить оба используемых painter.
+
+Не менять:
+
+- circuit domain logic;
+- topology;
+- source voltage;
+- lamp behavior;
+- labels полярности как концепцию.
+
+Добавить/адаптировать тест только если графическое правило можно надёжно проверить без brittle golden test.
+
+Не вводить golden infrastructure только ради этой маленькой правки.
+
+
+============================================================
+12. R4.7 — BATTERY MEASUREMENT SAFETY FEEDBACK
+============================================================
+
+Текущая BatteryVoltageSimulation при Ω/continuity не моделирует реальное сопротивление аккумулятора и может показывать OL.
+
+Exercise success при этом не выдаётся, но feedback недостаточно явно объясняет, что resistance/continuity measurement на запитанном источнике является неправильной процедурой.
+
+Цель:
+
+улучшить safety semantics и feedback.
+
+Не пытаться моделировать:
+
+- внутреннее сопротивление батареи;
+- повреждение мультиметра;
+- реальные transient процессы.
+
+Нужно научить правильной процедуре, а не строить электрохимическую модель аккумулятора.
+
+Также проверить battery-specific continuity text:
+не использовать формулировки про «концы провода», если объект упражнения — аккумулятор.
+
+Эту задачу выполнять отдельно от generic conductor continuity.
+
+
+============================================================
+13. R4.8 — CURRENT INPUT OVERLOAD / FUSE RATING
+============================================================
+
+Текущая модель содержит meterFuseRating, но rating фактически не участвует в success behavior series measurement.
+
+Synthetic case может позволить:
+
+loadCurrent > meterFuseRating
+→ normal reading
+→ success
+
+В текущих course assets:
+loadCurrent = 2 A
+meterFuseRating = 10 A
+
+поэтому проблема сейчас недостижима студентом.
+
+Перед implementation необходимо определить простую intended model.
+
+Не строить времятоковую характеристику предохранителя.
+
+Возможная минимальная semantics должна быть обсуждена до реализации:
+
+- при корректном series connection и loadCurrent выше rating:
+  должен ли simulated fuse немедленно считаться blown?
+- какой readout показывать?
+- является ли это частью текущей учебной цели?
+
+Если domain decision не определён — классифицировать C и остановиться.
+
+
+============================================================
+14. CURRENT MEASUREMENT ACROSS-BATTERY
+============================================================
+
+Текущее правило:
+
+A mode + A port + acrossBattery
+→ simulated fuse blows.
+
+Для автомобильного аккумулятора это является разумной safety-oriented учебной моделью короткого подключения амперметра.
+
+Не усложнять её только потому, что реальный ток зависит от:
+
+- внутреннего сопротивления батареи;
+- сопротивления проводов;
+- сопротивления предохранителя;
+- transient behavior.
+
+Однако synthetic sourceVoltage = 0 с тем же fuse blow физически сомнителен.
+
+Поскольку текущие assets этого не используют, не менять автоматически.
+
+Если задача дойдёт до этого поведения — сначала domain decision.
+
+
+============================================================
+15. CURRENT MEASUREMENT ACROSS-LAMP
+============================================================
+
+Аудит обнаружил различие между:
+
+- acrossBattery;
+- acrossLamp;
+
+при A-mode connection.
+
+Оба отклоняются, но последствия различаются.
+
+Это пока классификация C — needs domain decision.
+
+Не менять до определения предполагаемой схемы и учебной semantics.
+
+Не предполагать автоматически, что acrossLamp обязан вести себя идентично acrossBattery.
+
+
+============================================================
+16. DIAGNOSTIC CHOICE
+============================================================
+
+Текущая groundOpen table не признана ошибочной.
+
+При измерениях относительно battery negative:
+
+groundOpen может приводить к:
+
+lamp positive ≈ source voltage
+lamp ground ≈ source voltage
+
+если:
+
+- positive path исправен;
+- лампа исправна;
+- ground open находится после лампы;
+- ток практически отсутствует;
+- используется высокоомный voltmeter.
+
+Поэтому не менять groundOpen только из-за интуитивного ожидания «масса всегда 0 V».
+
+Важное правило R4:
+
+любое voltage measurement должно рассматриваться относительно конкретной reference point.
+
+Не делать вывод:
+
+«0 V на ground point доказывает хорошую массу»
+
+без анализа нагрузки и reference.
+
+DiagnosticChoice сейчас может быть завершён правильным выбором без выполнения measurements.
+
+Это pedagogical/assessment UX, а не автоматически electrical correctness bug.
+
+Не менять в R4 без отдельной задачи.
+
+
+============================================================
+17. DIAGNOSTIC CASE HARDCODED 12.6 V
+============================================================
+
+При powered=false battery measurement в DiagnosticCase возвращает 12.6 V независимо от sourceVoltage.
+
+Для текущего реального asset sourceVoltage также 12.6 V, поэтому проблема недостижима.
+
+UI использует смысл:
+
+«обесточить цепь»
+
+а не обязательно:
+
+«отключить аккумулятор».
+
+Поэтому сохранение напряжения на самой батарее при отключённой диагностируемой ветви может быть полностью корректным.
+
+Но игнорирование synthetic sourceVoltage требует domain decision.
+
+Не исправлять автоматически.
+
+
+============================================================
+18. CONTENT REPLACEMENT POLICY
+============================================================
+
+Same-key replacement ранее выявлял stale checked/completed state в diagnostic widgets.
+
+Snapshot history уже не пересчитывается.
+
+Но политика замены LessonBlock content с тем же widget key окончательно не определена.
+
+Это не первоочередная electrical correctness задача.
+
+Не менять lifecycle/key architecture в процессе других R4 fixes.
+
+Если проблема становится practically reachable — оформить отдельную задачу.
+
+
+============================================================
+19. COURSE-ASSET REACHABILITY
+============================================================
+
+Для каждого нового найденного bug обязательно указывать:
+
+Reachability: YES
+или
+Reachability: NO
+
+YES:
+студент может получить это поведение через текущие course assets и доступные controls.
+
+NO:
+для воспроизведения нужны synthetic inputs или content, которого сейчас нет.
+
+Reachability влияет на priority, но NO не означает, что generic simulation bug нужно игнорировать навсегда.
+
+
+============================================================
+20. ПРИОРИТЕТ R4
+============================================================
+
+Рабочая очередь:
+
+R4.1
+Continuity success explanation.
+
+R4.2
+Continuity indicator:
+invalid configuration vs open circuit vs above-threshold resistance.
+
+R4.3
+DiagnosticCase evidence-aware completion.
+
+R4.4
+CurrentMeasurement V DC correctness.
+
+R4.5
+Same-point conductor measurement.
+
+R4.6
+Battery symbol polarity in Circuit painters.
+
+R4.7
+Battery resistance/continuity safety feedback.
+
+R4.8
+Current-input overload / meterFuseRating — только после domain decision.
+
+После этого провести повторный correctness audit и решить, нужны ли дополнительные R4 tasks.
+
+Проблемы класса C не блокируют выполнение подтверждённых A-fixes.
+
+
+============================================================
+21. COMMIT POLICY
+============================================================
+
+Один independent correctness fix = один commit.
+
+Примеры commit messages:
+
+fix: correct continuity success explanation
+
+fix: distinguish continuity measurement states
+
+fix: require diagnostic voltage evidence
+
+fix: correct voltage readings in current exercise
+
+fix: correct same-point conductor readings
+
+fix: correct battery schematic polarity
+
+fix: improve battery measurement safety feedback
+
+Не использовать один commit вида:
+
+fix: improve simulators
+
+для нескольких независимых изменений.
+
+Перед commit:
+
+git status --short
+git diff
+git diff --check
+
+Убедиться, что unrelated files не попали в commit.
+
+Не выполнять push без явного разрешения.
+
+Не выполнять force push.
+
+Не переписывать историю.
+
+
+============================================================
+22. ПРАВИЛО НЕПРЕРЫВНОЙ РАБОТЫ АГЕНТА
+============================================================
+
+Если агенту разрешена последовательная работа по этому документу:
+
+1. выполнять R4 tasks строго по порядку;
+2. за один рабочий шаг брать только один R4.x;
+3. сначала анализировать текущую реализацию и tests;
+4. выполнять минимальный fix;
+5. запускать полный verification;
+6. если verification зелёный — зафиксировать отчёт;
+7. commit выполнять только если агенту отдельно разрешено делать commits;
+8. затем переходить к следующему R4.x.
+
+Агент МОЖЕТ самостоятельно продолжать к следующей задаче только если:
+
+- предыдущая задача однозначно выполнена;
+- flutter analyze clean;
+- flutter test полностью green;
+- git diff --check clean;
+- не возник domain decision класса C;
+- не требуется изменение course content;
+- не обнаружено противоречие с данным R4 plan.
+
+Агент ОБЯЗАН ОСТАНОВИТЬСЯ, если:
+
+- тесты падают по неизвестной причине;
+- требуется выбрать новую физическую semantics;
+- найден safety вопрос, правильное поведение которого неоднозначно;
+- исправление требует существенного изменения architecture;
+- требуется изменить несколько lesson JSON;
+- возникает необходимость общего diagnostic/circuit engine;
+- существующие tests и course content задают противоречивые требования;
+- scope задачи начинает затрагивать другой R4.x;
+- нужен продуктовый/учебный выбор пользователя.
+
+При остановке агент должен сообщить:
+
+1. на каком R4.x остановился;
+2. что обнаружено;
+3. почему нельзя безопасно выбрать решение самостоятельно;
+4. возможные варианты;
+5. рекомендуемый вариант;
+6. какие файлы потенциально будут затронуты.
+
+
+============================================================
+23. DEFINITION OF DONE ДЛЯ КАЖДОГО R4.x
+============================================================
+
+Задача считается завершённой только если:
+
+- причина проблемы установлена;
+- regression coverage существует;
+- fix минимален;
+- unrelated behavior не изменён;
+- flutter analyze clean;
+- flutter test green;
+- git diff --check clean;
+- diff соответствует scope;
+- известные intentionally deferred issues не исправлены случайно;
+- итоговое поведение описано в отчёте.
+
+
+============================================================
+24. R4 EXIT CRITERIA
+============================================================
+
+R4 можно считать завершённым, когда:
+
+1. подтверждённые reachable electrical correctness bugs из R4 audit исправлены либо явно отложены с обоснованием;
+
+2. UI explanations соответствуют simulation results;
+
+3. continuity exercise различает:
+   - invalid measurement;
+   - open circuit;
+   - resistance above threshold;
+   - continuity with beep;
+
+4. DiagnosticCase completion опирается на диагностически значимые evidence, а не только identifiers;
+
+5. CurrentMeasurement auxiliary voltage behavior внутренне согласован;
+
+6. conductor same-point behavior больше не сообщает ложный OL;
+
+7. circuit battery symbols имеют правильную полярность;
+
+8. battery measurement safety feedback не создаёт опасную или ложную ментальную модель;
+
+9. проблемы класса C документированы и не были «решены» произвольными предположениями;
+
+10. simulation layer остаётся pure Dart;
+
+11. не появился ненужный state-management/framework layer;
+
+12. полный test suite зелёный;
+
+13. flutter analyze clean.
+
+
+============================================================
+25. ЧТО НЕ ЯВЛЯЕТСЯ ЦЕЛЬЮ R4
+============================================================
+
+R4 НЕ должен превращать приложение в инженерный SPICE simulator.
+
+Не требуется моделировать:
+
+- реальные характеристики автомобильного аккумулятора;
+- температурные зависимости;
+- переходные процессы;
+- времятоковые характеристики всех предохранителей;
+- сопротивление каждого контакта;
+- реальные характеристики ламп;
+- нелинейные нагрузки;
+- ECU electronics;
+- CAN bus;
+- паразитные сопротивления всей проводки;
+- полноценные законы Кирхгофа для произвольной схемы;
+- реальные повреждения мультиметра.
+
+Цель приложения образовательная:
+
+дать начинающему правильную базовую mental model и научить безопасной системной диагностике.
+
+
+============================================================
+26. ОСНОВНОЙ ПРИНЦИП R4
+============================================================
+
+Если приходится выбирать между:
+
+A. более сложной и «реалистичной» моделью;
+
+и
+
+B. простой моделью, которая физически непротиворечива и правильно учит диагностической процедуре,
+
+предпочитать B.
+
+Но упрощение не должно:
+
+- давать заведомо неправильное показание;
+- давать опасный совет;
+- путать invalid measurement с реальным результатом;
+- объявлять отсутствие beep доказательством обрыва;
+- объявлять measurement evidence, которого пользователь фактически не получил;
+- противоречить собственному success explanation.
+
+
+============================================================
+27. ИТОГОВЫЙ ОТЧЁТ ПОСЛЕ R4
+============================================================
+
+После завершения всех доступных R4 tasks провести read-only финальный аудит.
+
+Отчёт должен содержать:
+
+1. выполненные R4.x;
+2. commits;
+3. исправленные correctness bugs;
+4. intentionally preserved simplifications;
+5. unresolved class C decisions;
+6. текущую структуру simulation layer;
+7. test count;
+8. flutter analyze result;
+9. flutter test result;
+10. git status;
+11. оставшийся technical debt;
+12. рекомендацию:
+
+R4 exit recommendation:
+READY / NOT READY
+
+Не начинать следующий milestone автоматически до итогового аудита.

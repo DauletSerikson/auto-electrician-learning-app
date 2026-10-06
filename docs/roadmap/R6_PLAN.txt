@@ -1,0 +1,1844 @@
+R6 — PORTFOLIO RELEASE READINESS
+Project: Auto Electrician Learning App
+
+Target release:
+v0.1.0
+
+Status before R6
+================
+
+Completed:
+
+R1 — Stabilization
+R2 — Typed lesson blocks / renderer migration
+R3 — Simulator/domain separation
+R4 — Simulator correctness
+R5 — Progress Reliability & Domain Rules
+
+R4 exit recommendation: READY
+R5 exit recommendation: READY
+
+Pre-R6 audit:
+COMPLETED
+
+Pre-R6 recommendation:
+MINIMAL
+
+Portfolio readiness:
+NEARLY READY
+
+
+============================================================
+1. CONFIRMED BASELINE
+============================================================
+
+Branch before R6:
+
+refactor/progress-reliability
+
+HEAD before R6:
+
+be92d38 fix: validate lesson completion metadata
+
+Verified:
+
+flutter analyze
+→ No issues found!
+
+flutter test
+→ 586 tests passed
+
+Full test runtime:
+approximately 26–30 seconds
+
+git diff --check:
+clean
+
+Tracked diff:
+empty
+
+Android debug APK:
+build successful
+
+Android release APK:
+build successful
+
+Release APK size:
+approximately 48.17 MiB
+
+Current course:
+
+3 modules
+22 lessons
+197 lesson blocks
+13 JSON block types
+
+Current practical target platform:
+
+Android
+
+Other Flutter runners exist but are NOT considered
+verified/supported release targets.
+
+
+============================================================
+2. OWNER DECISIONS — FIXED
+============================================================
+
+The following decisions have been approved for R6.
+
+Product display name:
+
+Автоэлектрика с нуля
+
+Dart package name:
+
+electrician
+
+Keep it unchanged unless a concrete technical problem is found.
+
+Android applicationId:
+
+com.dauletserikson.autoelectrician
+
+Target first portfolio version:
+
+0.1.0+1
+
+Git release/tag target:
+
+v0.1.0
+
+License:
+
+MIT
+
+Existing battery.jpg:
+
+Do not rely on undocumented provenance.
+
+Replace it with a project-owned/generated educational
+battery illustration with clear usage rights.
+
+Target platform for first release:
+
+Android
+
+Release purpose:
+
+portfolio / sideload demonstration.
+
+Google Play publication is NOT part of R6.
+
+Production signing infrastructure is NOT required for R6.
+
+Debug signing for the release-mode demonstration APK is acceptable
+if clearly documented.
+
+
+============================================================
+3. CONSEQUENCE OF APPLICATION ID CHANGE
+============================================================
+
+Changing:
+
+com.example.electrician
+
+to:
+
+com.dauletserikson.autoelectrician
+
+creates a new Android application identity.
+
+An already installed build using the old applicationId
+will not automatically transfer its local SharedPreferences progress
+to the new application.
+
+This is accepted because the identity change is being made
+before the first formal portfolio release.
+
+Do NOT implement migration from the old development application ID.
+
+Do NOT add import/export progress functionality.
+
+
+============================================================
+4. R6 PRIMARY GOAL
+============================================================
+
+Turn the current technically strong application into
+a coherent first portfolio-ready Android release.
+
+R6 should focus on:
+
+- Android usability;
+- narrow-screen correctness;
+- application identity;
+- branding;
+- asset provenance;
+- public documentation;
+- minimal end-to-end confidence;
+- CI;
+- physical Android smoke testing;
+- release verification.
+
+R6 is NOT a feature milestone.
+
+Do not expand course functionality.
+
+
+============================================================
+5. R6 TASK ORDER
+============================================================
+
+Execute strictly in this order:
+
+R6.1
+Android responsive/layout minimum
+
+R6.2
+Android identity, version and repository hygiene
+
+R6.3
+Launcher branding
+
+R6.4
+License and asset provenance
+
+R6.5
+Portfolio documentation
+
+R6.6
+Integration test and Android smoke confidence
+
+R6.7
+CI and final release verification
+
+Then:
+
+R6 FINAL READ-ONLY AUDIT
+
+Do NOT begin a post-R6 feature milestone automatically.
+
+
+============================================================
+6. GENERAL RULES
+============================================================
+
+Keep existing architecture.
+
+Do NOT introduce without demonstrated need:
+
+- new state-management framework;
+- repository layer;
+- use-case layer;
+- controller architecture;
+- backend;
+- authentication;
+- database;
+- cloud sync;
+- analytics;
+- profiles;
+- localization framework;
+- new course modules;
+- unlocking;
+- achievements;
+- XP;
+- score history;
+- attempt history.
+
+Do not rewrite working subsystems merely for polish.
+
+R6 must reduce release risk, not create architectural churn.
+
+
+============================================================
+7. STANDARD VERIFICATION
+============================================================
+
+After every R6.x implementation task run:
+
+dart format lib test
+
+flutter analyze
+
+flutter test
+
+git diff --check
+
+git status --short
+
+Inspect:
+
+git diff
+
+before commit.
+
+For Android-related tasks also run the smallest relevant
+Android build verification.
+
+Use full release APK build where explicitly required below.
+
+
+============================================================
+8. COMMIT POLICY
+============================================================
+
+One completed R6.x task should normally produce one logical commit.
+
+Recommended commit messages:
+
+R6.1
+fix: improve narrow screen simulator layouts
+
+R6.2
+chore: prepare Android app identity for release
+
+R6.3
+feat: add application launcher branding
+
+R6.4
+docs: add license and owned course artwork
+
+R6.5
+docs: prepare repository for portfolio release
+
+R6.6
+test: add application integration smoke coverage
+
+R6.7
+ci: add portfolio release verification
+
+Adjust wording if the actual diff makes another concise
+message more accurate.
+
+Do not combine unrelated R6 tasks into one commit.
+
+Push:
+NOT ALLOWED unless explicitly requested later.
+
+Force push:
+NOT ALLOWED.
+
+History rewrite:
+NOT ALLOWED.
+
+Tag:
+do NOT create until final R6 audit is READY
+and owner explicitly approves release.
+
+
+============================================================
+9. REPORT AFTER EACH R6.x
+============================================================
+
+Report:
+
+1. R6.x completed.
+2. Problem addressed.
+3. Root cause.
+4. Production files changed.
+5. Test files changed/added.
+6. Documentation/assets changed.
+7. Observable behavior change: YES/NO.
+8. Android identity changed: YES/NO.
+9. Persistent schema changed: YES/NO.
+10. JSON course content changed: YES/NO.
+11. Test count.
+12. flutter analyze result.
+13. flutter test result.
+14. git diff --check result.
+15. Android build result where relevant.
+16. Diff stat.
+17. Commit hash.
+18. Push status.
+19. Deferred findings.
+
+
+============================================================
+10. R6.1 — ANDROID RESPONSIVE/LAYOUT MINIMUM
+============================================================
+
+Problem:
+
+Pre-R6 audit found two concrete narrow-screen layout risks
+on ordinary Stage 2 paths.
+
+A. MultimeterBlock
+
+Three ports approximately 88 px each are placed in one row.
+
+At narrow Android widths, after parent/card/meter padding,
+available width can be smaller than the required row.
+
+B. VoltageDropBlock
+
+Measurement point row has a fixed horizontal requirement
+that can exceed available width around a 360 px viewport.
+
+These are release blockers until corrected and tested.
+
+
+============================================================
+11. R6.1 REQUIRED BEHAVIOR
+============================================================
+
+The relevant simulator controls must remain usable at:
+
+- 320 px logical width where reasonably supported;
+- 360 px logical width;
+- ordinary modern phone widths.
+
+No RenderFlex overflow.
+
+No clipped essential controls.
+
+No control may become inaccessible.
+
+Preserve simulator behavior and electrical rules.
+
+Do NOT alter R4 simulation correctness.
+
+Do NOT change completion/scoring behavior.
+
+
+============================================================
+12. R6.1 IMPLEMENTATION PRINCIPLE
+============================================================
+
+Prefer adaptive Flutter layout primitives.
+
+Possible tools:
+
+- Wrap;
+- LayoutBuilder;
+- Flexible;
+- Expanded where semantically correct;
+- responsive spacing;
+- vertical arrangement below a width threshold.
+
+Do NOT solve overflow by making important controls
+unreasonably tiny.
+
+Do NOT introduce device-model-specific conditions.
+
+Do NOT hardcode a single phone width.
+
+
+============================================================
+13. R6.1 LARGE TEXT
+============================================================
+
+Check relevant controls under increased text scale.
+
+Focus on:
+
+- port labels;
+- measurement point labels;
+- segmented controls;
+- feedback text;
+- simulator buttons.
+
+Do not redesign the whole application for extreme accessibility modes.
+
+Fix confirmed practical overflows.
+
+
+============================================================
+14. R6.1 ACCESSIBILITY MINIMUM
+============================================================
+
+While touching these controls, verify:
+
+- selected state is understandable;
+- selection is not communicated only by color;
+- icon-only meaning has sufficient text/semantics;
+- interactive target remains practical.
+
+Do not start a full accessibility rewrite.
+
+
+============================================================
+15. R6.1 TESTS
+============================================================
+
+Add focused regression tests for at least:
+
+MultimeterBlock:
+- 320/360 px width;
+- representative port interaction;
+- no layout exception.
+
+VoltageDropBlock:
+- 320/360 px width;
+- measurement point interaction;
+- no layout exception.
+
+Where practical:
+- increased text scale.
+
+Do not create huge golden-test infrastructure
+unless clearly justified.
+
+Existing simulator behavior tests must remain green.
+
+
+============================================================
+16. R6.1 DEVICE FOLLOW-UP
+============================================================
+
+Automated viewport tests are necessary but not sufficient.
+
+Record these controls in the later R6.6 manual Android checklist.
+
+Do not mark physical-device verification complete during R6.1
+unless an actual Android device is available.
+
+
+============================================================
+17. R6.1 DEFINITION OF DONE
+============================================================
+
+R6.1 is complete when:
+
+- confirmed narrow layout risks are fixed;
+- simulator semantics are unchanged;
+- focused viewport regression tests exist;
+- flutter analyze is clean;
+- full tests pass;
+- git diff --check is clean;
+- no unrelated UI redesign occurred.
+
+
+============================================================
+18. R6.2 — IDENTITY, VERSION AND REPOSITORY HYGIENE
+============================================================
+
+Apply approved product identity.
+
+Android applicationId / namespace:
+
+com.dauletserikson.autoelectrician
+
+Launcher/product display label:
+
+Автоэлектрика с нуля
+
+Dart package:
+
+electrician
+
+Version:
+
+0.1.0+1
+
+
+============================================================
+19. R6.2 ANDROID IDENTITY
+============================================================
+
+Update all required Android package/application identity locations
+consistently.
+
+Inspect:
+
+- android/app/build.gradle.kts;
+- MainActivity package/directory if required;
+- Android manifests;
+- namespace;
+- applicationId;
+- generated assumptions.
+
+Do not leave:
+
+com.example.electrician
+
+in active Android application identity configuration.
+
+Search repository after change.
+
+
+============================================================
+20. R6.2 VERSION
+============================================================
+
+Set pubspec version:
+
+0.1.0+1
+
+Verify merged/build metadata reports:
+
+versionName = 0.1.0
+versionCode = 1
+
+Do NOT create git tag yet.
+
+
+============================================================
+21. R6.2 DISPLAY NAME
+============================================================
+
+Android launcher label should display:
+
+Автоэлектрика с нуля
+
+Ensure this does not require renaming Dart package/imports.
+
+Do not rename package:electrician imports.
+
+
+============================================================
+22. R6.2 GIT HYGIENE
+============================================================
+
+Pre-R6 audit observed temporary:
+
+android/.kotlin/sessions/*.salive
+
+during build.
+
+Ensure appropriate Kotlin/Gradle temporary compiler artifacts
+cannot appear as distracting untracked repository files.
+
+Do not broadly ignore legitimate source files.
+
+Inspect .gitignore changes carefully.
+
+
+============================================================
+23. R6.2 OPTIONAL DEPENDENCY CLEANUP
+============================================================
+
+cupertino_icons appears unused.
+
+Do NOT remove it automatically as part of R6.2
+unless:
+
+- usage search confirms zero production/test usage;
+- removal is trivial;
+- pubspec/lockfile update is clean;
+- no unrelated dependency upgrades occur.
+
+If package resolution would cause broad dependency churn,
+defer it.
+
+This cleanup is not release-critical.
+
+
+============================================================
+24. R6.2 VERIFICATION
+============================================================
+
+Run:
+
+flutter analyze
+flutter test
+git diff --check
+
+Then:
+
+flutter build apk --debug
+flutter build apk --release
+
+Inspect relevant merged manifest/build metadata.
+
+Verify:
+
+- new applicationId;
+- new label;
+- 0.1.0 / versionCode 1;
+- release APK builds;
+- Git status clean except intended roadmap/docs state.
+
+No Play Store signing work.
+
+
+============================================================
+25. R6.3 — LAUNCHER BRANDING
+============================================================
+
+Problem:
+
+Current Android launcher icon is the stock Flutter logo.
+
+Target:
+
+custom recognizable launcher icon appropriate for:
+
+Автоэлектрика с нуля
+
+
+============================================================
+26. R6.3 ASSET INPUT
+============================================================
+
+Do NOT invent an arbitrary permanent brand identity
+if approved artwork is not available.
+
+Use the project-owned launcher artwork supplied/approved
+for this task.
+
+If no approved source artwork exists at implementation time:
+
+STOP R6.3
+and request the icon asset.
+
+Do NOT silently keep the Flutter icon
+and claim branding is complete.
+
+
+============================================================
+27. R6.3 ANDROID ICON
+============================================================
+
+Implement appropriate Android launcher resources.
+
+Prefer adaptive icon support where compatible with project setup.
+
+Verify:
+
+- standard launcher icon;
+- adaptive mask behavior;
+- foreground/background;
+- no stock Flutter logo remains in active launcher resources.
+
+Avoid adding a heavy dependency solely for one-time icon generation
+unless justified.
+
+
+============================================================
+28. R6.3 SPLASH
+============================================================
+
+Custom animated splash is NOT required.
+
+If existing launch background can remain simple and professional,
+leave it.
+
+Do not expand task into splash-screen design.
+
+
+============================================================
+29. R6.3 VERIFICATION
+============================================================
+
+Verify:
+
+- Android builds;
+- resource references;
+- launcher resources;
+- visual appearance on actual device later in R6.6.
+
+Automated tests do not need to inspect icon pixels.
+
+
+============================================================
+30. R6.4 — LICENSE AND ASSET PROVENANCE
+============================================================
+
+Owner decision:
+
+Repository license:
+MIT.
+
+Add standard MIT LICENSE with correct copyright ownership/year
+according to repository owner information.
+
+Do not invent a company/entity.
+
+
+============================================================
+31. R6.4 BATTERY IMAGE
+============================================================
+
+Current:
+
+assets/images/battery.jpg
+
+has undocumented provenance.
+
+Do not publish the first portfolio release while depending
+on undocumented third-party provenance.
+
+Replace it with project-owned/generated educational artwork.
+
+
+============================================================
+32. R6.4 REPLACEMENT REQUIREMENTS
+============================================================
+
+Replacement should:
+
+- clearly depict a conventional automotive 12 V battery;
+- be educational rather than brand-specific;
+- avoid third-party logos/trademarks;
+- work inside the existing lesson layout;
+- have sufficient resolution;
+- avoid unnecessarily large file size.
+
+It may retain the same asset path if that minimizes content changes,
+provided provenance becomes clear.
+
+Do not alter lesson pedagogy merely to replace the image.
+
+
+============================================================
+33. R6.4 ATTRIBUTION
+============================================================
+
+Document ownership/source appropriately.
+
+If generated specifically for the project,
+state that the project uses project-owned/generated artwork
+where relevant.
+
+Do not make unsupported legal claims about AI-generated content.
+
+Do not create a complex attribution system for dependencies
+already governed through their package licenses.
+
+
+============================================================
+34. R6.4 VERIFICATION
+============================================================
+
+Verify:
+
+- asset exists;
+- pubspec includes it;
+- lesson loads it;
+- tests remain green;
+- APK includes it;
+- old undocumented image is no longer required.
+
+If the replacement image changes filename/path,
+update all references and tests.
+
+
+============================================================
+35. R6.5 — PORTFOLIO DOCUMENTATION
+============================================================
+
+Update README to reflect actual post-R6 project.
+
+Do not replace useful current content with generic marketing text.
+
+
+============================================================
+36. R6.5 README REQUIRED SECTIONS
+============================================================
+
+README should clearly include:
+
+1. Project title.
+
+2. Short purpose.
+
+3. Target audience.
+
+4. Current status:
+   portfolio release / v0.1.0.
+
+5. Main features.
+
+6. Course scope:
+   3 modules / 22 lessons.
+
+7. Interactive learning/simulators.
+
+8. Offline-first behavior.
+
+9. Progress behavior.
+
+10. Architecture overview.
+
+11. Project structure.
+
+12. Technology stack.
+
+13. Testing.
+
+14. Verified Flutter/Dart environment.
+
+15. Running locally.
+
+16. Android APK build instructions.
+
+17. Release/signing caveat.
+
+18. Screenshots/demo.
+
+19. Known limitations.
+
+20. Future roadmap.
+
+21. License.
+
+
+============================================================
+37. R6.5 HONEST PORTFOLIO CLAIMS
+============================================================
+
+README may state, if still true after implementation:
+
+- JSON-driven course content;
+- sealed typed LessonBlock hierarchy;
+- dedicated LessonBlockRenderer;
+- interactive automotive electrical exercises;
+- pure Dart simulation logic;
+- diagnostic exercises;
+- offline completion persistence;
+- pure Dart lesson-attempt evaluation;
+- pure Dart course-progress aggregation;
+- robust progress save/read handling;
+- extensive automated tests.
+
+Do not claim:
+
+- cloud sync;
+- accounts;
+- score history;
+- attempt history;
+- universal electrical circuit solver;
+- production Play Store readiness;
+- verified support for every generated Flutter platform.
+
+
+============================================================
+38. R6.5 ARCHITECTURE DIAGRAM
+============================================================
+
+Add a simple documentation diagram.
+
+It may use Mermaid if appropriate for GitHub.
+
+Represent actual architecture approximately as:
+
+Bundled JSON
+    ↓
+CourseService
+    ↓
+Typed models / LessonBlock
+    ↓
+LessonBlockRenderer
+    ↓
+Interactive widgets
+    ↕
+Pure simulation logic
+
+and:
+
+Task callbacks
+    ↓
+Lesson attempt domain
+    ↓
+LessonScreen orchestration
+    ↓
+ProgressService
+    ↓
+SharedPreferences
+
+Do not imply dependencies that do not exist.
+
+
+============================================================
+39. R6.5 TEST DOCUMENTATION
+============================================================
+
+Do not hardcode a test number casually if it will immediately drift.
+
+If README states the exact test count,
+ensure it matches the final R6 suite at release.
+
+Explain coverage categories rather than only boasting about count:
+
+- models/content;
+- domain;
+- simulation;
+- services;
+- widgets;
+- screens/navigation;
+- integration smoke, if R6.6 adds it.
+
+
+============================================================
+40. R6.5 ROADMAP
+============================================================
+
+Remove/replace roadmap statements that describe R1–R5 work
+as still pending.
+
+Clearly separate:
+
+Completed engineering milestones
+from
+Future product ideas.
+
+Potential future items:
+
+- module-level progress UX;
+- attempt/score history;
+- localization;
+- additional course content;
+- additional platform verification.
+
+Do not promise them as scheduled work.
+
+
+============================================================
+41. R6.5 AGENTS.MD
+============================================================
+
+Update only stale factual information.
+
+In particular inspect:
+
+- roadmap state;
+- resolved R4 debt;
+- test baseline;
+- current architecture.
+
+Keep AGENTS.md useful as development guidance.
+
+Do not turn AGENTS.md into a duplicate README.
+
+
+============================================================
+42. R6.5 ROADMAP DOCUMENTS
+============================================================
+
+Current roadmap plans exist under:
+
+docs/roadmap/
+
+R4_PLAN.txt
+R5_PLAN.txt
+R6_PLAN.txt
+
+Decide repository organization consistently.
+
+Preferred outcome:
+
+retain them as engineering/development history
+if they are useful and contain no private information.
+
+Possible structure:
+
+docs/development/
+  R4_SIMULATOR_CORRECTNESS.md
+  R5_PROGRESS_RELIABILITY.md
+  R6_RELEASE_READINESS.md
+
+However:
+
+do not rename/move them merely for aesthetic reasons
+if that creates unnecessary churn.
+
+At minimum ensure README does not treat these internal plans
+as primary user documentation.
+
+
+============================================================
+43. R6.5 SCREENSHOTS
+============================================================
+
+Portfolio README should ultimately show visual evidence.
+
+Recommended set:
+
+1. Home/progress.
+2. Module/lesson list.
+3. Theory/image lesson.
+4. Battery voltage measurement.
+5. Voltage drop.
+6. Current measurement/fuse.
+7. Diagnostic exercise.
+8. Completion/progress result.
+
+Use actual application screenshots.
+
+Do not fabricate screenshots from mock UI.
+
+If Codex cannot capture a real Android UI:
+
+prepare README structure/paths,
+but mark screenshots as pending physical-device capture.
+
+Do NOT claim screenshot task complete without real images.
+
+
+============================================================
+44. R6.6 — APP SMOKE CONFIDENCE
+============================================================
+
+R6.6 has two parts:
+
+A. minimal automated integration smoke;
+B. physical Android smoke.
+
+Both serve different purposes.
+
+
+============================================================
+45. R6.6 AUTOMATED INTEGRATION TEST
+============================================================
+
+Current suite has strong component coverage
+but no complete AutoElectricianApp flow.
+
+Add one minimal high-value integration/smoke flow.
+
+Target concept:
+
+launch app
+→ Home
+→ Course
+→ Module
+→ simple lesson
+→ satisfy completion requirements
+→ complete
+→ return
+→ verify progress update.
+
+Exact lesson may be chosen for stable testability.
+
+
+============================================================
+46. R6.6 INTEGRATION TEST PRINCIPLES
+============================================================
+
+The test must:
+
+- isolate SharedPreferences state;
+- not depend on user/device existing progress;
+- avoid arbitrary long delays;
+- avoid brittle pixel assertions;
+- verify meaningful user-visible flow;
+- cleanly start from known state.
+
+Do not attempt to automate all 22 lessons end-to-end.
+
+Do not duplicate hundreds of existing widget tests.
+
+
+============================================================
+47. R6.6 TEST LOCATION
+============================================================
+
+Choose appropriate Flutter test mechanism based on actual project needs.
+
+If integration_test is justified:
+use it minimally.
+
+If the same full-app flow can be robustly exercised
+with an app-level widget smoke test,
+evaluate whether adding integration_test dependency is necessary.
+
+The goal is confidence, not naming.
+
+Document the choice.
+
+
+============================================================
+48. R6.6 PHYSICAL ANDROID SMOKE
+============================================================
+
+This is a release gate.
+
+A human/device check is required before final READY.
+
+Use current release candidate APK.
+
+
+============================================================
+49. R6.6 DEVICE CHECKLIST
+============================================================
+
+On actual Android hardware verify:
+
+INSTALLATION
+- clean install succeeds;
+- launcher label correct;
+- launcher icon correct;
+- cold start works.
+
+HOME
+- Home renders;
+- progress state renders;
+- Course opens.
+
+COURSE
+- all 3 modules visible;
+- each module opens.
+
+CONTENT
+- open all 22 lessons;
+- no missing asset;
+- no parser/render failure;
+- lesson scrolling works.
+
+SIMULATORS
+- Circuit;
+- Multimeter;
+- Battery voltage;
+- Resistance;
+- Continuity;
+- Voltage drop;
+- Current measurement;
+- Diagnostic case;
+- Diagnostic choice.
+
+For representative simulators verify:
+- correct interaction;
+- incorrect setup feedback;
+- retry;
+- completion callbacks.
+
+QUIZZES
+- representative fail;
+- retry;
+- pass;
+- explicit completion.
+
+PROGRESS
+- Module updates;
+- Home updates;
+- next lesson changes;
+- completion survives process restart.
+
+NAVIGATION
+- normal Android back;
+- back from lesson;
+- completion flow;
+- pending-save behavior if practically reproducible.
+
+LAYOUT
+- narrow device / approximately 360 px logical width if available;
+- portrait;
+- landscape;
+- large text;
+- light theme;
+- dark theme;
+- keyboard appearance;
+- system insets.
+
+ACCESSIBILITY BASIC
+- major controls remain readable;
+- selected states understandable;
+- TalkBack quick pass if available.
+
+
+============================================================
+50. R6.6 DEVICE RESULT
+============================================================
+
+Record:
+
+- device model;
+- Android version;
+- APK version;
+- date;
+- pass/fail;
+- discovered issues.
+
+Do not store personal device identifiers.
+
+Any confirmed release-blocking UI/function issue:
+STOP final release process
+and report.
+
+
+============================================================
+51. R6.7 — CI AND FINAL RELEASE VERIFICATION
+============================================================
+
+Add minimal GitHub Actions CI appropriate for a solo Flutter portfolio project.
+
+Target:
+
+flutter pub get
+flutter analyze
+flutter test
+
+Use a Flutter version compatible with the verified project environment.
+
+Do not add complex matrices.
+
+
+============================================================
+52. R6.7 CI SCOPE
+============================================================
+
+One primary Android/Flutter validation job is sufficient.
+
+Do not automatically add:
+
+- macOS CI;
+- Windows CI;
+- web CI;
+- iOS CI;
+- release publishing;
+- Play Store upload;
+- coverage service;
+- dependency bots.
+
+Those are separate decisions.
+
+
+============================================================
+53. R6.7 RELEASE NOTES
+============================================================
+
+Prepare concise first-release notes.
+
+They should describe:
+
+- course scope;
+- interactive simulators;
+- diagnostics;
+- offline progress;
+- tests;
+- Android target;
+- known limitations.
+
+Do not create GitHub Release or tag automatically.
+
+
+============================================================
+54. R6.7 FINAL BUILD
+============================================================
+
+After all source/docs/test changes:
+
+flutter clean
+
+if genuinely needed for final confidence,
+otherwise avoid unnecessary clean.
+
+Then:
+
+flutter pub get
+flutter analyze
+flutter test
+flutter build apk --release
+git diff --check
+
+Record:
+
+- Flutter version;
+- Dart version;
+- test count;
+- APK path;
+- APK size;
+- versionName;
+- versionCode;
+- applicationId;
+- signing status.
+
+
+============================================================
+55. SIGNING STATUS
+============================================================
+
+Portfolio sideload target may continue using debug signing
+for the release-mode APK.
+
+README/release notes must not describe this as production-store signing.
+
+Do not create or commit:
+
+- keystore;
+- passwords;
+- key.properties with credentials.
+
+Production signing can be a future release task
+if Play Store distribution is pursued.
+
+
+============================================================
+56. FINAL R6 READ-ONLY AUDIT
+============================================================
+
+After R6.7:
+
+STOP implementation.
+
+Perform a read-only final audit.
+
+No fixes during audit.
+
+
+============================================================
+57. FINAL AUDIT — FUNCTIONAL
+============================================================
+
+Verify:
+
+- Home;
+- Course;
+- Module;
+- Lesson;
+- completion;
+- quiz;
+- progress;
+- retry;
+- navigation;
+- read/save errors;
+- all 22 content assets;
+- all simulator types.
+
+Cross-check automated tests and device smoke record.
+
+
+============================================================
+58. FINAL AUDIT — RESPONSIVE
+============================================================
+
+Verify resolved narrow-screen findings:
+
+- MultimeterBlock;
+- VoltageDropBlock.
+
+Review any related R6.1 changes for regression.
+
+Check viewport tests exist and pass.
+
+Confirm physical smoke did not reveal unresolved overflow.
+
+
+============================================================
+59. FINAL AUDIT — ANDROID IDENTITY
+============================================================
+
+Confirm:
+
+display name:
+Автоэлектрика с нуля
+
+applicationId:
+com.dauletserikson.autoelectrician
+
+version:
+0.1.0+1
+
+release tag target:
+v0.1.0
+
+No active:
+com.example.electrician
+
+where it represents application identity.
+
+
+============================================================
+60. FINAL AUDIT — BRANDING
+============================================================
+
+Confirm:
+
+- stock Flutter launcher icon removed from active Android launcher;
+- approved custom icon used;
+- actual installed launcher appearance checked;
+- screenshots reflect actual app.
+
+
+============================================================
+61. FINAL AUDIT — LEGAL/ASSET
+============================================================
+
+Confirm:
+
+- MIT LICENSE exists;
+- undocumented battery.jpg provenance issue resolved;
+- replacement asset is the intended project-owned/generated artwork;
+- README/license statements do not overclaim rights.
+
+
+============================================================
+62. FINAL AUDIT — DOCUMENTATION
+============================================================
+
+Confirm README matches reality:
+
+- architecture;
+- feature set;
+- tests;
+- Android target;
+- offline behavior;
+- limitations;
+- SDK;
+- build;
+- signing;
+- screenshots;
+- license;
+- roadmap.
+
+No stale R1–R5 TODOs presented as future work.
+
+
+============================================================
+63. FINAL AUDIT — REPOSITORY HYGIENE
+============================================================
+
+Check:
+
+git status --short
+git diff --check
+
+Search for:
+
+- secrets;
+- keystores;
+- passwords;
+- local.properties;
+- build outputs;
+- temporary Kotlin files;
+- local absolute paths;
+- accidental APK commits.
+
+APK may exist locally under ignored build output.
+
+Do not commit APK unless separately decided.
+
+
+============================================================
+64. FINAL AUDIT — ARCHITECTURE
+============================================================
+
+Confirm R6 did NOT accidentally introduce:
+
+- state-management framework;
+- repository/use-case architecture;
+- persistence schema change;
+- backend;
+- networking;
+- unrelated simulation refactor.
+
+Pure Dart domain/simulation boundaries remain intact.
+
+
+============================================================
+65. FINAL AUDIT — TESTS
+============================================================
+
+Record final breakdown where practical:
+
+- model/content;
+- domain;
+- services;
+- simulation;
+- widgets;
+- screens/navigation;
+- app/integration smoke.
+
+Record final total.
+
+Do not optimize for test count.
+
+Assess whether R6 tests protect actual release risks.
+
+
+============================================================
+66. FINAL R6 REPORT
+============================================================
+
+Report:
+
+1. Executive summary.
+
+2. R6.1–R6.7 status.
+
+3. Commit list.
+
+4. Final application identity.
+
+5. Final version.
+
+6. Android build status.
+
+7. APK size.
+
+8. Signing status.
+
+9. Course/content integrity.
+
+10. Responsive status.
+
+11. Branding status.
+
+12. License/asset provenance.
+
+13. Documentation status.
+
+14. Screenshot status.
+
+15. CI status.
+
+16. Automated integration status.
+
+17. Physical Android smoke status.
+
+18. Final test count.
+
+19. flutter analyze.
+
+20. flutter test.
+
+21. git diff --check.
+
+22. git status.
+
+23. Known limitations.
+
+24. Deferred future work.
+
+25. Release blockers, if any.
+
+26. Recommendation.
+
+
+============================================================
+67. R6 EXIT RECOMMENDATION
+============================================================
+
+Use:
+
+READY
+or
+NOT READY.
+
+READY requires:
+
+- no P0;
+- no unresolved supported-flow P1;
+- narrow-screen blockers resolved;
+- release APK builds;
+- application identity finalized;
+- branding no longer stock Flutter;
+- provenance blocker resolved;
+- README substantially current;
+- physical Android smoke completed successfully;
+- analyze clean;
+- tests green;
+- diff check clean.
+
+CI failure caused by configuration is NOT acceptable for READY
+if CI was added as part of R6.
+
+Screenshots should be present for full portfolio readiness.
+If screenshots alone remain missing but everything else is release-safe,
+report explicitly rather than hiding it.
+
+
+============================================================
+68. STOP CONDITIONS
+============================================================
+
+STOP and request owner decision if:
+
+1. applicationId change requires unexpected migration work;
+
+2. Android package rename causes broader platform changes
+than expected;
+
+3. approved launcher artwork is unavailable at R6.3;
+
+4. battery replacement artwork is unavailable at R6.4;
+
+5. another asset has unclear provenance with meaningful
+public-release implications;
+
+6. MIT licensing conflicts with an existing repository constraint;
+
+7. responsive fix requires changing simulator semantics;
+
+8. integration test requires large production architecture changes;
+
+9. physical Android smoke finds a release-blocking defect;
+
+10. release build fails after R6 changes;
+
+11. CI requires changing supported SDK/dependencies substantially;
+
+12. secrets or credentials are discovered;
+
+13. signing work would require storing credentials in repository;
+
+14. any R6 task begins requiring a new product feature.
+
+
+============================================================
+69. DEFERRED AFTER v0.1.0
+============================================================
+
+Not part of R6:
+
+- score history;
+- attempt history;
+- persistent quiz session;
+- module percentage;
+- module completion UX;
+- reset course;
+- unlocking;
+- achievements;
+- cloud sync;
+- authentication;
+- backend;
+- analytics;
+- localization;
+- iOS release;
+- Windows release;
+- macOS release;
+- web release;
+- Play Store publication;
+- production signing infrastructure;
+- advanced accessibility certification;
+- content authoring tools.
+
+
+============================================================
+70. RELEASE PATH AFTER READY
+============================================================
+
+Do NOT execute automatically.
+
+Recommended owner-controlled sequence after R6 READY:
+
+1. Review final report.
+
+2. Review physical Android screenshots.
+
+3. Confirm repository files.
+
+4. Commit any final approved documentation/screenshots
+   if they were not already committed.
+
+5. Verify CI on remote repository.
+
+6. Merge R6 branch into main.
+
+7. Push main.
+
+8. Create tag:
+
+v0.1.0
+
+9. Push tag.
+
+10. Optionally create GitHub Release.
+
+11. Optionally attach release APK,
+    with clear note about signing/distribution status.
+
+Every remote/release action requires explicit owner approval.
+
+
+============================================================
+71. DEFINITION OF SUCCESS
+============================================================
+
+R6 succeeds when the project can credibly be shown to:
+
+- an employer;
+- a Flutter developer;
+- a technical interviewer;
+- a portfolio reviewer;
+- a person installing the Android demonstration APK.
+
+The repository should communicate:
+
+what the application does,
+why it exists,
+how it is structured,
+what is technically interesting,
+how it is tested,
+how to run it,
+what it supports,
+and what it deliberately does not support.
+
+The application should feel like a deliberate v0.1.0,
+not an unfinished Flutter template.
+
+
+============================================================
+72. FIRST ACTION
+============================================================
+
+Begin with:
+
+R6.1 — Android responsive/layout minimum.
+
+Before editing run:
+
+git status --short
+git branch --show-current
+flutter analyze
+flutter test
+git diff --check
+
+Expected baseline:
+
+HEAD:
+be92d38
+
+flutter analyze:
+No issues found!
+
+flutter test:
+586 passed
+
+Tracked diff:
+empty
+
+Expected existing untracked roadmap files may include:
+
+docs/roadmap/R4_PLAN.txt
+docs/roadmap/R5_PLAN.txt
+docs/roadmap/R6_PLAN.txt
+
+If unexpected tracked changes or baseline failures exist:
+
+STOP.
+
+Do not repair them silently.
+
+
+============================================================
+73. AUTONOMOUS EXECUTION BOUNDARY
+============================================================
+
+The agent may proceed autonomously through tasks that have
+all required approved inputs.
+
+However:
+
+R6.3 requires approved launcher artwork.
+
+R6.4 requires replacement battery artwork.
+
+R6.6 physical-device smoke requires actual human/device execution
+unless the environment genuinely exposes an Android device.
+
+Therefore autonomous execution must STOP when one of those inputs
+is unavailable.
+
+Do not substitute placeholder artwork merely to finish the plan.
+
+
+============================================================
+74. FINAL PRINCIPLE
+============================================================
+
+R1–R5 established the engineering foundation.
+
+R6 is not another foundation rewrite.
+
+R6 exists to make that engineering work:
+
+usable,
+visible,
+documented,
+installable,
+and credible as a finished first portfolio release.
+
+Prefer finishing the product over expanding it.

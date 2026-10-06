@@ -1,0 +1,1669 @@
+ \R5 — PROGRESS RELIABILITY & DOMAIN RULES
+Проект: Auto Electrician Learning App
+
+Статус перед началом R5
+=======================
+
+Завершены milestones:
+
+R1 — Stabilization
+R2 — Typed lesson blocks / renderer migration
+R3 — Simulator/domain separation
+R4 — Simulator correctness
+
+R4 завершён со статусом READY.
+
+Baseline перед R5:
+
+- flutter analyze: No issues found!
+- flutter test: 490 tests passed
+- git diff --check: clean
+- production/test diff: отсутствует
+- git status: только существующий untracked R4_PLAN.txt
+- backend/auth отсутствуют
+- progress хранится локально через SharedPreferences
+- simulation layer остаётся pure Dart
+
+Pre-R5 read-only audit выполнен.
+
+По результатам аудита первоначальный смысл R5 переопределён.
+
+R5 НЕ является созданием большого нового progress subsystem.
+
+Новое название milestone:
+
+R5 — Progress Reliability & Domain Rules
+
+
+============================================================
+1. ГЛАВНАЯ ЦЕЛЬ R5
+============================================================
+
+Сделать существующую систему прогресса:
+
+- тестируемой;
+- надёжной при сохранении;
+- устойчивой к ошибкам;
+- предсказуемой при navigation;
+- защищённой от повторных/конкурентных записей;
+- архитектурно понятной;
+
+при этом сохранить простую offline-first модель приложения.
+
+Основная persistence semantics остаётся:
+
+SharedPreferences
+└── completed_lessons: List<String>
+    └── ID завершённых уроков
+
+Не вводить новую persistence model без доказанной необходимости.
+
+
+============================================================
+2. ФАКТИЧЕСКАЯ СЕМАНТИКА ПРОГРЕССА
+============================================================
+
+Persistent progress сейчас означает:
+
+«множество ID уроков, которые пользователь успешно завершил
+и явно подтвердил кнопкой завершения».
+
+Не сохраняются:
+
+- ответы;
+- score;
+- количество попыток;
+- состояние симуляторов;
+- положение щупов;
+- диагностическая история;
+- состояние текущего quiz attempt;
+- время прохождения;
+- дата прохождения.
+
+Это намеренное разделение:
+
+PERSISTENT PROGRESS
+=
+completed lesson IDs
+
+SESSION / ATTEMPT STATE
+=
+answers, correctness, retry, simulator state, current score
+
+Не смешивать эти две категории без отдельного product decision.
+
+
+============================================================
+3. CURRENT PROGRESS ARCHITECTURE
+============================================================
+
+Основные роли:
+
+ProgressService
+- читает completed lesson IDs;
+- записывает completed lesson IDs;
+- сейчас также выполняет часть общей агрегации.
+
+LessonScreen
+- хранит session attempt state;
+- принимает callbacks от task widgets;
+- вычисляет completion/scoring;
+- запускает persistent completion.
+
+ModuleScreen
+- читает completed IDs;
+- показывает completed state уроков.
+
+HomeScreen
+- получает общий progress snapshot;
+- показывает общий процент;
+- показывает следующий урок.
+
+HomeProgress
+- вычисленный read model;
+- не является persisted entity.
+
+LessonCompletion
+- content policy завершения;
+- не является фактом пользовательского completion.
+
+LessonSummary
+- content projection.
+
+CourseLesson
+- связывает module context и LessonSummary.
+
+Не объединять эти модели только из-за похожих названий.
+
+
+============================================================
+4. SOURCE OF TRUTH
+============================================================
+
+Persistent lesson completion:
+
+membership lesson ID в completed_lessons.
+
+Module completion:
+не реализован.
+
+Module percentage:
+не реализован.
+
+Overall course progress:
+актуальные CourseLesson + completed IDs.
+
+Current lesson attempt:
+локальное session state LessonScreen.
+
+Current quiz score:
+локальное session state текущей попытки.
+
+Saved quiz completion:
+тот же completed lesson ID.
+
+Score отдельно не persist.
+
+
+============================================================
+5. CURRENT LESSON COMPLETION CONTRACT
+============================================================
+
+Для обычного lesson:
+
+open lesson
+→ новая session attempt
+→ выполнить все оцениваемые задания
+→ все задания должны быть correct
+→ становится доступна кнопка завершения
+→ пользователь нажимает кнопку
+→ lesson ID сохраняется
+→ экран возвращает successful result
+→ родительский progress обновляется.
+
+Если оцениваемых заданий нет:
+кнопка завершения доступна сразу.
+
+Если пользователь просто выполнил задания, но не нажал кнопку:
+persistent completion не создаётся.
+
+Если пользователь ушёл назад:
+persistent completion не создаётся.
+
+Reopen completed lesson:
+создаётся новая session attempt.
+
+Повторное успешное completion:
+должно быть логически идемпотентным.
+
+
+============================================================
+6. CURRENT QUIZ CONTRACT
+============================================================
+
+Формула:
+
+totalTasks = количество оцениваемых task blocks
+
+correctAnswers = количество true results
+
+scorePercent =
+round(correctAnswers / totalTasks * 100)
+
+passed =
+all tasks answered
+AND
+scorePercent >= passingScore
+
+Каждое задание имеет одинаковый вес.
+
+Retry отдельного task разрешён.
+
+Quiz является тренировочной проверкой:
+пользователь может исправить ошибку после feedback.
+
+Score не сохраняется.
+
+Persistent completion создаётся только после успешной попытки
+и явного нажатия кнопки завершения.
+
+
+============================================================
+7. ОБЯЗАТЕЛЬНЫЕ QUIZ CONTRACTS
+============================================================
+
+Stage 0:
+
+5 tasks
+passingScore = 80
+
+3/5 = 60 → fail
+4/5 = 80 → pass
+
+
+Stage 1:
+
+13 tasks
+passingScore = 80
+
+10/13 = 77 → fail
+11/13 = 85 → pass
+
+
+Stage 2:
+
+12 tasks
+passingScore = 80
+
+9/12 = 75 → fail
+10/12 = 83 → pass
+
+
+R5 не должен изменять эти результаты.
+
+
+============================================================
+8. CURRENT COURSE AGGREGATION CONTRACT
+============================================================
+
+Общий progress:
+
+numerator =
+количество актуальных CourseLesson,
+чей ID присутствует в completed IDs
+
+denominator =
+количество актуальных CourseLesson
+
+fraction =
+numerator / denominator
+
+При пустом курсе:
+
+fraction = 0
+nextLesson = null
+
+Home percentage:
+
+round(fraction * 100)
+
+nextLesson:
+
+первый незавершённый урок в порядке:
+
+module.order
+→ lesson.order
+
+Unknown/orphan persisted IDs:
+
+не увеличивают numerator.
+
+Denominator всегда определяется текущим content,
+а не persistence.
+
+
+============================================================
+9. IDENTITY CONTRACT
+============================================================
+
+Текущая persistence identity:
+
+lesson ID.
+
+Module ID не входит в persisted identity.
+
+На момент pre-R5 audit:
+
+- все 22 lesson IDs глобально уникальны;
+- IDs в lessons indexes соответствуют IDs полных lesson assets.
+
+Поэтому текущая identity model допустима.
+
+Не переходить на composite:
+
+(moduleId, lessonId)
+
+без отдельной причины.
+
+Не менять lesson IDs в рамках R5.
+
+
+============================================================
+10. CONTENT EVOLUTION POLICY
+============================================================
+
+Текущая ожидаемая semantics:
+
+новый lesson
+→ увеличивает denominator
+→ пользователь ещё не завершил его.
+
+удалённый lesson
+→ больше не участвует в denominator;
+→ orphan persisted ID может остаться.
+
+lesson перемещён между modules
+→ completion сохраняется при сохранении ID.
+
+изменён lesson ID
+→ считается новым незавершённым уроком.
+
+изменён passingScore/tasks
+→ существующий completion сохраняется;
+→ новая попытка использует новый content.
+
+Сложные migrations в R5 не вводить.
+
+Главная текущая политика:
+
+lesson IDs должны быть стабильными и не переиспользоваться
+для семантически другого урока.
+
+
+============================================================
+11. ОБЩИЙ ПРИНЦИП РАБОТЫ R5
+============================================================
+
+Работать последовательно небольшими независимыми задачами:
+
+R5.1
+Characterization tests.
+
+R5.2
+Save/navigation correctness.
+
+R5.3
+Completion/scoring pure domain extraction.
+
+R5.4
+Course progress aggregation extraction.
+
+R5.5
+Progress read error states.
+
+R5.6
+Serialize completion writes.
+
+R5.7
+Completion metadata validation.
+
+После этого:
+R5 final read-only audit.
+
+Один R5.x = одна самостоятельная инженерная задача.
+
+Не смешивать unrelated fixes.
+
+
+============================================================
+12. ОБЩИЕ АРХИТЕКТУРНЫЕ ОГРАНИЧЕНИЯ
+============================================================
+
+Без отдельного доказательства НЕ вводить:
+
+- Repository layer;
+- UseCase layer;
+- Controller layer;
+- Bloc;
+- Provider;
+- Riverpod;
+- GetX;
+- Redux;
+- database;
+- SQLite;
+- Hive;
+- Isar;
+- backend;
+- auth;
+- cloud sync;
+- analytics;
+- profiles;
+- event sourcing.
+
+KEEP ProgressService.
+
+ProgressService может быть улучшен,
+но не заменять его абстракциями ради архитектурной симметрии.
+
+Pure Dart extraction допускается только для реально существующих:
+
+- completion rules;
+- scoring;
+- aggregation.
+
+Flutter session state остаётся в Flutter.
+
+
+============================================================
+13. TESTING POLICY
+============================================================
+
+Перед изменением production behavior:
+
+сначала зафиксировать существующий корректный contract тестами.
+
+Characterization tests НЕ означают, что любой текущий bug становится contract.
+
+Если тест фиксирует подтверждённо неправильное поведение,
+при соответствующем R5 fix его нужно обновить.
+
+Предпочтения:
+
+pure domain rule
+→ unit test
+
+ProgressService persistence
+→ service/unit test
+
+screen interaction/navigation
+→ widget test
+
+content invariants
+→ asset/service test
+
+Не добавлять tests только ради количества.
+
+
+============================================================
+14. STANDARD VERIFICATION
+============================================================
+
+После каждого R5.x выполнить:
+
+dart format lib test
+
+При telemetry issue использовать ранее проверенный:
+
+--suppress-analytics
+
+Затем:
+
+flutter analyze
+flutter test
+git diff --check
+git status --short
+
+Перед commit также:
+
+git diff
+
+Проверить отсутствие unrelated изменений.
+
+
+============================================================
+15. REPORT FORMAT ПОСЛЕ КАЖДОГО R5.x
+============================================================
+
+Сообщить:
+
+1. какой R5.x выполнен;
+2. исходная проблема;
+3. root cause;
+4. изменённые production files;
+5. изменённые/добавленные tests;
+6. изменилось ли observable behavior;
+7. persistent schema changed: YES/NO;
+8. JSON/assets changed: YES/NO;
+9. test count;
+10. flutter analyze result;
+11. flutter test result;
+12. git diff --check;
+13. diff stat;
+14. commit hash;
+15. push status;
+16. deferred findings, если появились.
+
+
+============================================================
+16. R5.1 — PROGRESS CHARACTERIZATION TESTS
+============================================================
+
+Цель:
+
+зафиксировать фактические progress contracts до изменения
+сохранения и extraction domain rules.
+
+Production behavior не менять.
+
+Основные области:
+
+A. ProgressService persistence.
+
+Проверить:
+
+- missing completed_lessons key → empty set;
+- чтение существующих IDs;
+- duplicate stored IDs → Set без дубликатов;
+- repeat completion одного ID;
+- unknown ID;
+- сохранение после recreation/reinitialization;
+- несколько завершённых ID.
+
+B. Course/Home aggregation.
+
+Проверить:
+
+- totalLessons;
+- completedLessons;
+- fraction;
+- empty course;
+- unknown persisted IDs;
+- first incomplete lesson;
+- module.order;
+- lesson.order;
+- все уроки completed.
+
+C. LessonScreen ordinary completion.
+
+Проверить:
+
+- lesson без task blocks;
+- один task;
+- несколько tasks;
+- incorrect task блокирует completion;
+- retry;
+- все correct → completion available;
+- выполнение tasks без нажатия completion не сохраняет progress;
+- explicit completion запускает persistence.
+
+D. Quiz.
+
+Зафиксировать минимум:
+
+Stage 1:
+10/13 → 77 → fail
+11/13 → 85 → pass
+
+Stage 2:
+9/12 → 75 → fail
+10/12 → 83 → pass
+
+По возможности использовать pure/content fixtures,
+не создавать brittle UI interaction со всеми 13 реальными widgets,
+если тот же contract можно надёжно проверить меньшим fixture.
+
+E. Navigation contract.
+
+Зафиксировать нормальный happy path:
+
+successful completion
+→ successful return result
+→ parent refreshes progress.
+
+На R5.1 НЕ исправлять failure/delay race.
+
+Если для тестируемости нужен очень маленький injection seam,
+сначала определить, действительно ли без него невозможно протестировать contract.
+
+Не создавать repository interface только ради mock.
+
+
+============================================================
+17. R5.1 DEFINITION OF DONE
+============================================================
+
+R5.1 завершён, если:
+
+- ProgressService имеет прямое test coverage;
+- aggregation имеет прямое coverage;
+- LessonScreen completion имеет прямое coverage;
+- multiple task behavior покрыто;
+- retry propagation покрыто;
+- Stage 1/2 score boundaries закреплены;
+- normal persistence/recreation contract закреплён;
+- production behavior не изменён либо минимальный test seam обоснован;
+- полный suite green.
+
+
+============================================================
+18. R5.2 — SAVE / NAVIGATION CORRECTNESS
+============================================================
+
+Подтверждённые проблемы:
+
+1. SharedPreferences write может вернуть false,
+   но текущий UI всё равно может считать completion успешным.
+
+2. Write может бросить exception,
+   но пользователь не получает нормальный recoverable flow.
+
+3. Completion save async.
+
+4. Пользователь может попытаться уйти назад,
+   пока запись ещё выполняется.
+
+5. Repeated taps могут запустить несколько writes.
+
+6. Parent refresh зависит от navigation result.
+
+Цель:
+
+completion считается persistent success
+ТОЛЬКО после подтверждённого успешного save.
+
+
+============================================================
+19. R5.2 REQUIRED BEHAVIOR
+============================================================
+
+При нажатии completion:
+
+IDLE
+→ SAVING
+→ SUCCESS
+
+или:
+
+IDLE
+→ SAVING
+→ ERROR
+
+
+Во время SAVING:
+
+- повторное нажатие completion не запускает вторую запись;
+- UI явно показывает, что операция выполняется;
+- нельзя случайно получить два successful pop;
+- navigation lifecycle должен быть согласован с save.
+
+SUCCESS:
+
+- persistence подтверждена;
+- только после этого возвращается successful navigation result.
+
+ERROR:
+
+- экран НЕ должен сообщать успешное completion;
+- successful pop не выполняется;
+- пользователь получает понятный feedback;
+- должна быть возможность повторить сохранение.
+
+Не требуется сложный state machine framework.
+Достаточно локального Flutter state.
+
+
+============================================================
+20. R5.2 BACK DURING SAVE
+============================================================
+
+Отдельно решить существующую race:
+
+completion save started
+→ system back before save finished.
+
+Предпочтительная semantics:
+
+не позволять тихо уйти из completion flow,
+пока результат persistence неизвестен.
+
+Реализовать минимально средствами Flutter.
+
+Не создавать глобальный navigation controller.
+
+Проверить:
+
+- delayed successful save;
+- delayed failed save;
+- system back;
+- double tap;
+- widget dispose;
+- successful parent refresh.
+
+
+============================================================
+21. R5.2 PROGRESS SERVICE CONTRACT
+============================================================
+
+ProgressService.completeLesson должен предоставлять вызывающему коду
+однозначную информацию:
+
+save succeeded
+или
+save failed.
+
+Не игнорировать false от SharedPreferences write.
+
+Exception policy должна быть ясной и тестируемой.
+
+Не скрывать storage failure как успешное completion.
+
+Persistent schema не менять.
+
+
+============================================================
+22. R5.2 TESTS
+============================================================
+
+Минимум:
+
+- successful write;
+- write returns false;
+- write throws;
+- delayed write;
+- double completion tap;
+- back during save;
+- retry after failed save;
+- exactly one successful navigation;
+- parent sees completed state after success.
+
+Не пытаться исправить concurrent different-ID writes в этой задаче,
+если это требует отдельного механизма.
+
+Это R5.6.
+
+
+============================================================
+23. R5.3 — COMPLETION / SCORING PURE DOMAIN EXTRACTION
+============================================================
+
+Подтверждённая архитектурная проблема:
+
+правила completion/scoring находятся внутри Flutter State LessonScreen.
+
+Цель:
+
+вынести существующие правила в небольшой pure Dart domain component.
+
+Не менять semantics.
+
+Не создавать отдельный Quiz subsystem.
+
+
+============================================================
+24. R5.3 DOMAIN RESPONSIBILITY
+============================================================
+
+Pure Dart слой должен уметь по текущему lesson policy
+и результатам task blocks определить минимум:
+
+- totalTasks;
+- answeredTasks;
+- correctTasks;
+- scorePercent;
+- allAnswered;
+- canComplete / passed.
+
+Возможный API:
+
+evaluateLessonAttempt(
+  lesson/policy,
+  answersByBlockIndex,
+)
+
+→ result
+
+Точное имя и структура определяются по существующему коду.
+
+Не копировать Flutter widgets в domain.
+
+Domain не должен знать о:
+
+- BuildContext;
+- Widget;
+- Navigator;
+- SharedPreferences;
+- colors;
+- controllers;
+- setState;
+- UI strings.
+
+
+============================================================
+25. R5.3 TASK CLASSIFICATION
+============================================================
+
+Сохранить текущую классификацию scored/task blocks.
+
+Сейчас completion учитывает:
+
+- Question;
+- Calculation;
+- Measurement subtypes;
+- VoltageDrop;
+- CurrentMeasurement;
+- DiagnosticCase;
+- DiagnosticChoice.
+
+Не учитывает:
+
+- Circuit;
+- Multimeter.
+
+Не менять это случайно во время extraction.
+
+Если classification уже естественно определяется typed LessonBlock hierarchy,
+использовать strong types.
+
+Не возвращаться к stringly typed API.
+
+
+============================================================
+26. R5.3 QUIZ RULES
+============================================================
+
+Сохранить:
+
+scorePercent =
+round(correct / total * 100)
+
+Quiz:
+
+allAnswered
+AND
+scorePercent >= passingScore
+
+Ordinary lesson:
+
+все required tasks должны быть answered и correct.
+
+Lesson без tasks:
+
+может быть завершён явной кнопкой.
+
+Session retry:
+
+удаляет/заменяет result текущего task.
+
+Persistent completion:
+
+не является ответственностью pure attempt evaluator.
+
+
+============================================================
+27. R5.3 TESTS
+============================================================
+
+Pure unit tests минимум:
+
+- zero tasks ordinary lesson;
+- one correct;
+- one incorrect;
+- unanswered;
+- multiple tasks;
+- retry-equivalent replacement;
+- quiz threshold exact;
+- below threshold;
+- above threshold;
+- Stage 1 boundaries;
+- Stage 2 boundaries;
+- rounding behavior.
+
+Widget regression:
+
+LessonScreen после extraction ведёт себя так же,
+как до extraction.
+
+
+============================================================
+28. R5.4 — COURSE PROGRESS AGGREGATION EXTRACTION
+============================================================
+
+Сейчас ProgressService смешивает:
+
+A. storage
+и
+B. чистую агрегацию Home progress.
+
+Цель:
+
+оставить ProgressService persistence service,
+а чистый расчёт сделать pure Dart.
+
+Не вводить repository.
+
+
+============================================================
+29. R5.4 REQUIRED AGGREGATION CONTRACT
+============================================================
+
+Pure calculation получает:
+
+- ordered current lessons;
+- completed IDs.
+
+Возвращает существующий HomeProgress
+или эквивалентный существующей модели результат.
+
+Сохранить:
+
+totalLessons;
+completedLessons;
+fraction;
+nextLesson.
+
+Rules:
+
+- denominator = current content;
+- orphan IDs игнорируются;
+- empty course безопасен;
+- first incomplete определяется current order;
+- all complete → nextLesson null;
+- progress не превышает 1 при корректном content.
+
+
+============================================================
+30. R5.4 CONTENT EVOLUTION TESTS
+============================================================
+
+Добавить pure tests:
+
+- add lesson;
+- remove lesson;
+- orphan persisted ID;
+- move lesson while keeping ID;
+- all complete;
+- empty course;
+- ordering;
+- unknown ID.
+
+Не реализовывать migrations.
+
+Не очищать orphan IDs автоматически.
+
+
+============================================================
+31. R5.5 — PROGRESS READ ERROR STATES
+============================================================
+
+Подтверждённые проблемы:
+
+Home initial progress read error
+может оставить UI в loading.
+
+Module progress read error
+может оставить пустой/старый progress без объяснения.
+
+Цель:
+
+явное:
+
+LOADING
+SUCCESS
+ERROR
+
+поведение для progress loading.
+
+
+============================================================
+32. R5.5 REQUIRED UX
+============================================================
+
+При read failure:
+
+- не показывать бесконечную загрузку;
+- не выдавать пустой progress за достоверный;
+- показать понятное сообщение;
+- дать retry.
+
+После retry success:
+
+- нормальный UI восстанавливается.
+
+Не создавать глобальную error architecture.
+
+Локальный screen state достаточен.
+
+
+============================================================
+33. R5.5 TESTS
+============================================================
+
+Проверить минимум:
+
+Home:
+- loading;
+- success;
+- read failure;
+- retry → success.
+
+Module:
+- loading/content;
+- progress success;
+- progress failure;
+- retry → success.
+
+Проверить mounted safety.
+
+Не менять persistence schema.
+
+
+============================================================
+34. R5.6 — SERIALIZE COMPLETION WRITES
+============================================================
+
+Подтверждённый API-level риск:
+
+completeLesson использует read–modify–write.
+
+Возможна последовательность:
+
+A reads S
+B reads S
+A writes S + idA
+B writes S + idB
+
+и потеря idA.
+
+Текущий обычный UX делает сценарий маловероятным,
+но service contract должен быть надёжным.
+
+
+============================================================
+35. R5.6 REQUIRED BEHAVIOR
+============================================================
+
+Два concurrent completion requests
+для разных lesson IDs:
+
+completeLesson(A)
+completeLesson(B)
+
+после успешного завершения обоих должны сохранять:
+
+A AND B.
+
+Не создавать database transaction framework.
+
+Использовать минимальный механизм сериализации writes
+на уровне текущего persistence service.
+
+
+============================================================
+36. R5.6 MULTIPLE SERVICE INSTANCES
+============================================================
+
+Pre-R5 audit отдельно отметил риск между разными экземплярами ProgressService.
+
+Поэтому tests должны проверить фактический intended scope serialization.
+
+Если простой instance-local queue НЕ защищает реальные production usage,
+не считать проблему решённой.
+
+Перед реализацией определить:
+
+- сколько ProgressService instances реально создаётся;
+- нужен ли shared/static serialization mechanism;
+- можно ли проще централизовать существующий service instance.
+
+Выбрать минимальное решение.
+
+
+============================================================
+37. R5.6 FAILURE RECOVERY
+============================================================
+
+Очередь/serialization mechanism не должна навсегда ломаться
+после одного failed write.
+
+Проверить:
+
+A fails
+→ B всё ещё может выполниться.
+
+И:
+
+A succeeds
+→ B succeeds
+→ оба ID сохранены.
+
+Не превращать это в general-purpose async queue library.
+
+
+============================================================
+38. R5.7 — COMPLETION METADATA VALIDATION
+============================================================
+
+Pre-R5 audit обнаружил:
+
+LessonCompletion допускает некорректные metadata cases,
+которые текущие assets не используют.
+
+Цель:
+
+сделать content contract явным.
+
+
+============================================================
+39. R5.7 VALIDATION SCOPE
+============================================================
+
+Проверить текущий parser и определить минимальные invariants.
+
+Сохранить compatibility с реальными assets.
+
+Не менять valid current JSON.
+
+Минимально рассмотреть:
+
+- supported completion types;
+- ordinary/default completion;
+- quiz completion;
+- passingScore requirement;
+- passingScore range.
+
+Malformed content должен fail clearly,
+а не тихо создавать странную completion policy.
+
+
+============================================================
+40. R5.7 НЕ РАСШИРЯТЬ
+============================================================
+
+Не превращать R5.7 в полную schema-validation систему всего курса.
+
+Не валидировать заново все LessonBlock types,
+если это уже делает существующий parser.
+
+Не вводить JSON Schema infrastructure.
+
+Scope:
+только LessonCompletion metadata.
+
+
+============================================================
+41. R5.7 TESTS
+============================================================
+
+Проверить:
+
+- current ordinary lesson;
+- default ordinary policy;
+- current valid quiz;
+- unknown completion type;
+- quiz без обязательного threshold, если contract требует его;
+- invalid threshold below range;
+- invalid threshold above range;
+- boundary thresholds согласно выбранному current contract;
+- все реальные assets продолжают parse.
+
+
+============================================================
+42. COMMIT POLICY
+============================================================
+
+Каждый R5.x — отдельный commit.
+
+Рекомендуемые сообщения:
+
+R5.1
+test: characterize progress behavior
+
+R5.2
+fix: make lesson completion saving reliable
+
+R5.3
+refactor: extract lesson attempt evaluation
+
+R5.4
+refactor: extract course progress calculation
+
+R5.5
+fix: handle progress loading failures
+
+R5.6
+fix: serialize lesson completion writes
+
+R5.7
+fix: validate lesson completion metadata
+
+Названия можно слегка скорректировать под фактический diff.
+
+Не использовать один общий:
+
+refactor: improve progress
+
+для всего R5.
+
+
+============================================================
+43. PUSH POLICY
+============================================================
+
+Commit разрешён после успешно завершённого R5.x,
+если агенту дана инструкция работать автономно по этому плану.
+
+После каждого commit:
+
+проверить git status.
+
+Push НЕ выполнять.
+
+Force push НЕ выполнять.
+
+History rewrite НЕ выполнять.
+
+Branch delete НЕ выполнять.
+
+
+============================================================
+44. STOP CONDITIONS
+============================================================
+
+Агент ОБЯЗАН остановиться, если:
+
+1. Требуется изменить persistent schema.
+
+Например:
+
+completed_lessons
+→ сложные serialized completion objects.
+
+2. Требуется решить, нужно ли сохранять:
+
+- score;
+- attempts;
+- dates;
+- simulator state;
+- answers.
+
+3. Требуется ввести backend/auth/cloud sync.
+
+4. Возникает необходимость database.
+
+5. Требуется repository/controller/use-case framework,
+который существенно расширяет архитектуру.
+
+6. Требуется изменить semantics:
+
+«когда урок считается пройденным».
+
+7. Требуется изменить quiz scoring formula.
+
+8. Требуется изменить retry policy.
+
+9. Требуется изменить passingScore реальных lessons.
+
+10. Требуется изменить lesson IDs.
+
+11. Требуется persistent reset policy.
+
+12. Требуется module completion/unlocking policy.
+
+13. Тесты и content задают противоречивые требования.
+
+14. Fix одного R5.x начинает требовать существенного изменения
+другого subsystem.
+
+15. Baseline неожиданно ломается unrelated изменениями.
+
+16. Для исправления storage race требуется архитектура,
+существенно сложнее небольшого serialization mechanism.
+
+
+============================================================
+45. ПРИ STOP
+============================================================
+
+Сообщить:
+
+1. текущий R5.x;
+2. что обнаружено;
+3. почему решение не следует принимать автоматически;
+4. варианты;
+5. рекомендуемый вариант;
+6. последствия каждого варианта;
+7. потенциально затрагиваемые файлы;
+8. состояние tests/analyze/git.
+
+Не выбирать product semantics самостоятельно.
+
+
+============================================================
+46. ЧТО ЯВНО НЕ ВХОДИТ В ОБЯЗАТЕЛЬНЫЙ R5
+============================================================
+
+Не добавлять:
+
+- module percentage;
+- module completed badge;
+- course reset;
+- module reset;
+- lesson persistent reset;
+- score history;
+- attempt history;
+- first-attempt score;
+- achievements;
+- streak;
+- XP;
+- unlocking;
+- prerequisites;
+- cloud backup;
+- accounts;
+- analytics;
+- multi-device sync;
+- content migrations;
+- completion timestamps.
+
+Это возможные будущие features,
+а не текущий reliability milestone.
+
+
+============================================================
+47. UX ISSUES, КОТОРЫЕ НЕ НУЖНО ЧИНИТЬ СЛУЧАЙНО
+============================================================
+
+Из pre-R5 audit известны:
+
+- reopened completed lesson не показывает persistent completed status;
+- quiz может визуально сказать «Проверка пройдена»
+  до persistent save;
+- нет reset всего quiz одной кнопкой;
+- нет persistent reset.
+
+Не включать автоматически в R5.x,
+если они не являются прямой частью конкретной задачи.
+
+Особенно:
+
+retry attempt
+НЕ равно
+erase persistent completion.
+
+
+============================================================
+48. DEFERRED / FUTURE CONCERNS
+============================================================
+
+Сохранить в technical debt:
+
+- content versioning;
+- completion invalidation после существенного изменения lesson;
+- rename/reuse ID migration;
+- score/history;
+- module progress;
+- persistent reset;
+- multi-isolate/native-writer cache invalidation.
+
+Они не блокируют R5 READY.
+
+
+============================================================
+49. R5 DEFINITION OF DONE
+============================================================
+
+R5 считается завершённым, если:
+
+1. progress subsystem имеет прямое test coverage;
+
+2. persistence schema остаётся простой и понятной;
+
+3. false/exception при write не превращаются
+   в ложное successful completion;
+
+4. repeated completion tap не запускает несколько save flows;
+
+5. navigation согласована с async persistence;
+
+6. completion/scoring rules вынесены из Flutter State
+   в небольшой pure Dart component;
+
+7. существующие Stage 0/1/2 scoring contracts сохранены;
+
+8. course aggregation является pure/testable calculation;
+
+9. Home и Module имеют recoverable progress read error states;
+
+10. concurrent completion writes не теряют разные IDs
+    в поддерживаемом service usage;
+
+11. malformed LessonCompletion metadata fail clearly;
+
+12. session state не начал persist без product decision;
+
+13. repository/use-case/controller framework не появился
+    без необходимости;
+
+14. SharedPreferences остаётся достаточным persistence mechanism;
+
+15. flutter analyze clean;
+
+16. flutter test полностью green;
+
+17. git diff --check clean;
+
+18. JSON/assets остаются неизменными,
+    кроме случая отдельного явно согласованного content fix.
+
+
+============================================================
+50. R5 FINAL READ-ONLY AUDIT
+============================================================
+
+После R5.7 не начинать R6 автоматически.
+
+Провести полный read-only audit R5.
+
+Проверить:
+
+A. Persistence
+
+- фактическую schema;
+- write failure;
+- concurrent writes;
+- recreation;
+- idempotency.
+
+B. Lesson attempt
+
+- ordinary lessons;
+- zero tasks;
+- multiple tasks;
+- retry;
+- explicit completion.
+
+C. Quiz
+
+- Stage 0;
+- Stage 1;
+- Stage 2;
+- boundaries;
+- rounding;
+- retry;
+- persistence separation.
+
+D. Aggregation
+
+- current content denominator;
+- orphan IDs;
+- ordering;
+- next lesson;
+- empty course.
+
+E. Navigation
+
+- normal completion;
+- delayed save;
+- failed save;
+- back;
+- double tap;
+- parent refresh.
+
+F. Error UX
+
+- Home read failure;
+- Module read failure;
+- retry/recovery.
+
+G. Architecture
+
+Убедиться, что:
+
+- ProgressService сохранился;
+- pure domain не зависит от Flutter;
+- session state остаётся UI/session concern;
+- storage не знает о Flutter UI;
+- не появилось ненужных architectural layers.
+
+
+============================================================
+51. FINAL R5 REPORT
+============================================================
+
+Итоговый отчёт должен содержать:
+
+1. Executive summary.
+
+2. R5.1–R5.7 status.
+
+3. Commit list.
+
+4. Current progress architecture.
+
+5. Current persistence schema.
+
+6. Current lesson completion semantics.
+
+7. Current quiz semantics.
+
+8. Current aggregation semantics.
+
+9. Reliability fixes.
+
+10. Test coverage added.
+
+11. Test count.
+
+12. flutter analyze result.
+
+13. flutter test result.
+
+14. git diff --check result.
+
+15. git status.
+
+16. JSON/assets status.
+
+17. Deferred product features.
+
+18. Deferred technical debt.
+
+19. Any new findings.
+
+20. Recommendation:
+
+R5 exit recommendation:
+READY / NOT READY
+
+
+============================================================
+52. R5 EXIT DECISION
+============================================================
+
+READY допускается даже при наличии deferred P3/P4 issues,
+если они:
+
+- не нарушают текущую semantics;
+- не приводят к потере прогресса в поддерживаемом flow;
+- требуют нового product decision;
+- являются будущими features;
+- требуют migrations/versioning, которых пока нет.
+
+NOT READY использовать, если остаётся подтверждённый P0/P1
+в основном progress flow либо R5 изменил behavior без достаточного
+regression coverage.
+
+
+============================================================
+53. ПЕРВАЯ ЗАДАЧА
+============================================================
+
+Начать с:
+
+R5.1 — Progress characterization tests.
+
+Перед первым изменением проверить:
+
+git status --short
+flutter analyze
+flutter test
+git diff --check
+
+Ожидаемый baseline:
+
+flutter analyze:
+No issues found!
+
+flutter test:
+490 tests passed
+
+git status:
+только существующий untracked R4_PLAN.txt
+и, если этот документ уже создан,
+R5_PLAN.txt.
+
+Если baseline отличается неожиданным образом:
+ОСТАНОВИТЬСЯ и сообщить.
+
+
+============================================================
+54. ОСНОВНОЙ ПРИНЦИП R5
+============================================================
+
+R5 не должен сделать progress subsystem сложнее,
+чем требует приложение.
+
+Предпочитать:
+
+простая persistence
++
+чистые domain functions
++
+хорошие tests
++
+явная обработка ошибок
+
+вместо:
+
+repository
++
+use cases
++
+controllers
++
+state-management framework
++
+абстракции без текущего потребителя.
+
+Архитектура должна становиться сложнее только тогда,
+когда сложнее становится сама задача.
+
+
+============================================================
+55. AUTONOMOUS WORK INSTRUCTION
+============================================================
+
+Если агенту разрешено непрерывно работать по этому документу:
+
+1. Начать с R5.1.
+
+2. Выполнять задачи строго по порядку:
+
+R5.1
+→ R5.2
+→ R5.3
+→ R5.4
+→ R5.5
+→ R5.6
+→ R5.7
+→ final audit.
+
+3. Один R5.x должен быть полностью завершён,
+проверен и закоммичен до начала следующего.
+
+4. После каждого R5.x выполнить полный standard verification.
+
+5. Push не выполнять.
+
+6. Если срабатывает STOP condition:
+немедленно прекратить дальнейшие изменения.
+
+7. Не исправлять incidental issues из следующих R5.x раньше времени,
+если они не блокируют текущую задачу.
+
+8. Не исправлять unrelated R4/deferred issues.
+
+9. Не добавлять новые product features.
+
+10. После R5.7 выполнить только read-only final audit.
+
+11. R6 автоматически не начинать.
