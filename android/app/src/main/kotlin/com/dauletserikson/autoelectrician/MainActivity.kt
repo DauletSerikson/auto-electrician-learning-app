@@ -1,4 +1,4 @@
-package com.example.electrician
+package com.dauletserikson.autoelectrician
 
 import io.flutter.embedding.android.FlutterActivity
 
