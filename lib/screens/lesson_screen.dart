@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../domain/lesson_attempt.dart';
 import '../models/lesson.dart';
-import '../models/lesson_block.dart';
 import '../services/progress_service.dart';
 import '../widgets/lesson_block_renderer.dart';
 
@@ -41,75 +41,18 @@ class _LessonScreenState extends State<LessonScreen> {
     Navigator.of(context).pop(true);
   }
 
-  bool isTaskBlock(LessonBlock block) {
-    return block is QuestionLessonBlock ||
-        block is CalculationLessonBlock ||
-        block is MeasurementLessonBlock ||
-        block is VoltageDropLessonBlock ||
-        block is CurrentMeasurementLessonBlock ||
-        block is DiagnosticCaseLessonBlock ||
-        block is DiagnosticChoiceLessonBlock;
-  }
-
-  int get totalTasks {
-    return widget.lesson.blocks.where(isTaskBlock).length;
-  }
-
-  int get answeredTasks {
-    return taskResults.length;
-  }
-
-  int get correctAnswers {
-    return taskResults.values.where((result) => result).length;
-  }
-
-  bool get allTasksAnswered {
-    return totalTasks == 0 || answeredTasks == totalTasks;
-  }
-
-  bool get allTasksCorrect {
-    return totalTasks == 0 || correctAnswers == totalTasks;
-  }
-
-  double get testScore {
-    if (totalTasks == 0) {
-      return 0;
-    }
-
-    return correctAnswers / totalTasks;
-  }
-
-  int get scorePercent {
-    return (testScore * 100).round();
-  }
-
-  int get passingScore {
-    return widget.lesson.completion.passingScore ?? 0;
-  }
-
-  bool get passedQuiz {
-    if (!widget.lesson.completion.isQuiz) {
-      return true;
-    }
-
-    if (!allTasksAnswered) {
-      return false;
-    }
-
-    return scorePercent >= passingScore;
-  }
-
-  bool get canCompleteLesson {
-    if (!allTasksAnswered) {
-      return false;
-    }
-
-    if (widget.lesson.completion.isQuiz) {
-      return passedQuiz;
-    }
-
-    return allTasksCorrect;
-  }
+  LessonAttempt get attempt =>
+      evaluateLessonAttempt(widget.lesson, taskResults);
+  int get totalTasks => attempt.totalTasks;
+  int get answeredTasks => attempt.answeredTasks;
+  int get correctAnswers => attempt.correctTasks;
+  bool get allTasksAnswered => attempt.allAnswered;
+  bool get allTasksCorrect => attempt.allCorrect;
+  double get testScore => attempt.scoreFraction;
+  int get scorePercent => attempt.scorePercent;
+  int get passingScore => attempt.passingScore;
+  bool get passedQuiz => attempt.passedQuiz;
+  bool get canCompleteLesson => attempt.canComplete;
 
   void registerAnswer(int blockIndex, bool isCorrect) {
     setState(() {
