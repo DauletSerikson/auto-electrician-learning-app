@@ -20,7 +20,9 @@ Resistance, Continuity, Android Back, завершения урока, обно�
 сохранения прогресса, landscape, увеличенного шрифта и screenshots для README.
 R6.6B — PASS. TalkBack, hardware 320 px, повторное completion и pending-save
 отдельно не подтверждены; незаполненные дополнительные пункты ниже не являются PASS.
-Получены 7 screenshots в сообщении; сохранение файлов в repository ещё ожидается.
+Получены 7 screenshots в сообщении; позднее JPG добавлены в docs/screenshots
+и галерею README. Дополнительные кадры Voltage Drop, Current Measurement
+и диагностики пока отсутствуют (см. docs/screenshots/README.md).
 Наблюдение о дробном переносе «Не подключён» сохранено в R6_6.md.
 
 ## 1. Launcher и запуск
@@ -134,8 +136,8 @@ R6.6B — PASS. TalkBack, hardware 320 px, повторное completion и pend
 ## 6. Скриншоты и итог
 
 - [x] Скриншоты для README — PASS владельца; 7 реальных кадров получены в чате.
-- [ ] Сохранить исходные файлы в docs/screenshots и добавить ссылки в README.
-  Не считать подготовленные пути готовыми файлами.
+- [x] Сохранить исходные файлы в docs/screenshots и добавить ссылки в README.
+  Все 7 JPG открыты и просмотрены; полный рекомендованный набор ещё не готов.
 
 Сообщить: модель, Android version, дату ручной проверки, APK 0.1.0+1,
 пройденные пункты, NOT CHECKED/NOT OBSERVED и issues с шагами воспроизведения.
