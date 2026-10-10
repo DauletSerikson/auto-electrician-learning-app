@@ -6,8 +6,9 @@
 и диагностикой.
 
 Версия **0.1.0+1** готовится к первому Android portfolio/sideload релизу.
-R1–R5 завершены; R6 выполняется. Физический Android smoke пройден,
-реальные скриншоты добавлены; итоговое решение о готовности ещё ожидается. Google Play публикация
+R1–R5 завершены; R6 выполняется. Физический Android smoke R6.6B остаётся
+IN PROGRESS; реальные скриншоты добавлены. Итоговое решение о готовности
+ещё ожидается. Google Play публикация
 не входит в текущий scope.
 
 ## Курс и возможности
@@ -158,6 +159,12 @@ widget test и изолированный SharedPreferences platform fake; фи�
 Android проверку он не заменяет. Фактические проверки — в
 [docs/verification](docs/verification/).
 
+GitHub Actions: один job с Flutter 3.47.5 stable выполняет `flutter pub get`,
+`flutter analyze`, `flutter test` при push в main/release/r6-readiness,
+pull request и ручном запуске. [Workflow](.github/workflows/flutter.yml).
+**CI configured, remote run NOT VERIFIED**: workflow ещё не отправлен на GitHub.
+Проект release notes: [v0.1.0](docs/releases/v0.1.0.md).
+
 ## Android APK
 
 ```bash
@@ -198,7 +205,7 @@ Home и список уроков показывают сохранённый п
   профессиональное диагностическое оборудование.
 - Нет авторизации, синхронизации, analytics, истории попыток/баллов,
   unlocking и сохранения текущей quiz session после выхода.
-- Финальный release audit ещё не выполнен; TalkBack не проверен.
+- R6.6B IN PROGRESS; окончательный release audit ещё не выполнен; TalkBack не проверен.
 - Продвинутый accessibility audit и другие платформы ещё не проверены.
 
 ## Развитие проекта

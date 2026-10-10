@@ -18,7 +18,8 @@ PASS в таблице относится к этому просмотру; вз
 Дополнительным сообщением владелец подтвердил PASS для Circuit, Battery voltage,
 Resistance, Continuity, Android Back, завершения урока, обновления Module/Home,
 сохранения прогресса, landscape, увеличенного шрифта и screenshots для README.
-R6.6B — PASS. TalkBack, hardware 320 px, повторное completion и pending-save
+R6.6B — IN PROGRESS по актуальному указанию владельца; частные PASS сохранены.
+TalkBack, hardware 320 px, повторное completion и pending-save
 отдельно не подтверждены; незаполненные дополнительные пункты ниже не являются PASS.
 Получены 7 screenshots в сообщении; позднее JPG добавлены в docs/screenshots
 и галерею README. Дополнительные кадры Voltage Drop, Current Measurement
@@ -105,6 +106,7 @@ R6.6B — PASS. TalkBack, hardware 320 px, повторное completion и pend
 - [x] Quiz: retry → pass (PASS владельца).
   Завершение урока подтверждено отдельным общим PASS владельца;
   отдельный ручной результат нажатия «Завершить проверку» не заявлен.
+- [ ] После quiz pass нажать «Завершить проверку» и проверить Module/Home.
 - [x] Завершение урока и обновление отметки Module (PASS владельца).
   До обязательного ответа disabled проверено автоматическим safety_01 flow.
 - [x] Обновление Home после completion (PASS владельца).
@@ -142,4 +144,4 @@ R6.6B — PASS. TalkBack, hardware 320 px, повторное completion и pend
 Сообщить: модель, Android version, дату ручной проверки, APK 0.1.0+1,
 пройденные пункты, NOT CHECKED/NOT OBSERVED и issues с шагами воспроизведения.
 Серийный номер устройства не нужен. R6.6 завершён только после подтверждения
-обязательных сценариев; R6.7 пока не начинать.
+обязательных сценариев; R6.7 выполняется отдельно по указанию владельца.
