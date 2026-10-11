@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="840" viewBox="0 0 320 840">
+<title>E05 · ШИМ low-side</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">E05 · ШИМ low-side</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Идеальные уровни; ЭБУ ON</text>
+<text x="20" y="103" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Команда, 0/1</text>
+<line x1="54" y1="125" x2="54" y2="255" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="255" x2="290" y2="255" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="255.0" x2="54" y2="255.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="261.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="190.0" x2="54" y2="190.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="196.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0,5</text>
+<line x1="54" y1="190.0" x2="290" y2="190.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="125.0" x2="54" y2="125.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="131.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">1</text>
+<line x1="54" y1="125.0" x2="290" y2="125.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="255" x2="54.0" y2="260" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="283" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="255" x2="172.0" y2="260" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="283" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">10</text>
+<line x1="290.0" y1="255" x2="290.0" y2="260" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="283" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">20</text>
+<text x="172" y="310" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, ms</text>
+<polyline id="driver_command" points="54,255 54,125 101.2,125 101.2,255 172,255 172,125 219.2,125 219.2,255 290,255" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="341" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">T = 10 ms; t_ON = 4 ms</text>
+<text x="20" y="369" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">f = 100 Hz; D_ON = 40%</text>
+<text x="20" y="418" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(P,B−), V</text>
+<line x1="54" y1="440" x2="54" y2="570" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="570" x2="290" y2="570" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="570.0" x2="54" y2="570.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="576.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="505.0" x2="54" y2="505.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="511.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">6</text>
+<line x1="54" y1="505.0" x2="290" y2="505.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="440.0" x2="54" y2="440.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="446.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">12</text>
+<line x1="54" y1="440.0" x2="290" y2="440.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="570" x2="54.0" y2="575" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="598" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="570" x2="172.0" y2="575" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="598" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">10</text>
+<line x1="290.0" y1="570" x2="290.0" y2="575" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="598" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">20</text>
+<text x="172" y="625" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, ms</text>
+<polyline id="driver_potential" points="54,440 54,570 101.2,570 101.2,440 172,440 172,570 219.2,570 219.2,440 290,440" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="655" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">t_HIGH(P) = 6 ms</text>
+<text x="20" y="683" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">D_HIGH(P) = 60%</text>
+<text x="20" y="739" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">На P низкий уровень = ON.</text>
+<text x="20" y="772" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Выброс и ток не рассчитаны.</text>
+<text x="20" y="805" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Не выводи скорость из duty.</text>
+</svg>

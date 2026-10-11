@@ -1,0 +1,82 @@
+[
+  {
+    "id": "electronics_01",
+    "order": 1,
+    "title": "Введение в автомобильную электронику",
+    "description": "Разделить измерение, решение, действие и обратную связь",
+    "estimatedMinutes": 15,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "electronics_02",
+    "order": 2,
+    "title": "Электронные блоки управления",
+    "description": "Связать входы, обработку, выходной драйвер и условия работы ЭБУ",
+    "estimatedMinutes": 18,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "electronics_03",
+    "order": 3,
+    "title": "Датчики автомобиля",
+    "description": "Связать физическую величину, принцип датчика и электрический сигнал",
+    "estimatedMinutes": 20,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "electronics_04",
+    "order": 4,
+    "title": "Аналоговые и цифровые сигналы",
+    "description": "Читать уровни и время, сравнивать частоту и ШИМ, ограничивать вывод мультиметра",
+    "estimatedMinutes": 25,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "electronics_05",
+    "order": 5,
+    "title": "Исполнительные механизмы",
+    "description": "Прочитать управление по плюсу и массе, ШИМ и защиту катушки",
+    "estimatedMinutes": 20,
+    "file": "lesson_05.json"
+  },
+  {
+    "id": "electronics_06",
+    "order": 6,
+    "title": "Питание, масса и опорное напряжение датчиков",
+    "description": "Выбирать опору измерения и различать питание, сигнал и рабочий возврат",
+    "estimatedMinutes": 22,
+    "file": "lesson_06.json"
+  },
+  {
+    "id": "electronics_07",
+    "order": 7,
+    "title": "Основы CAN",
+    "description": "Разделить физические уровни CAN, сообщения и проверку сети",
+    "estimatedMinutes": 25,
+    "file": "lesson_07.json"
+  },
+  {
+    "id": "electronics_08",
+    "order": 8,
+    "title": "LIN и взаимодействие модулей",
+    "description": "Проследить отдельное питание LIN-узлов, расписание и ответ",
+    "estimatedMinutes": 20,
+    "file": "lesson_08.json"
+  },
+  {
+    "id": "electronics_09",
+    "order": 9,
+    "title": "Диагностика датчиков и электронных цепей",
+    "description": "Выбирать следующую проверку по наблюдениям, не заменяя гипотезы диагнозом",
+    "estimatedMinutes": 25,
+    "file": "lesson_09.json"
+  },
+  {
+    "id": "electronics_10",
+    "order": 10,
+    "title": "Итоговый практикум по автомобильной электронике",
+    "description": "Интерпретировать сигналы и выбрать доказательные проверки в 15 заданиях",
+    "estimatedMinutes": 30,
+    "file": "lesson_10.json"
+  }
+]

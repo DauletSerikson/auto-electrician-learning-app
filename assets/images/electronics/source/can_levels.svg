@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="1060" viewBox="0 0 320 1060">
+<title>E07V · уровни CAN</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">E07V · уровни CAN</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">ON; общая G; пример уровней</text>
+<text x="20" y="108" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(H,G), V</text>
+<line x1="54" y1="130" x2="54" y2="260" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="260" x2="290" y2="260" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="260.0" x2="54" y2="260.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="266.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="195.0" x2="54" y2="195.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="201.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="195.0" x2="290" y2="195.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="130.0" x2="54" y2="130.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="136.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="130.0" x2="290" y2="130.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="260" x2="54.0" y2="265" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="288" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="260" x2="172.0" y2="265" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="288" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">4</text>
+<line x1="290.0" y1="260" x2="290.0" y2="265" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="288" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">8</text>
+<text x="172" y="315" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, µs</text>
+<polyline id="can_h" points="54,195 113,195 113,169 172,169 172,195 290,195" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="350" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Покой: 2,5 V; dominant: 3,5 V</text>
+<text x="20" y="413" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(L,G), V</text>
+<line x1="54" y1="435" x2="54" y2="565" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="565" x2="290" y2="565" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="565.0" x2="54" y2="565.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="571.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="500.0" x2="54" y2="500.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="506.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="500.0" x2="290" y2="500.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="435.0" x2="54" y2="435.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="441.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="435.0" x2="290" y2="435.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="565" x2="54.0" y2="570" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="593" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="565" x2="172.0" y2="570" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="593" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">4</text>
+<line x1="290.0" y1="565" x2="290.0" y2="570" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="593" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">8</text>
+<text x="172" y="620" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, µs</text>
+<polyline id="can_l" points="54,500 113,500 113,526 172,526 172,500 290,500" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="655" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Покой: 2,5 V; dominant: 1,5 V</text>
+<text x="20" y="718" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(H,L), V</text>
+<line x1="54" y1="740" x2="54" y2="870" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="870" x2="290" y2="870" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="870.0" x2="54" y2="870.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="876.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="805.0" x2="54" y2="805.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="811.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="805.0" x2="290" y2="805.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="740.0" x2="54" y2="740.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="746.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="740.0" x2="290" y2="740.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="870" x2="54.0" y2="875" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="898" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="870" x2="172.0" y2="875" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="898" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">4</text>
+<line x1="290.0" y1="870" x2="290.0" y2="875" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="898" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">8</text>
+<text x="172" y="925" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, µs</text>
+<polyline id="can_diff" points="54,870 113,870 113,818 172,818 172,870 290,870" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="960" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Покой: 0 V; dominant: 2 V</text>
+<text x="20" y="1007" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Фрагмент состояний, не кадр.</text>
+<text x="20" y="1036" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Не DMM-норма всей сети.</text>
+</svg>

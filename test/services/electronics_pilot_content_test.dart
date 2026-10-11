@@ -16,19 +16,32 @@ void main() {
   setUp(rootBundle.clear);
 
   test(
-    'pilot contains only approved slices and keeps the published course',
+    'approved pilot slices are indexed exactly once in the full module',
     () async {
       final course = CourseService();
-      expect(await course.loadModules(), hasLength(6));
-      expect(await course.loadAllLessons(), hasLength(52));
+      expect(await course.loadModules(), hasLength(7));
+      expect(await course.loadAllLessons(), hasLength(62));
+      final summaries = await course.loadLessons('stage_6');
+      for (final order in [3, 4, 6]) {
+        final matches = summaries.where((s) => s.order == order).toList();
+        expect(matches, hasLength(1));
+        expect(
+          matches.single.id,
+          'electronics_${order.toString().padLeft(2, '0')}',
+        );
+        expect(
+          matches.single.file,
+          'lesson_${order.toString().padLeft(2, '0')}.json',
+        );
+      }
       expect(
-        Directory('assets/course/stage_6')
-            .listSync()
-            .map((file) => file.path.split(Platform.pathSeparator).last)
-            .toSet(),
-        {'lesson_03.json', 'lesson_04.json', 'lesson_06.json'},
+        Directory('assets/course/stage_6').listSync().where(
+          (f) =>
+              f.path.split(Platform.pathSeparator).last.startsWith('lesson_'),
+        ),
+        hasLength(10),
       );
-      expect(File('assets/course/stage_6/lessons.json').existsSync(), isFalse);
+      expect(File('assets/course/stage_6/lessons.json').existsSync(), isTrue);
     },
   );
 

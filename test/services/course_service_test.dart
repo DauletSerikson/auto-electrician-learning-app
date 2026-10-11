@@ -16,7 +16,7 @@ void main() {
 
       expect(modules, isNotEmpty);
 
-      expect(modules.length, 6);
+      expect(modules.length, 7);
 
       expect(
         modules.map((module) => module.id),
@@ -27,6 +27,7 @@ void main() {
           'stage_3',
           'stage_4',
           'stage_5',
+          'stage_6',
         ]),
       );
     });

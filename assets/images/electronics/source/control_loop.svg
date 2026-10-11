@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="780" viewBox="0 0 320 780">
+<title>Охлаждение · роли</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Охлаждение · роли</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Функции, не распиновка</text>
+<rect x="50" y="110" width="250" height="90" rx="4" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="175" y="145" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">Температура</text>
+<text x="175" y="173" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">охлаждающей жидкости</text>
+<rect x="50" y="280" width="250" height="90" rx="4" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="175" y="315" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">Датчик</text>
+<text x="175" y="343" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">измеряет величину</text>
+<rect x="50" y="450" width="250" height="90" rx="4" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="175" y="485" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">ЭБУ</text>
+<text x="175" y="513" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">принимает решение</text>
+<rect x="50" y="620" width="250" height="90" rx="4" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="175" y="655" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">Драйвер → вентилятор</text>
+<text x="175" y="683" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">меняет поток воздуха</text>
+<line x1="175" y1="200" x2="175" y2="280" stroke="#075f98" stroke-width="3"/>
+<path d="M 169 271 L 175 280 L 181 271" fill="none" stroke="#172b3a" stroke-width="3"/>
+<text x="192" y="248" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">измерение</text>
+<line x1="175" y1="370" x2="175" y2="450" stroke="#075f98" stroke-width="3"/>
+<path d="M 169 441 L 175 450 L 181 441" fill="none" stroke="#172b3a" stroke-width="3"/>
+<text x="192" y="418" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">сигнал</text>
+<line x1="175" y1="540" x2="175" y2="620" stroke="#075f98" stroke-width="3"/>
+<path d="M 169 611 L 175 620 L 181 611" fill="none" stroke="#172b3a" stroke-width="3"/>
+<text x="192" y="588" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">команда</text>
+<path d="M 50 665 L 20 665 L 20 155 L 50 155" fill="none" stroke="#172b3a" stroke-width="3"/>
+<line x1="20" y1="155" x2="50" y2="155" stroke="#075f98" stroke-width="3"/>
+<path d="M 41 149 L 50 155 L 41 161" fill="none" stroke="#172b3a" stroke-width="3"/>
+<text x="50" y="747" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Обратная связь: охлаждение</text>
+</svg>
