@@ -133,3 +133,19 @@ F4 генератора относятся только к выбранным п
 Полный отчёт: `docs/verification/R8_MODULE_5.md`. Новые снимки renderer в обеих
 темах: `docs/verification/r8_module_5/preview.html`; снимки пилота сохранены
 в `docs/verification/r8_pilot/preview.html`. Физический Android smoke не выполнен.
+
+
+R9 — авторские схемы модуля 6
+
+Четыре схемы созданы специально для проекта агентом Codex по утверждённому R9.1, без сторонних изображений и копирования схем производителей. SVG в `source/` — редактируемые оригиналы; одноимённые PNG экспортированы resvg-py 0.2.0 с системным Arial, масштабом 3× (SVG шириной 320). Flutter-зависимости не добавлены. Белый фон и контрастные линии сохраняются в обеих темах. Минимальная подпись SVG — 18 px.
+
+| SVG / PNG | Связь с уроками | Назначение | PNG, px |
+| --- | --- | --- | --- |
+| `short_ground_sections` | diagnostics_04, diagnostics_10 | Изоляция участков КЗ на массу | 960 × 1860 |
+| `cross_wire_isolation` | diagnostics_04, diagnostics_10 | Две изолированные жилы и межпроводное замыкание | 960 × 1560 |
+| `positive_contact_points` | diagnostics_02, diagnostics_05, diagnostics_10 | P/Q/N, потеря напряжения в плюсовом контакте | 960 × 1812 |
+| `starter_test_points` | diagnostics_07, diagnostics_10 | C/M+/G3/N силовой цепи стартера | 960 × 2070 |
+
+Старые SVG и PNG R8 сохранены. Повторное использование в R9: `charging_control`: diagnostics_08; `charging_power`: diagnostics_08, diagnostics_10; `diagnosis_points`: diagnostics_01, diagnostics_03, diagnostics_06, diagnostics_09, diagnostics_10; `ground_loss`: diagnostics_02, diagnostics_10; `lighting_control`: diagnostics_06; `lighting_power`: diagnostics_06, diagnostics_10; `power_branches`: diagnostics_04, diagnostics_10; `starter_control`: diagnostics_07, diagnostics_10.
+
+Открытые кружки — выводы; отсутствие линии между парой выводов показывает разъединение. Закрашенные точки — электрические соединения и контрольные точки. Обозначения C и G3 в стартере локальные, их нельзя смешивать с C корпуса генератора. Rк обозначает эквивалент сопротивления контакта, не установленный резистор. Схемы не изображают внутреннее устройство ECU, стартера и генератора. Подробные условия ON/OFF, изоляции и измерений задаются соседними текстовыми блоками. Происхождение и связь всех повторений проверяются тестами и отчётом `docs/verification/R9_MODULE_6.md`.

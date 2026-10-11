@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="520" viewBox="0 0 320 520">
+<title>cross_wire_isolation</title><desc>Два номинально независимых проводника A1–A2 и B1–B2. Все четыре конца разъединены с источниками, нагрузками и ECU. Проводники продольно непрерывны; штатной связи между ними нет. Скрытая межпроводная связь устанавливается показаниями Ω, а не отметкой готового дефекта.</desc>
+<rect width="320" height="520" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" font-weight="bold" text-anchor="start" fill="#172b3a">Межпроводная связь</text>
+<text x="16" y="62" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">Все четыре конца отключены</text>
+<circle cx="80" cy="140" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="80" y1="144" x2="80" y2="370" stroke="#172b3a" stroke-width="3"/>
+<circle cx="80" cy="374" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="80" y="121" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#172b3a">A1</text>
+<text x="80" y="408" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#172b3a">A2</text>
+<circle cx="232" cy="140" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="232" y1="144" x2="232" y2="370" stroke="#172b3a" stroke-width="3"/>
+<circle cx="232" cy="374" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="232" y="121" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#172b3a">B1</text>
+<text x="232" y="408" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#172b3a">B2</text>
+<text x="16" y="458" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">Номинально A и B не связаны</text>
+<text x="16" y="490" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">Ω только без внешнего питания</text>
+</svg>

@@ -73,7 +73,7 @@ void main() {
       pending.complete();
       await settle(tester);
       if (home) {
-        expect(find.text('1 из 42 уроков'), findsOneWidget);
+        expect(find.text('1 из 52 уроков'), findsOneWidget);
       } else {
         expect(find.byIcon(Icons.check), findsOneWidget);
       }
@@ -88,7 +88,7 @@ void main() {
       await settle(tester);
       expect(find.text('Не удалось загрузить прогресс'), findsOneWidget);
       expect(find.byType(CircularProgressIndicator), findsNothing);
-      expect(find.text('0 из 42 уроков'), findsNothing);
+      expect(find.text('0 из 52 уроков'), findsNothing);
       expect(find.byIcon(Icons.check), findsNothing);
       final pending = Completer<void>();
       platform.onRead = () => pending.future;
@@ -100,7 +100,7 @@ void main() {
       await settle(tester);
       expect(find.text('Не удалось загрузить прогресс'), findsNothing);
       if (home) {
-        expect(find.text('1 из 42 уроков'), findsOneWidget);
+        expect(find.text('1 из 52 уроков'), findsOneWidget);
       } else {
         expect(find.byIcon(Icons.check), findsOneWidget);
       }
@@ -146,7 +146,7 @@ void main() {
         await settle(tester);
         expect(find.byType(LessonScreen), findsNothing);
         if (home) {
-          expect(find.text('1 из 42 уроков'), findsOneWidget);
+          expect(find.text('1 из 52 уроков'), findsOneWidget);
         } else {
           expect(find.byIcon(Icons.check), findsOneWidget);
         }
@@ -171,7 +171,7 @@ void main() {
         await tester.tap(find.widgetWithText(FilledButton, 'Завершить урок'));
         await settle(tester);
         expect(find.text('Не удалось загрузить прогресс'), findsOneWidget);
-        expect(find.text('1 из 42 уроков'), findsNothing);
+        expect(find.text('1 из 52 уроков'), findsNothing);
         expect(find.byIcon(Icons.check), findsNothing);
         platform.onRead = null;
         await tester.tap(find.text('Повторить'));

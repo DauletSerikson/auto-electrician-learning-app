@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="604" viewBox="0 0 320 604">
+<title>positive_contact_points</title><desc>Схема D07 ON. Плюс B1=P через конечное контактное Rк к Q и H1, затем по исправному возврату к N=B1−. Задано B1=12.6 V, I=4 A, Rк=0.6 Ω; H1 эффективный R=2.55 Ω. Потенциалы P=12.6, Q=10.2, N=0; P−Q=2.4. При отключении нагрузочной ветви после Q источник остаётся, рабочий ток=0 и Q приходит к P; это не отключение B1.</desc>
+<rect width="320" height="604" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" font-weight="bold" text-anchor="start" fill="#172b3a">Потери плюсового контакта</text>
+<text x="16" y="62" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">Исходный режим: нагрузка ON</text>
+<circle cx="90" cy="106" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="120" y="112" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">P = B1+</text>
+<line x1="90" y1="110" x2="90" y2="166" stroke="#172b3a" stroke-width="3"/>
+<rect x="78" y="166" width="24" height="55" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="126" y="201" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">Rк</text>
+<line x1="90" y1="221" x2="90" y2="260" stroke="#172b3a" stroke-width="3"/>
+<circle cx="90" cy="260" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="126" y="266" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">Q</text>
+<line x1="90" y1="265" x2="90" y2="324" stroke="#172b3a" stroke-width="3"/>
+<circle cx="90" cy="347" r="23" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="74" y1="331" x2="106" y2="363" stroke="#172b3a" stroke-width="3"/>
+<line x1="74" y1="363" x2="106" y2="331" stroke="#172b3a" stroke-width="3"/>
+<text x="128" y="353" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">H1</text>
+<line x1="90" y1="370" x2="90" y2="450" stroke="#172b3a" stroke-width="3"/>
+<circle cx="90" cy="450" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="126" y="456" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">N = B1−</text>
+<line x1="90" y1="450" x2="90" y2="476" stroke="#172b3a" stroke-width="3"/>
+<line x1="66" y1="476" x2="114" y2="476" stroke="#172b3a" stroke-width="3"/>
+<line x1="72" y1="476" x2="62" y2="490" stroke="#172b3a" stroke-width="3"/>
+<line x1="90" y1="476" x2="80" y2="490" stroke="#172b3a" stroke-width="3"/>
+<line x1="108" y1="476" x2="98" y2="490" stroke="#172b3a" stroke-width="3"/>
+<text x="16" y="528" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">Rк — контакт, не штатный R</text>
+<text x="16" y="556" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">I = 4 A; Rк = 0,6 Ω</text>
+<text x="16" y="584" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">Возврат N исправен</text>
+</svg>

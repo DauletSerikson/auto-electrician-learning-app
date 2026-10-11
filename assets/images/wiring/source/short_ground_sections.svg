@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="620" viewBox="0 0 320 620">
+<title>short_ground_sections</title><desc>Обесточенный жгут. F1 снят, H1/ECU и другие пути отключены. Wup идёт от выхода держателя F1 к верхней половине X1:1. Wdown идёт от нижней половины X1:1 к X2:1, H1 снята. X1 разъединён; G отдельная кузовная опора для Ω. Номинальные линии не раскрывают место скрытой связи; данные до/после разделения задаются в уроке.</desc>
+<rect width="320" height="620" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" font-weight="bold" text-anchor="start" fill="#172b3a">Поиск связи на массу</text>
+<text x="16" y="62" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">Только изолированный жгут</text>
+<circle cx="78" cy="116" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="78" y1="120" x2="78" y2="240" stroke="#172b3a" stroke-width="3"/>
+<circle cx="78" cy="244" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="108" y="122" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">выход F1</text>
+<text x="108" y="181" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">Wup</text>
+<text x="108" y="250" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">X1:1</text>
+<circle cx="78" cy="318" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="78" y1="322" x2="78" y2="446" stroke="#172b3a" stroke-width="3"/>
+<circle cx="78" cy="450" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="108" y="324" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">X1:1</text>
+<text x="108" y="391" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">Wdown</text>
+<text x="108" y="456" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">X2:1</text>
+<text x="16" y="283" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">X1 разъединён</text>
+<circle cx="266" cy="116" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="266" y1="120" x2="266" y2="466" stroke="#172b3a" stroke-width="3"/>
+<line x1="266" y1="466" x2="266" y2="482" stroke="#172b3a" stroke-width="3"/>
+<line x1="242" y1="482" x2="290" y2="482" stroke="#172b3a" stroke-width="3"/>
+<line x1="248" y1="482" x2="238" y2="496" stroke="#172b3a" stroke-width="3"/>
+<line x1="266" y1="482" x2="256" y2="496" stroke="#172b3a" stroke-width="3"/>
+<line x1="284" y1="482" x2="274" y2="496" stroke="#172b3a" stroke-width="3"/>
+<text x="266" y="101" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#172b3a">G</text>
+<text x="16" y="532" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">F1 и H1 сняты; питания нет</text>
+<text x="16" y="560" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">G — кузовная опора для Ω</text>
+<text x="16" y="588" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">Дефект устанавливают по данным</text>
+</svg>

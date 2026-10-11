@@ -16,11 +16,18 @@ void main() {
 
       expect(modules, isNotEmpty);
 
-      expect(modules.length, 5);
+      expect(modules.length, 6);
 
       expect(
         modules.map((module) => module.id),
-        containsAll(['stage_0', 'stage_1', 'stage_2', 'stage_3', 'stage_4']),
+        containsAll([
+          'stage_0',
+          'stage_1',
+          'stage_2',
+          'stage_3',
+          'stage_4',
+          'stage_5',
+        ]),
       );
     });
 

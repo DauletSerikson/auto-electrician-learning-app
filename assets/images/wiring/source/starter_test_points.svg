@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="690" viewBox="0 0 320 690">
+<title>starter_test_points</title><desc>Силовой путь D11: B1+ через кабель к C входа главного контакта K3, затем к M+ и M1; возврат от корпуса G3 через соединение к N=B1−. В исходном рисунке K3 открыт. При медленном вращении K3 замкнут, задаются потенциалы M+/G3/N и повышенный R соединения возврата. Команда 50 приходит отдельно из starter_control; K3 функциональный привод, не K2 обычного реле.</desc>
+<rect width="320" height="690" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" font-weight="bold" text-anchor="start" fill="#172b3a">Запуск · точки силового пути</text>
+<text x="16" y="62" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">K3 исходно открыт; N = B1−</text>
+<circle cx="90" cy="104" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="125" y="110" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">B1+</text>
+<line x1="90" y1="108" x2="90" y2="174" stroke="#172b3a" stroke-width="3"/>
+<text x="125" y="147" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">кабель</text>
+<circle cx="90" cy="174" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="125" y="180" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">C</text>
+<line x1="90" y1="179" x2="90" y2="215" stroke="#172b3a" stroke-width="3"/>
+<circle cx="90" cy="219" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<circle cx="90" cy="270" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="90" y1="219" x2="56" y2="252" stroke="#172b3a" stroke-width="3"/>
+<text x="125" y="249" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">K3</text>
+<line x1="90" y1="274" x2="90" y2="308" stroke="#172b3a" stroke-width="3"/>
+<circle cx="90" cy="308" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="125" y="314" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">M+</text>
+<line x1="90" y1="313" x2="90" y2="356" stroke="#172b3a" stroke-width="3"/>
+<circle cx="90" cy="380" r="24" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="90" y="388" font-family="Arial" font-size="22" font-weight="bold" text-anchor="middle" fill="#172b3a">M</text>
+<text x="130" y="386" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">M1</text>
+<line x1="90" y1="404" x2="90" y2="453" stroke="#172b3a" stroke-width="3"/>
+<circle cx="90" cy="453" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="125" y="459" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">G3</text>
+<line x1="90" y1="458" x2="90" y2="482" stroke="#172b3a" stroke-width="3"/>
+<rect x="78" y="482" width="24" height="34" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="125" y="507" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">соединение</text>
+<line x1="90" y1="516" x2="90" y2="550" stroke="#172b3a" stroke-width="3"/>
+<circle cx="90" cy="550" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="125" y="556" font-family="Arial" font-size="18" font-weight="bold" text-anchor="start" fill="#172b3a">N</text>
+<line x1="90" y1="550" x2="90" y2="578" stroke="#172b3a" stroke-width="3"/>
+<line x1="66" y1="578" x2="114" y2="578" stroke="#172b3a" stroke-width="3"/>
+<line x1="72" y1="578" x2="62" y2="592" stroke="#172b3a" stroke-width="3"/>
+<line x1="90" y1="578" x2="80" y2="592" stroke="#172b3a" stroke-width="3"/>
+<line x1="108" y1="578" x2="98" y2="592" stroke="#172b3a" stroke-width="3"/>
+<text x="16" y="634" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">C — вход главного контакта</text>
+<text x="16" y="662" font-family="Arial" font-size="18" font-weight="normal" text-anchor="start" fill="#172b3a">Команда 50 показана отдельно</text>
+</svg>

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "diagnostics_01",
+    "order": 1,
+    "title": "Системный подход к диагностике",
+    "description": "Отделить симптом от причины и выбрать проверку, различающую гипотезы",
+    "estimatedMinutes": 15,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "diagnostics_02",
+    "order": 2,
+    "title": "Проверка питания и массы",
+    "description": "Различить потенциал, напряжение нагрузки и потери прямого/обратного пути",
+    "estimatedMinutes": 18,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "diagnostics_03",
+    "order": 3,
+    "title": "Поиск обрыва электрической цепи",
+    "description": "Выделить границу питания и подтвердить открытый путь безопасной проверкой",
+    "estimatedMinutes": 18,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "diagnostics_04",
+    "order": 4,
+    "title": "Поиск короткого замыкания",
+    "description": "Различить связь на массу, между проводниками и перегрузку; безопасно разделить жгут",
+    "estimatedMinutes": 20,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "diagnostics_05",
+    "order": 5,
+    "title": "Плохой контакт и высокое сопротивление",
+    "description": "Локализовать контакт по потерям под током и проверить результат ремонта",
+    "estimatedMinutes": 18,
+    "file": "lesson_05.json"
+  },
+  {
+    "id": "diagnostics_06",
+    "order": 6,
+    "title": "Диагностика предохранителей и реле",
+    "description": "Отделить входное питание, защиту, команду и силовую передачу тока",
+    "estimatedMinutes": 20,
+    "file": "lesson_06.json"
+  },
+  {
+    "id": "diagnostics_07",
+    "order": 7,
+    "title": "Диагностика системы запуска",
+    "description": "Выбрать проверки источника, команды и силового пути по симптому",
+    "estimatedMinutes": 20,
+    "file": "lesson_07.json"
+  },
+  {
+    "id": "diagnostics_08",
+    "order": 8,
+    "title": "Диагностика системы зарядки",
+    "description": "Разделить силовые потери, возврат и условия управления генератором",
+    "estimatedMinutes": 20,
+    "file": "lesson_08.json"
+  },
+  {
+    "id": "diagnostics_09",
+    "order": 9,
+    "title": "Комплексный диагностический кейс",
+    "description": "Собрать обязательные измерения и объяснить локализацию отказа лампы",
+    "estimatedMinutes": 25,
+    "file": "lesson_09.json"
+  },
+  {
+    "id": "diagnostics_10",
+    "order": 10,
+    "title": "Итоговый диагностический практикум",
+    "description": "Применить безопасный выбор измерений и причинное объяснение к новым ситуациям",
+    "estimatedMinutes": 25,
+    "file": "lesson_10.json"
+  }
+]
