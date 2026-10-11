@@ -58,7 +58,7 @@ void main() {
     await tester.pumpWidget(const AutoElectricianApp());
     await _settle(tester);
     expect(find.byType(HomeScreen), findsOneWidget);
-    expect(find.text('0 из 22 уроков'), findsOneWidget);
+    expect(find.text('0 из 32 уроков'), findsOneWidget);
     expect(preferences.values, isEmpty);
 
     await _tap(tester, find.widgetWithText(ListTile, 'Курс'));
@@ -106,14 +106,14 @@ void main() {
     expect(find.byType(CourseScreen), findsOneWidget);
     await tester.pageBack();
     await _settle(tester);
-    expect(find.text('1 из 22 уроков'), findsOneWidget);
+    expect(find.text('1 из 32 уроков'), findsOneWidget);
     expect(find.text('Опасность большого тока'), findsOneWidget);
 
     // Recreate the app using the same fake persisted store, not widget state.
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pumpWidget(const AutoElectricianApp());
     await _settle(tester);
-    expect(find.text('1 из 22 уроков'), findsOneWidget);
+    expect(find.text('1 из 32 уроков'), findsOneWidget);
     expect(find.text('Опасность большого тока'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });

@@ -152,7 +152,12 @@ void main() {
         quizCounts[item.module.id] = result.totalTasks;
       }
     }
-    expect(quizCounts, {'stage_0': 5, 'stage_1': 13, 'stage_2': 12});
+    expect(quizCounts, {
+      'stage_0': 5,
+      'stage_1': 13,
+      'stage_2': 12,
+      'stage_3': 15,
+    });
     expect(
       seen,
       containsAll([
