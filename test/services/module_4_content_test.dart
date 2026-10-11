@@ -13,39 +13,34 @@ void main() {
   final course = CourseService();
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
-  test(
-    'module 4 is last and its ten lessons have consecutive stable IDs',
-    () async {
-      final modules = await course.loadModules();
-      expect(modules.map((m) => m.id), [
-        'stage_0',
-        'stage_1',
-        'stage_2',
-        'stage_3',
-      ]);
-      expect(modules.last.order, 3);
-      expect(modules.last.title, 'Электрооборудование автомобиля');
-      final summaries = await course.loadLessons('stage_3');
-      expect(summaries.map((s) => s.order), List.generate(10, (i) => i + 1));
-      expect(
-        summaries.map((s) => s.id),
-        List.generate(
-          10,
-          (i) => 'vehicle_${(i + 1).toString().padLeft(2, '0')}',
-        ),
-      );
-      final all = await course.loadAllLessons();
-      final previous = all
-          .where((l) => l.module.id != 'stage_3')
-          .map((l) => l.lesson.id)
-          .toSet();
-      final added = summaries.map((s) => s.id).toSet();
-      expect(previous, hasLength(22));
-      expect(added, hasLength(10));
-      expect(previous.intersection(added), isEmpty);
-      expect(all, hasLength(32));
-    },
-  );
+  test('module 4 keeps its position and its ten lessons have consecutive stable IDs', () async {
+    final modules = await course.loadModules();
+    expect(modules.map((m) => m.id), [
+      'stage_0',
+      'stage_1',
+      'stage_2',
+      'stage_3',
+      'stage_4',
+    ]);
+    expect(modules[3].order, 3);
+    expect(modules[3].title, 'Электрооборудование автомобиля');
+    final summaries = await course.loadLessons('stage_3');
+    expect(summaries.map((s) => s.order), List.generate(10, (i) => i + 1));
+    expect(
+      summaries.map((s) => s.id),
+      List.generate(10, (i) => 'vehicle_${(i + 1).toString().padLeft(2, '0')}'),
+    );
+    final all = await course.loadAllLessons();
+    final previous = all
+        .where((l) => l.module.order < 3)
+        .map((l) => l.lesson.id)
+        .toSet();
+    final added = summaries.map((s) => s.id).toSet();
+    expect(previous, hasLength(22));
+    expect(added, hasLength(10));
+    expect(previous.intersection(added), isEmpty);
+    expect(all, hasLength(42));
+  });
 
   test(
     'every new lesson parses with matching metadata and bundled references',
@@ -151,8 +146,8 @@ void main() {
       final service = ProgressService();
       final before = await service.calculateProgress(all);
       expect(before.completedLessons, 22);
-      expect(before.totalLessons, 32);
-      expect(before.progress, 22 / 32);
+      expect(before.totalLessons, 42);
+      expect(before.progress, 22 / 42);
       expect(before.nextLesson?.lesson.id, 'vehicle_01');
       for (final id in oldIds) {
         expect(await service.isLessonCompleted(id), isTrue);
@@ -169,14 +164,14 @@ void main() {
     },
   );
 
-  test('all 32 completed yields full progress with no next lesson', () async {
+  test('all 42 completed yields full progress with no next lesson', () async {
     final all = await course.loadAllLessons();
     final progress = calculateCourseProgress(
       all,
       all.map((l) => l.lesson.id).toSet(),
     );
-    expect(progress.totalLessons, 32);
-    expect(progress.completedLessons, 32);
+    expect(progress.totalLessons, 42);
+    expect(progress.completedLessons, 42);
     expect(progress.progress, 1);
     expect(progress.nextLesson, isNull);
   });

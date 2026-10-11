@@ -24,6 +24,21 @@ const _sizes = {
   'connector_views': Size(960, 1605),
 };
 
+const _allSizes = {
+  ..._sizes,
+  'power_branches': Size(960, 1830),
+  'lighting_power': Size(960, 1914),
+  'lighting_control': Size(960, 1728),
+  'starter_power': Size(960, 1740),
+  'starter_control': Size(960, 1902),
+  'charging_power': Size(960, 1746),
+  'charging_control': Size(960, 1764),
+  'diagnosis_points': Size(960, 1806),
+  'ground_loss': Size(960, 1824),
+  'quiz_branches': Size(960, 1668),
+  'quiz_connector': Size(960, 1782),
+};
+
 Future<Lesson> _load(int order) => CourseService().loadLesson(
   'assets/course/stage_4/lesson_${order.toString().padLeft(2, '0')}.json',
 );
@@ -42,9 +57,9 @@ void main() {
   });
 
   test(
-    'pilot slices parse without changing the published 32-lesson course',
+    'approved pilot slices retain contracts in the 42-lesson course',
     () async {
-      expect(await CourseService().loadAllLessons(), hasLength(32));
+      expect(await CourseService().loadAllLessons(), hasLength(42));
       final assets = <String>{};
       for (final order in _lessons) {
         final lesson = await _load(order);
@@ -98,7 +113,14 @@ void main() {
     'every PNG is bundled and decodes at the authored 3x dimensions',
     (tester) async {
       await tester.runAsync(() async {
-        for (final entry in _sizes.entries) {
+        for (final entry in _allSizes.entries) {
+          final source = File('assets/images/wiring/source/${entry.key}.svg');
+          expect(await source.exists(), isTrue);
+          expect(await source.readAsString(), contains('viewBox="0 0 320 '));
+          expect(
+            await File('assets/images/wiring/README.md').readAsString(),
+            contains('`${entry.key}`'),
+          );
           final bytes = await rootBundle.load(
             'assets/images/wiring/${entry.key}.png',
           );
@@ -123,9 +145,11 @@ void main() {
         await tester.binding.setSurfaceSize(Size(width, 1050));
         addTearDown(() => tester.binding.setSurfaceSize(null));
         final boundaryKey = GlobalKey();
-        for (final order in _lessons) {
+        final seen = <String>{};
+        for (final order in List.generate(10, (i) => i + 1)) {
           final lesson = await _load(order);
           for (final block in lesson.blocks.whereType<ImageLessonBlock>()) {
+            if (!seen.add(block.asset)) continue;
             // Start decoding in real async before mounting Image; otherwise
             // a pending fake-async image request can stall precaching.
             await tester.runAsync(() async {
@@ -180,7 +204,7 @@ void main() {
             expect(tester.takeException(), isNull);
             final image = tester.getRect(find.byType(Image));
             final stem = block.asset.split('/').last.replaceAll('.png', '');
-            final sourceSize = _sizes[stem]!;
+            final sourceSize = _allSizes[stem]!;
             expect(image.width, closeTo(width - 40, 0.01));
             expect(
               image.height,
@@ -197,7 +221,7 @@ void main() {
             // Ordinary test runs do not write artifacts or golden baselines.
             if (Platform.environment['SAVE_R8_PREVIEWS'] == '1' &&
                 width == 360 &&
-                (!dark || stem == 'relay_on')) {
+                !_sizes.containsKey(stem)) {
               await tester.runAsync(() async {
                 final boundary =
                     boundaryKey.currentContext!.findRenderObject()!
@@ -207,7 +231,7 @@ void main() {
                   format: ui.ImageByteFormat.png,
                 );
                 final output = File(
-                  'docs/verification/r8_pilot/${stem}_${dark ? 'dark' : 'light'}_360.png',
+                  'docs/verification/r8_module_5/${stem}_${dark ? 'dark' : 'light'}_360.png',
                 );
                 await output.parent.create(recursive: true);
                 await output.writeAsBytes(
