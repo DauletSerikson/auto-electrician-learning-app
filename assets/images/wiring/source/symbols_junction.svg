@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="535" viewBox="0 0 320 535">
+<title>symbols_junction</title>
+<desc>I: A, B, C, D соединены в узле с точкой. II: E соединён с F, G с H; мостик не соединяет эти проводники. Эта легенда действует в данном учебном примере.</desc>
+<rect width="320" height="535" fill="#ffffff"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Пересечение или узел?</text>
+<text x="16" y="62" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Фрагмент I</text>
+<line x1="58" y1="150" x2="262" y2="150" stroke="#172b3a" stroke-width="3" />
+<line x1="160" y1="90" x2="160" y2="210" stroke="#172b3a" stroke-width="3" />
+<circle cx="160" cy="150" r="6" fill="#172b3a" stroke="#172b3a" stroke-width="2" />
+<text x="32" y="156" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">A</text>
+<text x="276" y="156" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B</text>
+<text x="160" y="82" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">C</text>
+<text x="160" y="239" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">D</text>
+<text x="16" y="278" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Фрагмент II</text>
+<line x1="160" y1="302" x2="160" y2="417" stroke="#172b3a" stroke-width="3" />
+<line x1="58" y1="360" x2="145" y2="360" stroke="#172b3a" stroke-width="3" />
+<path d="M145 360 Q160 334 175 360" fill="none" stroke="white" stroke-width="9"/>
+<path d="M145 360 Q160 334 175 360" fill="none" stroke="#172b3a" stroke-width="3" />
+<line x1="175" y1="360" x2="262" y2="360" stroke="#172b3a" stroke-width="3" />
+<text x="32" y="366" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">E</text>
+<text x="276" y="366" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">F</text>
+<text x="160" y="294" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">G</text>
+<text x="160" y="442" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">H</text>
+<text x="16" y="485" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Точка — электрическое соединение</text>
+<text x="16" y="513" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Мостик — пересечение без связи</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="535" viewBox="0 0 320 535">
+<title>connector_views</title>
+<desc>Учебный шестиконтактный корпус X1. При защёлке сверху вид со стороны контактов: 1 2 3 / 4 5 6. Вид со стороны проводов: 3 2 1 / 6 5 4. Это два противоположных вида одного корпуса, не распиновка конкретного OEM-разъёма.</desc>
+<rect width="320" height="535" fill="#ffffff"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">X1 · виды одного корпуса</text>
+<text x="16" y="62" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Со стороны контактов</text>
+<rect x="34" y="107" width="252" height="122" fill="white" stroke="#172b3a" stroke-width="3" />
+<rect x="139" y="91" width="42" height="16" fill="white" stroke="#172b3a" stroke-width="3" />
+<circle cx="79" cy="144" r="17" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="79" y="150" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">1</text>
+<circle cx="160" cy="144" r="17" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="160" y="150" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">2</text>
+<circle cx="241" cy="144" r="17" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="241" y="150" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">3</text>
+<circle cx="79" cy="195" r="17" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="79" y="201" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">4</text>
+<circle cx="160" cy="195" r="17" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="160" y="201" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">5</text>
+<circle cx="241" cy="195" r="17" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="241" y="201" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">6</text>
+<text x="16" y="275" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Со стороны проводов</text>
+<rect x="34" y="320" width="252" height="122" fill="white" stroke="#172b3a" stroke-width="3" />
+<rect x="139" y="304" width="42" height="16" fill="white" stroke="#172b3a" stroke-width="3" />
+<circle cx="79" cy="357" r="17" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="79" y="363" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">3</text>
+<circle cx="160" cy="357" r="17" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="160" y="363" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">2</text>
+<circle cx="241" cy="357" r="17" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="241" y="363" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">1</text>
+<circle cx="79" cy="408" r="17" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="79" y="414" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">6</text>
+<circle cx="160" cy="408" r="17" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="160" y="414" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">5</text>
+<circle cx="241" cy="408" r="17" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="241" y="414" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">4</text>
+<text x="16" y="485" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Защёлка сверху в обоих видах</text>
+<text x="16" y="513" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Номера принадлежат контактам</text>
+</svg>

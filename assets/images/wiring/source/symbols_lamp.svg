@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="476" viewBox="0 0 320 476">
+<title>symbols_lamp</title>
+<desc>Учебная 12 V цепь: положительный длинный штрих B1 через F1, разомкнутый S1 и H1 возвращается к отрицательному короткому штриху B1. Два показанных элемента — условное обозначение батареи, а не число её физических ячеек.</desc>
+<rect width="320" height="476" fill="#ffffff"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Лампа и выключатель</text>
+<text x="16" y="58" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">B1 = 12 V; S1 разомкнут</text>
+<line x1="58" y1="190" x2="58" y2="110" stroke="#172b3a" stroke-width="3" />
+<line x1="58" y1="110" x2="134" y2="110" stroke="#172b3a" stroke-width="3" />
+<rect x="134" y="100" width="40" height="20" fill="white" stroke="#172b3a" stroke-width="3" />
+<line x1="134" y1="110" x2="174" y2="110" stroke="#172b3a" stroke-width="3" />
+<text x="154" y="88" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">F1</text>
+<line x1="174" y1="110" x2="254" y2="110" stroke="#172b3a" stroke-width="3" />
+<line x1="254" y1="110" x2="254" y2="180" stroke="#172b3a" stroke-width="3" />
+<circle cx="254" cy="180" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<circle cx="254" cy="230" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<line x1="254" y1="180" x2="228" y2="217" stroke="#172b3a" stroke-width="3" />
+<text x="210" y="210" font-family="Arial" font-size="18" text-anchor="end" font-weight="bold" fill="#172b3a">S1</text>
+<line x1="254" y1="230" x2="254" y2="277" stroke="#172b3a" stroke-width="3" />
+<circle cx="254" cy="300" r="23" fill="white" stroke="#172b3a" stroke-width="2" />
+<line x1="238" y1="284" x2="270" y2="316" stroke="#172b3a" stroke-width="3" />
+<line x1="238" y1="316" x2="270" y2="284" stroke="#172b3a" stroke-width="3" />
+<text x="288" y="306" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a"></text>
+<text x="212" y="306" font-family="Arial" font-size="18" text-anchor="end" font-weight="bold" fill="#172b3a">H1</text>
+<line x1="254" y1="323" x2="254" y2="360" stroke="#172b3a" stroke-width="3" />
+<line x1="254" y1="360" x2="58" y2="360" stroke="#172b3a" stroke-width="3" />
+<line x1="58" y1="360" x2="58" y2="230" stroke="#172b3a" stroke-width="3" />
+<line x1="28" y1="190" x2="88" y2="190" stroke="#172b3a" stroke-width="3" id="battery-positive-plate"/>
+<line x1="43" y1="203" x2="73" y2="203" stroke="#172b3a" stroke-width="3" />
+<line x1="28" y1="217" x2="88" y2="217" stroke="#172b3a" stroke-width="3" />
+<line x1="43" y1="230" x2="73" y2="230" stroke="#172b3a" stroke-width="3" id="battery-negative-plate"/>
+<text x="97" y="197" font-family="Arial" font-size="22" text-anchor="start" font-weight="bold" fill="#172b3a">+</text>
+<text x="84" y="237" font-family="Arial" font-size="22" text-anchor="start" font-weight="bold" fill="#172b3a">−</text>
+<text x="16" y="274" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1</text>
+<text x="16" y="398" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">F1 — предохранитель</text>
+<text x="16" y="426" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">H1 — лампа; S1 — выключатель</text>
+<text x="16" y="454" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Линии — провода</text>
+</svg>

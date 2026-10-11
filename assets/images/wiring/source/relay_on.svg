@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="735" viewBox="0 0 320 735">
+<title>relay_on</title>
+<desc>Переключающее реле K1. S1 замкнут, катушка возбуждена, контакт 30–87 замкнут, 30–87a разомкнут. Работает H1. F1 защищает силовой путь, F2 управление. D1 включён параллельно катушке: катод к 86, анод к 85; при поданном штатном напряжении заперт. B1+ и B1− обозначают выводы одного источника. Пунктир — только механическая связь.</desc>
+<rect width="320" height="735" fill="#ffffff"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">K1: катушка включена</text>
+<text x="16" y="60" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Силовая цепь; B1 = 12 V</text>
+<line x1="70" y1="90" x2="244" y2="90" stroke="#172b3a" stroke-width="3" />
+<circle cx="70" cy="90" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2" />
+<circle cx="244" cy="90" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2" />
+<text x="16" y="96" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1 −</text>
+<line x1="70" y1="90" x2="70" y2="117" stroke="#172b3a" stroke-width="3" />
+<circle cx="70" cy="140" r="23" fill="white" stroke="#172b3a" stroke-width="2" />
+<line x1="54" y1="124" x2="86" y2="156" stroke="#172b3a" stroke-width="3" />
+<line x1="54" y1="156" x2="86" y2="124" stroke="#172b3a" stroke-width="3" />
+<text x="104" y="146" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">H2</text>
+<line x1="70" y1="163" x2="70" y2="226" stroke="#172b3a" stroke-width="3" />
+<line x1="244" y1="90" x2="244" y2="117" stroke="#172b3a" stroke-width="3" />
+<circle cx="244" cy="140" r="23" fill="white" stroke="#172b3a" stroke-width="2" />
+<line x1="228" y1="124" x2="260" y2="156" stroke="#172b3a" stroke-width="3" />
+<line x1="228" y1="156" x2="260" y2="124" stroke="#172b3a" stroke-width="3" />
+<text x="278" y="146" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">H1</text>
+<line x1="244" y1="163" x2="244" y2="226" stroke="#172b3a" stroke-width="3" />
+<text x="89" y="210" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">87a</text>
+<text x="264" y="210" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">87</text>
+<circle cx="70" cy="226" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<circle cx="244" cy="226" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<circle cx="157" cy="310" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<line x1="157" y1="310" x2="244" y2="226" stroke="#172b3a" stroke-width="3" />
+<text x="183" y="316" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">30</text>
+<line x1="157" y1="310" x2="157" y2="340" stroke="#172b3a" stroke-width="3" />
+<rect x="147" y="340" width="20" height="40" fill="white" stroke="#172b3a" stroke-width="3" />
+<line x1="157" y1="340" x2="157" y2="380" stroke="#172b3a" stroke-width="3" />
+<text x="181" y="366" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">F1</text>
+<line x1="157" y1="380" x2="157" y2="408" stroke="#172b3a" stroke-width="3" />
+<circle cx="157" cy="408" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="176" y="414" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1 +</text>
+<path d="M205 524 L300 524 L300 270 L201 270" fill="none" stroke="#172b3a" stroke-width="3" stroke-dasharray="6 5"/>
+<text x="16" y="454" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Управление тем же K1</text>
+<text x="16" y="518" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1 +</text>
+<line x1="26" y1="538" x2="65" y2="538" stroke="#172b3a" stroke-width="3" />
+<rect x="65" y="528" width="40" height="20" fill="white" stroke="#172b3a" stroke-width="3" />
+<line x1="65" y1="538" x2="105" y2="538" stroke="#172b3a" stroke-width="3" />
+<text x="85" y="516" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">F2</text>
+<line x1="105" y1="538" x2="115" y2="538" stroke="#172b3a" stroke-width="3" />
+<circle cx="115" cy="538" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<circle cx="163" cy="538" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<line x1="115" y1="538" x2="163" y2="538" stroke="#172b3a" stroke-width="3" />
+<text x="139" y="500" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">S1</text>
+<line x1="163" y1="538" x2="178" y2="538" stroke="#172b3a" stroke-width="3" />
+<rect x="178" y="524" width="54" height="28" fill="white" stroke="#172b3a" stroke-width="3" />
+<text x="182" y="579" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">K1</text>
+<line x1="232" y1="538" x2="292" y2="538" stroke="#172b3a" stroke-width="3" />
+<text x="292" y="511" font-family="Arial" font-size="18" text-anchor="end" font-weight="bold" fill="#172b3a">B1 −</text>
+<text x="160" y="572" font-family="Arial" font-size="18" text-anchor="end" font-weight="bold" fill="#172b3a">86</text>
+<text x="260" y="572" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">85</text>
+<line x1="169" y1="538" x2="169" y2="613" stroke="#172b3a" stroke-width="3" />
+<line x1="249" y1="538" x2="249" y2="613" stroke="#172b3a" stroke-width="3" />
+<circle cx="169" cy="538" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2" />
+<circle cx="249" cy="538" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2" />
+<line x1="169" y1="613" x2="193" y2="613" stroke="#172b3a" stroke-width="3" />
+<line x1="220" y1="613" x2="249" y2="613" stroke="#172b3a" stroke-width="3" />
+<path d="M220 600 L193 613 L220 626 Z" fill="none" stroke="#172b3a" stroke-width="3" />
+<line x1="193" y1="596" x2="193" y2="630" stroke="#172b3a" stroke-width="3" />
+<text x="265" y="620" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">D1</text>
+<text x="169" y="649" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">K</text>
+<text x="249" y="649" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">A</text>
+<text x="16" y="684" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Пунктир — механическая связь</text>
+<text x="16" y="712" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">D1: K — катод; A — анод</text>
+</svg>

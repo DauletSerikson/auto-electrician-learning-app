@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="480" viewBox="0 0 320 480">
+<title>connector_page_1</title>
+<desc>Лист 1: B1+ через F2 и состыкованный контакт X1:3 к продолжению A на лист 2 B4; B1− через X1:4 к продолжению B на лист 2 C4. W1 у A: RD, 1.5 мм² по локальной легенде.</desc>
+<rect width="320" height="480" fill="#ffffff"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Лист 1 · питание</text>
+<text x="16" y="60" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">B1 = 12 V; разъёмы состыкованы</text>
+<line x1="55" y1="202" x2="55" y2="100" stroke="#172b3a" stroke-width="3" />
+<line x1="55" y1="100" x2="240" y2="100" stroke="#172b3a" stroke-width="3" />
+<rect x="128" y="90" width="40" height="20" fill="white" stroke="#172b3a" stroke-width="3" />
+<line x1="128" y1="100" x2="168" y2="100" stroke="#172b3a" stroke-width="3" />
+<text x="148" y="78" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">F2</text>
+<line x1="240" y1="100" x2="240" y2="148" stroke="#172b3a" stroke-width="3" />
+<line x1="25" y1="202" x2="85" y2="202" stroke="#172b3a" stroke-width="3" id="battery-positive-plate"/>
+<line x1="40" y1="215" x2="70" y2="215" stroke="#172b3a" stroke-width="3" />
+<line x1="25" y1="228" x2="85" y2="228" stroke="#172b3a" stroke-width="3" />
+<line x1="40" y1="241" x2="70" y2="241" stroke="#172b3a" stroke-width="3" id="battery-negative-plate"/>
+<text x="91" y="210" font-family="Arial" font-size="22" text-anchor="start" font-weight="bold" fill="#172b3a">+</text>
+<text x="81" y="248" font-family="Arial" font-size="22" text-anchor="start" font-weight="bold" fill="#172b3a">−</text>
+<text x="20" y="282" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1</text>
+<line x1="55" y1="241" x2="55" y2="345" stroke="#172b3a" stroke-width="3" />
+<line x1="55" y1="345" x2="140" y2="345" stroke="#172b3a" stroke-width="3" />
+<rect x="217" y="148" width="46" height="56" fill="white" stroke="#172b3a" stroke-width="3" stroke-dasharray="5 4"/>
+<line x1="240" y1="148" x2="240" y2="166" stroke="#172b3a" stroke-width="3" />
+<line x1="240" y1="186" x2="240" y2="204" stroke="#172b3a" stroke-width="3" />
+<circle cx="240" cy="166" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<circle cx="240" cy="186" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<line x1="240" y1="170" x2="240" y2="182" stroke="#172b3a" stroke-width="3" />
+<text x="282" y="182" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a"></text>
+<text x="197" y="177" font-family="Arial" font-size="18" text-anchor="end" font-weight="bold" fill="#172b3a">X1:3</text>
+<line x1="240" y1="186" x2="240" y2="249" stroke="#172b3a" stroke-width="3" />
+<circle cx="240" cy="249" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="261" y="255" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">A</text>
+<rect x="132" y="322" width="56" height="46" fill="white" stroke="#172b3a" stroke-width="3" stroke-dasharray="5 4"/>
+<line x1="55" y1="345" x2="150" y2="345" stroke="#172b3a" stroke-width="3" />
+<line x1="170" y1="345" x2="240" y2="345" stroke="#172b3a" stroke-width="3" />
+<circle cx="150" cy="345" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<circle cx="170" cy="345" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<line x1="154" y1="345" x2="166" y2="345" stroke="#172b3a" stroke-width="3" />
+<text x="160" y="314" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">X1:4</text>
+<circle cx="240" cy="345" r="4" fill="white" stroke="#172b3a" stroke-width="2" />
+<text x="262" y="351" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B</text>
+<text x="16" y="400" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">A → лист 2, B4</text>
+<text x="16" y="428" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">B → лист 2, C4</text>
+<text x="16" y="456" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">W1 (A): RD · 1,5 мм²</text>
+</svg>

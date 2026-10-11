@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>R8 — графический пилот, 360 px</title>
+<style>
+body{margin:0;padding:20px;background:#e7e9ec;color:#172b3a;font:18px/1.5 Arial,sans-serif}
+h1{font-size:26px}p{max-width:900px}main{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+figure{margin:0;width:360px;max-width:100%}img{display:block;width:360px;max-width:100%;height:auto;outline:1px solid #acb4bc}
+figcaption{margin-bottom:8px;font-weight:bold}
+@media(max-width:399px){body{padding:0}h1,p{padding:0 12px}figure{width:360px}}
+</style>
+<h1>R8: чтение схем — пилот уроков 2, 4 и 5</h1>
+<p>Снимки Flutter renderer: 360 logical px, изображение 320 px, текст подписи ×1,3.
+Для оценки размеров установите масштаб браузера 100%. На узком окне меньше 360 px
+галерея уменьшается: проверяйте на окне шириной хотя бы 360 px.
+Это предварительный просмотр; физический Android smoke ещё не выполнен.</p>
+<main>
+<figure><figcaption>2A · Лампа, F1 и S1</figcaption><img src="symbols_lamp_light_360.png" alt="Схема батареи, предохранителя, разомкнутого выключателя и лампы"></figure>
+<figure><figcaption>2B · Узел и пересечение</figcaption><img src="symbols_junction_light_360.png" alt="Общий узел с точкой и пересечение с мостиком без электрической связи"></figure>
+<figure><figcaption>4A · K1 без возбуждения</figcaption><img src="relay_off_light_360.png" alt="Переключающее реле соединяет 30 с 87a; ток управления прерван S1"></figure>
+<figure><figcaption>4B · K1 с возбуждением</figcaption><img src="relay_on_light_360.png" alt="Реле соединяет 30 с 87 при замкнутом S1; диод имеет катод на стороне 86"></figure>
+<figure><figcaption>4B · Тёмная тема</figcaption><img src="relay_on_dark_360.png" alt="Тот же image-блок в тёмной теме с белой схемой"></figure>
+<figure><figcaption>5A · Лист 1</figcaption><img src="connector_page_1_light_360.png" alt="Батарея и F2 соединены через X1:3 и X1:4 с переходами A и B"></figure>
+<figure><figcaption>5B · Лист 2</figcaption><img src="connector_page_2_light_360.png" alt="Лампа H2 подключена через X2:7 и X2:8 между переходами A и B"></figure>
+<figure><figcaption>5C · Два вида X1</figcaption><img src="connector_views_light_360.png" alt="Нумерация одного корпуса при взгляде со стороны контактов и со стороны проводов"></figure>
+</main>
+</html>
