@@ -49,7 +49,7 @@ def pulse(stem, identifier, top, period, high, frequency, duty):
 def main():
     labels = 0
     sources = sorted((ASSETS / 'source').glob('*.svg'))
-    assert len(sources) == 11
+    assert len(sources) == 19
     for source in sources:
         svg = ET.parse(source).getroot()
         width, height = (int(svg.get(key)) for key in ('width', 'height'))
@@ -71,7 +71,7 @@ def main():
             png.load()
             assert png.size == (width*3, height*3)
             assert len(png.convert('RGB').getcolors(png.width * png.height)) > 10
-    print(f'11 SVG/PNG pairs, {labels} labels: dimensions, decode and text bounds OK')
+    print(f'{len(sources)} SVG/PNG pairs, {labels} labels: dimensions, decode and text bounds OK')
     pulse('pulse_frequency', 'pulse_100', 125, 10, 5, 100, 50)
     pulse('pulse_frequency', 'pulse_200', 432, 5, 2.5, 200, 50)
     for top, high, duty in [(145,2,20),(420,5,50),(695,8,80)]:
@@ -101,6 +101,32 @@ def main():
     close(5-.2,4.8)
     close(2.5+.2,2.7)
     print('Discrete active-low timing, analog axes/transfer and NTC/reference balances OK')
+    # Inspect coordinates in the new plots independently of their label text.
+    command = points('low_side_pwm', 'driver_command')
+    potential = points('low_side_pwm', 'driver_potential')
+    expected_command = [(0,0),(0,1),(4,1),(4,0),(10,0),(10,1),(14,1),(14,0),(20,0)]
+    assert len(command) == len(potential) == len(expected_command)
+    for (x,y),(xp,yp),(time,state) in zip(command,potential,expected_command):
+        close((x-54)*20/236,time)
+        close((255-y)/130,state)
+        close(xp,x)
+        close((570-yp)*12/130,12*(1-state))
+    close(100*4/10,40)
+    close(100*6/10,60)
+    can = [points('can_levels',name) for name in ('can_h','can_l','can_diff')]
+    assert all(len(data)==6 for data in can)
+    times=[0,2,2,4,4,8]
+    for i,time in enumerate(times):
+        voltages=[]
+        for data,top in zip(can,[130,435,740]):
+            x,y=data[i]
+            close((x-54)*8/236,time)
+            voltages.append((top+130-y)*5/130)
+        close(voltages[0]-voltages[1],voltages[2])
+        expected = (3.5,1.5,2) if i in (2,3) else (2.5,2.5,0)
+        for voltage,declared in zip(voltages,expected): close(voltage,declared)
+    close(120*120/(120+120),60)
+    print('Low-side command/P inversion and CAN H/L/differential coordinates OK')
 
 
 if __name__ == '__main__':
