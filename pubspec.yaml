@@ -59,6 +59,7 @@ flutter:
     - assets/course/stage_0/
     - assets/course/stage_1/
     - assets/course/stage_2/
+    - assets/course/stage_3/
     - assets/images/
 
   # To add assets to your application, add an assets section, like this:
