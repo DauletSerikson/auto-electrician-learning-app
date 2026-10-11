@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="556" viewBox="0 0 320 556">
+<title>quiz_branches</title>
+<desc>Незнакомая компоновка: B1+ к двум ветвям F5–замкнутый S5–H5 и F6–разомкнутый S6–H6. Обе возвращаются к B1−. Общие шины с точками. Обрыв F5 не отключает ветвь H6 после замыкания S6.</desc>
+<rect width="320" height="556" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Практикум · две ветви</text>
+<text x="16" y="62" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Все элементы исправны</text>
+<line x1="70" y1="105" x2="238" y2="105" stroke="#172b3a" stroke-width="3" />
+<text x="16" y="111" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1+</text>
+<circle cx="70" cy="105" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<circle cx="238" cy="105" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<circle cx="88" cy="105" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<line x1="88" y1="105" x2="88" y2="149" stroke="#172b3a" stroke-width="3" />
+<rect x="78" y="149" width="20" height="40" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="88" y1="149" x2="88" y2="189" stroke="#172b3a" stroke-width="3" />
+<text x="116" y="175" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">F5</text>
+<line x1="88" y1="189" x2="88" y2="234" stroke="#172b3a" stroke-width="3" />
+<line x1="238" y1="105" x2="238" y2="149" stroke="#172b3a" stroke-width="3" />
+<rect x="228" y="149" width="20" height="40" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="238" y1="149" x2="238" y2="189" stroke="#172b3a" stroke-width="3" />
+<text x="266" y="175" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a"></text>
+<line x1="238" y1="189" x2="238" y2="234" stroke="#172b3a" stroke-width="3" />
+<text x="202" y="176" font-family="Arial" font-size="18" text-anchor="end" font-weight="bold" fill="#172b3a">F6</text>
+<circle cx="88" cy="234" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<circle cx="88" cy="282" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="88" y1="234" x2="88" y2="282" stroke="#172b3a" stroke-width="3" />
+<text x="112" y="262" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">S5</text>
+<circle cx="238" cy="234" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<circle cx="238" cy="282" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="238" y1="234" x2="210" y2="268" stroke="#172b3a" stroke-width="3" />
+<text x="262" y="262" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">S6</text>
+<line x1="88" y1="282" x2="88" y2="358" stroke="#172b3a" stroke-width="3" />
+<circle cx="88" cy="380" r="22" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="73" y1="365" x2="103" y2="395" stroke="#172b3a" stroke-width="3" />
+<line x1="73" y1="395" x2="103" y2="365" stroke="#172b3a" stroke-width="3" />
+<text x="124" y="386" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">H5</text>
+<line x1="88" y1="402" x2="88" y2="475" stroke="#172b3a" stroke-width="3" />
+<line x1="238" y1="282" x2="238" y2="358" stroke="#172b3a" stroke-width="3" />
+<circle cx="238" cy="380" r="22" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="223" y1="365" x2="253" y2="395" stroke="#172b3a" stroke-width="3" />
+<line x1="223" y1="395" x2="253" y2="365" stroke="#172b3a" stroke-width="3" />
+<text x="274" y="386" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a"></text>
+<line x1="238" y1="402" x2="238" y2="475" stroke="#172b3a" stroke-width="3" />
+<text x="200" y="386" font-family="Arial" font-size="18" text-anchor="end" font-weight="bold" fill="#172b3a">H6</text>
+<line x1="70" y1="475" x2="238" y2="475" stroke="#172b3a" stroke-width="3" />
+<circle cx="88" cy="475" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<circle cx="238" cy="475" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<circle cx="70" cy="475" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="16" y="481" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1−</text>
+<text x="16" y="529" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">S5 замкнут; S6 разомкнут</text>
+</svg>

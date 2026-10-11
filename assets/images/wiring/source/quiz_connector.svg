@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="594" viewBox="0 0 320 594">
+<title>quiz_connector</title>
+<desc>B1+–F9–разомкнутый состыкованный контакт X9:6–U–H9–состыкованный X9:4–B1−. Графический разрыв пары терминалов X9:6 — дефект контакта, не расстыковка всего разъёма. H9 и обратный провод исправны, U связан с минусом через лампу при отсутствии других источников.</desc>
+<rect width="320" height="594" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Практикум · разъём X9</text>
+<text x="16" y="62" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Контакт X9:6 разомкнут</text>
+<circle cx="85" cy="100" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="110" y="106" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1+</text>
+<line x1="85" y1="100" x2="85" y2="136" stroke="#172b3a" stroke-width="3" />
+<rect x="75" y="136" width="20" height="40" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="85" y1="136" x2="85" y2="176" stroke="#172b3a" stroke-width="3" />
+<text x="113" y="162" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">F9</text>
+<line x1="85" y1="176" x2="85" y2="218" stroke="#172b3a" stroke-width="3" />
+<rect x="62" y="218" width="46" height="56" fill="white" stroke="#172b3a" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="85" y1="218" x2="85" y2="236" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="236" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<circle cx="85" cy="256" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="85" y1="256" x2="85" y2="274" stroke="#172b3a" stroke-width="3" />
+<text x="125" y="249" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">X9:6</text>
+<line x1="85" y1="274" x2="85" y2="336" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="310" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="120" y="316" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">U</text>
+<circle cx="85" cy="358" r="22" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="70" y1="343" x2="100" y2="373" stroke="#172b3a" stroke-width="3" />
+<line x1="70" y1="373" x2="100" y2="343" stroke="#172b3a" stroke-width="3" />
+<text x="121" y="364" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">H9</text>
+<line x1="85" y1="380" x2="85" y2="419" stroke="#172b3a" stroke-width="3" />
+<rect x="62" y="419" width="46" height="56" fill="white" stroke="#172b3a" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="85" y1="419" x2="85" y2="437" stroke="#172b3a" stroke-width="3" />
+<line x1="85" y1="457" x2="85" y2="475" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="437" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<circle cx="85" cy="457" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="85" y1="441" x2="85" y2="453" stroke="#172b3a" stroke-width="3" />
+<text x="125" y="453" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">X9:4</text>
+<line x1="85" y1="475" x2="85" y2="520" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="520" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="110" y="526" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1−</text>
+<text x="16" y="566" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">H9 и обратный провод исправны</text>
+</svg>

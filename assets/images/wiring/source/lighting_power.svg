@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="638" viewBox="0 0 320 638">
+<title>lighting_power</title>
+<desc>Питание B1+ через F1, замкнутый силовой контакт K1 30–87 и состыкованный X1:2 к P, затем участок P–Q к плюсу H1. Минус H1 через G1, кузов к B1−. Состояние катушки задаётся отдельно; P/Q в номинальной схеме связаны, дефект исследуется измерениями.</desc>
+<rect width="320" height="638" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Освещение · силовой путь</text>
+<text x="16" y="62" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">K1 возбуждён; 30–87 замкнут</text>
+<circle cx="85" cy="92" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="110" y="98" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1+</text>
+<line x1="85" y1="92" x2="85" y2="120" stroke="#172b3a" stroke-width="3" />
+<rect x="75" y="120" width="20" height="40" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="85" y1="120" x2="85" y2="160" stroke="#172b3a" stroke-width="3" />
+<text x="113" y="146" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">F1</text>
+<line x1="85" y1="160" x2="85" y2="208" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="208" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<circle cx="85" cy="256" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="85" y1="208" x2="85" y2="256" stroke="#172b3a" stroke-width="3" />
+<text x="109" y="236" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">K1</text>
+<text x="42" y="211" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">30</text>
+<text x="42" y="259" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">87</text>
+<line x1="85" y1="256" x2="85" y2="302" stroke="#172b3a" stroke-width="3" />
+<rect x="62" y="302" width="46" height="56" fill="white" stroke="#172b3a" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="85" y1="302" x2="85" y2="320" stroke="#172b3a" stroke-width="3" />
+<line x1="85" y1="340" x2="85" y2="358" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="320" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<circle cx="85" cy="340" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="85" y1="324" x2="85" y2="336" stroke="#172b3a" stroke-width="3" />
+<text x="125" y="336" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">X1:2</text>
+<line x1="85" y1="358" x2="85" y2="408" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="390" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="118" y="396" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">P</text>
+<circle cx="85" cy="408" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="118" y="414" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">Q</text>
+<line x1="85" y1="408" x2="85" y2="468" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="490" r="22" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="70" y1="475" x2="100" y2="505" stroke="#172b3a" stroke-width="3" />
+<line x1="70" y1="505" x2="100" y2="475" stroke="#172b3a" stroke-width="3" />
+<text x="121" y="496" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">H1</text>
+<line x1="85" y1="512" x2="85" y2="550" stroke="#172b3a" stroke-width="3" />
+<line x1="85" y1="550" x2="85" y2="568" stroke="#172b3a" stroke-width="3" />
+<line x1="61" y1="568" x2="109" y2="568" stroke="#172b3a" stroke-width="3" />
+<line x1="67" y1="568" x2="57" y2="582" stroke="#172b3a" stroke-width="3" />
+<line x1="85" y1="568" x2="75" y2="582" stroke="#172b3a" stroke-width="3" />
+<line x1="103" y1="568" x2="93" y2="582" stroke="#172b3a" stroke-width="3" />
+<text x="123" y="580" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">G1</text>
+<text x="16" y="612" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">G1 → кузов → B1−</text>
+</svg>

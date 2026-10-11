@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="582" viewBox="0 0 320 582">
+<title>charging_power</title>
+<desc>DC-сторона G1: B+ через A, F4 и B к плюсу B1. Минус B1 через D и обратный путь к корпусу C генератора; кузовная точка G0 связана с общим обратным проводом. G1 включает выпрямитель/регулятор, не изображён как простой AC-источник. F4 предусмотрен только в данном варианте.</desc>
+<rect width="320" height="582" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Зарядка · силовые связи</text>
+<text x="16" y="62" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Двигатель работает; DC-сторона</text>
+<rect x="35" y="110" width="135" height="82" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="102" y="143" font-family="Arial" font-size="22" text-anchor="middle" font-weight="bold" fill="#172b3a">G1</text>
+<text x="102" y="171" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">генератор</text>
+<line x1="170" y1="145" x2="257" y2="145" stroke="#172b3a" stroke-width="3" />
+<text x="194" y="132" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B+</text>
+<circle cx="257" cy="145" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="270" y="151" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">A</text>
+<line x1="257" y1="145" x2="257" y2="216" stroke="#172b3a" stroke-width="3" />
+<rect x="247" y="216" width="20" height="40" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="257" y1="216" x2="257" y2="256" stroke="#172b3a" stroke-width="3" />
+<text x="285" y="242" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a"></text>
+<text x="220" y="242" font-family="Arial" font-size="18" text-anchor="end" font-weight="bold" fill="#172b3a">F4</text>
+<line x1="257" y1="256" x2="257" y2="340" stroke="#172b3a" stroke-width="3" />
+<circle cx="257" cy="310" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="270" y="316" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B</text>
+<line x1="230" y1="340" x2="284" y2="340" stroke="#172b3a" stroke-width="3" id="battery-positive-plate"/>
+<line x1="243" y1="353" x2="271" y2="353" stroke="#172b3a" stroke-width="3" />
+<line x1="230" y1="367" x2="284" y2="367" stroke="#172b3a" stroke-width="3" />
+<line x1="243" y1="380" x2="271" y2="380" stroke="#172b3a" stroke-width="3" id="battery-negative-plate"/>
+<text x="208" y="343" font-family="Arial" font-size="22" text-anchor="start" font-weight="bold" fill="#172b3a">+</text>
+<text x="215" y="383" font-family="Arial" font-size="22" text-anchor="start" font-weight="bold" fill="#172b3a">−</text>
+<text x="264" y="416" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1</text>
+<line x1="257" y1="380" x2="257" y2="452" stroke="#172b3a" stroke-width="3" />
+<line x1="257" y1="452" x2="102" y2="452" stroke="#172b3a" stroke-width="3" />
+<line x1="102" y1="192" x2="102" y2="452" stroke="#172b3a" stroke-width="3" />
+<circle cx="102" cy="426" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="124" y="432" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">C</text>
+<circle cx="257" cy="452" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="276" y="459" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">D</text>
+<line x1="102" y1="452" x2="102" y2="462" stroke="#172b3a" stroke-width="3" />
+<line x1="102" y1="462" x2="102" y2="480" stroke="#172b3a" stroke-width="3" />
+<line x1="78" y1="480" x2="126" y2="480" stroke="#172b3a" stroke-width="3" />
+<line x1="84" y1="480" x2="74" y2="494" stroke="#172b3a" stroke-width="3" />
+<line x1="102" y1="480" x2="92" y2="494" stroke="#172b3a" stroke-width="3" />
+<line x1="120" y1="480" x2="110" y2="494" stroke="#172b3a" stroke-width="3" />
+<text x="140" y="492" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">G0</text>
+<text x="16" y="526" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">C — корпус G1; D — B1−</text>
+<text x="16" y="554" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">F4 — защита этого примера</text>
+</svg>

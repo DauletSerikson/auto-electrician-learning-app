@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="602" viewBox="0 0 320 602">
+<title>diagnosis_points</title>
+<desc>Номинальная схема B1+–F1–P–Q–H1–G1–B1−. Учебная неисправность для задания: обрыв провода P–Q, не нарисованный как готовая подсказка. P соответствует fuseOutputVoltage, Q lampPositiveVoltage в diagnosticCase; без дополнительных реле/разъёмов. При прозвонке участок P–Q обесточен и изолирован.</desc>
+<rect width="320" height="602" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Лампа · точки проверки</text>
+<text x="16" y="62" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Показана номинальная связность</text>
+<circle cx="85" cy="100" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="110" y="106" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1+</text>
+<line x1="85" y1="100" x2="85" y2="130" stroke="#172b3a" stroke-width="3" />
+<rect x="75" y="130" width="20" height="40" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="85" y1="130" x2="85" y2="170" stroke="#172b3a" stroke-width="3" />
+<text x="113" y="156" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">F1</text>
+<line x1="85" y1="170" x2="85" y2="222" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="222" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="119" y="228" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">P</text>
+<line x1="85" y1="222" x2="85" y2="315" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="315" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="119" y="321" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">Q</text>
+<line x1="85" y1="315" x2="85" y2="368" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="390" r="22" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="70" y1="375" x2="100" y2="405" stroke="#172b3a" stroke-width="3" />
+<line x1="70" y1="405" x2="100" y2="375" stroke="#172b3a" stroke-width="3" />
+<text x="121" y="396" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">H1</text>
+<line x1="85" y1="412" x2="85" y2="452" stroke="#172b3a" stroke-width="3" />
+<line x1="85" y1="452" x2="85" y2="470" stroke="#172b3a" stroke-width="3" />
+<line x1="61" y1="470" x2="109" y2="470" stroke="#172b3a" stroke-width="3" />
+<line x1="67" y1="470" x2="57" y2="484" stroke="#172b3a" stroke-width="3" />
+<line x1="85" y1="470" x2="75" y2="484" stroke="#172b3a" stroke-width="3" />
+<line x1="103" y1="470" x2="93" y2="484" stroke="#172b3a" stroke-width="3" />
+<text x="123" y="482" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">G1</text>
+<text x="16" y="518" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">P — выход F1; Q — плюс H1</text>
+<text x="16" y="546" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">G1 → кузов → B1−</text>
+<text x="16" y="574" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Дефект устанавливают проверкой</text>
+</svg>

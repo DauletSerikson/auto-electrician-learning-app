@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="588" viewBox="0 0 320 588">
+<title>charging_control</title>
+<desc>I: выбранный традиционный регулятор с выводом L подключён к контрольной лампе H3 от питания 15; внутренние пути возбуждения и массы опущены. II: ECU обменивается данными с регулятором G1 по LIN, линия пунктирная как сигнал данных в этой локальной легенде. Это альтернативные архитектуры, не одна универсальная схема; питание/масса блоков опущены и берутся с силового фрагмента.</desc>
+<rect width="320" height="588" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Зарядка · управление</text>
+<text x="16" y="62" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Два альтернативных варианта</text>
+<text x="16" y="106" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">I. Традиционный контроль</text>
+<circle cx="65" cy="140" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="90" y="146" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">15</text>
+<line x1="65" y1="140" x2="65" y2="177" stroke="#172b3a" stroke-width="3" />
+<circle cx="65" cy="199" r="22" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="50" y1="184" x2="80" y2="214" stroke="#172b3a" stroke-width="3" />
+<line x1="50" y1="214" x2="80" y2="184" stroke="#172b3a" stroke-width="3" />
+<text x="101" y="205" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">H3</text>
+<line x1="65" y1="221" x2="65" y2="275" stroke="#172b3a" stroke-width="3" />
+<rect x="42" y="275" width="234" height="62" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="159" y="300" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">G1 · вывод L</text>
+<text x="159" y="324" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">регулятор / контроль</text>
+<text x="16" y="376" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">II. Управление по LIN</text>
+<rect x="32" y="417" width="110" height="62" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="87" y="454" font-family="Arial" font-size="22" text-anchor="middle" font-weight="bold" fill="#172b3a">ECU</text>
+<rect x="196" y="417" width="95" height="62" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="244" y="454" font-family="Arial" font-size="22" text-anchor="middle" font-weight="bold" fill="#172b3a">G1</text>
+<path d="M142 447 L196 447" fill="none" stroke="#172b3a" stroke-width="3" stroke-dasharray="6 5"/>
+<text x="169" y="414" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">LIN</text>
+<text x="16" y="530" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">LIN — обмен данными</text>
+<text x="16" y="558" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Силовой B+ показан отдельно</text>
+</svg>

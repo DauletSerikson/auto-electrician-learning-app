@@ -1,0 +1,82 @@
+[
+  {
+    "id": "wiring_01",
+    "order": 1,
+    "title": "Зачем нужны автомобильные электросхемы",
+    "description": "Проследить полный путь тока и отличить связность от расположения деталей",
+    "estimatedMinutes": 12,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "wiring_02",
+    "order": 2,
+    "title": "Условные обозначения: графический пилот",
+    "description": "Прочитать цепь лампы и отличить узел от пересечения проводов",
+    "estimatedMinutes": 12,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "wiring_03",
+    "order": 3,
+    "title": "Источники питания и масса",
+    "description": "Определить питаемые участки при OFF/ON и выбрать проверку массы под нагрузкой",
+    "estimatedMinutes": 15,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "wiring_04",
+    "order": 4,
+    "title": "Предохранители и реле: графический пилот",
+    "description": "Проследить силовую цепь и управление переключающего реле в двух состояниях",
+    "estimatedMinutes": 12,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "wiring_05",
+    "order": 5,
+    "title": "Провода и разъёмы: графический пилот",
+    "description": "Продолжить цепь на втором листе и найти контакт при смене стороны просмотра",
+    "estimatedMinutes": 12,
+    "file": "lesson_05.json"
+  },
+  {
+    "id": "wiring_06",
+    "order": 6,
+    "title": "Чтение схемы освещения",
+    "description": "Разделить управление реле и силовой путь, локализовать дефект по точкам",
+    "estimatedMinutes": 18,
+    "file": "lesson_06.json"
+  },
+  {
+    "id": "wiring_07",
+    "order": 7,
+    "title": "Чтение схемы системы запуска",
+    "description": "Найти управляющую команду и силовые точки при отсутствии вращения",
+    "estimatedMinutes": 18,
+    "file": "lesson_07.json"
+  },
+  {
+    "id": "wiring_08",
+    "order": 8,
+    "title": "Чтение схемы системы зарядки",
+    "description": "Разделить DC-силовую линию, массу и управление генератором",
+    "estimatedMinutes": 18,
+    "file": "lesson_08.json"
+  },
+  {
+    "id": "wiring_09",
+    "order": 9,
+    "title": "Поиск неисправности по схеме",
+    "description": "Обосновать локализацию обрыва и потерь под нагрузкой",
+    "estimatedMinutes": 20,
+    "file": "lesson_09.json"
+  },
+  {
+    "id": "wiring_10",
+    "order": 10,
+    "title": "Итоговый практикум: чтение схем",
+    "description": "Применить чтение соединений и измерений в 15 ситуациях",
+    "estimatedMinutes": 25,
+    "file": "lesson_10.json"
+  }
+]

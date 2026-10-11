@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="608" viewBox="0 0 320 608">
+<title>ground_loss</title>
+<desc>Включённая H1 получает питание B1+ через F1. Обратный путь T через контакт Rк 0.3 Ω к N/B1−, точка G0 связана с N. Заданный измеренный ток 4 A; источник 12.6 V относительно N; потери плюсового пути нулевые в идеализированной задаче. T–N=1.2 V, на H1=11.4 V; Rк обозначает контакт, не штатный резистор.</desc>
+<rect width="320" height="608" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Потери в обратном пути</text>
+<text x="16" y="62" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">H1 включена; ток I = 4 A</text>
+<circle cx="85" cy="100" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="110" y="106" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1+</text>
+<line x1="85" y1="100" x2="85" y2="140" stroke="#172b3a" stroke-width="3" />
+<rect x="75" y="140" width="20" height="40" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="85" y1="140" x2="85" y2="180" stroke="#172b3a" stroke-width="3" />
+<text x="113" y="166" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">F1</text>
+<line x1="85" y1="180" x2="85" y2="256" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="278" r="22" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="70" y1="263" x2="100" y2="293" stroke="#172b3a" stroke-width="3" />
+<line x1="70" y1="293" x2="100" y2="263" stroke="#172b3a" stroke-width="3" />
+<text x="121" y="284" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">H1</text>
+<line x1="85" y1="300" x2="85" y2="345" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="325" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="116" y="331" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">T</text>
+<rect x="74" y="345" width="22" height="52" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="118" y="371" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">Rк = 0,3 Ω</text>
+<line x1="85" y1="397" x2="85" y2="449" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="426" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="118" y="432" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">N</text>
+<circle cx="85" cy="449" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="110" y="455" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1−</text>
+<line x1="85" y1="449" x2="85" y2="461" stroke="#172b3a" stroke-width="3" />
+<line x1="85" y1="461" x2="85" y2="479" stroke="#172b3a" stroke-width="3" />
+<line x1="61" y1="479" x2="109" y2="479" stroke="#172b3a" stroke-width="3" />
+<line x1="67" y1="479" x2="57" y2="493" stroke="#172b3a" stroke-width="3" />
+<line x1="85" y1="479" x2="75" y2="493" stroke="#172b3a" stroke-width="3" />
+<line x1="103" y1="479" x2="93" y2="493" stroke="#172b3a" stroke-width="3" />
+<text x="123" y="491" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">G0</text>
+<text x="16" y="524" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">B1+ относительно N: 12,6 V</text>
+<text x="16" y="552" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Rк — сопротивление контакта</text>
+<text x="16" y="580" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Плюсовые потери здесь равны 0</text>
+</svg>

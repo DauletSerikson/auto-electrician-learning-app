@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="580" viewBox="0 0 320 580">
+<title>starter_power</title>
+<desc>Прямой силовой кабель B1+ через разомкнутые силовые контакты втягивающего K3 к мотору M1. Корпус через G3, двигатель и соединение массы к B1−. В данном учебном варианте в основном кабеле нет предохранителя; это не предписание для всех машин. Управление K3 отдельно.</desc>
+<rect width="320" height="580" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Запуск · силовой путь</text>
+<text x="16" y="62" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Силовой контакт K3 разомкнут</text>
+<circle cx="85" cy="100" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="110" y="106" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1+</text>
+<line x1="85" y1="100" x2="85" y2="170" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="170" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<circle cx="85" cy="218" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="85" y1="170" x2="57" y2="204" stroke="#172b3a" stroke-width="3" />
+<text x="109" y="198" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">K3</text>
+<line x1="85" y1="218" x2="85" y2="320" stroke="#172b3a" stroke-width="3" />
+<circle cx="85" cy="342" r="22" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="85" y="349" font-family="Arial" font-size="22" text-anchor="middle" font-weight="bold" fill="#172b3a">M</text>
+<text x="121" y="348" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">M1</text>
+<line x1="85" y1="364" x2="85" y2="423" stroke="#172b3a" stroke-width="3" />
+<line x1="85" y1="423" x2="85" y2="441" stroke="#172b3a" stroke-width="3" />
+<line x1="61" y1="441" x2="109" y2="441" stroke="#172b3a" stroke-width="3" />
+<line x1="67" y1="441" x2="57" y2="455" stroke="#172b3a" stroke-width="3" />
+<line x1="85" y1="441" x2="75" y2="455" stroke="#172b3a" stroke-width="3" />
+<line x1="103" y1="441" x2="93" y2="455" stroke="#172b3a" stroke-width="3" />
+<text x="123" y="453" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">G3</text>
+<text x="16" y="488" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">G3 → двигатель → B1−</text>
+<text x="16" y="521" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">K3 — втягивающее реле</text>
+<text x="16" y="551" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Здесь кабель без предохранителя</text>
+</svg>

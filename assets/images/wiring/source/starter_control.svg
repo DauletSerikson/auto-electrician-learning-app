@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="634" viewBox="0 0 320 634">
+<title>starter_control</title>
+<desc>При разрешённом запросе START блок ECU возбуждает катушку K2, силовой контакт K2 30–87 замкнут. B1+ через F3, этот контакт, X3:1 и вывод 50 к упрощённому приводу K3; обратный путь через G3 к B1−. Катушка K2 внутри блока управления отдельно не нарисована. Обмотки втягивания/удержания K3 сведены к функциональному приводу, токи по этой схеме не рассчитываются.</desc>
+<rect width="320" height="634" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Запуск · управляющий путь</text>
+<text x="16" y="62" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Запрос START и разрешение P/N</text>
+<circle cx="75" cy="100" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="100" y="106" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1+</text>
+<line x1="75" y1="100" x2="75" y2="132" stroke="#172b3a" stroke-width="3" />
+<rect x="65" y="132" width="20" height="40" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="75" y1="132" x2="75" y2="172" stroke="#172b3a" stroke-width="3" />
+<text x="103" y="158" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">F3</text>
+<line x1="75" y1="172" x2="75" y2="207" stroke="#172b3a" stroke-width="3" />
+<circle cx="75" cy="207" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<circle cx="75" cy="255" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="75" y1="207" x2="75" y2="255" stroke="#172b3a" stroke-width="3" />
+<text x="99" y="235" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">K2</text>
+<text x="32" y="207" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">30</text>
+<text x="32" y="262" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">87</text>
+<line x1="75" y1="255" x2="75" y2="310" stroke="#172b3a" stroke-width="3" />
+<rect x="52" y="310" width="46" height="56" fill="white" stroke="#172b3a" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="75" y1="310" x2="75" y2="328" stroke="#172b3a" stroke-width="3" />
+<line x1="75" y1="348" x2="75" y2="366" stroke="#172b3a" stroke-width="3" />
+<circle cx="75" cy="328" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<circle cx="75" cy="348" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="75" y1="332" x2="75" y2="344" stroke="#172b3a" stroke-width="3" />
+<text x="115" y="344" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">X3:1</text>
+<line x1="75" y1="366" x2="75" y2="420" stroke="#172b3a" stroke-width="3" />
+<circle cx="75" cy="401" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="115" y="407" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">50</text>
+<rect x="57" y="420" width="36" height="62" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="123" y="454" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">K3</text>
+<line x1="75" y1="482" x2="75" y2="515" stroke="#172b3a" stroke-width="3" />
+<line x1="75" y1="515" x2="75" y2="533" stroke="#172b3a" stroke-width="3" />
+<line x1="51" y1="533" x2="99" y2="533" stroke="#172b3a" stroke-width="3" />
+<line x1="57" y1="533" x2="47" y2="547" stroke="#172b3a" stroke-width="3" />
+<line x1="75" y1="533" x2="65" y2="547" stroke="#172b3a" stroke-width="3" />
+<line x1="93" y1="533" x2="83" y2="547" stroke="#172b3a" stroke-width="3" />
+<text x="113" y="545" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">G3</text>
+<text x="16" y="580" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Катушка K2 управляется ECU</text>
+<text x="16" y="608" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">K3 — упрощённый привод</text>
+</svg>

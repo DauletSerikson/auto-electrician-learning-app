@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="610" viewBox="0 0 320 610">
+<title>power_branches</title>
+<desc>B1+ к F1/H1 постоянно и через S0 к F2/H2; S0 открыт. Выход S0 помечен 15. Общая обратная шина 31 соединяет обе лампы с B1− и кузовной точкой G0. Здесь 30/15/31 — выбранная легенда функциональных клемм.</desc>
+<rect width="320" height="610" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Постоянное и включаемое</text>
+<text x="16" y="62" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">B1 = 12 V; S0 разомкнут</text>
+<line x1="70" y1="100" x2="235" y2="100" stroke="#172b3a" stroke-width="3" />
+<circle cx="90" cy="100" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<circle cx="70" cy="100" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="95" y="106" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a"></text>
+<text x="16" y="106" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1+</text>
+<text x="90" y="88" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#172b3a">30</text>
+<line x1="90" y1="100" x2="90" y2="180" stroke="#172b3a" stroke-width="3" />
+<rect x="80" y="180" width="20" height="40" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="90" y1="180" x2="90" y2="220" stroke="#172b3a" stroke-width="3" />
+<text x="118" y="206" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">F1</text>
+<line x1="90" y1="220" x2="90" y2="338" stroke="#172b3a" stroke-width="3" />
+<circle cx="90" cy="360" r="22" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="75" y1="345" x2="105" y2="375" stroke="#172b3a" stroke-width="3" />
+<line x1="75" y1="375" x2="105" y2="345" stroke="#172b3a" stroke-width="3" />
+<text x="126" y="366" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">H1</text>
+<line x1="90" y1="382" x2="90" y2="470" stroke="#172b3a" stroke-width="3" />
+<line x1="235" y1="100" x2="235" y2="155" stroke="#172b3a" stroke-width="3" />
+<circle cx="235" cy="155" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<circle cx="235" cy="203" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="235" y1="155" x2="207" y2="189" stroke="#172b3a" stroke-width="3" />
+<text x="259" y="183" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">S0</text>
+<line x1="235" y1="203" x2="235" y2="245" stroke="#172b3a" stroke-width="3" />
+<circle cx="235" cy="234" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<text x="256" y="240" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">15</text>
+<rect x="225" y="245" width="20" height="40" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="235" y1="245" x2="235" y2="285" stroke="#172b3a" stroke-width="3" />
+<text x="263" y="271" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">F2</text>
+<line x1="235" y1="285" x2="235" y2="338" stroke="#172b3a" stroke-width="3" />
+<circle cx="235" cy="360" r="22" fill="white" stroke="#172b3a" stroke-width="2"/>
+<line x1="220" y1="345" x2="250" y2="375" stroke="#172b3a" stroke-width="3" />
+<line x1="220" y1="375" x2="250" y2="345" stroke="#172b3a" stroke-width="3" />
+<text x="271" y="366" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a"></text>
+<text x="198" y="365" font-family="Arial" font-size="18" text-anchor="end" font-weight="bold" fill="#172b3a">H2</text>
+<line x1="235" y1="382" x2="235" y2="470" stroke="#172b3a" stroke-width="3" />
+<line x1="70" y1="470" x2="235" y2="470" stroke="#172b3a" stroke-width="3" />
+<circle cx="90" cy="470" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<circle cx="160" cy="470" r="5" fill="#172b3a" stroke="#172b3a" stroke-width="2"/>
+<circle cx="70" cy="470" r="4" fill="white" stroke="#172b3a" stroke-width="2"/>
+<text x="95" y="476" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a"></text>
+<text x="16" y="476" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">B1−</text>
+<text x="243" y="476" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">31</text>
+<line x1="160" y1="470" x2="160" y2="492" stroke="#172b3a" stroke-width="3" />
+<line x1="160" y1="492" x2="160" y2="510" stroke="#172b3a" stroke-width="3" />
+<line x1="136" y1="510" x2="184" y2="510" stroke="#172b3a" stroke-width="3" />
+<line x1="142" y1="510" x2="132" y2="524" stroke="#172b3a" stroke-width="3" />
+<line x1="160" y1="510" x2="150" y2="524" stroke="#172b3a" stroke-width="3" />
+<line x1="178" y1="510" x2="168" y2="524" stroke="#172b3a" stroke-width="3" />
+<text x="198" y="522" font-family="Arial" font-size="18" text-anchor="start" font-weight="bold" fill="#172b3a">G0</text>
+<text x="16" y="557" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">G0 соединена с B1−</text>
+<text x="16" y="585" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Нагрузки H1/H2 исправны</text>
+</svg>
