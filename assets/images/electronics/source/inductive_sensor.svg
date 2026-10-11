@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="490" viewBox="0 0 320 490">
+<title>Два вывода · индуктивный</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">Два вывода · индуктивный</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Катушка у зубчатого диска</text>
+<text x="20" y="97" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Нет питания самого элемента</text>
+<rect x="88" y="150" width="150" height="125" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="163" y="181" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">катушка</text>
+<path d="M 120 225 Q 135 195 150 225 Q 165 195 180 225 Q 195 195 210 225" fill="none" stroke="#172b3a" stroke-width="3"/>
+<line x1="20" y1="225" x2="120" y2="225" stroke="#172b3a" stroke-width="3"/>
+<line x1="210" y1="225" x2="290" y2="225" stroke="#172b3a" stroke-width="3"/>
+<circle cx="20" cy="225" r="4" fill="#172b3a"/>
+<circle cx="290" cy="225" r="4" fill="#172b3a"/>
+<text x="20" y="310" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">A</text>
+<text x="282" y="310" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">B</text>
+<text x="20" y="356" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Сигнал измеряют между A/B.</text>
+<text x="20" y="383" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Зазор и скорость влияют на U.</text>
+<text x="20" y="410" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Два провода не определяют тип.</text>
+<text x="20" y="437" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Бывают и активные 2-проводные.</text>
+</svg>

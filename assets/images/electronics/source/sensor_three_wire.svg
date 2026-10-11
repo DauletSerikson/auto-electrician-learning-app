@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="620" viewBox="0 0 320 620">
+<title>E03A · Активный датчик</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">E03A · Активный датчик</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">ЭБУ ON; пример давления</text>
+<text x="20" y="97" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Вход ADC высокоомный</text>
+<rect x="20" y="150" width="84" height="210" fill="white" stroke="#172b3a" stroke-width="3"/>
+<rect x="216" y="150" width="84" height="210" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="62" y="178" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">ЭБУ</text>
+<text x="258" y="178" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">Датчик</text>
+<line x1="104" y1="215" x2="216" y2="215" stroke="#172b3a" stroke-width="3"/>
+<text x="160" y="203" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">R · 5 V</text>
+<circle cx="160" cy="215" r="4" fill="#172b3a"/>
+<line x1="104" y1="265" x2="216" y2="265" stroke="#172b3a" stroke-width="3"/>
+<text x="160" y="253" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">S</text>
+<circle cx="160" cy="265" r="4" fill="#172b3a"/>
+<line x1="104" y1="315" x2="216" y2="315" stroke="#172b3a" stroke-width="3"/>
+<text x="160" y="303" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">G · 0 V</text>
+<circle cx="160" cy="315" r="4" fill="#172b3a"/>
+<text x="62" y="270" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">ADC</text>
+<text x="258" y="270" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">p → U</text>
+<text x="20" y="412" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">R/S/G — имена этой схемы.</text>
+<text x="20" y="439" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">0 kPa → 0,5 V</text>
+<text x="20" y="466" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">50 kPa → 2,5 V</text>
+<text x="20" y="493" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">100 kPa → 4,5 V</text>
+<text x="20" y="520" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">V DC: красный S, чёрный G</text>
+<text x="20" y="547" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Диапазон задан для примера.</text>
+<text x="20" y="574" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Распиновку сверяют по схеме.</text>
+</svg>

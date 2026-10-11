@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="1020" viewBox="0 0 320 1020">
+<title>E04 · Одинаковое среднее</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">E04 · Одинаковое среднее</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">ON; сигналы относительно G</text>
+<text x="20" y="108" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(S,G), V</text>
+<line x1="54" y1="130" x2="54" y2="260" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="260" x2="290" y2="260" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="260.0" x2="54" y2="260.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="266.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="195.0" x2="54" y2="195.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="201.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="195.0" x2="290" y2="195.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="130.0" x2="54" y2="130.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="136.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="130.0" x2="290" y2="130.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="260" x2="54.0" y2="265" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="288" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="260" x2="172.0" y2="265" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="288" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">10</text>
+<line x1="290.0" y1="260" x2="290.0" y2="265" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="288" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">20</text>
+<text x="172" y="315" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, ms</text>
+<polyline id="constant_2_5" points="54,195 290,195" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="350" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Постоянные 2,5 V</text>
+<text x="20" y="393" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(S,G), V</text>
+<line x1="54" y1="415" x2="54" y2="545" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="545" x2="290" y2="545" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="545.0" x2="54" y2="545.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="551.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="480.0" x2="54" y2="480.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="486.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="480.0" x2="290" y2="480.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="415.0" x2="54" y2="415.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="421.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="415.0" x2="290" y2="415.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="545" x2="54.0" y2="550" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="573" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="545" x2="172.0" y2="550" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="573" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">10</text>
+<line x1="290.0" y1="545" x2="290.0" y2="550" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="573" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">20</text>
+<text x="172" y="600" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, ms</text>
+<polyline id="average_100" points="54,545 54,415 113,415 113,545 172,545 172,415 231,415 231,545 290,545" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="635" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">100 Hz; 0/5 V; D = 50%</text>
+<text x="20" y="668" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(S,G), V</text>
+<line x1="54" y1="690" x2="54" y2="820" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="820" x2="290" y2="820" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="820.0" x2="54" y2="820.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="826.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="755.0" x2="54" y2="755.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="761.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="755.0" x2="290" y2="755.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="690.0" x2="54" y2="690.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="696.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="690.0" x2="290" y2="690.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="820" x2="54.0" y2="825" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="848" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="820" x2="172.0" y2="825" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="848" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">10</text>
+<line x1="290.0" y1="820" x2="290.0" y2="825" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="848" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">20</text>
+<text x="172" y="875" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, ms</text>
+<polyline id="average_200" points="54,820 54,690 83.5,690 83.5,820 113,820 113,690 142.5,690 142.5,820 172,820 172,690 201.5,690 201.5,820 231,820 231,690 260.5,690 260.5,820 290,820" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="910" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">200 Hz; 0/5 V; D = 50%</text>
+<text x="20" y="940" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Идеальное среднее = 2,5 V.</text>
+<text x="20" y="967" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Это не гарантия показания DMM.</text>
+</svg>

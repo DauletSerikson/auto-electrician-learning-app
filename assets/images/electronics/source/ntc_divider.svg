@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="660" viewBox="0 0 320 660">
+<title>E03N · NTC и вход ЭБУ</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">E03N · NTC и вход ЭБУ</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">ЭБУ ON; reference 5,0 V</text>
+<text x="20" y="97" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Rp в ЭБУ; вход высокоомный</text>
+<line x1="90" y1="128" x2="90" y2="155" stroke="#172b3a" stroke-width="3"/>
+<rect x="78" y="155" width="24" height="50" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="90" y1="205" x2="90" y2="300" stroke="#172b3a" stroke-width="3"/>
+<text x="132" y="184" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Rp = 2,0 kΩ</text>
+<text x="132" y="133" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">R = 5,0 V</text>
+<rect x="78" y="300" width="24" height="60" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="64" y1="354" x2="112" y2="306" stroke="#172b3a" stroke-width="3"/>
+<text x="132" y="334" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">NTC</text>
+<line x1="90" y1="360" x2="90" y2="414" stroke="#172b3a" stroke-width="3"/>
+<line x1="58" y1="414" x2="120" y2="414" stroke="#172b3a" stroke-width="3"/>
+<text x="132" y="420" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">G = 0 V</text>
+<circle cx="90" cy="242" r="4" fill="#172b3a"/>
+<line x1="90" y1="242" x2="208" y2="242" stroke="#172b3a" stroke-width="3"/>
+<rect x="208" y="217" width="91" height="50" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="253" y="250" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">ADC</text>
+<text x="130" y="230" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">S</text>
+<text x="20" y="469" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">20 °C → 6,0 kΩ → 3,75 V</text>
+<text x="20" y="496" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">80 °C → 0,5 kΩ → 1,00 V</text>
+<text x="20" y="523" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">V DC: красный S, чёрный G</text>
+<text x="20" y="550" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Точки NTC заданы условием.</text>
+<text x="20" y="577" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Это не универсальная кривая.</text>
+<text x="20" y="604" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">При нагреве R и U снижаются.</text>
+</svg>

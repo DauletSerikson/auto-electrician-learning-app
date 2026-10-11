@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="1020" viewBox="0 0 320 1020">
+<title>E04P · Время активности</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">E04P · Время активности</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">ЭБУ ON; логический выход</text>
+<text x="20" y="97" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">0/5 V; high означает ON</text>
+<text x="20" y="123" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(S,G), V</text>
+<line x1="54" y1="145" x2="54" y2="275" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="275" x2="290" y2="275" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="275.0" x2="54" y2="275.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="281.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="210.0" x2="54" y2="210.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="216.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="210.0" x2="290" y2="210.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="145.0" x2="54" y2="145.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="151.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="145.0" x2="290" y2="145.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="275" x2="54.0" y2="280" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="303" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="275" x2="172.0" y2="280" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="303" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">10</text>
+<line x1="290.0" y1="275" x2="290.0" y2="280" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="303" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">20</text>
+<text x="172" y="330" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, ms</text>
+<polyline id="pwm_20" points="54,275 54,145 77.6,145 77.6,275 172,275 172,145 195.6,145 195.6,275 290,275" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="365" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">tON = 2 ms; D = 20%</text>
+<text x="20" y="398" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(S,G), V</text>
+<line x1="54" y1="420" x2="54" y2="550" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="550" x2="290" y2="550" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="550.0" x2="54" y2="550.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="556.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="485.0" x2="54" y2="485.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="491.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="485.0" x2="290" y2="485.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="420.0" x2="54" y2="420.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="426.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="420.0" x2="290" y2="420.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="550" x2="54.0" y2="555" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="578" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="550" x2="172.0" y2="555" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="578" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">10</text>
+<line x1="290.0" y1="550" x2="290.0" y2="555" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="578" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">20</text>
+<text x="172" y="605" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, ms</text>
+<polyline id="pwm_50" points="54,550 54,420 113,420 113,550 172,550 172,420 231,420 231,550 290,550" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="640" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">tON = 5 ms; D = 50%</text>
+<text x="20" y="673" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(S,G), V</text>
+<line x1="54" y1="695" x2="54" y2="825" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="825" x2="290" y2="825" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="825.0" x2="54" y2="825.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="831.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="760.0" x2="54" y2="760.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="766.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="760.0" x2="290" y2="760.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="695.0" x2="54" y2="695.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="701.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="695.0" x2="290" y2="695.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="825" x2="54.0" y2="830" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="853" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="825" x2="172.0" y2="830" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="853" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">10</text>
+<line x1="290.0" y1="825" x2="290.0" y2="830" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="853" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">20</text>
+<text x="172" y="880" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, ms</text>
+<polyline id="pwm_80" points="54,825 54,695 148.4,695 148.4,825 172,825 172,695 266.4,695 266.4,825 290,825" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="915" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">tON = 8 ms; D = 80%</text>
+<text x="20" y="940" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Во всех трёх: T = 10 ms</text>
+<text x="20" y="967" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">f = 100 Hz; R/G исправны.</text>
+</svg>

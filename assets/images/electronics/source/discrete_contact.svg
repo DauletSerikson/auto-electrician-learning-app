@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="570" viewBox="0 0 320 570">
+<title>E04D · Контакт состояния</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">E04D · Контакт состояния</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">ЭБУ ON; активное low</text>
+<text x="20" y="97" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">G = 0 V; вход высокоомный</text>
+<text x="145" y="131" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">5 V</text>
+<line x1="100" y1="127" x2="100" y2="156" stroke="#172b3a" stroke-width="3"/>
+<rect x="88" y="156" width="24" height="50" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="145" y="185" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Rp = 10 kΩ</text>
+<line x1="100" y1="206" x2="100" y2="256" stroke="#172b3a" stroke-width="3"/>
+<line x1="100" y1="256" x2="278" y2="256" stroke="#172b3a" stroke-width="3"/>
+<circle cx="100" cy="256" r="4" fill="#172b3a"/>
+<text x="205" y="243" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">S → ADC</text>
+<line x1="100" y1="256" x2="100" y2="289" stroke="#172b3a" stroke-width="3"/>
+<circle cx="100" cy="289" r="4" fill="#172b3a"/>
+<circle cx="100" cy="344" r="4" fill="#172b3a"/>
+<line x1="100" y1="289" x2="134" y2="329" stroke="#172b3a" stroke-width="3"/>
+<line x1="100" y1="344" x2="100" y2="380" stroke="#172b3a" stroke-width="3"/>
+<line x1="65" y1="380" x2="134" y2="380" stroke="#172b3a" stroke-width="3"/>
+<text x="153" y="386" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">G = 0 V</text>
+<text x="20" y="440" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Контакт открыт → S–G = 5 V</text>
+<text x="20" y="467" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Контакт закрыт → S–G = 0 V</text>
+<text x="20" y="494" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Обрыв может дать те же 5 V.</text>
+<text x="20" y="521" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">V DC: красный S, чёрный G</text>
+</svg>

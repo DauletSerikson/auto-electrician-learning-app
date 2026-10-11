@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="660" viewBox="0 0 320 660">
+<title>E04F · Hall с подтяжкой</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">E04F · Hall с подтяжкой</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">ЭБУ ON; учебный выход</text>
+<text x="20" y="97" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Диск вращается; G = 0 V</text>
+<text x="20" y="139" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">R · 5 V</text>
+<line x1="100" y1="134" x2="286" y2="134" stroke="#172b3a" stroke-width="3"/>
+<line x1="124" y1="134" x2="124" y2="161" stroke="#172b3a" stroke-width="3"/>
+<rect x="112" y="161" width="24" height="56" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="160" y="192" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Rp = 10 kΩ</text>
+<line x1="124" y1="217" x2="124" y2="256" stroke="#172b3a" stroke-width="3"/>
+<circle cx="124" cy="256" r="4" fill="#172b3a"/>
+<line x1="124" y1="256" x2="265" y2="256" stroke="#172b3a" stroke-width="3"/>
+<text x="207" y="242" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">S → ADC</text>
+<line x1="124" y1="256" x2="124" y2="298" stroke="#172b3a" stroke-width="3"/>
+<rect x="88" y="298" width="84" height="88" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="130" y="330" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">ключ</text>
+<text x="130" y="357" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">Hall</text>
+<line x1="124" y1="386" x2="124" y2="424" stroke="#172b3a" stroke-width="3"/>
+<line x1="60" y1="424" x2="280" y2="424" stroke="#172b3a" stroke-width="3"/>
+<text x="20" y="430" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">G</text>
+<line x1="286" y1="134" x2="286" y2="350" stroke="#172b3a" stroke-width="3"/>
+<line x1="286" y1="350" x2="172" y2="350" stroke="#172b3a" stroke-width="3"/>
+<circle cx="286" cy="134" r="4" fill="#172b3a"/>
+<text x="277" y="386" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">питание</text>
+<text x="20" y="481" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Ключ ON → S ≈ 0 V</text>
+<text x="20" y="508" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Ключ OFF → S ≈ 5 V</text>
+<text x="20" y="535" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">S–G: импульсы при вращении</text>
+<text x="20" y="562" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Частота зависит от скорости.</text>
+<text x="20" y="589" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Это выбранный open-drain.</text>
+<text x="20" y="616" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Не всякий Hall имеет этот выход.</text>
+</svg>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="720" viewBox="0 0 320 720">
+<title>E03A · Аналоговая модель</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">E03A · Аналоговая модель</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">ON; идеальная реакция выхода</text>
+<text x="20" y="108" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(S,G), V</text>
+<line x1="54" y1="130" x2="54" y2="260" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="260" x2="290" y2="260" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="260.0" x2="54" y2="260.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="266.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="195.0" x2="54" y2="195.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="201.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="195.0" x2="290" y2="195.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="130.0" x2="54" y2="130.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="136.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="130.0" x2="290" y2="130.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="260" x2="54.0" y2="265" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="288" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="260" x2="172.0" y2="265" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="288" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">50</text>
+<line x1="290.0" y1="260" x2="290.0" y2="265" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="288" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">100</text>
+<text x="172" y="315" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">p, kPa</text>
+<polyline id="pressure_transfer" points="54,247 172,195 290,143" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<circle cx="54.0" cy="247.0" r="4" fill="#172b3a"/>
+<circle cx="172.0" cy="195.0" r="4" fill="#172b3a"/>
+<circle cx="290.0" cy="143.0" r="4" fill="#172b3a"/>
+<text x="20" y="365" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Вход p: 0 → 50 → 100 kPa</text>
+<text x="20" y="393" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(S,G), V</text>
+<line x1="54" y1="415" x2="54" y2="545" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="545" x2="290" y2="545" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="545.0" x2="54" y2="545.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="551.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="480.0" x2="54" y2="480.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="486.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="480.0" x2="290" y2="480.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="415.0" x2="54" y2="415.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="421.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="415.0" x2="290" y2="415.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="545" x2="54.0" y2="550" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="573" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="545" x2="172.0" y2="550" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="573" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">1</text>
+<line x1="290.0" y1="545" x2="290.0" y2="550" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="573" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">2</text>
+<text x="172" y="600" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, s</text>
+<polyline id="analog_time" points="54,532 172,480 290,428" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="634" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Сверху U(p), снизу U(t).</text>
+<text x="20" y="661" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Время задано, не измерено.</text>
+<text x="20" y="688" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">R = 5 V; G = 0; U в S–G.</text>
+</svg>

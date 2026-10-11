@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="740" viewBox="0 0 320 740">
+<title>E04F · Период и частота</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">E04F · Период и частота</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">ON; Hall 0/5 V; G = 0 V</text>
+<text x="20" y="103" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(S,G), V</text>
+<line x1="54" y1="125" x2="54" y2="255" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="255" x2="290" y2="255" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="255.0" x2="54" y2="255.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="261.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="190.0" x2="54" y2="190.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="196.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="190.0" x2="290" y2="190.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="125.0" x2="54" y2="125.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="131.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="125.0" x2="290" y2="125.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="255" x2="54.0" y2="260" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="283" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="255" x2="172.0" y2="260" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="283" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">10</text>
+<line x1="290.0" y1="255" x2="290.0" y2="260" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="283" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">20</text>
+<text x="172" y="310" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, ms</text>
+<polyline id="pulse_100" points="54,255 54,125 113,125 113,255 172,255 172,125 231,125 231,255 290,255" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="341" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">T = 10 ms; tH = 5 ms</text>
+<text x="20" y="368" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">f = 100 Hz; D = 50%</text>
+<text x="20" y="410" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">U(S,G), V</text>
+<line x1="54" y1="432" x2="54" y2="562" stroke="#172b3a" stroke-width="3"/>
+<line x1="54" y1="562" x2="290" y2="562" stroke="#172b3a" stroke-width="3"/>
+<line x1="49" y1="562.0" x2="54" y2="562.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="568.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">0</text>
+<line x1="49" y1="497.0" x2="54" y2="497.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="503.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">2,5</text>
+<line x1="54" y1="497.0" x2="290" y2="497.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="49" y1="432.0" x2="54" y2="432.0" stroke="#172b3a" stroke-width="3"/>
+<text x="44" y="438.0" font-family="Arial" font-size="18" text-anchor="end" font-weight="normal" fill="#172b3a">5</text>
+<line x1="54" y1="432.0" x2="290" y2="432.0" stroke="#b9c6ce" stroke-width="3" stroke-dasharray="6 5"/>
+<line x1="54.0" y1="562" x2="54.0" y2="567" stroke="#172b3a" stroke-width="3"/>
+<text x="54.0" y="590" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">0</text>
+<line x1="172.0" y1="562" x2="172.0" y2="567" stroke="#172b3a" stroke-width="3"/>
+<text x="172.0" y="590" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">10</text>
+<line x1="290.0" y1="562" x2="290.0" y2="567" stroke="#172b3a" stroke-width="3"/>
+<text x="290.0" y="590" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">20</text>
+<text x="172" y="617" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">t, ms</text>
+<polyline id="pulse_200" points="54,562 54,432 83.5,432 83.5,562 113,562 113,432 142.5,432 142.5,562 172,562 172,432 201.5,432 201.5,562 231,562 231,432 260.5,432 260.5,562 290,562" fill="none" stroke="#075f98" stroke-width="3" stroke-linejoin="round"/>
+<text x="20" y="648" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">T = 5 ms; tH = 2,5 ms</text>
+<text x="20" y="675" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">f = 200 Hz; D = 50%</text>
+<text x="20" y="702" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Амплитуда не стала больше.</text>
+</svg>

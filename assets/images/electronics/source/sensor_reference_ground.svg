@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="750" viewBox="0 0 320 750">
+<title>E06G · Две опоры</title>
+<rect width="320" height="100%" fill="white"/>
+<text x="20" y="34" font-family="Arial" font-size="20" text-anchor="start" font-weight="bold" fill="#172b3a">E06G · Две опоры</text>
+<text x="20" y="70" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">ЭБУ ON; p = 50 kPa</text>
+<text x="20" y="97" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Reference R–B− = 5,00 V</text>
+<rect x="20" y="145" width="84" height="200" fill="white" stroke="#172b3a" stroke-width="3"/>
+<rect x="216" y="145" width="84" height="200" fill="white" stroke="#172b3a" stroke-width="3"/>
+<text x="62" y="176" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">ЭБУ</text>
+<text x="258" y="176" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">Датчик</text>
+<line x1="104" y1="205" x2="216" y2="205" stroke="#172b3a" stroke-width="3"/>
+<circle cx="160" cy="205" r="4" fill="#172b3a"/>
+<text x="160" y="193" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">R</text>
+<line x1="104" y1="255" x2="216" y2="255" stroke="#172b3a" stroke-width="3"/>
+<circle cx="160" cy="255" r="4" fill="#172b3a"/>
+<text x="160" y="243" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">S</text>
+<line x1="104" y1="305" x2="216" y2="305" stroke="#172b3a" stroke-width="3"/>
+<circle cx="160" cy="305" r="4" fill="#172b3a"/>
+<text x="160" y="293" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">G</text>
+<text x="62" y="259" font-family="Arial" font-size="18" text-anchor="middle" font-weight="normal" fill="#172b3a">ADC</text>
+<line x1="62" y1="345" x2="62" y2="404" stroke="#172b3a" stroke-width="3"/>
+<line x1="258" y1="345" x2="258" y2="404" stroke="#172b3a" stroke-width="3"/>
+<line x1="62" y1="404" x2="122" y2="404" stroke="#172b3a" stroke-width="3"/>
+<rect x="122" y="389" width="76" height="30" fill="white" stroke="#172b3a" stroke-width="3"/>
+<line x1="198" y1="404" x2="258" y2="404" stroke="#172b3a" stroke-width="3"/>
+<circle cx="62" cy="404" r="4" fill="#172b3a"/>
+<circle cx="258" cy="404" r="4" fill="#172b3a"/>
+<text x="20" y="445" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">B− = 0 V</text>
+<text x="205" y="445" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">G = 0,20 V</text>
+<text x="20" y="493" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Возврат G–B−: сдвиг 0,20 V</text>
+<text x="20" y="520" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">S–G = 2,50 V</text>
+<text x="20" y="547" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">S–B− = 2,70 V</text>
+<text x="20" y="574" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">R–G = 4,80 V</text>
+<text x="20" y="601" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">V DC: красный/чёрный</text>
+<text x="20" y="628" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">соответствуют первой/второй</text>
+<text x="20" y="655" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">точке в каждой записи.</text>
+<text x="20" y="682" font-family="Arial" font-size="18" text-anchor="start" font-weight="normal" fill="#172b3a">Участок возврата показан условно.</text>
+</svg>
