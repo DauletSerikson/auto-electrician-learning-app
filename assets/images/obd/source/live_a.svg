@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="846" viewBox="0 0 320 846">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >LD-A • ХХ</text>
+<text x="16" y="65" font-family="Arial" font-size="18" fill="#122333" >Синтетические данные</text>
+<text x="16" y="92" font-family="Arial" font-size="18" fill="#122333" >Бензиновый 1,6 L, CL</text>
+<text x="16" y="119" font-family="Arial" font-size="18" fill="#122333" >Стоянка; воздух 20 °C</text>
+<text x="16" y="146" font-family="Arial" font-size="18" fill="#122333" >t приёма: 0…2 s</text>
+<rect x="12" y="181" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="204" font-family="Arial" font-size="18" fill="#122333" >05/0F: ECT / IAT</text>
+<text x="22" y="229" font-family="Arial" font-size="19" fill="#122333" >90 / 25 °C</text>
+<rect x="12" y="251" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="274" font-family="Arial" font-size="18" fill="#122333" >0C/0D: RPM / скорость</text>
+<text x="22" y="299" font-family="Arial" font-size="19" fill="#122333" >800 rpm / 0 km/h</text>
+<rect x="12" y="321" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="344" font-family="Arial" font-size="18" fill="#122333" >04: расчётная нагрузка</text>
+<text x="22" y="369" font-family="Arial" font-size="19" fill="#122333" >24%</text>
+<rect x="12" y="391" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="414" font-family="Arial" font-size="18" fill="#122333" >0B: MAP absolute</text>
+<text x="22" y="439" font-family="Arial" font-size="19" fill="#122333" >42 kPa</text>
+<rect x="12" y="461" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="484" font-family="Arial" font-size="18" fill="#122333" >10: MAF</text>
+<text x="22" y="509" font-family="Arial" font-size="19" fill="#122333" >2,80 g/s</text>
+<rect x="12" y="531" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="554" font-family="Arial" font-size="18" fill="#122333" >11: дроссель</text>
+<text x="22" y="579" font-family="Arial" font-size="19" fill="#122333" >12,5%</text>
+<rect x="12" y="601" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="624" font-family="Arial" font-size="18" fill="#122333" >42: напряжение ECU</text>
+<text x="22" y="649" font-family="Arial" font-size="19" fill="#122333" >14,200 V</text>
+<rect x="12" y="671" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="694" font-family="Arial" font-size="18" fill="#122333" >06/07: STFT / LTFT B1</text>
+<text x="22" y="719" font-family="Arial" font-size="19" fill="#122333" >+18,8 / +12,5%</text>
+<text x="16" y="753" font-family="Arial" font-size="18" fill="#122333" >Режим устойчив ≥10 s.</text>
+<text x="16" y="780" font-family="Arial" font-size="18" fill="#122333" >PID опрошены по очереди.</text>
+<text x="16" y="807" font-family="Arial" font-size="18" fill="#122333" >Поддержка полей — условие</text>
+</svg>

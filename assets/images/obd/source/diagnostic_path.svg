@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="598" viewBox="0 0 320 598">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >K • логика проверки</text>
+<text x="16" y="65" font-family="Arial" font-size="18" fill="#122333" >Последовательный разбор</text>
+<rect x="12" y="100" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="123" font-family="Arial" font-size="18" fill="#122333" >1. Код и режим</text>
+<text x="22" y="148" font-family="Arial" font-size="19" fill="#122333" >Несколько гипотез</text>
+<rect x="12" y="170" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="193" font-family="Arial" font-size="18" fill="#122333" >2. Питание / масса</text>
+<text x="22" y="218" font-family="Arial" font-size="19" fill="#122333" >Под рабочей нагрузкой</text>
+<rect x="12" y="240" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="263" font-family="Arial" font-size="18" fill="#122333" >3. Сравнить S и E</text>
+<text x="22" y="288" font-family="Arial" font-size="19" fill="#122333" >Разные → разделить причины</text>
+<rect x="12" y="310" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="333" font-family="Arial" font-size="18" fill="#122333" >4. Изолировать W</text>
+<text x="22" y="358" font-family="Arial" font-size="19" fill="#122333" >OFF, нет напряжения</text>
+<rect x="12" y="380" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="403" font-family="Arial" font-size="18" fill="#122333" >5. W &gt;1 MΩ, норма ≤1 Ω</text>
+<text x="22" y="428" font-family="Arial" font-size="19" fill="#122333" >Путь / оконцевания</text>
+<rect x="12" y="450" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="473" font-family="Arial" font-size="18" fill="#122333" >6. После ремонта</text>
+<text x="22" y="498" font-family="Arial" font-size="19" fill="#122333" >Повторить рабочий контроль</text>
+<text x="16" y="532" font-family="Arial" font-size="18" fill="#122333" >Точная точка ещё неизвестна.</text>
+<text x="16" y="559" font-family="Arial" font-size="18" fill="#122333" >Нельзя заменить ECU по коду.</text>
+</svg>

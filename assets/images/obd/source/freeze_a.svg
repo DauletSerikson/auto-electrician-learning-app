@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="679" viewBox="0 0 320 679">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >FF-A • P0102</text>
+<text x="16" y="65" font-family="Arial" font-size="18" fill="#122333" >Синтетические данные</text>
+<text x="16" y="92" font-family="Arial" font-size="18" fill="#122333" >Работает, ХХ, стоянка</text>
+<text x="16" y="119" font-family="Arial" font-size="18" fill="#122333" >Бензиновый 1,6 L</text>
+<rect x="12" y="154" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="177" font-family="Arial" font-size="18" fill="#122333" >Температура ECT</text>
+<text x="22" y="202" font-family="Arial" font-size="19" fill="#122333" >88 °C</text>
+<rect x="12" y="224" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="247" font-family="Arial" font-size="18" fill="#122333" >RPM / скорость</text>
+<text x="22" y="272" font-family="Arial" font-size="19" fill="#122333" >800 rpm / 0 km/h</text>
+<rect x="12" y="294" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="317" font-family="Arial" font-size="18" fill="#122333" >Расчётная нагрузка</text>
+<text x="22" y="342" font-family="Arial" font-size="19" fill="#122333" >22%</text>
+<rect x="12" y="364" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="387" font-family="Arial" font-size="18" fill="#122333" >Напряжение ECU</text>
+<text x="22" y="412" font-family="Arial" font-size="19" fill="#122333" >14,180 V</text>
+<rect x="12" y="434" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="457" font-family="Arial" font-size="18" fill="#122333" >MAP absolute</text>
+<text x="22" y="482" font-family="Arial" font-size="19" fill="#122333" >36 kPa</text>
+<rect x="12" y="504" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="527" font-family="Arial" font-size="18" fill="#122333" >MAF / STFT / LTFT</text>
+<text x="22" y="552" font-family="Arial" font-size="19" fill="#122333" >N/A / N/A / N/A</text>
+<text x="16" y="586" font-family="Arial" font-size="18" fill="#122333" >До текущего LD-C</text>
+<text x="16" y="613" font-family="Arial" font-size="18" fill="#122333" >Clock timestamp неизвестен</text>
+<text x="16" y="640" font-family="Arial" font-size="18" fill="#122333" >Поддержка полей — условие</text>
+</svg>

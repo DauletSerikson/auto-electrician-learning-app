@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="540" viewBox="0 0 320 540">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="34" font-family="Arial" font-size="22" fill="#122333" >DTC: пример P0102</text>
+<text x="16" y="68" font-family="Arial" font-size="18" fill="#122333" >Не готовый диагноз</text>
+<rect x="16" y="92" width="288" height="62" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="132" font-family="Arial" font-size="26" fill="#122333" >P  |  0  1  0  2</text>
+<text x="16" y="188" font-family="Arial" font-size="18" fill="#122333" >P — силовой агрегат</text>
+<text x="16" y="220" font-family="Arial" font-size="18" fill="#122333" >B — кузов</text>
+<text x="16" y="252" font-family="Arial" font-size="18" fill="#122333" >C — шасси</text>
+<text x="16" y="284" font-family="Arial" font-size="18" fill="#122333" >U — сеть</text>
+<text x="16" y="330" font-family="Arial" font-size="18" fill="#122333" >Области SAE/OEM:</text>
+<text x="16" y="358" font-family="Arial" font-size="18" fill="#122333" >сверять по таблицам</text>
+<text x="16" y="386" font-family="Arial" font-size="18" fill="#122333" >и документации авто.</text>
+<line x1="22" y1="412" x2="298" y2="412" stroke="#234b68" stroke-width="2" />
+<text x="16" y="447" font-family="Arial" font-size="18" fill="#122333" >Код → условия → проверка</text>
+<text x="16" y="482" font-family="Arial" font-size="18" fill="#122333" >Причину нужно подтвердить.</text>
+<text x="16" y="516" font-family="Arial" font-size="18" fill="#122333" >Авторская учебная схема</text>
+</svg>

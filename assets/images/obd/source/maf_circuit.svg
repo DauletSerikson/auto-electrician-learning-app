@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="810" viewBox="0 0 320 810">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="30" font-family="Arial" font-size="22" fill="#122333" >K • аналоговый MAF</text>
+<text x="16" y="60" font-family="Arial" font-size="18" fill="#122333" >Синтетическая схема, 12 V</text>
+<text x="174" y="93" font-family="Arial" font-size="18" fill="#122333" >B+</text>
+<circle cx="160" cy="80" r="4" fill="#155b8a" />
+<line x1="160" y1="80" x2="160" y2="110" stroke="#234b68" stroke-width="2" />
+<rect x="40" y="110" width="240" height="45" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="55" y="138" font-family="Arial" font-size="18" fill="#122333" >Питающий путь</text>
+<line x1="160" y1="155" x2="160" y2="190" stroke="#234b68" stroke-width="2" />
+<text x="170" y="180" font-family="Arial" font-size="18" fill="#122333" >P</text>
+<rect x="40" y="190" width="240" height="90" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="70" y="226" font-family="Arial" font-size="18" fill="#122333" >Датчик MAF</text>
+<text x="60" y="256" font-family="Arial" font-size="18" fill="#122333" >Выход S; возврат G</text>
+<circle cx="80" cy="280" r="4" fill="#155b8a" />
+<text x="44" y="310" font-family="Arial" font-size="18" fill="#122333" >S</text>
+<line x1="80" y1="280" x2="80" y2="330" stroke="#234b68" stroke-width="2" />
+<circle cx="80" cy="330" r="4" fill="#155b8a" />
+<text x="96" y="337" font-family="Arial" font-size="18" fill="#122333" >X1</text>
+<line x1="80" y1="330" x2="80" y2="450" stroke="#234b68" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="96" y="383" font-family="Arial" font-size="18" fill="#122333" >W + оконцевания</text>
+<text x="96" y="412" font-family="Arial" font-size="18" fill="#122333" >Проверяемый путь</text>
+<circle cx="80" cy="450" r="4" fill="#155b8a" />
+<text x="96" y="457" font-family="Arial" font-size="18" fill="#122333" >X2</text>
+<line x1="80" y1="450" x2="80" y2="490" stroke="#234b68" stroke-width="2" />
+<text x="44" y="482" font-family="Arial" font-size="18" fill="#122333" >E</text>
+<rect x="40" y="490" width="240" height="80" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="110" y="520" font-family="Arial" font-size="18" fill="#122333" >ECU</text>
+<text x="58" y="550" font-family="Arial" font-size="18" fill="#122333" >E: слабая pull-down</text>
+<line x1="270" y1="280" x2="300" y2="280" stroke="#234b68" stroke-width="2" />
+<line x1="300" y1="280" x2="300" y2="600" stroke="#234b68" stroke-width="2" />
+<text x="268" y="310" font-family="Arial" font-size="18" fill="#122333" >G</text>
+<line x1="200" y1="570" x2="200" y2="600" stroke="#234b68" stroke-width="2" />
+<line x1="40" y1="600" x2="300" y2="600" stroke="#234b68" stroke-width="2" />
+<text x="42" y="630" font-family="Arial" font-size="18" fill="#122333" >B−: вывод АКБ</text>
+<text x="16" y="670" font-family="Arial" font-size="18" fill="#122333" >Пунктир — границы пути,</text>
+<text x="16" y="698" font-family="Arial" font-size="18" fill="#122333" >не место повреждения.</text>
+<text x="16" y="728" font-family="Arial" font-size="18" fill="#122333" >Возвраты/питание не идеальны.</text>
+<text x="16" y="756" font-family="Arial" font-size="18" fill="#122333" >ECU питается отдельно.</text>
+<text x="16" y="786" font-family="Arial" font-size="18" fill="#122333" >Точки измерений: S/G, E/G</text>
+</svg>

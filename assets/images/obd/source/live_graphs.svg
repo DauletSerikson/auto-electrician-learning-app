@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="712" viewBox="0 0 320 712">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >LD-A/B: две сводки</text>
+<text x="16" y="64" font-family="Arial" font-size="18" fill="#122333" >Стоянка, CL; синтетика</text>
+<text x="16" y="100" font-family="Arial" font-size="20" fill="#122333" >RPM, rpm</text>
+<line x1="62" y1="260.0" x2="294" y2="260.0" stroke="#234b68" stroke-width="2" stroke-dasharray="3 4"/>
+<text x="8" y="266.0" font-family="Arial" font-size="18" fill="#122333" >0</text>
+<line x1="62" y1="190.0" x2="294" y2="190.0" stroke="#234b68" stroke-width="2" stroke-dasharray="3 4"/>
+<text x="8" y="196.0" font-family="Arial" font-size="18" fill="#122333" >1500</text>
+<line x1="62" y1="120.0" x2="294" y2="120.0" stroke="#234b68" stroke-width="2" stroke-dasharray="3 4"/>
+<text x="8" y="126.0" font-family="Arial" font-size="18" fill="#122333" >3000</text>
+<line x1="62" y1="120" x2="62" y2="260" stroke="#234b68" stroke-width="2" />
+<line x1="62" y1="260" x2="294" y2="260" stroke="#234b68" stroke-width="2" />
+<circle cx="69.25" cy="222.66666666666666" r="4" fill="#155b8a" id="rpmA"/>
+<text x="75.25" y="210.66666666666666" font-family="Arial" font-size="18" fill="#122333" >800</text>
+<circle cx="286.75" cy="143.33333333333331" r="4" fill="#155b8a" id="rpmB"/>
+<text x="230.75" y="131.33333333333331" font-family="Arial" font-size="18" fill="#122333" >2500</text>
+<text x="58" y="288" font-family="Arial" font-size="18" fill="#122333" >0</text>
+<text x="262" y="288" font-family="Arial" font-size="18" fill="#122333" >32</text>
+<text x="68" y="316" font-family="Arial" font-size="18" fill="#122333" >t приёма, s</text>
+<text x="16" y="380" font-family="Arial" font-size="20" fill="#122333" >STFT B1, %</text>
+<line x1="62" y1="540.0" x2="294" y2="540.0" stroke="#234b68" stroke-width="2" stroke-dasharray="3 4"/>
+<text x="8" y="546.0" font-family="Arial" font-size="18" fill="#122333" >0</text>
+<line x1="62" y1="470.0" x2="294" y2="470.0" stroke="#234b68" stroke-width="2" stroke-dasharray="3 4"/>
+<text x="8" y="476.0" font-family="Arial" font-size="18" fill="#122333" >12,5</text>
+<line x1="62" y1="400.0" x2="294" y2="400.0" stroke="#234b68" stroke-width="2" stroke-dasharray="3 4"/>
+<text x="8" y="406.0" font-family="Arial" font-size="18" fill="#122333" >25</text>
+<line x1="62" y1="400" x2="62" y2="540" stroke="#234b68" stroke-width="2" />
+<line x1="62" y1="540" x2="294" y2="540" stroke="#234b68" stroke-width="2" />
+<circle cx="69.25" cy="434.72" r="4" fill="#155b8a" id="stftA"/>
+<text x="75.25" y="422.72" font-family="Arial" font-size="18" fill="#122333" >18,8</text>
+<circle cx="286.75" cy="522.64" r="4" fill="#155b8a" id="stftB"/>
+<text x="230.75" y="510.64" font-family="Arial" font-size="18" fill="#122333" >3,1</text>
+<text x="58" y="568" font-family="Arial" font-size="18" fill="#122333" >0</text>
+<text x="262" y="568" font-family="Arial" font-size="18" fill="#122333" >32</text>
+<text x="68" y="596" font-family="Arial" font-size="18" fill="#122333" >t приёма, s</text>
+<text x="16" y="632" font-family="Arial" font-size="18" fill="#122333" >Точки: центры окон 1/31 s.</text>
+<text x="16" y="660" font-family="Arial" font-size="18" fill="#122333" >Между окнами данных нет.</text>
+<text x="16" y="688" font-family="Arial" font-size="18" fill="#122333" >Линии не интерполируются.</text>
+</svg>
