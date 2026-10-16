@@ -1,0 +1,82 @@
+[
+  {
+    "id": "obd_01",
+    "order": 1,
+    "title": "Введение в компьютерную диагностику",
+    "description": "Различать данные сканера, гипотезу и подтверждение причины",
+    "estimatedMinutes": 16,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "obd_02",
+    "order": 2,
+    "title": "Диагностический разъём OBD-II",
+    "description": "Читать лицевой вид DLC и выбирать безопасное подключение",
+    "estimatedMinutes": 20,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "obd_03",
+    "order": 3,
+    "title": "Диагностические сканеры и адаптеры",
+    "description": "Выбирать инструмент по подтверждённым возможностям",
+    "estimatedMinutes": 18,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "obd_04",
+    "order": 4,
+    "title": "Коды диагностических неисправностей DTC",
+    "description": "Читать код, различать гипотезы и выбирать подтверждающую проверку",
+    "estimatedMinutes": 24,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "obd_05",
+    "order": 5,
+    "title": "Статусы DTC, MIL и readiness",
+    "description": "Различать запись события, лампу и завершённость проверок",
+    "estimatedMinutes": 22,
+    "file": "lesson_05.json"
+  },
+  {
+    "id": "obd_06",
+    "order": 6,
+    "title": "Freeze Frame — условия события",
+    "description": "Сопоставлять сохранённые параметры и отличать их от текущих",
+    "estimatedMinutes": 22,
+    "file": "lesson_06.json"
+  },
+  {
+    "id": "obd_07",
+    "order": 7,
+    "title": "Live Data — текущие параметры",
+    "description": "Учитывать режим, единицы, время опроса и происхождение PID",
+    "estimatedMinutes": 26,
+    "file": "lesson_07.json"
+  },
+  {
+    "id": "obd_08",
+    "order": 8,
+    "title": "Анализ параметров и диагностических противоречий",
+    "description": "Сопоставлять время, режим, точки измерения и пределы вывода",
+    "estimatedMinutes": 24,
+    "file": "lesson_08.json"
+  },
+  {
+    "id": "obd_09",
+    "order": 9,
+    "title": "Кейс P0102 — от данных к участку неисправности",
+    "description": "Обосновывать вывод по коду, параметрам и независимым измерениям",
+    "estimatedMinutes": 32,
+    "file": "lesson_09.json"
+  },
+  {
+    "id": "obd_10",
+    "order": 10,
+    "title": "Итоговый диагностический практикум",
+    "description": "Применить OBD-данные и выбрать доказательные проверки в 15 заданиях",
+    "estimatedMinutes": 30,
+    "file": "lesson_10.json"
+  }
+]

@@ -23,19 +23,19 @@ void main() {
   });
 
   test(
-    'seven modules and all 62 lessons keep unique, consecutive ordering',
+    'eight modules and all 72 lessons keep unique, consecutive ordering',
     () async {
       final modules = await course.loadModules();
-      expect(modules.map((m) => m.id), List.generate(7, (i) => 'stage_$i'));
-      expect(modules.map((m) => m.order), List.generate(7, (i) => i));
+      expect(modules.map((m) => m.id), List.generate(8, (i) => 'stage_$i'));
+      expect(modules.map((m) => m.order), List.generate(8, (i) => i));
       expect(
-        modules.last.title,
+        modules.singleWhere((m) => m.id == 'stage_6').title,
         'Автомобильная электроника и электронные системы управления',
       );
       final all = await course.loadAllLessons();
-      expect(all, hasLength(62));
-      expect(all.map((l) => l.lesson.id).toSet(), hasLength(62));
-      final expectedCounts = [5, 8, 9, 10, 10, 10, 10];
+      expect(all, hasLength(72));
+      expect(all.map((l) => l.lesson.id).toSet(), hasLength(72));
+      final expectedCounts = [5, 8, 9, 10, 10, 10, 10, 10];
       for (var i = 0; i < modules.length; i++) {
         final summaries = await course.loadLessons(modules[i].id);
         expect(summaries, hasLength(expectedCounts[i]));
@@ -46,7 +46,7 @@ void main() {
       }
       expect(all.take(52).last.lesson.id, 'diagnostics_10');
       expect(
-        all.skip(52).map((l) => l.lesson.id),
+        all.skip(52).take(10).map((l) => l.lesson.id),
         List.generate(
           10,
           (i) => 'electronics_${(i + 1).toString().padLeft(2, '0')}',
@@ -199,9 +199,9 @@ void main() {
       });
       final service = ProgressService();
       final before = await service.calculateProgress(all);
-      expect(before.totalLessons, 62);
+      expect(before.totalLessons, 72);
       expect(before.completedLessons, 52);
-      expect(before.progress, 52 / 62);
+      expect(before.progress, 52 / 72);
       expect(before.nextLesson?.lesson.id, 'electronics_01');
       for (final id in oldIds) {
         expect(await service.isLessonCompleted(id), isTrue);
@@ -223,8 +223,8 @@ void main() {
         all,
         all.map((l) => l.lesson.id).toSet(),
       );
-      expect(full.totalLessons, 62);
-      expect(full.completedLessons, 62);
+      expect(full.totalLessons, 72);
+      expect(full.completedLessons, 72);
       expect(full.progress, 1);
       expect(full.nextLesson, isNull);
     },

@@ -20,27 +20,30 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setUp(rootBundle.clear);
 
-  test('only four unindexed pilots exist and IDs do not collide', () async {
-    final course = CourseService();
-    expect(await course.loadModules(), hasLength(7));
-    final old = await course.loadAllLessons();
-    expect(old, hasLength(62));
-    final ids = old.map((e) => e.lesson.id).toSet();
-    for (final order in [4, 6, 7, 9]) {
-      expect(ids.add((await loadObdPilot(order)).id), isTrue);
-    }
-    expect(ids, hasLength(66));
-    final files = Directory('assets/course/stage_7')
-        .listSync()
-        .map((e) => e.path.split(Platform.pathSeparator).last)
-        .toSet();
-    expect(files, {
-      'lesson_04.json',
-      'lesson_06.json',
-      'lesson_07.json',
-      'lesson_09.json',
-    });
-  });
+  test(
+    'four preserved pilots are indexed exactly once in the full module',
+    () async {
+      final course = CourseService();
+      expect(await course.loadModules(), hasLength(8));
+      final old = await course.loadAllLessons();
+      expect(old, hasLength(72));
+      final ids = old.map((e) => e.lesson.id).toSet();
+      for (final order in [4, 6, 7, 9]) {
+        final id = (await loadObdPilot(order)).id;
+        expect(old.where((e) => e.lesson.id == id), hasLength(1));
+      }
+      expect(ids, hasLength(72));
+      final files = Directory('assets/course/stage_7')
+          .listSync()
+          .map((e) => e.path.split(Platform.pathSeparator).last)
+          .toSet();
+      expect(files, {
+        'lessons.json',
+        for (var n = 1; n <= 10; n++)
+          'lesson_${n.toString().padLeft(2, '0')}.json',
+      });
+    },
+  );
 
   for (final entry in {
     4: (16, 6),

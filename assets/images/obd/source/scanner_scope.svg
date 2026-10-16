@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="458" viewBox="0 0 320 458">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >Выбор инструмента</text>
+<text x="16" y="65" font-family="Arial" font-size="18" fill="#122333" >Покрытие проверяют по задаче</text>
+<rect x="12" y="100" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="123" font-family="Arial" font-size="18" fill="#122333" >Generic reader</text>
+<text x="22" y="148" font-family="Arial" font-size="19" fill="#122333" >Emissions-данные OBD</text>
+<rect x="12" y="170" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="193" font-family="Arial" font-size="18" fill="#122333" >Адаптер + приложение</text>
+<text x="22" y="218" font-family="Arial" font-size="19" fill="#122333" >Зависит от реализации</text>
+<rect x="12" y="240" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="263" font-family="Arial" font-size="18" fill="#122333" >Мультимарочный / OEM</text>
+<text x="22" y="288" font-family="Arial" font-size="19" fill="#122333" >Покрытие модели / блока</text>
+<rect x="12" y="310" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="333" font-family="Arial" font-size="18" fill="#122333" >Чтение ≠ программирование</text>
+<text x="22" y="358" font-family="Arial" font-size="19" fill="#122333" >Разные сервисы и риски</text>
+<text x="16" y="392" font-family="Arial" font-size="18" fill="#122333" >RPM не доказывает ABS.</text>
+<text x="16" y="419" font-family="Arial" font-size="18" fill="#122333" >Нет гарантии всех функций.</text>
+</svg>

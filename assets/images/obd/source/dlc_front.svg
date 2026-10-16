@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="675" viewBox="0 0 320 675">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >DLC • лицевая розетка</text>
+<text x="16" y="64" font-family="Arial" font-size="18" fill="#122333" >Смотрим со стороны прибора</text>
+<text x="16" y="92" font-family="Arial" font-size="18" fill="#122333" >Широкая сторона сверху</text>
+<text x="16" y="120" font-family="Arial" font-size="18" fill="#122333" >Type A, легковой 12 V</text>
+<polygon points="16,170 304,170 286,300 34,300" fill="#f4f8fc" stroke="#234b68" stroke-width="3"/>
+<rect x="24" y="188" width="28" height="32" rx="3" fill="#ffffff" stroke="#234b68"/>
+<text x="38" y="210" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin1">1</text>
+<rect x="58" y="188" width="28" height="32" rx="3" fill="#ffffff" stroke="#234b68"/>
+<text x="72" y="210" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin2">2</text>
+<rect x="92" y="188" width="28" height="32" rx="3" fill="#ffffff" stroke="#234b68"/>
+<text x="106" y="210" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin3">3</text>
+<rect x="126" y="188" width="28" height="32" rx="3" fill="#c5e5d3" stroke="#234b68"/>
+<text x="140" y="210" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin4">4</text>
+<rect x="160" y="188" width="28" height="32" rx="3" fill="#c5e5d3" stroke="#234b68"/>
+<text x="174" y="210" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin5">5</text>
+<rect x="194" y="188" width="28" height="32" rx="3" fill="#c6dff9" stroke="#234b68"/>
+<text x="208" y="210" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin6">6</text>
+<rect x="228" y="188" width="28" height="32" rx="3" fill="#ffffff" stroke="#234b68"/>
+<text x="242" y="210" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin7">7</text>
+<rect x="262" y="188" width="28" height="32" rx="3" fill="#ffffff" stroke="#234b68"/>
+<text x="276" y="210" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin8">8</text>
+<rect x="32" y="242" width="28" height="32" rx="3" fill="#ffffff" stroke="#234b68"/>
+<text x="46" y="264" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin9">9</text>
+<rect x="64" y="242" width="28" height="32" rx="3" fill="#ffffff" stroke="#234b68"/>
+<text x="78" y="264" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin10">10</text>
+<rect x="96" y="242" width="28" height="32" rx="3" fill="#ffffff" stroke="#234b68"/>
+<text x="110" y="264" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin11">11</text>
+<rect x="128" y="242" width="28" height="32" rx="3" fill="#ffffff" stroke="#234b68"/>
+<text x="142" y="264" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin12">12</text>
+<rect x="160" y="242" width="28" height="32" rx="3" fill="#ffffff" stroke="#234b68"/>
+<text x="174" y="264" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin13">13</text>
+<rect x="192" y="242" width="28" height="32" rx="3" fill="#c6dff9" stroke="#234b68"/>
+<text x="206" y="264" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin14">14</text>
+<rect x="224" y="242" width="28" height="32" rx="3" fill="#ffffff" stroke="#234b68"/>
+<text x="238" y="264" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin15">15</text>
+<rect x="256" y="242" width="28" height="32" rx="3" fill="#ffe3ab" stroke="#234b68"/>
+<text x="270" y="264" font-family="Arial" font-size="18" fill="#122333" text-anchor="middle" id="pin16">16</text>
+<text x="16" y="343" font-family="Arial" font-size="18" fill="#122333" >Верх: 1…8 слева направо</text>
+<text x="16" y="373" font-family="Arial" font-size="18" fill="#122333" >Низ: 9…16 слева направо</text>
+<text x="16" y="403" font-family="Arial" font-size="18" fill="#122333" >16 — питание от АКБ</text>
+<text x="16" y="433" font-family="Arial" font-size="18" fill="#122333" >4 — кузовная масса</text>
+<text x="16" y="463" font-family="Arial" font-size="18" fill="#122333" >5 — сигнальная масса</text>
+<text x="16" y="493" font-family="Arial" font-size="18" fill="#122333" >6 — CAN-H, 14 — CAN-L</text>
+<text x="16" y="523" font-family="Arial" font-size="18" fill="#122333" >Для CAN-реализации OBD</text>
+<text x="16" y="553" font-family="Arial" font-size="18" fill="#122333" >Остальные: сверять схему.</text>
+<text x="16" y="583" font-family="Arial" font-size="18" fill="#122333" >Вид с проводов зеркальный.</text>
+<text x="16" y="613" font-family="Arial" font-size="18" fill="#122333" >Не подавать питание</text>
+<text x="16" y="643" font-family="Arial" font-size="18" fill="#122333" >на неизвестный контакт.</text>
+</svg>

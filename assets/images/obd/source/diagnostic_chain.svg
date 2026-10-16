@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="528" viewBox="0 0 320 528">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >Диагностическая цепочка</text>
+<text x="16" y="65" font-family="Arial" font-size="18" fill="#122333" >Назначение каждого звена</text>
+<rect x="12" y="100" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="123" font-family="Arial" font-size="18" fill="#122333" >Система автомобиля</text>
+<text x="22" y="148" font-family="Arial" font-size="19" fill="#122333" >Физический процесс</text>
+<rect x="12" y="170" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="193" font-family="Arial" font-size="18" fill="#122333" >ЭБУ</text>
+<text x="22" y="218" font-family="Arial" font-size="19" fill="#122333" >Наблюдение / расчёт</text>
+<rect x="12" y="240" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="263" font-family="Arial" font-size="18" fill="#122333" >Интерфейс / протокол</text>
+<text x="22" y="288" font-family="Arial" font-size="19" fill="#122333" >Доступные запросы</text>
+<rect x="12" y="310" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="333" font-family="Arial" font-size="18" fill="#122333" >Сканер / программа</text>
+<text x="22" y="358" font-family="Arial" font-size="19" fill="#122333" >Представление данных</text>
+<rect x="12" y="380" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="403" font-family="Arial" font-size="18" fill="#122333" >Специалист</text>
+<text x="22" y="428" font-family="Arial" font-size="19" fill="#122333" >Гипотезы и проверки</text>
+<text x="16" y="462" font-family="Arial" font-size="18" fill="#122333" >Код не называет деталь.</text>
+<text x="16" y="489" font-family="Arial" font-size="18" fill="#122333" >OBD ≠ все блоки авто.</text>
+</svg>
