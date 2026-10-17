@@ -1,0 +1,82 @@
+[
+  {
+    "id": "starting_charging_01",
+    "order": 1,
+    "title": "Устройство и характеристики АКБ",
+    "description": "Различать SOC, SOH, ёмкость и пусковую способность",
+    "estimatedMinutes": 20,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "starting_charging_02",
+    "order": 2,
+    "title": "Диагностика состояния аккумулятора",
+    "description": "Оценивать нагрузочные данные с учётом температуры и подготовки",
+    "estimatedMinutes": 25,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "starting_charging_03",
+    "order": 3,
+    "title": "Электрическая схема системы запуска",
+    "description": "Отделять силовой путь, команду и разрешение запуска",
+    "estimatedMinutes": 25,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "starting_charging_04",
+    "order": 4,
+    "title": "Диагностика стартера и его цепей",
+    "description": "Локализовать потери под нагрузкой и учитывать механические альтернативы",
+    "estimatedMinutes": 30,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "starting_charging_05",
+    "order": 5,
+    "title": "Устройство генератора",
+    "description": "Понимать генерацию, выпрямление и регулирование",
+    "estimatedMinutes": 20,
+    "file": "lesson_05.json"
+  },
+  {
+    "id": "starting_charging_06",
+    "order": 6,
+    "title": "Диагностика системы зарядки",
+    "description": "Сопоставлять команду, выход, потери и ток АКБ",
+    "estimatedMinutes": 30,
+    "file": "lesson_06.json"
+  },
+  {
+    "id": "starting_charging_07",
+    "order": 7,
+    "title": "Паразитное потребление тока",
+    "description": "Различать засыпание, устойчивую нагрузку и пробуждения",
+    "estimatedMinutes": 25,
+    "file": "lesson_07.json"
+  },
+  {
+    "id": "starting_charging_08",
+    "order": 8,
+    "title": "Методы поиска паразитного потребления",
+    "description": "Выбирать безопасный метод и интерпретировать ветви без нарушения sleep",
+    "estimatedMinutes": 30,
+    "file": "lesson_08.json"
+  },
+  {
+    "id": "starting_charging_09",
+    "order": 9,
+    "title": "Комплексные диагностические кейсы",
+    "description": "Обосновывать выводы и выбирать дополнительные проверки в пяти сценариях",
+    "estimatedMinutes": 40,
+    "file": "lesson_09.json"
+  },
+  {
+    "id": "starting_charging_10",
+    "order": 10,
+    "title": "Итоговый практикум",
+    "description": "Интерпретировать измерения и выбирать безопасный следующий шаг",
+    "estimatedMinutes": 35,
+    "file": "lesson_10.json"
+  }
+]

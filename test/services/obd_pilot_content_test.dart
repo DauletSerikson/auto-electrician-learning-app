@@ -24,15 +24,15 @@ void main() {
     'four preserved pilots are indexed exactly once in the full module',
     () async {
       final course = CourseService();
-      expect(await course.loadModules(), hasLength(8));
+      expect(await course.loadModules(), hasLength(9));
       final old = await course.loadAllLessons();
-      expect(old, hasLength(72));
+      expect(old, hasLength(82));
       final ids = old.map((e) => e.lesson.id).toSet();
       for (final order in [4, 6, 7, 9]) {
         final id = (await loadObdPilot(order)).id;
         expect(old.where((e) => e.lesson.id == id), hasLength(1));
       }
-      expect(ids, hasLength(72));
+      expect(ids, hasLength(82));
       final files = Directory('assets/course/stage_7')
           .listSync()
           .map((e) => e.path.split(Platform.pathSeparator).last)

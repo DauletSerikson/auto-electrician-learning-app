@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="609" viewBox="0 0 320 609">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >S3 • падения при START</text>
+<text x="16" y="65" font-family="Arial" font-size="18" fill="#122333" >Сначала красный щуп,</text>
+<text x="16" y="92" font-family="Arial" font-size="18" fill="#122333" >после косой черты — чёрный.</text>
+<text x="16" y="119" font-family="Arial" font-size="18" fill="#122333" >Один кадр • +20 °C • 200 A</text>
+<rect x="12" y="154" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="177" font-family="Arial" font-size="18" fill="#122333" >P / A • плюсовой путь</text>
+<text x="22" y="202" font-family="Arial" font-size="19" fill="#122333" >S1 и G: +0,40 V</text>
+<rect x="12" y="224" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="247" font-family="Arial" font-size="18" fill="#122333" >A / M • контакты K</text>
+<text x="22" y="272" font-family="Arial" font-size="19" fill="#122333" >S1 и G: +0,20 V</text>
+<rect x="12" y="294" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="317" font-family="Arial" font-size="18" fill="#122333" >G / N • возврат</text>
+<text x="22" y="342" font-family="Arial" font-size="19" fill="#122333" >S1: +0,20 V; G: +1,20 V</text>
+<rect x="12" y="364" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="387" font-family="Arial" font-size="18" fill="#122333" >M / G • мотор</text>
+<text x="22" y="412" font-family="Arial" font-size="19" fill="#122333" >S1: 10,60 V; G: 9,60 V</text>
+<rect x="12" y="434" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="457" font-family="Arial" font-size="18" fill="#122333" >G / N • без START</text>
+<text x="22" y="482" font-family="Arial" font-size="19" fill="#122333" >0 V не доказывает массу</text>
+<text x="16" y="516" font-family="Arial" font-size="18" fill="#122333" >U(M,G)=V(M)−V(G)</text>
+<text x="16" y="543" font-family="Arial" font-size="18" fill="#122333" >Все потенциалы к N.</text>
+<text x="16" y="570" font-family="Arial" font-size="18" fill="#122333" >Ток после ремонта изменится.</text>
+</svg>

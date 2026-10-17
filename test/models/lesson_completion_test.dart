@@ -124,7 +124,7 @@ void main() {
     expect(() => Lesson.fromJson(json), throwsA(isA<FormatException>()));
   });
 
-  test('all 72 current assets keep their completion policies', () async {
+  test('all 82 current assets keep their completion policies', () async {
     final course = CourseService();
     var ordinary = 0;
     var quizzes = 0;
@@ -141,7 +141,7 @@ void main() {
         expect(content.completion.passingScore, isNull);
       }
     }
-    expect(ordinary, 64);
-    expect(quizzes, 8);
+    expect(ordinary, 73);
+    expect(quizzes, 9);
   });
 }

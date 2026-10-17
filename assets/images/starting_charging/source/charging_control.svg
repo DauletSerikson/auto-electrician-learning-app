@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="612" viewBox="0 0 320 612">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >A3 • управление зарядкой</text>
+<text x="16" y="64" font-family="Arial" font-size="18" fill="#122333" >Пунктир: данные / команда</text>
+<rect x="20" y="100" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="124" font-family="Arial" font-size="19" fill="#122333" >IBS • датчик батареи</text>
+<text x="30" y="148" font-family="Arial" font-size="18" fill="#122333" >Ток, температура, U</text>
+<line x1="160" y1="160" x2="160" y2="190" stroke="#234b68" stroke-width="2" stroke-dasharray="5 5" />
+<text x="174" y="182" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="190" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="214" font-family="Arial" font-size="19" fill="#122333" >ECU • стратегия</text>
+<text x="30" y="238" font-family="Arial" font-size="18" fill="#122333" >SOC / нагрузка / режим</text>
+<line x1="160" y1="250" x2="160" y2="280" stroke="#234b68" stroke-width="2" stroke-dasharray="5 5" />
+<text x="174" y="272" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="280" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="304" font-family="Arial" font-size="19" fill="#122333" >Запрос регулятору</text>
+<text x="30" y="328" font-family="Arial" font-size="18" fill="#122333" >Связь зависит от модели</text>
+<line x1="160" y1="340" x2="160" y2="370" stroke="#234b68" stroke-width="2" stroke-dasharray="5 5" />
+<text x="174" y="362" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="370" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="394" font-family="Arial" font-size="19" fill="#122333" >Регулятор</text>
+<text x="30" y="418" font-family="Arial" font-size="18" fill="#122333" >Меняет возбуждение ротора</text>
+<text x="16" y="460" font-family="Arial" font-size="18" fill="#122333" >Силовой путь — схема A2.</text>
+<text x="16" y="488" font-family="Arial" font-size="18" fill="#122333" >Локальный вариант:</text>
+<text x="16" y="516" font-family="Arial" font-size="18" fill="#122333" >уставку задаёт регулятор.</text>
+<text x="16" y="544" font-family="Arial" font-size="18" fill="#122333" >IBS нельзя обходить.</text>
+<text x="16" y="572" font-family="Arial" font-size="18" fill="#122333" >14,4 V не обязательны всегда.</text>
+</svg>

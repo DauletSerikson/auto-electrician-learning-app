@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="562" viewBox="0 0 320 562">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >B • ответ на импульс</text>
+<text x="16" y="64" font-family="Arial" font-size="18" fill="#122333" >U полюсов, V • +20 °C</text>
+<line x1="50" y1="100" x2="50" y2="310" stroke="#234b68" stroke-width="2" />
+<line x1="50" y1="310" x2="290" y2="310" stroke="#234b68" stroke-width="2" />
+<text x="12" y="315" font-family="Arial" font-size="18" fill="#122333" >0</text>
+<line x1="50" y1="310" x2="290" y2="310" stroke="#234b68" stroke-width="2" stroke-dasharray="3 4"/>
+<text x="12" y="210" font-family="Arial" font-size="18" fill="#122333" >7</text>
+<line x1="50" y1="205" x2="290" y2="205" stroke="#234b68" stroke-width="2" stroke-dasharray="3 4"/>
+<text x="12" y="105" font-family="Arial" font-size="18" fill="#122333" >14</text>
+<line x1="50" y1="100" x2="290" y2="100" stroke="#234b68" stroke-width="2" stroke-dasharray="3 4"/>
+<polyline id="battery6" points="50,121.0 130,121.0 130,130.0 210,130.0 210,121.0 290,121.0" fill="none" stroke="#155b8a" stroke-width="3" stroke-dasharray=""/>
+<polyline id="battery12" points="50,121.0 130,121.0 130,139.0 210,139.0 210,121.0 290,121.0" fill="none" stroke="#155b8a" stroke-width="3" stroke-dasharray="7 4"/>
+<text x="44" y="342" font-family="Arial" font-size="18" fill="#122333" >0</text>
+<text x="124" y="342" font-family="Arial" font-size="18" fill="#122333" >1</text>
+<text x="204" y="342" font-family="Arial" font-size="18" fill="#122333" >2</text>
+<text x="284" y="342" font-family="Arial" font-size="18" fill="#122333" >3</text>
+<text x="118" y="372" font-family="Arial" font-size="18" fill="#122333" >t, s</text>
+<text x="16" y="412" font-family="Arial" font-size="18" fill="#122333" >100 A только на [1,2) s</text>
+<text x="16" y="444" font-family="Arial" font-size="18" fill="#122333" >Сплошная: 6 mΩ → 12,00 V</text>
+<text x="16" y="476" font-family="Arial" font-size="18" fill="#122333" >Пунктир: 12 mΩ → 11,40 V</text>
+<text x="16" y="508" font-family="Arial" font-size="18" fill="#122333" >Линейная учебная модель</text>
+<text x="16" y="540" font-family="Arial" font-size="18" fill="#122333" >Не инструкция нагрузки.</text>
+</svg>

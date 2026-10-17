@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="626" viewBox="0 0 320 626">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >P • параллельные ветви</text>
+<text x="16" y="64" font-family="Arial" font-size="18" fill="#122333" >Sleep • +20 °C • условно</text>
+<text x="24" y="106" font-family="Arial" font-size="18" fill="#122333" >P • АКБ+</text>
+<line x1="40" y1="120" x2="280" y2="120" stroke="#234b68" stroke-width="2" />
+<line x1="70" y1="120" x2="70" y2="174" stroke="#234b68" stroke-width="2" />
+<line x1="250" y1="120" x2="250" y2="174" stroke="#234b68" stroke-width="2" />
+<rect x="10" y="174" width="130" height="64" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="201" font-family="Arial" font-size="18" fill="#122333" >Fq</text>
+<text x="22" y="226" font-family="Arial" font-size="18" fill="#122333" >Штатная</text>
+<rect x="172" y="174" width="138" height="64" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="184" y="201" font-family="Arial" font-size="18" fill="#122333" >Fd</text>
+<text x="184" y="226" font-family="Arial" font-size="18" fill="#122333" >Доп. свет</text>
+<line x1="70" y1="238" x2="70" y2="285" stroke="#234b68" stroke-width="2" />
+<line x1="250" y1="238" x2="250" y2="285" stroke="#234b68" stroke-width="2" />
+<rect x="10" y="285" width="130" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="20" y="311" font-family="Arial" font-size="18" fill="#122333" >Нагрузки</text>
+<text x="20" y="336" font-family="Arial" font-size="18" fill="#122333" >0,03 A</text>
+<rect x="172" y="285" width="138" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="182" y="311" font-family="Arial" font-size="18" fill="#122333" >Светильник</text>
+<text x="182" y="336" font-family="Arial" font-size="18" fill="#122333" >0,80 A</text>
+<line x1="70" y1="345" x2="70" y2="390" stroke="#234b68" stroke-width="2" />
+<line x1="250" y1="345" x2="250" y2="390" stroke="#234b68" stroke-width="2" />
+<line x1="40" y1="390" x2="280" y2="390" stroke="#234b68" stroke-width="2" />
+<text x="24" y="430" font-family="Arial" font-size="18" fill="#122333" >N • АКБ−</text>
+<text x="16" y="474" font-family="Arial" font-size="18" fill="#122333" >Общий ток: 0,83 A</text>
+<text x="16" y="506" font-family="Arial" font-size="18" fill="#122333" >Площадки Fd: U=8,0 mV</text>
+<text x="16" y="538" font-family="Arial" font-size="18" fill="#122333" >Таблица Fd: только задача</text>
+<text x="16" y="570" font-family="Arial" font-size="18" fill="#122333" >После изоляции и sleep:</text>
+<text x="16" y="602" font-family="Arial" font-size="18" fill="#122333" >всего 0,03 A</text>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="600" viewBox="0 0 320 600">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >T2 • повторный wake-up</text>
+<text x="16" y="64" font-family="Arial" font-size="18" fill="#122333" >Общий ток, A • +20 °C</text>
+<line x1="50" y1="100" x2="50" y2="340" stroke="#234b68" stroke-width="2" />
+<line x1="50" y1="340" x2="290" y2="340" stroke="#234b68" stroke-width="2" />
+<text x="4" y="345" font-family="Arial" font-size="18" fill="#122333" >0</text>
+<line x1="50" y1="340" x2="290" y2="340" stroke="#234b68" stroke-width="2" stroke-dasharray="3 4"/>
+<text x="4" y="240.0" font-family="Arial" font-size="18" fill="#122333" >0,75</text>
+<line x1="50" y1="235.0" x2="290" y2="235.0" stroke="#234b68" stroke-width="2" stroke-dasharray="3 4"/>
+<text x="4" y="135.0" font-family="Arial" font-size="18" fill="#122333" >1,5</text>
+<line x1="50" y1="130.0" x2="290" y2="130.0" stroke="#234b68" stroke-width="2" stroke-dasharray="3 4"/>
+<polyline id="T2" points="50,335.8 50,130.0 54,130.0 54,335.8 90,335.8 90,130.0 94,130.0 94,335.8 130,335.8 130,130.0 134,130.0 134,335.8 170,335.8 170,130.0 174,130.0 174,335.8 210,335.8 210,130.0 214,130.0 214,335.8 250,335.8 250,130.0 254,130.0 254,335.8 290,335.8" fill="none" stroke="#155b8a" stroke-width="2"/>
+<text x="40" y="374" font-family="Arial" font-size="18" fill="#122333" >40</text>
+<text x="120" y="374" font-family="Arial" font-size="18" fill="#122333" >60</text>
+<text x="200" y="374" font-family="Arial" font-size="18" fill="#122333" >80</text>
+<text x="280" y="374" font-family="Arial" font-size="18" fill="#122333" >100</text>
+<text x="116" y="408" font-family="Arial" font-size="18" fill="#122333" >t, min</text>
+<text x="16" y="450" font-family="Arial" font-size="18" fill="#122333" >6 × 60 s по 1,50 A</text>
+<text x="16" y="482" font-family="Arial" font-size="18" fill="#122333" >54 min по 0,03 A</text>
+<text x="16" y="514" font-family="Arial" font-size="18" fill="#122333" >Средний ток: 0,177 A</text>
+<text x="16" y="546" font-family="Arial" font-size="18" fill="#122333" >База уже внутри 1,50 A.</text>
+<text x="16" y="578" font-family="Arial" font-size="18" fill="#122333" >Штатность: проверить OEM.</text>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="796" viewBox="0 0 320 796">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >A2 • зарядный контур</text>
+<text x="16" y="64" font-family="Arial" font-size="18" fill="#122333" >Условная схема C</text>
+<rect x="16" y="100" width="288" height="62" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="28" y="126" font-family="Arial" font-size="18" fill="#122333" >H • генератор B+</text>
+<text x="28" y="151" font-family="Arial" font-size="18" fill="#122333" >U(H,G) — выход</text>
+<line x1="160" y1="162" x2="160" y2="212" stroke="#234b68" stroke-width="2" />
+<text x="175" y="193" font-family="Arial" font-size="18" fill="#122333" >Iген ↓</text>
+<rect x="16" y="212" width="288" height="58" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="28" y="237" font-family="Arial" font-size="18" fill="#122333" >Rc+ • H → P</text>
+<text x="28" y="261" font-family="Arial" font-size="18" fill="#122333" >Потеря U(H,P)&gt;0</text>
+<line x1="160" y1="270" x2="160" y2="310" stroke="#234b68" stroke-width="2" />
+<circle cx="160" cy="310" r="4" fill="#155b8a" />
+<text x="176" y="317" font-family="Arial" font-size="18" fill="#122333" >P</text>
+<line x1="160" y1="310" x2="70" y2="310" stroke="#234b68" stroke-width="2" />
+<line x1="70" y1="310" x2="70" y2="350" stroke="#234b68" stroke-width="2" />
+<line x1="160" y1="310" x2="250" y2="310" stroke="#234b68" stroke-width="2" />
+<line x1="250" y1="310" x2="250" y2="350" stroke="#234b68" stroke-width="2" />
+<rect x="10" y="350" width="130" height="72" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="20" y="378" font-family="Arial" font-size="20" fill="#122333" >АКБ</text>
+<text x="20" y="404" font-family="Arial" font-size="18" fill="#122333" >+I: заряд ↓</text>
+<rect x="170" y="350" width="140" height="72" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="180" y="378" font-family="Arial" font-size="20" fill="#122333" >Нагрузки</text>
+<text x="180" y="404" font-family="Arial" font-size="18" fill="#122333" >Iпотреб ↓</text>
+<line x1="70" y1="422" x2="70" y2="455" stroke="#234b68" stroke-width="2" />
+<line x1="250" y1="422" x2="250" y2="455" stroke="#234b68" stroke-width="2" />
+<line x1="70" y1="455" x2="250" y2="455" stroke="#234b68" stroke-width="2" />
+<circle cx="160" cy="455" r="4" fill="#155b8a" />
+<text x="176" y="482" font-family="Arial" font-size="18" fill="#122333" >N</text>
+<line x1="160" y1="455" x2="160" y2="510" stroke="#234b68" stroke-width="2" />
+<rect x="16" y="510" width="288" height="62" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="28" y="536" font-family="Arial" font-size="18" fill="#122333" >Rc− • N → G</text>
+<text x="28" y="561" font-family="Arial" font-size="18" fill="#122333" >Потеря U(N,G)&gt;0</text>
+<line x1="160" y1="572" x2="160" y2="615" stroke="#234b68" stroke-width="2" />
+<rect x="16" y="615" width="288" height="58" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="28" y="643" font-family="Arial" font-size="18" fill="#122333" >G • корпус генератора</text>
+<text x="16" y="708" font-family="Arial" font-size="18" fill="#122333" >G соединён с источником H.</text>
+<text x="16" y="740" font-family="Arial" font-size="18" fill="#122333" >V(G) к N при зарядке &lt; 0.</text>
+<text x="16" y="772" font-family="Arial" font-size="18" fill="#122333" >Iген = Iпотреб + IАКБ</text>
+</svg>

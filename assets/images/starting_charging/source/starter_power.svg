@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="798" viewBox="0 0 320 798">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >S1 • силовая ветвь</text>
+<text x="16" y="64" font-family="Arial" font-size="18" fill="#122333" >Ток мотора: сверху вниз</text>
+<rect x="20" y="100" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="124" font-family="Arial" font-size="19" fill="#122333" >P • полюс АКБ+</text>
+<text x="30" y="148" font-family="Arial" font-size="18" fill="#122333" >Источник E, r внутри АКБ</text>
+<line x1="160" y1="160" x2="160" y2="190" stroke="#234b68" stroke-width="2" />
+<text x="174" y="182" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="190" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="214" font-family="Arial" font-size="19" fill="#122333" >R+ • кабель и контакты</text>
+<text x="30" y="238" font-family="Arial" font-size="18" fill="#122333" >P → A</text>
+<line x1="160" y1="250" x2="160" y2="280" stroke="#234b68" stroke-width="2" />
+<text x="174" y="272" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="280" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="304" font-family="Arial" font-size="19" fill="#122333" >A • вход 30</text>
+<text x="30" y="328" font-family="Arial" font-size="18" fill="#122333" >До контактов тягового реле</text>
+<line x1="160" y1="340" x2="160" y2="370" stroke="#234b68" stroke-width="2" />
+<text x="174" y="362" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="370" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="394" font-family="Arial" font-size="19" fill="#122333" >K • силовые контакты</text>
+<text x="30" y="418" font-family="Arial" font-size="18" fill="#122333" >A → M, только при включении</text>
+<line x1="160" y1="430" x2="160" y2="460" stroke="#234b68" stroke-width="2" />
+<text x="174" y="452" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="460" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="484" font-family="Arial" font-size="19" fill="#122333" >M → мотор → G</text>
+<text x="30" y="508" font-family="Arial" font-size="18" fill="#122333" >G — корпус стартера</text>
+<line x1="160" y1="520" x2="160" y2="550" stroke="#234b68" stroke-width="2" />
+<text x="174" y="542" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="550" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="574" font-family="Arial" font-size="19" fill="#122333" >R− • возврат массы</text>
+<text x="30" y="598" font-family="Arial" font-size="18" fill="#122333" >G → N</text>
+<line x1="160" y1="610" x2="160" y2="640" stroke="#234b68" stroke-width="2" />
+<text x="174" y="632" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="640" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="664" font-family="Arial" font-size="19" fill="#122333" >N • полюс АКБ−</text>
+<text x="30" y="688" font-family="Arial" font-size="18" fill="#122333" >Возврат к источнику</text>
+<text x="16" y="730" font-family="Arial" font-size="18" fill="#122333" >Отдельно: управление 50.</text>
+<text x="16" y="758" font-family="Arial" font-size="18" fill="#122333" >Не замыкать силовые выводы.</text>
+</svg>

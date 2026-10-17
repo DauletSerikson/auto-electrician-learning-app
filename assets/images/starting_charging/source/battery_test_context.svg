@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="555" viewBox="0 0 320 555">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >B2 • контекст проверки</text>
+<text x="16" y="65" font-family="Arial" font-size="18" fill="#122333" >Синтетика • +20 °C</text>
+<rect x="12" y="100" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="123" font-family="Arial" font-size="18" fill="#122333" >Напряжение АКБ</text>
+<text x="22" y="148" font-family="Arial" font-size="19" fill="#122333" >Щупы на полюсах P / N</text>
+<rect x="12" y="170" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="193" font-family="Arial" font-size="18" fill="#122333" >Контакт под током</text>
+<text x="22" y="218" font-family="Arial" font-size="19" fill="#122333" >Полюс / клемма отдельно</text>
+<rect x="12" y="240" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="263" font-family="Arial" font-size="18" fill="#122333" >Одинаковое E покоя</text>
+<text x="22" y="288" font-family="Arial" font-size="19" fill="#122333" >12,60 V у двух моделей</text>
+<rect x="12" y="310" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="333" font-family="Arial" font-size="18" fill="#122333" >Импульс 100 A: r=6 mΩ</text>
+<text x="22" y="358" font-family="Arial" font-size="19" fill="#122333" >U=12,00 V</text>
+<rect x="12" y="380" width="296" height="61" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="22" y="403" font-family="Arial" font-size="18" fill="#122333" >Импульс 100 A: r=12 mΩ</text>
+<text x="22" y="428" font-family="Arial" font-size="19" fill="#122333" >U=11,40 V</text>
+<text x="16" y="462" font-family="Arial" font-size="18" fill="#122333" >Подготовка и температура</text>
+<text x="16" y="489" font-family="Arial" font-size="18" fill="#122333" >нужны до сравнения.</text>
+<text x="16" y="516" font-family="Arial" font-size="18" fill="#122333" >Не норматив CCA / SOH.</text>
+</svg>

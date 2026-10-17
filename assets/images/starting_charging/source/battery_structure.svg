@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="536" viewBox="0 0 320 536">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >B1 • свинцовая АКБ</text>
+<text x="16" y="64" font-family="Arial" font-size="18" fill="#122333" >Условный разрез, не вскрывать</text>
+<text x="16" y="104" font-family="Arial" font-size="18" fill="#122333" >N (−)</text>
+<text x="250" y="104" font-family="Arial" font-size="18" fill="#122333" >P (+)</text>
+<line x1="42" y1="112" x2="42" y2="140" stroke="#234b68" stroke-width="2" />
+<line x1="278" y1="112" x2="278" y2="140" stroke="#234b68" stroke-width="2" />
+<rect x="20" y="140" width="40" height="120" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="33" y="166" font-family="Arial" font-size="18" fill="#122333" >1</text>
+<line x1="32" y1="180" x2="32" y2="235" stroke="#234b68" stroke-width="2" />
+<line x1="45" y1="180" x2="45" y2="235" stroke="#234b68" stroke-width="2" />
+<line x1="60" y1="152" x2="68" y2="152" stroke="#234b68" stroke-width="2" />
+<rect x="68" y="140" width="40" height="120" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="81" y="166" font-family="Arial" font-size="18" fill="#122333" >2</text>
+<line x1="80" y1="180" x2="80" y2="235" stroke="#234b68" stroke-width="2" />
+<line x1="93" y1="180" x2="93" y2="235" stroke="#234b68" stroke-width="2" />
+<line x1="108" y1="152" x2="116" y2="152" stroke="#234b68" stroke-width="2" />
+<rect x="116" y="140" width="40" height="120" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="129" y="166" font-family="Arial" font-size="18" fill="#122333" >3</text>
+<line x1="128" y1="180" x2="128" y2="235" stroke="#234b68" stroke-width="2" />
+<line x1="141" y1="180" x2="141" y2="235" stroke="#234b68" stroke-width="2" />
+<line x1="156" y1="152" x2="164" y2="152" stroke="#234b68" stroke-width="2" />
+<rect x="164" y="140" width="40" height="120" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="177" y="166" font-family="Arial" font-size="18" fill="#122333" >4</text>
+<line x1="176" y1="180" x2="176" y2="235" stroke="#234b68" stroke-width="2" />
+<line x1="189" y1="180" x2="189" y2="235" stroke="#234b68" stroke-width="2" />
+<line x1="204" y1="152" x2="212" y2="152" stroke="#234b68" stroke-width="2" />
+<rect x="212" y="140" width="40" height="120" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="225" y="166" font-family="Arial" font-size="18" fill="#122333" >5</text>
+<line x1="224" y1="180" x2="224" y2="235" stroke="#234b68" stroke-width="2" />
+<line x1="237" y1="180" x2="237" y2="235" stroke="#234b68" stroke-width="2" />
+<line x1="252" y1="152" x2="260" y2="152" stroke="#234b68" stroke-width="2" />
+<rect x="260" y="140" width="40" height="120" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="273" y="166" font-family="Arial" font-size="18" fill="#122333" >6</text>
+<line x1="272" y1="180" x2="272" y2="235" stroke="#234b68" stroke-width="2" />
+<line x1="285" y1="180" x2="285" y2="235" stroke="#234b68" stroke-width="2" />
+<text x="16" y="292" font-family="Arial" font-size="18" fill="#122333" >6 элементов последовательно</text>
+<text x="16" y="324" font-family="Arial" font-size="18" fill="#122333" >Пластины / сепараторы</text>
+<text x="16" y="356" font-family="Arial" font-size="18" fill="#122333" >Электролит участвует в реакции</text>
+<text x="16" y="404" font-family="Arial" font-size="18" fill="#122333" >Flooded / EFB: жидкость</text>
+<text x="16" y="436" font-family="Arial" font-size="18" fill="#122333" >AGM: стекловолоконный мат</text>
+<text x="16" y="480" font-family="Arial" font-size="18" fill="#122333" >12 V — номинал системы</text>
+<text x="16" y="512" font-family="Arial" font-size="18" fill="#122333" >SOC ≠ SOH ≠ Ah ≠ CCA</text>
+</svg>

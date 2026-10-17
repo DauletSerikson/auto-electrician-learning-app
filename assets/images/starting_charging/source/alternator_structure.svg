@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="646" viewBox="0 0 320 646">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="22" fill="#122333" >A1 • генератор</text>
+<text x="16" y="64" font-family="Arial" font-size="18" fill="#122333" >Механическая энергия → ток</text>
+<rect x="20" y="100" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="124" font-family="Arial" font-size="19" fill="#122333" >Ременной привод</text>
+<text x="30" y="148" font-family="Arial" font-size="18" fill="#122333" >Вращает ротор</text>
+<line x1="160" y1="160" x2="160" y2="190" stroke="#234b68" stroke-width="2" />
+<text x="174" y="182" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="190" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="214" font-family="Arial" font-size="19" fill="#122333" >Ротор • магнитное поле</text>
+<text x="30" y="238" font-family="Arial" font-size="18" fill="#122333" >Возбуждение от регулятора</text>
+<line x1="160" y1="250" x2="160" y2="280" stroke="#234b68" stroke-width="2" />
+<text x="174" y="272" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="280" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="304" font-family="Arial" font-size="19" fill="#122333" >Статор • три фазы</text>
+<text x="30" y="328" font-family="Arial" font-size="18" fill="#122333" >Переменное напряжение AC</text>
+<line x1="160" y1="340" x2="160" y2="370" stroke="#234b68" stroke-width="2" />
+<text x="174" y="362" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="370" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="394" font-family="Arial" font-size="19" fill="#122333" >Диодный выпрямитель</text>
+<text x="30" y="418" font-family="Arial" font-size="18" fill="#122333" >AC → DC</text>
+<line x1="160" y1="430" x2="160" y2="460" stroke="#234b68" stroke-width="2" />
+<text x="174" y="452" font-family="Arial" font-size="18" fill="#122333" >↓</text>
+<rect x="20" y="460" width="280" height="60" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="30" y="484" font-family="Arial" font-size="19" fill="#122333" >B+ / корпус</text>
+<text x="30" y="508" font-family="Arial" font-size="18" fill="#122333" >Выход к сети / возврат</text>
+<text x="16" y="550" font-family="Arial" font-size="18" fill="#122333" >Регулятор меняет возбуждение.</text>
+<text x="16" y="578" font-family="Arial" font-size="18" fill="#122333" >Паспортный ток ≠ ток всегда.</text>
+<text x="16" y="606" font-family="Arial" font-size="18" fill="#122333" >Осмотр привода: остановить.</text>
+</svg>
