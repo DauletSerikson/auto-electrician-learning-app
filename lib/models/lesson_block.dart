@@ -1,3 +1,8 @@
+import '../simulation/oscilloscope_simulation.dart';
+import '../simulation/scope_signal.dart';
+
+part 'oscilloscope_lesson_block.dart';
+
 sealed class LessonBlock {
   const LessonBlock();
 
@@ -20,6 +25,7 @@ sealed class LessonBlock {
       'currentMeasurement' => CurrentMeasurementLessonBlock.fromJson(json),
       'diagnosticCase' => DiagnosticCaseLessonBlock.fromJson(json),
       'diagnosticChoice' => DiagnosticChoiceLessonBlock.fromJson(json),
+      'oscilloscope' => OscilloscopeLessonBlock.fromJson(json),
       _ => throw FormatException('Unknown lesson block type: $type'),
     };
   }

@@ -10,6 +10,7 @@ import 'lesson_blocks/measurement_block.dart';
 import 'lesson_blocks/multimeter_block.dart';
 import 'lesson_blocks/question_block.dart';
 import 'lesson_blocks/voltage_drop_block.dart';
+import 'lesson_blocks/oscilloscope_block.dart';
 
 class LessonBlockRenderer extends StatelessWidget {
   final LessonBlock block;
@@ -32,6 +33,12 @@ class LessonBlockRenderer extends StatelessWidget {
       RememberLessonBlock block => _buildRememberBlock(block),
       WarningLessonBlock block => _buildWarningBlock(block),
       ImageLessonBlock block => _buildImageBlock(context, block),
+      OscilloscopeLessonBlock block => OscilloscopeBlock(
+        key: ValueKey('oscilloscope_$blockIndex'),
+        block: block,
+        onAnswered: onAnswered,
+        onRetry: onRetry,
+      ),
       CircuitLessonBlock block => CircuitBlock(
         key: ValueKey('circuit_$blockIndex'),
         block: block,

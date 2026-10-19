@@ -8,6 +8,7 @@ bool isScoredLessonBlock(LessonBlock block) => switch (block) {
   VoltageDropLessonBlock() ||
   CurrentMeasurementLessonBlock() ||
   DiagnosticCaseLessonBlock() ||
+  OscilloscopeLessonBlock() ||
   DiagnosticChoiceLessonBlock() => true,
   _ => false,
 };
