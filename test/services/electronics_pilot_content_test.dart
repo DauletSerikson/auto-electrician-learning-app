@@ -19,8 +19,8 @@ void main() {
     'approved pilot slices are indexed exactly once in the full module',
     () async {
       final course = CourseService();
-      expect(await course.loadModules(), hasLength(10));
-      expect(await course.loadAllLessons(), hasLength(92));
+      expect(await course.loadModules(), hasLength(11));
+      expect(await course.loadAllLessons(), hasLength(102));
       final summaries = await course.loadLessons('stage_6');
       for (final order in [3, 4, 6]) {
         final matches = summaries.where((s) => s.order == order).toList();

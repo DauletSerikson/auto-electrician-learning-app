@@ -140,6 +140,7 @@ void main() {
             block is VoltageDropLessonBlock ||
             block is CurrentMeasurementLessonBlock ||
             block is DiagnosticCaseLessonBlock ||
+            block is OscilloscopeLessonBlock ||
             block is DiagnosticChoiceLessonBlock;
         expect(isScoredLessonBlock(block), expected);
         (expected ? seen : excluded).add(block.runtimeType);
@@ -163,6 +164,7 @@ void main() {
       'stage_7': 15,
       'stage_8': 15,
       'stage_9': 15,
+      'stage_10': 15,
     });
     expect(
       seen,
@@ -177,6 +179,7 @@ void main() {
         CurrentMeasurementLessonBlock,
         DiagnosticCaseLessonBlock,
         DiagnosticChoiceLessonBlock,
+        OscilloscopeLessonBlock,
       ]),
     );
     expect(excluded, containsAll([CircuitLessonBlock, MultimeterLessonBlock]));
