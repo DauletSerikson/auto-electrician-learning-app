@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="566" viewBox="0 0 320 566">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="21" fill="#122333" >W05 • зоны терминала</text>
+<text x="16" y="64" font-family="Arial" font-size="17" fill="#122333" >От контакта к проводу</text>
+<rect x="24" y="130" width="88" height="48" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<rect x="112" y="130" width="75" height="48" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<rect x="187" y="130" width="75" height="48" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<line x1="262" y1="154" x2="304" y2="154" stroke="#234b68" stroke-width="7"/>
+<text x="33" y="160" font-family="Arial" font-size="17" fill="#122333" >Контакт</text>
+<text x="124" y="160" font-family="Arial" font-size="17" fill="#122333" >Жила</text>
+<text x="195" y="160" font-family="Arial" font-size="17" fill="#122333" >Изол.</text>
+<text x="16" y="224" font-family="Arial" font-size="19" fill="#122333" >1. Сопряжение пары</text>
+<text x="16" y="256" font-family="Arial" font-size="19" fill="#122333" >2. Обжим проводника</text>
+<text x="16" y="288" font-family="Arial" font-size="19" fill="#122333" >3. Поддержка изоляции</text>
+<rect x="26" y="338" width="108" height="54" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<polyline points="32,365 60,365 60,356 114,356" fill="none" stroke="#234b68" stroke-width="3"/>
+<line x1="176" y1="362" x2="261" y2="362" stroke="#2a775b" stroke-width="3"/>
+<text x="147" y="414" font-family="Arial" font-size="17" fill="#122333" >Адаптер по допуску</text>
+<text x="16" y="470" font-family="Arial" font-size="18" fill="#122333" >Толстый щуп не вдавливать.</text>
+<text x="16" y="498" font-family="Arial" font-size="18" fill="#122333" >Не разжимать гнездо.</text>
+<text x="16" y="526" font-family="Arial" font-size="18" fill="#122333" >Pin view нужно сверить.</text>
+</svg>

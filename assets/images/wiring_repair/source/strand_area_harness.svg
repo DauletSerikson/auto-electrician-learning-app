@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="573" viewBox="0 0 320 573">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="21" fill="#122333" >W02 • площадь и жгут</text>
+<text x="16" y="64" font-family="Arial" font-size="17" fill="#122333" >A — металл, без изоляции</text>
+<circle cx="82" cy="145" r="48" fill="#c5dff3" stroke="#234b68" />
+<circle cx="82" cy="145" r="10" fill="#bf783f" stroke="#234b68" data-strand="0"/>
+<circle cx="105.0" cy="145.0" r="10" fill="#bf783f" stroke="#234b68" data-strand="1"/>
+<circle cx="93.5" cy="164.92" r="10" fill="#bf783f" stroke="#234b68" data-strand="2"/>
+<circle cx="70.5" cy="164.92" r="10" fill="#bf783f" stroke="#234b68" data-strand="3"/>
+<circle cx="59.0" cy="145.0" r="10" fill="#bf783f" stroke="#234b68" data-strand="4"/>
+<circle cx="70.5" cy="125.08" r="10" fill="#bf783f" stroke="#234b68" data-strand="5"/>
+<circle cx="93.5" cy="125.08" r="10" fill="#bf783f" stroke="#234b68" data-strand="6"/>
+<text x="150" y="140" font-family="Arial" font-size="21" fill="#122333" >A = Σ Aᵢ</text>
+<text x="150" y="170" font-family="Arial" font-size="18" fill="#122333" >Aᵢ = πdᵢ²/4</text>
+<text x="16" y="224" font-family="Arial" font-size="19" fill="#122333" >Наружный диаметр ≠ A</text>
+<rect x="22" y="274" width="276" height="114" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<line x1="30" y1="297" x2="290" y2="297" stroke="#3979a5" stroke-width="8"/>
+<line x1="30" y1="325" x2="290" y2="325" stroke="#3979a5" stroke-width="8"/>
+<line x1="30" y1="353" x2="290" y2="353" stroke="#3979a5" stroke-width="8"/>
+<rect x="145" y="267" width="28" height="129" rx="4" fill="#e3d9b5" stroke="#234b68"/>
+<line x1="159" y1="396" x2="159" y2="430" stroke="#234b68" stroke-width="2"/>
+<text x="24" y="460" font-family="Arial" font-size="18" fill="#122333" >Клипса удерживает маршрут</text>
+<text x="16" y="505" font-family="Arial" font-size="18" fill="#122333" >Оболочка защищает группу.</text>
+<text x="16" y="533" font-family="Arial" font-size="18" fill="#122333" >Жилы — отдельные цепи.</text>
+</svg>

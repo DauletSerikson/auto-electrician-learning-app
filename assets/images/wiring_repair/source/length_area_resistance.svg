@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="581" viewBox="0 0 320 581">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="21" fill="#122333" >W03 • полный путь тока</text>
+<text x="16" y="64" font-family="Arial" font-size="17" fill="#122333" >Медь • +20 °C • A=1,5 mm²</text>
+<polyline points="56,130 264,130 264,350 56,350 56,130" fill="none" stroke="#234b68" stroke-width="3"/>
+<rect x="225" y="204" width="78" height="72" fill="#eaf3fa" stroke="#234b68"/>
+<text x="236" y="233" font-family="Arial" font-size="17" fill="#122333" >Rload</text>
+<text x="236" y="259" font-family="Arial" font-size="16" fill="#122333" >Q → T</text>
+<rect x="22" y="203" width="70" height="74" fill="#fff2cd" stroke="#234b68"/>
+<text x="29" y="232" font-family="Arial" font-size="17" fill="#122333" >12,60</text>
+<text x="46" y="258" font-family="Arial" font-size="17" fill="#122333" >V</text>
+<circle cx="56" cy="130" r="4" fill="#155b8a" id="node-P"/>
+<text x="49" y="117" font-family="Arial" font-size="19" fill="#122333" >P</text>
+<circle cx="264" cy="130" r="4" fill="#155b8a" id="node-Q"/>
+<text x="257" y="117" font-family="Arial" font-size="19" fill="#122333" >Q</text>
+<circle cx="264" cy="350" r="4" fill="#155b8a" id="node-T"/>
+<text x="257" y="337" font-family="Arial" font-size="19" fill="#122333" >T</text>
+<circle cx="56" cy="350" r="4" fill="#155b8a" id="node-N"/>
+<text x="49" y="337" font-family="Arial" font-size="19" fill="#122333" >N</text>
+<text x="101" y="113" font-family="Arial" font-size="18" fill="#122333" >3 m →</text>
+<text x="101" y="387" font-family="Arial" font-size="18" fill="#122333" >← 3 m</text>
+<text x="16" y="429" font-family="Arial" font-size="18" fill="#122333" >Rpath = 0,06896 Ω</text>
+<text x="16" y="457" font-family="Arial" font-size="18" fill="#122333" >I = 5 A • ΔU = 0,3448 V</text>
+<text x="16" y="485" font-family="Arial" font-size="18" fill="#122333" >Pпроводов = 1,724 W</text>
+<text x="16" y="513" font-family="Arial" font-size="18" fill="#122333" >Нагрузка: 2,45104 Ω</text>
+<text x="16" y="541" font-family="Arial" font-size="18" fill="#122333" >Возврат задан проводом.</text>
+</svg>

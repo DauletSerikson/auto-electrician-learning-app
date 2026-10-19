@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="716" viewBox="0 0 320 716">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="21" fill="#122333" >C2 • прерывание A–B</text>
+<text x="16" y="64" font-family="Arial" font-size="17" fill="#122333" >5 V reference • запись ON</text>
+<polyline points="42,130 276,130 276,305 42,305 42,130" fill="none" stroke="#234b68" stroke-width="3"/>
+<rect x="18" y="197" width="48" height="45" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="24" y="225" font-family="Arial" font-size="17" fill="#122333" >5 V</text>
+<rect x="232" y="192" width="70" height="54" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="237" y="223" font-family="Arial" font-size="17" fill="#122333" >249 Ω</text>
+<rect x="113" y="110" width="88" height="40" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="122" y="136" font-family="Arial" font-size="19" fill="#122333" >A–B</text>
+<circle cx="42" cy="130" r="4" fill="#155b8a" id="node-P"/>
+<text x="34" y="116" font-family="Arial" font-size="19" fill="#122333" >P</text>
+<circle cx="276" cy="130" r="4" fill="#155b8a" id="node-Q"/>
+<text x="268" y="116" font-family="Arial" font-size="19" fill="#122333" >Q</text>
+<circle cx="276" cy="305" r="4" fill="#155b8a" id="node-G"/>
+<text x="268" y="291" font-family="Arial" font-size="19" fill="#122333" >G</text>
+<circle cx="42" cy="305" r="4" fill="#155b8a" id="node-N"/>
+<text x="34" y="291" font-family="Arial" font-size="19" fill="#122333" >N</text>
+<text x="65" y="174" font-family="Arial" font-size="17" fill="#122333" >R(A,B)=1 Ω / обрыв</text>
+<text x="57" y="278" font-family="Arial" font-size="18" fill="#122333" >N / G = 0 V</text>
+<text x="16" y="356" font-family="Arial" font-size="19" fill="#122333" >P=5 V в обеих фазах</text>
+<text x="16" y="389" font-family="Arial" font-size="19" fill="#122333" >Q=4,98 V / 0 V</text>
+<text x="16" y="422" font-family="Arial" font-size="19" fill="#122333" >I=20 mA / 0 A</text>
+<line x1="20" y1="450" x2="300" y2="450" stroke="#234b68" stroke-width="2"/>
+<text x="16" y="484" font-family="Arial" font-size="19" fill="#122333" >Отдельный тест Ω:</text>
+<polyline points="46,542 116,542 147,526" fill="none" stroke="#234b68" stroke-width="3"/>
+<polyline points="175,542 269,542" fill="none" stroke="#234b68" stroke-width="3"/>
+<circle cx="46" cy="542" r="4" fill="#155b8a" id="isolated-A"/>
+<circle cx="269" cy="542" r="4" fill="#155b8a" id="isolated-B"/>
+<text x="30" y="573" font-family="Arial" font-size="19" fill="#122333" >A</text>
+<text x="259" y="573" font-family="Arial" font-size="19" fill="#122333" >B</text>
+<text x="16" y="620" font-family="Arial" font-size="18" fill="#122333" >Питание снято и проверено.</text>
+<text x="16" y="648" font-family="Arial" font-size="18" fill="#122333" >Оба конца изолированы.</text>
+<text x="16" y="676" font-family="Arial" font-size="18" fill="#122333" >1 Ω / OL • S не задан.</text>
+</svg>

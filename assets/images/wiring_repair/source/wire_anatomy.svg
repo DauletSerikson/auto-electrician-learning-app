@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="606" viewBox="0 0 320 606">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="21" fill="#122333" >W01 • устройство провода</text>
+<text x="16" y="64" font-family="Arial" font-size="17" fill="#122333" >Схематично • не в масштабе</text>
+<rect x="28" y="110" width="264" height="70" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<rect x="28" y="122" width="175" height="46" fill="#c5dff3" stroke="#234b68"/>
+<line x1="44" y1="130" x2="275" y2="130" stroke="#a65d22" stroke-width="4"/>
+<line x1="44" y1="141" x2="275" y2="141" stroke="#a65d22" stroke-width="4"/>
+<line x1="44" y1="152" x2="275" y2="152" stroke="#a65d22" stroke-width="4"/>
+<line x1="44" y1="163" x2="275" y2="163" stroke="#a65d22" stroke-width="4"/>
+<line x1="128" y1="180" x2="128" y2="216" stroke="#234b68" stroke-width="2"/>
+<text x="30" y="244" font-family="Arial" font-size="19" fill="#122333" >Изоляция разделяет цепи</text>
+<line x1="252" y1="169" x2="252" y2="270" stroke="#234b68" stroke-width="2"/>
+<text x="30" y="300" font-family="Arial" font-size="19" fill="#122333" >Жила передаёт ток</text>
+<circle cx="160" cy="410" r="64" fill="#c5dff3" stroke="#234b68" />
+<circle cx="160" cy="410" r="14" fill="#bf783f" stroke="#234b68" data-strand="0"/>
+<circle cx="190.0" cy="410.0" r="14" fill="#bf783f" stroke="#234b68" data-strand="1"/>
+<circle cx="175.0" cy="435.98" r="14" fill="#bf783f" stroke="#234b68" data-strand="2"/>
+<circle cx="145.0" cy="435.98" r="14" fill="#bf783f" stroke="#234b68" data-strand="3"/>
+<circle cx="130.0" cy="410.0" r="14" fill="#bf783f" stroke="#234b68" data-strand="4"/>
+<circle cx="145.0" cy="384.02" r="14" fill="#bf783f" stroke="#234b68" data-strand="5"/>
+<circle cx="175.0" cy="384.02" r="14" fill="#bf783f" stroke="#234b68" data-strand="6"/>
+<text x="16" y="510" font-family="Arial" font-size="18" fill="#122333" >Отдельные проволоки жилы</text>
+<text x="16" y="538" font-family="Arial" font-size="18" fill="#122333" >не являются изоляцией.</text>
+<text x="16" y="566" font-family="Arial" font-size="18" fill="#122333" >Медь — выбранный материал.</text>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="558" viewBox="0 0 320 558">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="21" fill="#122333" >W09 • разные повреждения</text>
+<text x="16" y="64" font-family="Arial" font-size="17" fill="#122333" >Сначала гипотеза, потом тест</text>
+<line x1="25" y1="126" x2="120" y2="126" stroke="#234b68" stroke-width="6"/>
+<line x1="153" y1="126" x2="296" y2="126" stroke="#234b68" stroke-width="6"/>
+<text x="16" y="167" font-family="Arial" font-size="18" fill="#122333" >Обрыв: нет полного пути</text>
+<line x1="25" y1="226" x2="296" y2="226" stroke="#234b68" stroke-width="7"/>
+<polyline points="128,226 128,268 250,268" fill="none" stroke="#234b68" stroke-width="3"/>
+<text x="16" y="306" font-family="Arial" font-size="18" fill="#122333" >Перетирание: риск касания</text>
+<rect x="65" y="355" width="194" height="48" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<circle cx="110" cy="375" r="8" fill="#6d9d68" stroke="#234b68" />
+<circle cx="150" cy="387" r="8" fill="#6d9d68" stroke="#234b68" />
+<circle cx="202" cy="369" r="8" fill="#6d9d68" stroke="#234b68" />
+<text x="16" y="442" font-family="Arial" font-size="18" fill="#122333" >Коррозия: осмотр + данные</text>
+<text x="16" y="490" font-family="Arial" font-size="18" fill="#122333" >Цвет не задаёт R.</text>
+<text x="16" y="518" font-family="Arial" font-size="18" fill="#122333" >Срабатывание F ≠ место КЗ.</text>
+</svg>

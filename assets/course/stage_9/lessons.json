@@ -1,0 +1,82 @@
+[
+  {
+    "id": "wiring_repair_01",
+    "order": 1,
+    "title": "Автомобильные провода и жгуты",
+    "description": "Различать проводник, изоляцию и защиту жгута, выбирать условия применения",
+    "estimatedMinutes": 18,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "wiring_repair_02",
+    "order": 2,
+    "title": "Сечение, сопротивление и токовая нагрузка",
+    "description": "Рассчитать R, падение и потери, назвать ограничения выбора провода",
+    "estimatedMinutes": 28,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "wiring_repair_03",
+    "order": 3,
+    "title": "Разъёмы, клеммы и контакты",
+    "description": "Различать элементы разъёма и выбирать безопасный доступ к терминалу",
+    "estimatedMinutes": 22,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "wiring_repair_04",
+    "order": 4,
+    "title": "Обжим, пайка и способы соединения",
+    "description": "Выбирать совместимый комплект и критерии качества соединения",
+    "estimatedMinutes": 25,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "wiring_repair_05",
+    "order": 5,
+    "title": "Изоляция, герметизация и защита",
+    "description": "Разделять электрическую изоляцию, влагозащиту и механическую оболочку",
+    "estimatedMinutes": 20,
+    "file": "lesson_05.json"
+  },
+  {
+    "id": "wiring_repair_06",
+    "order": 6,
+    "title": "Типичные повреждения проводки",
+    "description": "Сопоставлять симптомы с различающими проверками и оценивать локальные потери",
+    "estimatedMinutes": 22,
+    "file": "lesson_06.json"
+  },
+  {
+    "id": "wiring_repair_07",
+    "order": 7,
+    "title": "Поиск повреждённого участка жгута",
+    "description": "Выбирать точки, нагрузочные проверки и безопасную изоляцию для Ω",
+    "estimatedMinutes": 28,
+    "file": "lesson_07.json"
+  },
+  {
+    "id": "wiring_repair_08",
+    "order": 8,
+    "title": "Восстановление электрической цепи",
+    "description": "Выбирать полный план ремонта и проверять устранение первопричины",
+    "estimatedMinutes": 25,
+    "file": "lesson_08.json"
+  },
+  {
+    "id": "wiring_repair_09",
+    "order": 9,
+    "title": "Комплексные диагностические и ремонтные кейсы",
+    "description": "От измеренной потери перейти к обоснованному ремонту и контрольной проверке",
+    "estimatedMinutes": 35,
+    "file": "lesson_09.json"
+  },
+  {
+    "id": "wiring_repair_10",
+    "order": 10,
+    "title": "Итоговый практикум",
+    "description": "Применить решения по проводке и ремонту в 15 заданиях, порог 80%",
+    "estimatedMinutes": 30,
+    "file": "lesson_10.json"
+  }
+]

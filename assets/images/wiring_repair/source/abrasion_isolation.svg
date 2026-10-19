@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="709" viewBox="0 0 320 709">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="21" fill="#122333" >C4 • повреждение изоляции</text>
+<text x="16" y="64" font-family="Arial" font-size="17" fill="#122333" >Две отдельные схемы</text>
+<text x="16" y="108" font-family="Arial" font-size="18" fill="#122333" >F открыт • рабочий I=0 A</text>
+<polyline points="44,146 118,146 137,132" fill="none" stroke="#234b68" stroke-width="3"/>
+<polyline points="160,146 276,146 276,290 44,290 44,146" fill="none" stroke="#234b68" stroke-width="3"/>
+<rect x="239" y="206" width="61" height="46" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="245" y="235" font-family="Arial" font-size="18" fill="#122333" >3 Ω</text>
+<rect x="19" y="217" width="50" height="40" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="23" y="243" font-family="Arial" font-size="16" fill="#122333" >12 V</text>
+<circle cx="44" cy="146" r="4" fill="#155b8a" id="node-P"/>
+<text x="27" y="132" font-family="Arial" font-size="18" fill="#122333" >P</text>
+<circle cx="190" cy="146" r="4" fill="#155b8a" id="node-A"/>
+<text x="184" y="132" font-family="Arial" font-size="18" fill="#122333" >A</text>
+<circle cx="276" cy="179" r="4" fill="#155b8a" id="node-C"/>
+<text x="281" y="177" font-family="Arial" font-size="18" fill="#122333" >C</text>
+<text x="67" y="277" font-family="Arial" font-size="17" fill="#122333" >N • 0 V</text>
+<text x="61" y="183" font-family="Arial" font-size="17" fill="#122333" >P=12 V</text>
+<text x="61" y="214" font-family="Arial" font-size="17" fill="#122333" >A/C=0 V</text>
+<line x1="18" y1="322" x2="302" y2="322" stroke="#234b68" stroke-width="2"/>
+<text x="16" y="358" font-family="Arial" font-size="18" fill="#122333" >Изолированная ветвь A–C</text>
+<line x1="44" y1="405" x2="270" y2="405" stroke="#234b68" stroke-width="2"/>
+<line x1="44" y1="485" x2="270" y2="485" stroke="#234b68" stroke-width="2"/>
+<line x1="170" y1="405" x2="170" y2="485" stroke="#234b68" stroke-width="2" stroke-dasharray="5 5"/>
+<circle cx="44" cy="405" r="4" fill="#155b8a" id="isolated-A"/>
+<circle cx="270" cy="405" r="4" fill="#155b8a" id="isolated-C"/>
+<text x="29" y="390" font-family="Arial" font-size="18" fill="#122333" >A</text>
+<text x="262" y="390" font-family="Arial" font-size="18" fill="#122333" >C</text>
+<text x="27" y="516" font-family="Arial" font-size="18" fill="#122333" >N / кромка</text>
+<text x="16" y="557" font-family="Arial" font-size="18" fill="#122333" >Питание снято и проверено.</text>
+<text x="16" y="585" font-family="Arial" font-size="18" fill="#122333" >F, нагрузка, модули сняты.</text>
+<text x="16" y="613" font-family="Arial" font-size="18" fill="#122333" >C/N: 0,4 Ω при касании;</text>
+<text x="16" y="641" font-family="Arial" font-size="18" fill="#122333" >OL вне касания (&gt;20 MΩ).</text>
+<text x="16" y="669" font-family="Arial" font-size="18" fill="#122333" >Ток / время КЗ не заданы.</text>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="580" viewBox="0 0 320 580">
+<rect width="320" height="100%" fill="#ffffff"/>
+<text x="16" y="32" font-family="Arial" font-size="21" fill="#122333" >W04 • разъём</text>
+<text x="16" y="64" font-family="Arial" font-size="17" fill="#122333" >Условный продольный разрез</text>
+<rect x="38" y="110" width="246" height="155" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<rect x="91" y="155" width="160" height="47" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<line x1="251" y1="178" x2="305" y2="178" stroke="#a65d22" stroke-width="6"/>
+<rect x="263" y="147" width="17" height="62" rx="5" fill="#a8d9c5" stroke="#234b68"/>
+<polyline points="110,155 125,138 153,138 153,155" fill="none" stroke="#234b68" stroke-width="3"/>
+<rect x="164" y="116" width="21" height="45" rx="6" fill="#eaf3fa" stroke="#234b68"/>
+<text x="16" y="310" font-family="Arial" font-size="18" fill="#122333" >Корпус: ключ и cavities</text>
+<text x="16" y="341" font-family="Arial" font-size="18" fill="#122333" >Terminal: контактная пара</text>
+<text x="16" y="372" font-family="Arial" font-size="18" fill="#122333" >Первичный фиксатор</text>
+<text x="16" y="403" font-family="Arial" font-size="18" fill="#122333" >Вторичная фиксация</text>
+<text x="16" y="434" font-family="Arial" font-size="18" fill="#122333" >Seal: путь влаги</text>
+<polyline points="48,245 10,245 10,302" fill="none" stroke="#234b68" stroke-width="3"/>
+<polyline points="112,178 10,178 10,333" fill="none" stroke="#234b68" stroke-width="3"/>
+<polyline points="128,139 10,139 10,364" fill="none" stroke="#234b68" stroke-width="3"/>
+<polyline points="175,125 10,125 10,395" fill="none" stroke="#234b68" stroke-width="3"/>
+<polyline points="273,209 10,209 10,426" fill="none" stroke="#234b68" stroke-width="3"/>
+<text x="16" y="484" font-family="Arial" font-size="18" fill="#122333" >Замок корпуса отдельно</text>
+<text x="16" y="512" font-family="Arial" font-size="18" fill="#122333" >удерживает половины.</text>
+<text x="16" y="540" font-family="Arial" font-size="18" fill="#122333" >Вид зависит от системы.</text>
+</svg>
