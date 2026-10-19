@@ -1,0 +1,74 @@
+{
+  "instrument_compare": [
+    960,
+    2187
+  ],
+  "common_ground": [
+    960,
+    1665
+  ],
+  "differential_input": [
+    960,
+    1419
+  ],
+  "scale_axes": [
+    960,
+    1416
+  ],
+  "trigger_edges": [
+    960,
+    1491
+  ],
+  "analog_ramp": [
+    960,
+    1491
+  ],
+  "analog_noise": [
+    960,
+    1491
+  ],
+  "missing_pulse": [
+    960,
+    1491
+  ],
+  "pwm_compare": [
+    960,
+    2262
+  ],
+  "inductive_speed": [
+    960,
+    2487
+  ],
+  "hall_crank": [
+    960,
+    2337
+  ],
+  "crank_cam": [
+    960,
+    2412
+  ],
+  "actuator_low": [
+    960,
+    1716
+  ],
+  "actuator_high": [
+    960,
+    1566
+  ],
+  "can_levels": [
+    960,
+    3258
+  ],
+  "can_suspect": [
+    960,
+    3258
+  ],
+  "lin_levels": [
+    960,
+    1641
+  ],
+  "lin_suspect": [
+    960,
+    1641
+  ]
+}

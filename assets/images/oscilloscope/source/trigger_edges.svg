@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="497" viewBox="0 0 320 497">
+<rect width="320" height="497" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" fill="#122333">O05 • фронты запуска</text>
+<text x="16" y="57" font-family="Arial" font-size="17" fill="#122333">Синтетическая модель</text>
+<text x="16" y="82" font-family="Arial" font-size="17" fill="#122333">u относительно N = 0 V</text>
+<text x="16" y="125" font-family="Arial" font-size="18" fill="#155b8a">S3 PWM</text>
+<line x1="46.0" y1="143" x2="46.0" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="71.8" y1="143" x2="71.8" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="97.6" y1="143" x2="97.6" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="123.4" y1="143" x2="123.4" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="149.2" y1="143" x2="149.2" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="175.0" y1="143" x2="175.0" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="200.8" y1="143" x2="200.8" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="226.6" y1="143" x2="226.6" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="252.4" y1="143" x2="252.4" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="278.2" y1="143" x2="278.2" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="304.0" y1="143" x2="304.0" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="143.0" x2="304" y2="143.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="163.0" x2="304" y2="163.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="183.0" x2="304" y2="183.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="203.0" x2="304" y2="203.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="223.0" x2="304" y2="223.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="243.0" x2="304" y2="243.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="263.0" x2="304" y2="263.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="283.0" x2="304" y2="283.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="303.0" x2="304" y2="303.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="273.0" x2="304" y2="273.0" stroke="#566c7e" stroke-width="1.5" />
+<polyline id="trace-S3" data-window="40" data-unit="ms" data-reference="N" data-bottom="-1.5" data-top="6.5" data-y="143" data-vdiv="1.0" points="46.00000,173.00000 65.35000,173.00000 65.35000,273.00000 110.50000,273.00000 110.50000,173.00000 129.85000,173.00000 129.85000,273.00000 175.00000,273.00000 175.00000,173.00000 194.35000,173.00000 194.35000,273.00000 239.50000,273.00000 239.50000,173.00000 258.85000,173.00000 258.85000,273.00000 304.00000,273.00000 304.00000,173.00000 304.00000,173.00000" fill="none" stroke="#155b8a" stroke-width="2.2"/>
+<text x="2" y="153" font-family="Arial" font-size="12" fill="#122333">6.5</text>
+<text x="2" y="303" font-family="Arial" font-size="12" fill="#122333">-1.5</text>
+<text x="2" y="138" font-family="Arial" font-size="12" fill="#122333">V</text>
+<text x="46" y="322" font-family="Arial" font-size="13" fill="#122333">0</text>
+<text x="246" y="322" font-family="Arial" font-size="13" fill="#122333">40 ms</text>
+<text x="16" y="348" font-family="Arial" font-size="17" fill="#122333">1 V/div; 4 ms/div</text>
+<text x="16" y="382" font-family="Arial" font-size="17" fill="#122333">Уровень L=2,5 V:</text>
+<text x="16" y="407" font-family="Arial" font-size="17" fill="#122333">рост 0→5 V; спад 5→0 V.</text>
+<text x="16" y="432" font-family="Arial" font-size="17" fill="#122333">L=6 V не пересекается.</text>
+<text x="16" y="457" font-family="Arial" font-size="17" fill="#122333">Нет события ≠ нет сигнала.</text>
+</svg>

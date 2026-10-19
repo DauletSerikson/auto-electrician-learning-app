@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="522" viewBox="0 0 320 522">
+<rect width="320" height="522" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" fill="#122333">O14 • ключ по плюсу</text>
+<text x="16" y="57" font-family="Arial" font-size="17" fill="#122333">Синтетическая модель</text>
+<text x="16" y="82" font-family="Arial" font-size="17" fill="#122333">u относительно N = 0 V</text>
+<text x="16" y="125" font-family="Arial" font-size="18" fill="#155b8a">Load to N</text>
+<line x1="46.0" y1="143" x2="46.0" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="71.8" y1="143" x2="71.8" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="97.6" y1="143" x2="97.6" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="123.4" y1="143" x2="123.4" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="149.2" y1="143" x2="149.2" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="175.0" y1="143" x2="175.0" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="200.8" y1="143" x2="200.8" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="226.6" y1="143" x2="226.6" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="252.4" y1="143" x2="252.4" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="278.2" y1="143" x2="278.2" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="304.0" y1="143" x2="304.0" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="143.0" x2="304" y2="143.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="163.0" x2="304" y2="163.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="183.0" x2="304" y2="183.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="203.0" x2="304" y2="203.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="223.0" x2="304" y2="223.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="243.0" x2="304" y2="243.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="263.0" x2="304" y2="263.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="283.0" x2="304" y2="283.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="303.0" x2="304" y2="303.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="283.0" x2="304" y2="283.0" stroke="#566c7e" stroke-width="1.5" />
+<polyline id="trace-Load" data-window="40" data-unit="ms" data-reference="N" data-bottom="-5" data-top="35" data-y="143" data-vdiv="5.0" points="46.00000,235.00000 97.60000,235.00000 97.60000,283.00000 175.00000,283.00000 175.00000,235.00000 226.60000,235.00000 226.60000,283.00000 304.00000,283.00000 304.00000,235.00000 304.00000,235.00000" fill="none" stroke="#155b8a" stroke-width="2.2"/>
+<text x="2" y="153" font-family="Arial" font-size="12" fill="#122333">35</text>
+<text x="2" y="303" font-family="Arial" font-size="12" fill="#122333">-5</text>
+<text x="2" y="138" font-family="Arial" font-size="12" fill="#122333">V</text>
+<text x="46" y="322" font-family="Arial" font-size="13" fill="#122333">0</text>
+<text x="246" y="322" font-family="Arial" font-size="13" fill="#122333">40 ms</text>
+<text x="16" y="348" font-family="Arial" font-size="17" fill="#122333">5 V/div; 4 ms/div</text>
+<text x="16" y="382" font-family="Arial" font-size="17" fill="#122333">+12 V → ключ → R=12 Ω → N.</text>
+<text x="16" y="407" font-family="Arial" font-size="17" fill="#122333">Нагрузка резистивная.</text>
+<text x="16" y="432" font-family="Arial" font-size="17" fill="#122333">0/12 V; 50 Hz; DOn=40%.</text>
+<text x="16" y="457" font-family="Arial" font-size="17" fill="#122333">Высокий=ON; среднее=4,8 V.</text>
+<text x="16" y="482" font-family="Arial" font-size="17" fill="#122333">Выброс не моделируется.</text>
+</svg>

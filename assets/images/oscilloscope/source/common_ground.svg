@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="555" viewBox="0 0 320 555">
+<rect width="320" height="555" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" fill="#122333">O02 • общие земли</text>
+<text x="16" y="65" font-family="Arial" font-size="17" fill="#122333">Учебная схема: +12 V и N.</text>
+<text x="16" y="90" font-family="Arial" font-size="17" fill="#122333">Зажимы A и B соединены</text>
+<text x="16" y="115" font-family="Arial" font-size="17" fill="#122333">внутри прибора; PE связан</text>
+<text x="16" y="140" font-family="Arial" font-size="17" fill="#122333">с общим. Это заданный тип.</text>
+<line x1="50" y1="190" x2="270" y2="190" stroke="#155b8a" stroke-width="3" />
+<text x="24" y="178" font-family="Arial" font-size="17" fill="#122333">+12 V</text>
+<line x1="50" y1="340" x2="270" y2="340" stroke="#155b8a" stroke-width="3" />
+<text x="24" y="370" font-family="Arial" font-size="17" fill="#122333">N = 0 V</text>
+<line x1="240" y1="190" x2="240" y2="340" stroke="#b64726" stroke-width="4" id="short-path"/>
+<text x="80" y="234" font-family="Arial" font-size="17" fill="#122333">зажим A → общий</text>
+<text x="80" y="272" font-family="Arial" font-size="17" fill="#122333">общий → зажим B</text>
+<text x="80" y="311" font-family="Arial" font-size="18" fill="#b64726">КЗ через прибор!</text>
+<text x="16" y="415" font-family="Arial" font-size="17" fill="#122333">A на +12 V, B на N: нельзя.</text>
+<text x="16" y="440" font-family="Arial" font-size="17" fill="#122333">Общие земли не подключают</text>
+<text x="16" y="465" font-family="Arial" font-size="17" fill="#122333">к разным потенциалам.</text>
+<text x="16" y="490" font-family="Arial" font-size="17" fill="#122333">PE не отключать. USB ≠</text>
+<text x="16" y="515" font-family="Arial" font-size="17" fill="#122333">гарантия изоляции.</text>
+</svg>

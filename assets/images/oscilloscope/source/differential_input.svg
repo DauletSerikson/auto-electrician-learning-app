@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="473" viewBox="0 0 320 473">
+<rect width="320" height="473" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" fill="#122333">O03 • разность A−B</text>
+<text x="16" y="63" font-family="Arial" font-size="17" fill="#122333">A и B — выводы датчика.</text>
+<text x="16" y="88" font-family="Arial" font-size="17" fill="#122333">Нет общей точки с N:</text>
+<text x="16" y="113" font-family="Arial" font-size="17" fill="#122333">нужен подходящий вход.</text>
+<line x1="45" y1="168" x2="145" y2="168" stroke="#155b8a" stroke-width="3" />
+<line x1="45" y1="248" x2="145" y2="248" stroke="#b64726" stroke-width="3" />
+<text x="20" y="163" font-family="Arial" font-size="17" fill="#122333">A</text>
+<text x="20" y="243" font-family="Arial" font-size="17" fill="#122333">B</text>
+<rect x="145" y="143" width="157" height="135" fill="#eaf3fa" stroke="#234b68"/>
+<text x="158" y="175" font-family="Arial" font-size="17" fill="#122333">Дифф. вход</text>
+<text x="158" y="210" font-family="Arial" font-size="17" fill="#122333">u = UA − UB</text>
+<text x="158" y="247" font-family="Arial" font-size="17" fill="#122333">пределы?</text>
+<text x="16" y="333" font-family="Arial" font-size="17" fill="#122333">Допустимость определяется</text>
+<text x="16" y="358" font-family="Arial" font-size="17" fill="#122333">паспортом комплекта.</text>
+<text x="16" y="383" font-family="Arial" font-size="17" fill="#122333">CH1−CH2 не изолирует</text>
+<text x="16" y="408" font-family="Arial" font-size="17" fill="#122333">общие земляные зажимы.</text>
+<text x="16" y="433" font-family="Arial" font-size="17" fill="#122333">V/div не защищает вход.</text>
+</svg>

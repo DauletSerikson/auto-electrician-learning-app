@@ -1,0 +1,82 @@
+[
+  {
+    "id": "oscilloscope_01",
+    "order": 1,
+    "title": "Назначение автомобильного осциллографа",
+    "description": "Выбирать прибор и различать форму, среднее и пределы наблюдения",
+    "estimatedMinutes": 20,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "oscilloscope_02",
+    "order": 2,
+    "title": "Устройство, щупы и безопасность",
+    "description": "Различать общие земли, дифференциальный вход и пределы оборудования",
+    "estimatedMinutes": 24,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "oscilloscope_03",
+    "order": 3,
+    "title": "Масштабы напряжения, времени и триггер",
+    "description": "Настраивать вид и запуск, отличая ожидание от отсутствия сигнала",
+    "estimatedMinutes": 30,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "oscilloscope_04",
+    "order": 4,
+    "title": "Аналоговые сигналы",
+    "description": "Читать амплитуду, смещение, плавное изменение, помеху и пропуск",
+    "estimatedMinutes": 24,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "oscilloscope_05",
+    "order": 5,
+    "title": "Период, частота и ШИМ",
+    "description": "Рассчитывать T, f, tHigh и DHigh, различать среднее и управление",
+    "estimatedMinutes": 28,
+    "file": "lesson_05.json"
+  },
+  {
+    "id": "oscilloscope_06",
+    "order": 6,
+    "title": "Сигналы ДПКВ и ДПРВ",
+    "description": "Сравнивать формы датчиков и события только в известной геометрии",
+    "estimatedMinutes": 30,
+    "file": "lesson_06.json"
+  },
+  {
+    "id": "oscilloscope_07",
+    "order": 7,
+    "title": "Сигналы исполнительных механизмов",
+    "description": "Читать high-side/low-side управление и ограничивать выводы без тока",
+    "estimatedMinutes": 26,
+    "file": "lesson_07.json"
+  },
+  {
+    "id": "oscilloscope_08",
+    "order": 8,
+    "title": "Осциллограммы CAN и LIN",
+    "description": "Различать физический уровень, логическое состояние и данные протокола",
+    "estimatedMinutes": 27,
+    "file": "lesson_08.json"
+  },
+  {
+    "id": "oscilloscope_09",
+    "order": 9,
+    "title": "Комплексные диагностические кейсы",
+    "description": "Отделять наблюдение от гипотезы и выбирать следующую проверку",
+    "estimatedMinutes": 35,
+    "file": "lesson_09.json"
+  },
+  {
+    "id": "oscilloscope_10",
+    "order": 10,
+    "title": "Итоговый практикум",
+    "description": "Интерпретировать записи и настроить осциллограф: 15 заданий, порог 80%",
+    "estimatedMinutes": 35,
+    "file": "lesson_10.json"
+  }
+]

@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="1086" viewBox="0 0 320 1086">
+<rect width="320" height="1086" fill="white"/>
+<text x="16" y="30" font-family="Arial" font-size="20" fill="#122333">O15 • HS-CAN уровни</text>
+<text x="16" y="57" font-family="Arial" font-size="17" fill="#122333">Синтетическая модель</text>
+<text x="16" y="82" font-family="Arial" font-size="17" fill="#122333">u относительно N = 0 V</text>
+<text x="16" y="125" font-family="Arial" font-size="18" fill="#155b8a">CANH</text>
+<line x1="46.0" y1="143" x2="46.0" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="71.8" y1="143" x2="71.8" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="97.6" y1="143" x2="97.6" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="123.4" y1="143" x2="123.4" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="149.2" y1="143" x2="149.2" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="175.0" y1="143" x2="175.0" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="200.8" y1="143" x2="200.8" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="226.6" y1="143" x2="226.6" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="252.4" y1="143" x2="252.4" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="278.2" y1="143" x2="278.2" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="304.0" y1="143" x2="304.0" y2="303" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="143.0" x2="304" y2="143.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="163.0" x2="304" y2="163.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="183.0" x2="304" y2="183.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="203.0" x2="304" y2="203.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="223.0" x2="304" y2="223.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="243.0" x2="304" y2="243.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="263.0" x2="304" y2="263.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="283.0" x2="304" y2="283.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="303.0" x2="304" y2="303.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="273.0" x2="304" y2="273.0" stroke="#566c7e" stroke-width="1.5" />
+<polyline id="trace-CANH" data-window="40" data-unit="µs" data-reference="N" data-bottom="-1.5" data-top="6.5" data-y="143" data-vdiv="1.0" points="46.00000,223.00000 71.80000,223.00000 71.80000,203.00000 97.60000,203.00000 97.60000,223.00000 110.50000,223.00000 110.50000,203.00000 123.40000,203.00000 123.40000,223.00000 149.20000,223.00000 149.20000,203.00000 187.90000,203.00000 187.90000,223.00000 200.80000,223.00000 200.80000,203.00000 213.70000,203.00000 213.70000,223.00000 252.40000,223.00000 252.40000,203.00000 265.30000,203.00000 265.30000,223.00000 278.20000,223.00000 278.20000,203.00000 291.10000,203.00000 291.10000,223.00000 304.00000,223.00000" fill="none" stroke="#155b8a" stroke-width="2.2"/>
+<text x="2" y="153" font-family="Arial" font-size="12" fill="#122333">6.5</text>
+<text x="2" y="303" font-family="Arial" font-size="12" fill="#122333">-1.5</text>
+<text x="2" y="138" font-family="Arial" font-size="12" fill="#122333">V</text>
+<text x="46" y="322" font-family="Arial" font-size="13" fill="#122333">0</text>
+<text x="246" y="322" font-family="Arial" font-size="13" fill="#122333">40 µs</text>
+<text x="16" y="348" font-family="Arial" font-size="17" fill="#122333">1 V/div; 4 µs/div</text>
+<text x="16" y="382" font-family="Arial" font-size="18" fill="#b64726">CANL</text>
+<line x1="46.0" y1="400" x2="46.0" y2="560" stroke="#abc1d0" stroke-width="1" />
+<line x1="71.8" y1="400" x2="71.8" y2="560" stroke="#abc1d0" stroke-width="1" />
+<line x1="97.6" y1="400" x2="97.6" y2="560" stroke="#abc1d0" stroke-width="1" />
+<line x1="123.4" y1="400" x2="123.4" y2="560" stroke="#abc1d0" stroke-width="1" />
+<line x1="149.2" y1="400" x2="149.2" y2="560" stroke="#abc1d0" stroke-width="1" />
+<line x1="175.0" y1="400" x2="175.0" y2="560" stroke="#abc1d0" stroke-width="1" />
+<line x1="200.8" y1="400" x2="200.8" y2="560" stroke="#abc1d0" stroke-width="1" />
+<line x1="226.6" y1="400" x2="226.6" y2="560" stroke="#abc1d0" stroke-width="1" />
+<line x1="252.4" y1="400" x2="252.4" y2="560" stroke="#abc1d0" stroke-width="1" />
+<line x1="278.2" y1="400" x2="278.2" y2="560" stroke="#abc1d0" stroke-width="1" />
+<line x1="304.0" y1="400" x2="304.0" y2="560" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="400.0" x2="304" y2="400.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="420.0" x2="304" y2="420.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="440.0" x2="304" y2="440.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="460.0" x2="304" y2="460.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="480.0" x2="304" y2="480.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="500.0" x2="304" y2="500.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="520.0" x2="304" y2="520.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="540.0" x2="304" y2="540.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="560.0" x2="304" y2="560.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="530.0" x2="304" y2="530.0" stroke="#566c7e" stroke-width="1.5" />
+<polyline id="trace-CANL" data-window="40" data-unit="µs" data-reference="N" data-bottom="-1.5" data-top="6.5" data-y="400" data-vdiv="1.0" points="46.00000,480.00000 71.80000,480.00000 71.80000,500.00000 97.60000,500.00000 97.60000,480.00000 110.50000,480.00000 110.50000,500.00000 123.40000,500.00000 123.40000,480.00000 149.20000,480.00000 149.20000,500.00000 187.90000,500.00000 187.90000,480.00000 200.80000,480.00000 200.80000,500.00000 213.70000,500.00000 213.70000,480.00000 252.40000,480.00000 252.40000,500.00000 265.30000,500.00000 265.30000,480.00000 278.20000,480.00000 278.20000,500.00000 291.10000,500.00000 291.10000,480.00000 304.00000,480.00000" fill="none" stroke="#b64726" stroke-width="2.2"/>
+<text x="2" y="410" font-family="Arial" font-size="12" fill="#122333">6.5</text>
+<text x="2" y="560" font-family="Arial" font-size="12" fill="#122333">-1.5</text>
+<text x="2" y="395" font-family="Arial" font-size="12" fill="#122333">V</text>
+<text x="46" y="579" font-family="Arial" font-size="13" fill="#122333">0</text>
+<text x="246" y="579" font-family="Arial" font-size="13" fill="#122333">40 µs</text>
+<text x="16" y="605" font-family="Arial" font-size="17" fill="#122333">1 V/div; 4 µs/div</text>
+<text x="16" y="639" font-family="Arial" font-size="18" fill="#2a775b">H minus L</text>
+<line x1="46.0" y1="657" x2="46.0" y2="817" stroke="#abc1d0" stroke-width="1" />
+<line x1="71.8" y1="657" x2="71.8" y2="817" stroke="#abc1d0" stroke-width="1" />
+<line x1="97.6" y1="657" x2="97.6" y2="817" stroke="#abc1d0" stroke-width="1" />
+<line x1="123.4" y1="657" x2="123.4" y2="817" stroke="#abc1d0" stroke-width="1" />
+<line x1="149.2" y1="657" x2="149.2" y2="817" stroke="#abc1d0" stroke-width="1" />
+<line x1="175.0" y1="657" x2="175.0" y2="817" stroke="#abc1d0" stroke-width="1" />
+<line x1="200.8" y1="657" x2="200.8" y2="817" stroke="#abc1d0" stroke-width="1" />
+<line x1="226.6" y1="657" x2="226.6" y2="817" stroke="#abc1d0" stroke-width="1" />
+<line x1="252.4" y1="657" x2="252.4" y2="817" stroke="#abc1d0" stroke-width="1" />
+<line x1="278.2" y1="657" x2="278.2" y2="817" stroke="#abc1d0" stroke-width="1" />
+<line x1="304.0" y1="657" x2="304.0" y2="817" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="657.0" x2="304" y2="657.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="677.0" x2="304" y2="677.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="697.0" x2="304" y2="697.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="717.0" x2="304" y2="717.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="737.0" x2="304" y2="737.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="757.0" x2="304" y2="757.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="777.0" x2="304" y2="777.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="797.0" x2="304" y2="797.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="817.0" x2="304" y2="817.0" stroke="#abc1d0" stroke-width="1" />
+<line x1="46" y1="777.0" x2="304" y2="777.0" stroke="#566c7e" stroke-width="1.5" />
+<polyline id="trace-H" data-window="40" data-unit="µs" data-reference="N" data-bottom="-1" data-top="3" data-y="657" data-vdiv="0.5" points="46.00000,777.00000 71.80000,777.00000 71.80000,697.00000 97.60000,697.00000 97.60000,777.00000 110.50000,777.00000 110.50000,697.00000 123.40000,697.00000 123.40000,777.00000 149.20000,777.00000 149.20000,697.00000 187.90000,697.00000 187.90000,777.00000 200.80000,777.00000 200.80000,697.00000 213.70000,697.00000 213.70000,777.00000 252.40000,777.00000 252.40000,697.00000 265.30000,697.00000 265.30000,777.00000 278.20000,777.00000 278.20000,697.00000 291.10000,697.00000 291.10000,777.00000 304.00000,777.00000" fill="none" stroke="#2a775b" stroke-width="2.2"/>
+<text x="2" y="667" font-family="Arial" font-size="12" fill="#122333">3</text>
+<text x="2" y="817" font-family="Arial" font-size="12" fill="#122333">-1</text>
+<text x="2" y="652" font-family="Arial" font-size="12" fill="#122333">V</text>
+<text x="46" y="836" font-family="Arial" font-size="13" fill="#122333">0</text>
+<text x="246" y="836" font-family="Arial" font-size="13" fill="#122333">40 µs</text>
+<text x="16" y="862" font-family="Arial" font-size="17" fill="#122333">0.5 V/div; 4 µs/div</text>
+<text x="16" y="896" font-family="Arial" font-size="17" fill="#122333">Питание PHY условно 5 V.</text>
+<text x="16" y="921" font-family="Arial" font-size="17" fill="#122333">Общая N; два конца 120 Ω.</text>
+<text x="16" y="946" font-family="Arial" font-size="17" fill="#122333">Бит 2 µs, 500 kbit/s.</text>
+<text x="16" y="971" font-family="Arial" font-size="17" fill="#122333">Dominant: ΔU=2 V.</text>
+<text x="16" y="996" font-family="Arial" font-size="17" fill="#122333">Common-mode 2,5 V.</text>
+<text x="16" y="1021" font-family="Arial" font-size="17" fill="#122333">Не кадр; данные не</text>
+<text x="16" y="1046" font-family="Arial" font-size="17" fill="#122333">декодируем.</text>
+</svg>
