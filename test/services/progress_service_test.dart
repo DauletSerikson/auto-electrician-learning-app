@@ -46,7 +46,7 @@ void main() {
 
   test('real course order and denominator determine home progress', () async {
     final lessons = await CourseService().loadAllLessons();
-    expect(lessons, hasLength(82));
+    expect(lessons, hasLength(92));
     for (var index = 1; index < lessons.length; index++) {
       final previous = lessons[index - 1];
       final current = lessons[index];
@@ -62,16 +62,16 @@ void main() {
     await service.completeLesson('orphan');
     await service.completeLesson(lessons.first.lesson.id);
     final result = await service.calculateProgress(lessons);
-    expect(result.totalLessons, 82);
+    expect(result.totalLessons, 92);
     expect(result.completedLessons, 1);
-    expect(result.progress, 1 / 82);
+    expect(result.progress, 1 / 92);
     expect(result.nextLesson, same(lessons[1]));
     for (final item in lessons.skip(1)) {
       await service.completeLesson(item.lesson.id);
     }
     final complete = await service.calculateProgress(lessons);
     expect(complete.progress, 1);
-    expect(complete.completedLessons, 82);
+    expect(complete.completedLessons, 92);
     expect(complete.nextLesson, isNull);
   });
 }

@@ -23,19 +23,19 @@ void main() {
   });
 
   test(
-    'nine modules and all 82 lessons keep unique, consecutive ordering',
+    'ten modules and all 92 lessons keep unique, consecutive ordering',
     () async {
       final modules = await course.loadModules();
-      expect(modules.map((m) => m.id), List.generate(9, (i) => 'stage_$i'));
-      expect(modules.map((m) => m.order), List.generate(9, (i) => i));
+      expect(modules.map((m) => m.id), List.generate(10, (i) => 'stage_$i'));
+      expect(modules.map((m) => m.order), List.generate(10, (i) => i));
       expect(
         modules.singleWhere((m) => m.id == 'stage_6').title,
         'Автомобильная электроника и электронные системы управления',
       );
       final all = await course.loadAllLessons();
-      expect(all, hasLength(82));
-      expect(all.map((l) => l.lesson.id).toSet(), hasLength(82));
-      final expectedCounts = [5, 8, 9, 10, 10, 10, 10, 10, 10];
+      expect(all, hasLength(92));
+      expect(all.map((l) => l.lesson.id).toSet(), hasLength(92));
+      final expectedCounts = [5, 8, 9, 10, 10, 10, 10, 10, 10, 10];
       for (var i = 0; i < modules.length; i++) {
         final summaries = await course.loadLessons(modules[i].id);
         expect(summaries, hasLength(expectedCounts[i]));
@@ -199,9 +199,9 @@ void main() {
       });
       final service = ProgressService();
       final before = await service.calculateProgress(all);
-      expect(before.totalLessons, 82);
+      expect(before.totalLessons, 92);
       expect(before.completedLessons, 52);
-      expect(before.progress, 52 / 82);
+      expect(before.progress, 52 / 92);
       expect(before.nextLesson?.lesson.id, 'electronics_01');
       for (final id in oldIds) {
         expect(await service.isLessonCompleted(id), isTrue);
@@ -223,8 +223,8 @@ void main() {
         all,
         all.map((l) => l.lesson.id).toSet(),
       );
-      expect(full.totalLessons, 82);
-      expect(full.completedLessons, 82);
+      expect(full.totalLessons, 92);
+      expect(full.completedLessons, 92);
       expect(full.progress, 1);
       expect(full.nextLesson, isNull);
     },

@@ -47,18 +47,18 @@ void main() {
   });
 
   test(
-    'nine modules and 82 distinct lessons retain ordered old prefix',
+    'ten modules and 92 distinct lessons retain ordered old prefix',
     () async {
       final modules = await course.loadModules();
-      expect(modules.map((m) => m.id), List.generate(9, (i) => 'stage_$i'));
-      expect(modules.map((m) => m.order), List.generate(9, (i) => i));
-      expect(modules.last.title, 'Запуск, зарядка и паразитное потребление');
+      expect(modules.map((m) => m.id), List.generate(10, (i) => 'stage_$i'));
+      expect(modules.map((m) => m.order), List.generate(10, (i) => i));
+      expect(modules[8].title, 'Запуск, зарядка и паразитное потребление');
       final all = await course.loadAllLessons();
-      expect(all, hasLength(82));
-      expect(all.map((e) => e.lesson.id).toSet(), hasLength(82));
+      expect(all, hasLength(92));
+      expect(all.map((e) => e.lesson.id).toSet(), hasLength(92));
       expect(all.take(72).last.lesson.id, 'obd_10');
       expect(
-        all.skip(72).map((e) => e.lesson.id),
+        all.skip(72).take(10).map((e) => e.lesson.id),
         List.generate(
           10,
           (i) => 'starting_charging_${(i + 1).toString().padLeft(2, '0')}',
@@ -167,8 +167,8 @@ void main() {
     final service = ProgressService();
     final before = await service.calculateProgress(all);
     expect(before.completedLessons, 72);
-    expect(before.totalLessons, 82);
-    expect(before.progress, 72 / 82);
+    expect(before.totalLessons, 92);
+    expect(before.progress, 72 / 92);
     expect(before.nextLesson?.lesson.id, 'starting_charging_01');
     await service.completeLesson('starting_charging_01');
     final prefs = await SharedPreferences.getInstance();
@@ -181,7 +181,7 @@ void main() {
     });
     final after = await reloaded.calculateProgress(all);
     expect(after.completedLessons, 73);
-    expect(after.progress, 73 / 82);
+    expect(after.progress, 73 / 92);
     expect(after.nextLesson?.lesson.id, 'starting_charging_02');
     expect(prefs.getKeys(), {'completed_lessons'});
   });
