@@ -60,17 +60,17 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  test('11 modules 102 unique lessons retain the 92 lesson prefix', () async {
+  test('12 modules 112 unique lessons retain the 92 lesson prefix', () async {
     final modules = await course.loadModules();
-    expect(modules.map((m) => m.id), List.generate(11, (i) => 'stage_$i'));
-    expect(modules.map((m) => m.order), List.generate(11, (i) => i));
-    expect(modules.last.title, 'Автомобильный осциллограф и анализ сигналов');
+    expect(modules.map((m) => m.id), List.generate(12, (i) => 'stage_$i'));
+    expect(modules.map((m) => m.order), List.generate(12, (i) => i));
+    expect(modules[10].title, 'Автомобильный осциллограф и анализ сигналов');
     final all = await course.loadAllLessons();
-    expect(all, hasLength(102));
-    expect(all.map((e) => e.lesson.id).toSet(), hasLength(102));
+    expect(all, hasLength(112));
+    expect(all.map((e) => e.lesson.id).toSet(), hasLength(112));
     expect(all.take(92).last.lesson.id, 'wiring_repair_10');
     expect(
-      all.skip(92).map((e) => e.lesson.id),
+      all.skip(92).take(10).map((e) => e.lesson.id),
       List.generate(
         10,
         (i) => 'oscilloscope_${(i + 1).toString().padLeft(2, '0')}',
@@ -155,7 +155,7 @@ void main() {
         'completed_lessons': [...old, 'orphan', 'pilot_oscilloscope_mvp'],
       });
       final before = await ProgressService().calculateProgress(all);
-      expect(before.totalLessons, 102);
+      expect(before.totalLessons, 112);
       expect(before.completedLessons, 92);
       expect(before.nextLesson?.lesson.id, 'oscilloscope_01');
       await ProgressService().completeLesson('oscilloscope_01');
@@ -167,7 +167,7 @@ void main() {
       });
       final after = await ProgressService().calculateProgress(all);
       expect(after.completedLessons, 93);
-      expect(after.progress, 93 / 102);
+      expect(after.progress, 93 / 112);
       expect(after.nextLesson?.lesson.id, 'oscilloscope_02');
       expect((await SharedPreferences.getInstance()).getKeys(), {
         'completed_lessons',

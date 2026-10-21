@@ -332,9 +332,9 @@ void main() {
       answers.remove(scored.first);
       expect(evaluateLessonAttempt(pilot, answers).canComplete, isFalse);
       final lessons = await CourseService().loadAllLessons();
-      expect(lessons.length, 102);
+      expect(lessons.length, 112);
       expect(lessons.any((item) => item.lesson.id == pilot.id), isFalse);
-      expect((await CourseService().loadModules()).length, 11);
+      expect((await CourseService().loadModules()).length, 12);
     },
   );
 }

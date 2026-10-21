@@ -165,6 +165,7 @@ void main() {
       'stage_8': 15,
       'stage_9': 15,
       'stage_10': 15,
+      'stage_11': 15,
     });
     expect(
       seen,

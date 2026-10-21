@@ -47,15 +47,15 @@ void main() {
   });
 
   test(
-    'ten modules and 102 distinct lessons retain ordered old prefix',
+    'twelve modules and 112 distinct lessons retain ordered old prefix',
     () async {
       final modules = await course.loadModules();
-      expect(modules.map((m) => m.id), List.generate(11, (i) => 'stage_$i'));
-      expect(modules.map((m) => m.order), List.generate(11, (i) => i));
+      expect(modules.map((m) => m.id), List.generate(12, (i) => 'stage_$i'));
+      expect(modules.map((m) => m.order), List.generate(12, (i) => i));
       expect(modules[8].title, 'Запуск, зарядка и паразитное потребление');
       final all = await course.loadAllLessons();
-      expect(all, hasLength(102));
-      expect(all.map((e) => e.lesson.id).toSet(), hasLength(102));
+      expect(all, hasLength(112));
+      expect(all.map((e) => e.lesson.id).toSet(), hasLength(112));
       expect(all.take(72).last.lesson.id, 'obd_10');
       expect(
         all.skip(72).take(10).map((e) => e.lesson.id),
@@ -167,8 +167,8 @@ void main() {
     final service = ProgressService();
     final before = await service.calculateProgress(all);
     expect(before.completedLessons, 72);
-    expect(before.totalLessons, 102);
-    expect(before.progress, 72 / 102);
+    expect(before.totalLessons, 112);
+    expect(before.progress, 72 / 112);
     expect(before.nextLesson?.lesson.id, 'starting_charging_01');
     await service.completeLesson('starting_charging_01');
     final prefs = await SharedPreferences.getInstance();
@@ -181,7 +181,7 @@ void main() {
     });
     final after = await reloaded.calculateProgress(all);
     expect(after.completedLessons, 73);
-    expect(after.progress, 73 / 102);
+    expect(after.progress, 73 / 112);
     expect(after.nextLesson?.lesson.id, 'starting_charging_02');
     expect(prefs.getKeys(), {'completed_lessons'});
   });

@@ -27,6 +27,7 @@ void main() {
       'stage_8',
       'stage_9',
       'stage_10',
+      'stage_11',
     ]);
     expect(modules[4].order, 4);
     expect(modules[4].title, 'Чтение автомобильных электрических схем');
@@ -45,7 +46,7 @@ void main() {
     expect(previous, hasLength(32));
     expect(added, hasLength(10));
     expect(previous.intersection(added), isEmpty);
-    expect(all, hasLength(102));
+    expect(all, hasLength(112));
   });
 
   test(
@@ -155,8 +156,8 @@ void main() {
       final service = ProgressService();
       final before = await service.calculateProgress(all);
       expect(before.completedLessons, 32);
-      expect(before.totalLessons, 102);
-      expect(before.progress, 32 / 102);
+      expect(before.totalLessons, 112);
+      expect(before.progress, 32 / 112);
       expect(before.nextLesson?.lesson.id, 'wiring_01');
       for (final id in oldIds) {
         expect(await service.isLessonCompleted(id), isTrue);
@@ -173,14 +174,14 @@ void main() {
     },
   );
 
-  test('all 102 completed yields full progress with no next lesson', () async {
+  test('all 112 completed yields full progress with no next lesson', () async {
     final all = await course.loadAllLessons();
     final progress = calculateCourseProgress(
       all,
       all.map((l) => l.lesson.id).toSet(),
     );
-    expect(progress.totalLessons, 102);
-    expect(progress.completedLessons, 102);
+    expect(progress.totalLessons, 112);
+    expect(progress.completedLessons, 112);
     expect(progress.progress, 1);
     expect(progress.nextLesson, isNull);
   });
