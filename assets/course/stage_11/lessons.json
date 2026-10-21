@@ -1,0 +1,82 @@
+[
+  {
+    "id": "body_electronics_01",
+    "order": 1,
+    "title": "Архитектура кузовной электроники и BCM",
+    "description": "Проследить вход, разрешение, выход и действие кузовной функции",
+    "estimatedMinutes": 20,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "body_electronics_02",
+    "order": 2,
+    "title": "Центральный замок и управление дверями",
+    "description": "Разобрать реверсивный импульс и локализовать неисправную ветвь",
+    "estimatedMinutes": 23,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "body_electronics_03",
+    "order": 3,
+    "title": "Электрические стеклоподъёмники",
+    "description": "Различать реверс, торможение, защиту и механическое сопротивление",
+    "estimatedMinutes": 24,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "body_electronics_04",
+    "order": 4,
+    "title": "Наружное и внутреннее освещение",
+    "description": "Различать питание, массу, PWM и LED-драйверы",
+    "estimatedMinutes": 24,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "body_electronics_05",
+    "order": 5,
+    "title": "Стеклоочистители и омыватели",
+    "description": "Проследить парковку и отличить команду от обратной связи",
+    "estimatedMinutes": 24,
+    "file": "lesson_05.json"
+  },
+  {
+    "id": "body_electronics_06",
+    "order": 6,
+    "title": "Электроприводы зеркал и сидений",
+    "description": "Связать ось, реверс, память и обратную связь",
+    "estimatedMinutes": 22,
+    "file": "lesson_06.json"
+  },
+  {
+    "id": "body_electronics_07",
+    "order": 7,
+    "title": "Климат-контроль и электрические исполнительные механизмы",
+    "description": "Различать запрос HVAC, силовую цепь и положение заслонки",
+    "estimatedMinutes": 26,
+    "file": "lesson_07.json"
+  },
+  {
+    "id": "body_electronics_08",
+    "order": 8,
+    "title": "Датчики кузова и взаимодействие модулей",
+    "description": "Выбирать следующую проверку в локальной и сетевой цепочке",
+    "estimatedMinutes": 23,
+    "file": "lesson_08.json"
+  },
+  {
+    "id": "body_electronics_09",
+    "order": 9,
+    "title": "Комплексная диагностика кузовной электроники",
+    "description": "Выбирать доказанный вывод и следующую проверку в пяти кейсах",
+    "estimatedMinutes": 40,
+    "file": "lesson_09.json"
+  },
+  {
+    "id": "body_electronics_10",
+    "order": 10,
+    "title": "Итоговый практикум",
+    "description": "Применить диагностику кузовных систем: 15 заданий, 80%",
+    "estimatedMinutes": 32,
+    "file": "lesson_10.json"
+  }
+]
