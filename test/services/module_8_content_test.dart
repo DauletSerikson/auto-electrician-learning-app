@@ -20,15 +20,15 @@ void main() {
   });
 
   test(
-    'twelve modules and all 112 unique lessons have consecutive metadata',
+    'thirteen modules and all 122 unique lessons have consecutive metadata',
     () async {
       final modules = await course.loadModules();
-      expect(modules.map((m) => m.id), List.generate(12, (i) => 'stage_$i'));
-      expect(modules.map((m) => m.order), List.generate(12, (i) => i));
+      expect(modules.map((m) => m.id), List.generate(13, (i) => 'stage_$i'));
+      expect(modules.map((m) => m.order), List.generate(13, (i) => i));
       expect(modules[7].title, 'Компьютерная диагностика автомобиля');
       final all = await course.loadAllLessons();
-      expect(all, hasLength(112));
-      expect(all.map((e) => e.lesson.id).toSet(), hasLength(112));
+      expect(all, hasLength(122));
+      expect(all.map((e) => e.lesson.id).toSet(), hasLength(122));
       expect(all.take(62).last.lesson.id, 'electronics_10');
       expect(
         all.skip(62).take(10).map((e) => e.lesson.id),
@@ -113,7 +113,7 @@ void main() {
   );
 
   test(
-    'all 62 old completions and unknown IDs survive the 112 lesson course',
+    'all 62 old completions and unknown IDs survive the 122 lesson course',
     () async {
       final all = await course.loadAllLessons();
       final oldIds = all.take(62).map((e) => e.lesson.id).toSet();
@@ -122,9 +122,9 @@ void main() {
       });
       final service = ProgressService();
       final before = await service.calculateProgress(all);
-      expect(before.totalLessons, 112);
+      expect(before.totalLessons, 122);
       expect(before.completedLessons, 62);
-      expect(before.progress, 62 / 112);
+      expect(before.progress, 62 / 122);
       expect(before.nextLesson?.lesson.id, 'obd_01');
       await service.completeLesson('obd_01');
       final prefs = await SharedPreferences.getInstance();
@@ -137,14 +137,14 @@ void main() {
       });
       final after = await reloaded.calculateProgress(all);
       expect(after.completedLessons, 63);
-      expect(after.progress, 63 / 112);
+      expect(after.progress, 63 / 122);
       expect(after.nextLesson?.lesson.id, 'obd_02');
       expect(prefs.getKeys(), {'completed_lessons'});
       final full = calculateCourseProgress(
         all,
         all.map((e) => e.lesson.id).toSet(),
       );
-      expect(full.completedLessons, 112);
+      expect(full.completedLessons, 122);
       expect(full.progress, 1);
       expect(full.nextLesson, isNull);
     },
