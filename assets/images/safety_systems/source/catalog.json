@@ -1,0 +1,70 @@
+{
+  "safety_overview": [
+    960,
+    1905
+  ],
+  "abs_arch": [
+    960,
+    1803
+  ],
+  "hydraulic_modes": [
+    960,
+    2910
+  ],
+  "passive_sensor": [
+    960,
+    1848
+  ],
+  "active_sensor": [
+    960,
+    2478
+  ],
+  "sensor_signals": [
+    960,
+    3285
+  ],
+  "wheel_live_data": [
+    960,
+    1434
+  ],
+  "esc_arch": [
+    960,
+    1785
+  ],
+  "esc_axes": [
+    960,
+    1950
+  ],
+  "abs_network": [
+    960,
+    2109
+  ],
+  "srs_concept": [
+    960,
+    2415
+  ],
+  "indicators": [
+    960,
+    1995
+  ],
+  "case_speed": [
+    960,
+    1692
+  ],
+  "case_hub": [
+    960,
+    1725
+  ],
+  "case_esc": [
+    960,
+    1476
+  ],
+  "case_communication": [
+    960,
+    1506
+  ],
+  "case_srs": [
+    960,
+    2157
+  ]
+}

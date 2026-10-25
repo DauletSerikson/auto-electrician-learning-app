@@ -1,0 +1,82 @@
+[
+  {
+    "id": "safety_systems_01",
+    "order": 1,
+    "title": "Активная и пассивная безопасность автомобиля",
+    "description": "Различать назначение ABS, ESC и SRS и пределы самодиагностики",
+    "estimatedMinutes": 20,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "safety_systems_02",
+    "order": 2,
+    "title": "Архитектура ABS и гидравлического управления",
+    "description": "Связать датчики, ECU, клапаны, насос и колёсные тормоза",
+    "estimatedMinutes": 23,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "safety_systems_03",
+    "order": 3,
+    "title": "Датчики скорости вращения колёс",
+    "description": "Различать пассивную индукцию и активный токовый интерфейс",
+    "estimatedMinutes": 27,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "safety_systems_04",
+    "order": 4,
+    "title": "Диагностика ABS",
+    "description": "Сопоставлять режим, четыре скорости, питание и источник данных",
+    "estimatedMinutes": 25,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "safety_systems_05",
+    "order": 5,
+    "title": "ESC/ESP и электронная стабилизация",
+    "description": "Объяснять назначение стабилизации и роль данных",
+    "estimatedMinutes": 22,
+    "file": "lesson_05.json"
+  },
+  {
+    "id": "safety_systems_06",
+    "order": 6,
+    "title": "Датчики ESC",
+    "description": "Учитывать оси, единицы, временные метки и калибровочный статус",
+    "estimatedMinutes": 25,
+    "file": "lesson_06.json"
+  },
+  {
+    "id": "safety_systems_07",
+    "order": 7,
+    "title": "Архитектура SRS",
+    "description": "Понимать назначение компонентов без исполнительной практики",
+    "estimatedMinutes": 22,
+    "file": "lesson_07.json"
+  },
+  {
+    "id": "safety_systems_08",
+    "order": 8,
+    "title": "Безопасная диагностика SRS",
+    "description": "Интерпретировать готовые сообщения и выбирать профессиональную оценку",
+    "estimatedMinutes": 24,
+    "file": "lesson_08.json"
+  },
+  {
+    "id": "safety_systems_09",
+    "order": 9,
+    "title": "Комплексные диагностические кейсы",
+    "description": "Выбирать ограниченный вывод и безопасное продолжение по пяти картам",
+    "estimatedMinutes": 40,
+    "file": "lesson_09.json"
+  },
+  {
+    "id": "safety_systems_10",
+    "order": 10,
+    "title": "Итоговый практикум",
+    "description": "Проверить архитектуру, датчики и безопасную диагностику: 15 заданий, 80%",
+    "estimatedMinutes": 32,
+    "file": "lesson_10.json"
+  }
+]
