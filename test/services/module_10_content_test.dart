@@ -33,14 +33,14 @@ void main() {
   });
 
   test(
-    'thirteen modules and 122 ordered unique lessons retain the old prefix',
+    'fourteen modules and 132 ordered unique lessons retain the old prefix',
     () async {
       final modules = await course.loadModules();
-      expect(modules.map((m) => m.id), List.generate(13, (i) => 'stage_$i'));
-      expect(modules.map((m) => m.order), List.generate(13, (i) => i));
+      expect(modules.map((m) => m.id), List.generate(14, (i) => 'stage_$i'));
+      expect(modules.map((m) => m.order), List.generate(14, (i) => i));
       final all = await course.loadAllLessons();
-      expect(all, hasLength(122));
-      expect(all.map((e) => e.lesson.id).toSet(), hasLength(122));
+      expect(all, hasLength(132));
+      expect(all.map((e) => e.lesson.id).toSet(), hasLength(132));
       expect(all.take(82).last.lesson.id, 'starting_charging_10');
       expect(
         all.skip(82).take(10).map((e) => e.lesson.id),
@@ -153,8 +153,8 @@ void main() {
       });
       final before = await ProgressService().calculateProgress(all);
       expect(before.completedLessons, 82);
-      expect(before.totalLessons, 122);
-      expect(before.progress, 82 / 122);
+      expect(before.totalLessons, 132);
+      expect(before.progress, 82 / 132);
       expect(before.nextLesson?.lesson.id, 'wiring_repair_01');
       await ProgressService().completeLesson('wiring_repair_01');
       final prefs = await SharedPreferences.getInstance();
@@ -166,7 +166,7 @@ void main() {
       });
       final after = await ProgressService().calculateProgress(all);
       expect(after.completedLessons, 83);
-      expect(after.progress, 83 / 122);
+      expect(after.progress, 83 / 132);
       expect(after.nextLesson?.lesson.id, 'wiring_repair_02');
       expect(prefs.getKeys(), {'completed_lessons'});
     },

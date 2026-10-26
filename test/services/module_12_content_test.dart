@@ -41,15 +41,15 @@ void main() {
   });
 
   test(
-    '13 modules and 122 unique lessons retain the old ordered prefix',
+    '14 modules and 132 unique lessons retain the old ordered prefix',
     () async {
       final course = CourseService();
       final modules = await course.loadModules();
-      expect(modules.map((m) => m.id), List.generate(13, (i) => 'stage_$i'));
-      expect(modules.map((m) => m.order), List.generate(13, (i) => i));
+      expect(modules.map((m) => m.id), List.generate(14, (i) => 'stage_$i'));
+      expect(modules.map((m) => m.order), List.generate(14, (i) => i));
       final all = await course.loadAllLessons();
-      expect(all, hasLength(122));
-      expect(all.map((e) => e.lesson.id).toSet(), hasLength(122));
+      expect(all, hasLength(132));
+      expect(all.map((e) => e.lesson.id).toSet(), hasLength(132));
       expect(all[101].lesson.id, 'oscilloscope_10');
       expect(
         all.skip(102).take(10).map((e) => e.lesson.id),
@@ -121,7 +121,7 @@ void main() {
       final service = ProgressService();
       final before = await service.calculateProgress(all);
       expect(before.completedLessons, 102);
-      expect(before.progress, 102 / 122);
+      expect(before.progress, 102 / 132);
       expect(before.nextLesson?.lesson.id, 'body_electronics_01');
       await service.completeLesson('body_electronics_01');
       expect(await service.getCompletedLessons(), {
@@ -131,7 +131,7 @@ void main() {
       });
       final after = await service.calculateProgress(all);
       expect(after.completedLessons, 103);
-      expect(after.progress, 103 / 122);
+      expect(after.progress, 103 / 132);
       expect(after.nextLesson?.lesson.id, 'body_electronics_02');
     },
   );

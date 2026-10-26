@@ -46,18 +46,18 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
   test(
-    '13 modules and 122 unique ordered lessons retain the 112 lesson prefix',
+    '14 modules and 132 unique ordered lessons retain the 112 lesson prefix',
     () async {
       final course = CourseService(),
           modules = await CourseService().loadModules();
-      expect(modules.map((m) => m.id), List.generate(13, (i) => 'stage_$i'));
-      expect(modules.map((m) => m.order), List.generate(13, (i) => i));
+      expect(modules.map((m) => m.id), List.generate(14, (i) => 'stage_$i'));
+      expect(modules.map((m) => m.order), List.generate(14, (i) => i));
       final all = await course.loadAllLessons();
-      expect(all, hasLength(122));
-      expect(all.map((e) => e.lesson.id).toSet(), hasLength(122));
+      expect(all, hasLength(132));
+      expect(all.map((e) => e.lesson.id).toSet(), hasLength(132));
       expect(all[111].lesson.id, 'body_electronics_10');
       expect(
-        all.skip(112).map((e) => e.lesson.id),
+        all.skip(112).take(10).map((e) => e.lesson.id),
         List.generate(
           10,
           (i) => 'safety_systems_${(i + 1).toString().padLeft(2, '0')}',
@@ -124,7 +124,7 @@ void main() {
       });
       final before = await service.calculateProgress(all);
       expect(before.completedLessons, 112);
-      expect(before.progress, 112 / 122);
+      expect(before.progress, 112 / 132);
       expect(before.nextLesson?.lesson.id, 'safety_systems_01');
       await service.completeLesson('safety_systems_01');
       expect(await service.getCompletedLessons(), {
@@ -134,7 +134,7 @@ void main() {
       });
       final after = await service.calculateProgress(all);
       expect(after.completedLessons, 113);
-      expect(after.progress, 113 / 122);
+      expect(after.progress, 113 / 132);
       expect(after.nextLesson?.lesson.id, 'safety_systems_02');
     },
   );

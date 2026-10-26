@@ -57,9 +57,9 @@ void main() {
   });
 
   test(
-    'approved pilot slices retain contracts in the 122-lesson course',
+    'approved pilot slices retain contracts in the 132-lesson course',
     () async {
-      expect(await CourseService().loadAllLessons(), hasLength(122));
+      expect(await CourseService().loadAllLessons(), hasLength(132));
       final assets = <String>{};
       for (final order in _lessons) {
         final lesson = await _load(order);
