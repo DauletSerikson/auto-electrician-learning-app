@@ -1,0 +1,82 @@
+[
+  {
+    "id": "hybrid_ev_01",
+    "order": 1,
+    "title": "Архитектура HEV, PHEV и BEV",
+    "description": "Различать источники энергии и функциональные пути",
+    "estimatedMinutes": 24,
+    "file": "lesson_01.json"
+  },
+  {
+    "id": "hybrid_ev_02",
+    "order": 2,
+    "title": "Высоковольтные системы и безопасность",
+    "description": "Определять границы допустимого анализа",
+    "estimatedMinutes": 24,
+    "file": "lesson_02.json"
+  },
+  {
+    "id": "hybrid_ev_03",
+    "order": 3,
+    "title": "Тяговая батарея и BMS",
+    "description": "Различать группы, номиналы и оценки состояния",
+    "estimatedMinutes": 28,
+    "file": "lesson_03.json"
+  },
+  {
+    "id": "hybrid_ev_04",
+    "order": 4,
+    "title": "Инвертор и тяговый электродвигатель",
+    "description": "Читать мощность и потери в двух направлениях",
+    "estimatedMinutes": 26,
+    "file": "lesson_04.json"
+  },
+  {
+    "id": "hybrid_ev_05",
+    "order": 5,
+    "title": "DC/DC-преобразователь и низковольтная сеть",
+    "description": "Различать поддержку LV и статусы управления",
+    "estimatedMinutes": 26,
+    "file": "lesson_05.json"
+  },
+  {
+    "id": "hybrid_ev_06",
+    "order": 6,
+    "title": "AC/DC-зарядка электромобиля",
+    "description": "Различать пути, ограничения и энергобаланс",
+    "estimatedMinutes": 28,
+    "file": "lesson_06.json"
+  },
+  {
+    "id": "hybrid_ev_07",
+    "order": 7,
+    "title": "Контакторы, предзаряд и контроль изоляции",
+    "description": "Понимать функции без физических действий",
+    "estimatedMinutes": 30,
+    "file": "lesson_07.json"
+  },
+  {
+    "id": "hybrid_ev_08",
+    "order": 8,
+    "title": "Охлаждение и терморегулирование",
+    "description": "Сопоставлять тепло, температуру и ограничения",
+    "estimatedMinutes": 26,
+    "file": "lesson_08.json"
+  },
+  {
+    "id": "hybrid_ev_09",
+    "order": 9,
+    "title": "Комплексные диагностические кейсы",
+    "description": "Читать пять карт и выбирать безопасное продолжение",
+    "estimatedMinutes": 40,
+    "file": "lesson_09.json"
+  },
+  {
+    "id": "hybrid_ev_10",
+    "order": 10,
+    "title": "Итоговый практикум",
+    "description": "Пятнадцать заданий по архитектуре и безопасной интерпретации",
+    "estimatedMinutes": 32,
+    "file": "lesson_10.json"
+  }
+]

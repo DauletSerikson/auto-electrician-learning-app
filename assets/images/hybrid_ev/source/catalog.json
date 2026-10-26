@@ -1,0 +1,82 @@
+{
+  "powertrain_types": [
+    960,
+    2088
+  ],
+  "hybrid_paths": [
+    960,
+    1794
+  ],
+  "bev_architecture": [
+    960,
+    1806
+  ],
+  "hv_lv_safety": [
+    960,
+    1716
+  ],
+  "battery_groups": [
+    960,
+    1806
+  ],
+  "bms_functions": [
+    960,
+    1716
+  ],
+  "drive_flow": [
+    960,
+    1470
+  ],
+  "regen_flow": [
+    960,
+    1542
+  ],
+  "dcdc_lv": [
+    960,
+    1656
+  ],
+  "ac_dc_charging": [
+    960,
+    1596
+  ],
+  "precharge_concept": [
+    960,
+    2052
+  ],
+  "precharge_plot": [
+    960,
+    2283
+  ],
+  "hvil_isolation": [
+    960,
+    1716
+  ],
+  "thermal_paths": [
+    960,
+    2106
+  ],
+  "case_dcdc": [
+    960,
+    1806
+  ],
+  "case_cold_charge": [
+    960,
+    1836
+  ],
+  "case_precharge": [
+    960,
+    2607
+  ],
+  "case_bms_spread": [
+    960,
+    1830
+  ],
+  "case_thermal_limit": [
+    960,
+    2058
+  ],
+  "safe_decisions": [
+    960,
+    1956
+  ]
+}
