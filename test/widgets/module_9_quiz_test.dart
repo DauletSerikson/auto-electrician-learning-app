@@ -1,3 +1,5 @@
+import '../support/quiz_test_actions.dart' as quiz_actions;
+
 import 'dart:async';
 
 import 'package:electrician/main.dart';
@@ -5,7 +7,6 @@ import 'package:electrician/models/lesson_block.dart';
 import 'package:electrician/screens/lesson_screen.dart';
 import 'package:electrician/screens/module_screen.dart';
 import 'package:electrician/services/course_service.dart';
-import 'package:electrician/widgets/lesson_blocks/question_block.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -168,58 +169,38 @@ void main() {
         ),
       );
       await tap(tester, find.text('Open'));
-      final questions = lesson!.blocks
-          .whereType<QuestionLessonBlock>()
-          .toList();
-      for (var i = 0; i < questions.length; i++) {
-        final card = find.byType(QuestionBlock).at(i);
-        final choice = i < 11
-            ? questions[i].correctAnswer
-            : (questions[i].correctAnswer + 1) % questions[i].answers.length;
-        await tap(
-          tester,
-          find
-              .descendant(of: card, matching: find.byType(RadioListTile<int>))
-              .at(choice),
-        );
-        await tap(
-          tester,
-          find.descendant(
-            of: card,
-            matching: find.widgetWithText(FilledButton, 'Проверить'),
-          ),
-        );
-      }
+      final actualLesson = tester
+          .widget<LessonScreen>(find.byType(LessonScreen))
+          .lesson;
+      expect(quiz_actions.quizTaskIndices(actualLesson), hasLength(15));
+      expect(find.widgetWithText(FilledButton, 'Проверить'), findsNothing);
+      expect(find.byKey(const ValueKey('quiz_submit')), findsOneWidget);
       final complete = find.widgetWithText(FilledButton, 'Завершить проверку');
-      await tester.ensureVisible(complete);
+      await quiz_actions.fillQuiz(
+        tester,
+        actualLesson,
+        wrongTasks: {11, 12, 13, 14},
+      );
       expect(tester.widget<FilledButton>(complete).onPressed, isNull);
       expect(preferences.writes, 0);
-      final retryCard = find.byType(QuestionBlock).at(11);
-      await tap(
-        tester,
-        find.descendant(
-          of: retryCard,
-          matching: find.widgetWithText(OutlinedButton, 'Попробовать ещё раз'),
-        ),
-      );
+      await quiz_actions.submitQuiz(tester);
+      expect(find.text('73%'), findsOneWidget);
       expect(tester.widget<FilledButton>(complete).onPressed, isNull);
-      await tap(
+      expect(preferences.writes, 0);
+      await quiz_actions.retryQuiz(tester);
+      expect(find.text('73%'), findsNothing);
+      expect(find.text('Осталось без ответа: 15'), findsOneWidget);
+      expect(tester.widget<FilledButton>(complete).onPressed, isNull);
+      await quiz_actions.fillQuiz(
         tester,
-        find
-            .descendant(
-              of: retryCard,
-              matching: find.byType(RadioListTile<int>),
-            )
-            .at(questions[11].correctAnswer),
+        actualLesson,
+        wrongTasks: {12, 13, 14},
       );
-      await tap(
-        tester,
-        find.descendant(
-          of: retryCard,
-          matching: find.widgetWithText(FilledButton, 'Проверить'),
-        ),
-      );
-      await tester.ensureVisible(complete);
+      // Drafts alone must never enable explicit completion or write progress.
+      expect(tester.widget<FilledButton>(complete).onPressed, isNull);
+      expect(preferences.writes, 0);
+      await quiz_actions.submitQuiz(tester);
+      expect(find.text('80%'), findsOneWidget);
       expect(tester.widget<FilledButton>(complete).onPressed, isNotNull);
       expect(preferences.writes, 0);
       await tap(tester, complete);

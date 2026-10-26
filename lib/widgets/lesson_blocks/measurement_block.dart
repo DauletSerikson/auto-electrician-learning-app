@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
+import '../quiz_task_controller.dart';
 import '../../simulation/multimeter.dart';
 import '../../simulation/battery_voltage_simulation.dart';
 import '../../simulation/conductor_measurement_simulation.dart';
@@ -14,18 +15,24 @@ class MeasurementBlock extends StatefulWidget {
   final ValueChanged<bool>? onAnswered;
   final VoidCallback? onRetry;
 
+  final QuizTaskController? quizTask;
+
   const MeasurementBlock({
     super.key,
     required this.block,
     this.onAnswered,
     this.onRetry,
+    this.quizTask,
   });
 
   @override
   State<MeasurementBlock> createState() => _MeasurementBlockState();
 }
 
-class _MeasurementBlockState extends State<MeasurementBlock> {
+class _MeasurementBlockState extends State<MeasurementBlock>
+    with QuizTaskState<MeasurementBlock> {
+  @override
+  QuizTaskController? get quizTask => widget.quizTask;
   MultimeterMode mode = MultimeterMode.off;
 
   MultimeterPort redPort = MultimeterPort.voltageResistance;
@@ -275,6 +282,16 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
 
   @override
   Widget build(BuildContext context) {
+    quizTask?.bind(
+      submit: checkMeasurement,
+      ready: () =>
+          mode != MultimeterMode.off &&
+          (isBatteryVoltage
+              ? redTerminal != BatteryTerminal.none &&
+                    blackTerminal != BatteryTerminal.none
+              : redWirePoint != WirePoint.none &&
+                    blackWirePoint != WirePoint.none),
+    );
     return Card(
       margin: const EdgeInsets.only(top: 8, bottom: 24),
       child: Padding(
@@ -332,10 +349,11 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
 
             const SizedBox(height: 16),
 
-            FilledButton(
-              onPressed: checked ? null : checkMeasurement,
-              child: const Text('Проверить измерение'),
-            ),
+            if (quizTask == null)
+              FilledButton(
+                onPressed: checked ? null : checkMeasurement,
+                child: const Text('Проверить измерение'),
+              ),
 
             if (checked) ...[const SizedBox(height: 16), buildResult(context)],
           ],
@@ -446,14 +464,12 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
       ),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Expanded(
-                child: Text(
-                  'ИССЛЕДУЕМЫЙ ПРОВОД',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
+              const Text(
+                'ИССЛЕДУЕМЫЙ ПРОВОД',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
 
               Chip(label: Text(circuitPowered ? 'ПИТАНИЕ ВКЛ.' : 'ОБЕСТОЧЕНО')),
@@ -574,7 +590,10 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
           children: [
             Container(
               width: double.infinity,
-              height: 86,
+              height: quizTask == null ? 86 : null,
+              constraints: quizTask == null
+                  ? null
+                  : const BoxConstraints(minHeight: 86),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: colorScheme.primaryContainer,
@@ -622,8 +641,10 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
 
             const SizedBox(height: 20),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Wrap(
+              alignment: WrapAlignment.spaceEvenly,
+              spacing: 12,
+              runSpacing: 12,
               children: [
                 buildComPort(context),
 
@@ -997,11 +1018,12 @@ class _MeasurementBlockState extends State<MeasurementBlock> {
 
         const SizedBox(height: 12),
 
-        OutlinedButton.icon(
-          onPressed: retry,
-          icon: const Icon(Icons.refresh),
-          label: const Text('Попробовать ещё раз'),
-        ),
+        if (quizTask == null)
+          OutlinedButton.icon(
+            onPressed: retry,
+            icon: const Icon(Icons.refresh),
+            label: const Text('Попробовать ещё раз'),
+          ),
       ],
     );
   }

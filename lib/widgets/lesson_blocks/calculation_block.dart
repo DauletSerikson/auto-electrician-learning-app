@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../models/lesson_block.dart';
+import '../quiz_task_controller.dart';
 
 class CalculationBlock extends StatefulWidget {
   final CalculationLessonBlock block;
 
   final ValueChanged<bool>? onAnswered;
   final VoidCallback? onRetry;
+  final QuizTaskController? quizTask;
 
   const CalculationBlock({
     super.key,
     required this.block,
     this.onAnswered,
     this.onRetry,
+    this.quizTask,
   });
 
   @override
@@ -21,7 +24,15 @@ class CalculationBlock extends StatefulWidget {
 }
 
 class _CalculationBlockState extends State<CalculationBlock> {
-  final TextEditingController controller = TextEditingController();
+  late final TextEditingController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TextEditingController(
+      text: widget.quizTask?.calculationText ?? '',
+    );
+  }
 
   bool checked = false;
   bool isCorrect = false;
@@ -81,6 +92,15 @@ class _CalculationBlockState extends State<CalculationBlock> {
 
   @override
   Widget build(BuildContext context) {
+    widget.quizTask?.bind(
+      submit: checkAnswer,
+      ready: () {
+        final value = double.tryParse(
+          controller.text.trim().replaceAll(',', '.'),
+        );
+        return value != null && value.isFinite;
+      },
+    );
     final unit = widget.block.unit;
 
     final showHint = checked && !isCorrect;
@@ -135,8 +155,14 @@ class _CalculationBlockState extends State<CalculationBlock> {
                       errorText: invalidInput ? 'Введите число' : null,
                     ),
                     onSubmitted: (_) {
-                      if (!checked) {
+                      if (!checked && widget.quizTask == null) {
                         checkAnswer();
+                      }
+                    },
+                    onChanged: (value) {
+                      if (widget.quizTask case final task?) {
+                        task.calculationText = value;
+                        task.changed();
                       }
                     },
                   ),
@@ -158,10 +184,11 @@ class _CalculationBlockState extends State<CalculationBlock> {
 
             const SizedBox(height: 12),
 
-            FilledButton(
-              onPressed: checked ? null : checkAnswer,
-              child: const Text('Проверить'),
-            ),
+            if (widget.quizTask == null)
+              FilledButton(
+                onPressed: checked ? null : checkAnswer,
+                child: const Text('Проверить'),
+              ),
 
             if (checked) ...[
               const SizedBox(height: 16),
@@ -197,7 +224,7 @@ class _CalculationBlockState extends State<CalculationBlock> {
               ),
             ],
 
-            if (checked && !isCorrect) ...[
+            if (checked && !isCorrect && widget.quizTask == null) ...[
               const SizedBox(height: 16),
 
               OutlinedButton.icon(

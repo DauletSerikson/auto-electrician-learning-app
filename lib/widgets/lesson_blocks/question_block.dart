@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
+import '../quiz_task_controller.dart';
 
 class QuestionBlock extends StatefulWidget {
   final QuestionLessonBlock block;
@@ -11,12 +12,14 @@ class QuestionBlock extends StatefulWidget {
   /// Сообщает LessonScreen, что пользователь сбросил ответ
   /// и собирается попробовать ещё раз.
   final VoidCallback? onRetry;
+  final QuizTaskController? quizTask;
 
   const QuestionBlock({
     super.key,
     required this.block,
     this.onAnswered,
     this.onRetry,
+    this.quizTask,
   });
 
   @override
@@ -24,7 +27,8 @@ class QuestionBlock extends StatefulWidget {
 }
 
 class _QuestionBlockState extends State<QuestionBlock> {
-  int? selectedAnswer;
+  int? _selectedAnswer;
+  int? get selectedAnswer => widget.quizTask?.selectedAnswer ?? _selectedAnswer;
   bool checked = false;
 
   void checkAnswer() {
@@ -43,7 +47,7 @@ class _QuestionBlockState extends State<QuestionBlock> {
 
   void retry() {
     setState(() {
-      selectedAnswer = null;
+      _selectedAnswer = null;
       checked = false;
     });
 
@@ -52,6 +56,10 @@ class _QuestionBlockState extends State<QuestionBlock> {
 
   @override
   Widget build(BuildContext context) {
+    widget.quizTask?.bind(
+      submit: checkAnswer,
+      ready: () => selectedAnswer != null,
+    );
     final answers = widget.block.answers;
 
     final isCorrect = selectedAnswer == widget.block.correctAnswer;
@@ -91,8 +99,13 @@ class _QuestionBlockState extends State<QuestionBlock> {
                 }
 
                 setState(() {
-                  selectedAnswer = value;
+                  if (widget.quizTask case final task?) {
+                    task.selectedAnswer = value;
+                  } else {
+                    _selectedAnswer = value;
+                  }
                 });
+                widget.quizTask?.changed();
               },
               child: Column(
                 children: List.generate(answers.length, (index) {
@@ -107,10 +120,13 @@ class _QuestionBlockState extends State<QuestionBlock> {
 
             const SizedBox(height: 8),
 
-            FilledButton(
-              onPressed: selectedAnswer == null || checked ? null : checkAnswer,
-              child: const Text('Проверить'),
-            ),
+            if (widget.quizTask == null)
+              FilledButton(
+                onPressed: selectedAnswer == null || checked
+                    ? null
+                    : checkAnswer,
+                child: const Text('Проверить'),
+              ),
 
             if (checked) ...[
               const SizedBox(height: 16),
@@ -127,7 +143,7 @@ class _QuestionBlockState extends State<QuestionBlock> {
 
               Text(widget.block.explanation),
 
-              if (!isCorrect) ...[
+              if (!isCorrect && widget.quizTask == null) ...[
                 const SizedBox(height: 16),
 
                 OutlinedButton.icon(

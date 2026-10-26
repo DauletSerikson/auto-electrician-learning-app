@@ -128,8 +128,16 @@ void main() {
     ) async {
       await showLesson(tester, fixture(tasks: boundary.$1, quiz: true));
       for (var i = 0; i < boundary.$1; i++) {
-        answer(tester, i, i < boundary.$2);
+        final group = find
+            .byType(RadioListTile<int>)
+            .at(i * 2 + (i < boundary.$2 ? 0 : 1));
+        await tester.ensureVisible(group);
+        await tester.tap(group);
+        await tester.pump();
       }
+      await tester.pump();
+      await tester.ensureVisible(find.byKey(const ValueKey('quiz_submit')));
+      await tester.tap(find.byKey(const ValueKey('quiz_submit')));
       await tester.pump();
       expect(find.text('${boundary.$3}%'), findsOneWidget);
       expect(completionEnabled(tester, quiz: true), boundary.$4);

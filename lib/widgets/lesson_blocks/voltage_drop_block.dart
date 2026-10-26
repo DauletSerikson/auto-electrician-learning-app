@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
+import '../quiz_task_controller.dart';
 import '../../simulation/voltage_drop_simulation.dart';
 
 class VoltageDropBlock extends StatefulWidget {
@@ -9,18 +10,24 @@ class VoltageDropBlock extends StatefulWidget {
   final ValueChanged<bool>? onAnswered;
   final VoidCallback? onRetry;
 
+  final QuizTaskController? quizTask;
+
   const VoltageDropBlock({
     super.key,
     required this.block,
     this.onAnswered,
     this.onRetry,
+    this.quizTask,
   });
 
   @override
   State<VoltageDropBlock> createState() => _VoltageDropBlockState();
 }
 
-class _VoltageDropBlockState extends State<VoltageDropBlock> {
+class _VoltageDropBlockState extends State<VoltageDropBlock>
+    with QuizTaskState<VoltageDropBlock> {
+  @override
+  QuizTaskController? get quizTask => widget.quizTask;
   bool loadOn = true;
 
   VoltageDropPoint? redPoint;
@@ -109,6 +116,10 @@ class _VoltageDropBlockState extends State<VoltageDropBlock> {
 
   @override
   Widget build(BuildContext context) {
+    quizTask?.bind(
+      submit: checkMeasurement,
+      ready: () => redPoint != null && blackPoint != null,
+    );
     return Card(
       margin: const EdgeInsets.only(top: 8, bottom: 24),
       child: Padding(
@@ -150,10 +161,11 @@ class _VoltageDropBlockState extends State<VoltageDropBlock> {
 
             const SizedBox(height: 16),
 
-            FilledButton(
-              onPressed: checked ? null : checkMeasurement,
-              child: const Text('Проверить измерение'),
-            ),
+            if (quizTask == null)
+              FilledButton(
+                onPressed: checked ? null : checkMeasurement,
+                child: const Text('Проверить измерение'),
+              ),
 
             if (checked) ...[const SizedBox(height: 16), buildResult(context)],
           ],
@@ -460,11 +472,12 @@ class _VoltageDropBlockState extends State<VoltageDropBlock> {
 
         const SizedBox(height: 12),
 
-        OutlinedButton.icon(
-          onPressed: retry,
-          icon: const Icon(Icons.refresh),
-          label: const Text('Попробовать ещё раз'),
-        ),
+        if (quizTask == null)
+          OutlinedButton.icon(
+            onPressed: retry,
+            icon: const Icon(Icons.refresh),
+            label: const Text('Попробовать ещё раз'),
+          ),
       ],
     );
   }

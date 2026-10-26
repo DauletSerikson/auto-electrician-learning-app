@@ -4,6 +4,7 @@ import '../domain/lesson_attempt.dart';
 import '../models/lesson.dart';
 import '../services/progress_service.dart';
 import '../widgets/lesson_block_renderer.dart';
+import '../widgets/quiz_task_controller.dart';
 
 class LessonScreen extends StatefulWidget {
   final Lesson lesson;
@@ -16,8 +17,69 @@ class LessonScreen extends StatefulWidget {
 
 class _LessonScreenState extends State<LessonScreen> {
   final Map<int, bool> taskResults = {};
+  final Map<int, QuizTaskController> quizTasks = {};
+  bool quizSubmitted = false;
+  int quizVersion = 0;
   bool saving = false;
   bool saveFailed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    initializeQuizTasks();
+  }
+
+  void initializeQuizTasks() {
+    quizTasks.clear();
+    if (!widget.lesson.completion.isQuiz) return;
+    for (var i = 0; i < widget.lesson.blocks.length; i++) {
+      if (isScoredLessonBlock(widget.lesson.blocks[i])) {
+        quizTasks[i] = QuizTaskController(
+          onChanged: () {
+            if (mounted) setState(() {});
+          },
+        );
+      }
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant LessonScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.lesson.id != widget.lesson.id) {
+      taskResults.clear();
+      quizSubmitted = false;
+      quizVersion++;
+      saveFailed = false;
+      initializeQuizTasks();
+    }
+  }
+
+  int get remainingQuizTasks =>
+      quizTasks.values.where((task) => !task.ready).length;
+
+  void checkQuiz() {
+    if (saving || quizSubmitted || remainingQuizTasks != 0) return;
+    FocusScope.of(context).unfocus();
+    setState(() {
+      taskResults.clear();
+      quizSubmitted = true;
+      for (final task in quizTasks.values) {
+        task.submit();
+      }
+    });
+  }
+
+  void retryQuiz() {
+    if (saving) return;
+    setState(() {
+      taskResults.clear();
+      quizSubmitted = false;
+      saveFailed = false;
+      quizVersion++;
+      initializeQuizTasks();
+    });
+  }
 
   Future<void> completeLesson() async {
     if (saving || !canCompleteLesson) return;
@@ -52,7 +114,9 @@ class _LessonScreenState extends State<LessonScreen> {
   int get scorePercent => attempt.scorePercent;
   int get passingScore => attempt.passingScore;
   bool get passedQuiz => attempt.passedQuiz;
-  bool get canCompleteLesson => attempt.canComplete;
+  bool get canCompleteLesson =>
+      attempt.canComplete &&
+      (!widget.lesson.completion.isQuiz || quizSubmitted);
 
   void registerAnswer(int blockIndex, bool isCorrect) {
     setState(() {
@@ -100,18 +164,52 @@ class _LessonScreenState extends State<LessonScreen> {
                 ],
                 const SizedBox(height: 24),
                 ...List.generate(lesson.blocks.length, (index) {
-                  return LessonBlockRenderer(
-                    block: lesson.blocks[index],
-                    blockIndex: index,
-                    onAnswered: (isCorrect) {
-                      registerAnswer(index, isCorrect);
-                    },
-                    onRetry: () {
-                      resetAnswer(index);
-                    },
+                  return ExcludeFocus(
+                    key: ValueKey('${lesson.id}:$quizVersion:$index'),
+                    excluding: lesson.completion.isQuiz && quizSubmitted,
+                    child: AbsorbPointer(
+                      absorbing: lesson.completion.isQuiz && quizSubmitted,
+                      child: LessonBlockRenderer(
+                        block: lesson.blocks[index],
+                        blockIndex: index,
+                        quizTask: quizTasks[index],
+                        onAnswered: (isCorrect) {
+                          registerAnswer(index, isCorrect);
+                        },
+                        onRetry: () {
+                          resetAnswer(index);
+                        },
+                      ),
+                    ),
                   );
                 }),
-                if (totalTasks > 0) buildTestResult(context),
+                if (lesson.completion.isQuiz) ...[
+                  if (!quizSubmitted) ...[
+                    Text(
+                      'Осталось без ответа: $remainingQuizTasks',
+                      key: const ValueKey('quiz_remaining'),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                  FilledButton(
+                    key: const ValueKey('quiz_submit'),
+                    onPressed:
+                        !quizSubmitted && remainingQuizTasks == 0 && !saving
+                        ? checkQuiz
+                        : null,
+                    child: const Text('Проверить ответы'),
+                  ),
+                  if (quizSubmitted)
+                    OutlinedButton.icon(
+                      key: const ValueKey('quiz_retry'),
+                      onPressed: saving ? null : retryQuiz,
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Попробовать ещё раз'),
+                    ),
+                ],
+                if (totalTasks > 0 &&
+                    (!lesson.completion.isQuiz || quizSubmitted))
+                  buildTestResult(context),
                 const SizedBox(height: 24),
                 FilledButton(
                   onPressed: canCompleteLesson && !saving
@@ -154,7 +252,9 @@ class _LessonScreenState extends State<LessonScreen> {
   Widget buildCompletionHint(BuildContext context) {
     String message;
 
-    if (!allTasksAnswered) {
+    if (widget.lesson.completion.isQuiz && !quizSubmitted) {
+      message = 'Ответь на все задания и нажми «Проверить ответы».';
+    } else if (!allTasksAnswered) {
       message =
           'Выполни все задания, '
           'чтобы завершить урок.';
@@ -197,7 +297,7 @@ class _LessonScreenState extends State<LessonScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Выполнено'),
+                const Expanded(child: Text('Выполнено')),
                 Text(
                   '$answeredTasks / '
                   '$totalTasks',
@@ -208,7 +308,7 @@ class _LessonScreenState extends State<LessonScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Правильно'),
+                const Expanded(child: Text('Правильно')),
                 Text(
                   '$correctAnswers / '
                   '$totalTasks',

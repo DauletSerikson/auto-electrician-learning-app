@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../models/lesson_block.dart';
+import '../domain/lesson_attempt.dart';
+import 'quiz_task_controller.dart';
 import 'lesson_blocks/calculation_block.dart';
 import 'lesson_blocks/circuit_block.dart';
 import 'lesson_blocks/current_measurement_block.dart';
@@ -12,11 +14,12 @@ import 'lesson_blocks/question_block.dart';
 import 'lesson_blocks/voltage_drop_block.dart';
 import 'lesson_blocks/oscilloscope_block.dart';
 
-class LessonBlockRenderer extends StatelessWidget {
+class LessonBlockRenderer extends StatefulWidget {
   final LessonBlock block;
   final int blockIndex;
   final ValueChanged<bool> onAnswered;
   final VoidCallback onRetry;
+  final QuizTaskController? quizTask;
 
   const LessonBlockRenderer({
     super.key,
@@ -24,10 +27,26 @@ class LessonBlockRenderer extends StatelessWidget {
     required this.blockIndex,
     required this.onAnswered,
     required this.onRetry,
+    this.quizTask,
   });
 
   @override
+  State<LessonBlockRenderer> createState() => _LessonBlockRendererState();
+}
+
+class _LessonBlockRendererState extends State<LessonBlockRenderer>
+    with AutomaticKeepAliveClientMixin {
+  LessonBlock get block => widget.block;
+  int get blockIndex => widget.blockIndex;
+  ValueChanged<bool> get onAnswered => widget.onAnswered;
+  VoidCallback get onRetry => widget.onRetry;
+
+  @override
+  bool get wantKeepAlive => isScoredLessonBlock(block);
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return switch (block) {
       TextLessonBlock block => _buildTextBlock(context, block),
       RememberLessonBlock block => _buildRememberBlock(block),
@@ -38,6 +57,7 @@ class LessonBlockRenderer extends StatelessWidget {
         block: block,
         onAnswered: onAnswered,
         onRetry: onRetry,
+        quizTask: widget.quizTask,
       ),
       CircuitLessonBlock block => CircuitBlock(
         key: ValueKey('circuit_$blockIndex'),
@@ -52,18 +72,21 @@ class LessonBlockRenderer extends StatelessWidget {
         block: block,
         onAnswered: onAnswered,
         onRetry: onRetry,
+        quizTask: widget.quizTask,
       ),
       VoltageDropLessonBlock block => VoltageDropBlock(
         key: ValueKey('voltage_drop_$blockIndex'),
         block: block,
         onAnswered: onAnswered,
         onRetry: onRetry,
+        quizTask: widget.quizTask,
       ),
       CurrentMeasurementLessonBlock block => CurrentMeasurementBlock(
         key: ValueKey('current_$blockIndex'),
         block: block,
         onAnswered: onAnswered,
         onRetry: onRetry,
+        quizTask: widget.quizTask,
       ),
       DiagnosticCaseLessonBlock block => DiagnosticCaseBlock(
         key: ValueKey('diagnostic_$blockIndex'),
@@ -82,12 +105,14 @@ class LessonBlockRenderer extends StatelessWidget {
         block: block,
         onAnswered: onAnswered,
         onRetry: onRetry,
+        quizTask: widget.quizTask,
       ),
       CalculationLessonBlock block => CalculationBlock(
         key: ValueKey('calculation_$blockIndex'),
         block: block,
         onAnswered: onAnswered,
         onRetry: onRetry,
+        quizTask: widget.quizTask,
       ),
     };
   }

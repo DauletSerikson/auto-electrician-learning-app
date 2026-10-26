@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
+import '../quiz_task_controller.dart';
 import '../../simulation/multimeter.dart';
 import '../../simulation/current_measurement_simulation.dart';
 
@@ -10,11 +11,14 @@ class CurrentMeasurementBlock extends StatefulWidget {
   final ValueChanged<bool>? onAnswered;
   final VoidCallback? onRetry;
 
+  final QuizTaskController? quizTask;
+
   const CurrentMeasurementBlock({
     super.key,
     required this.block,
     this.onAnswered,
     this.onRetry,
+    this.quizTask,
   });
 
   @override
@@ -22,7 +26,10 @@ class CurrentMeasurementBlock extends StatefulWidget {
       _CurrentMeasurementBlockState();
 }
 
-class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
+class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock>
+    with QuizTaskState<CurrentMeasurementBlock> {
+  @override
+  QuizTaskController? get quizTask => widget.quizTask;
   MultimeterMode mode = MultimeterMode.off;
 
   MultimeterPort redPort = MultimeterPort.voltageResistance;
@@ -173,6 +180,13 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
 
   @override
   Widget build(BuildContext context) {
+    quizTask?.bind(
+      submit: checkMeasurement,
+      ready: () =>
+          !meterFuseBlown &&
+          mode != MultimeterMode.off &&
+          connection != CurrentConnection.disconnected,
+    );
     return Card(
       margin: const EdgeInsets.only(top: 8, bottom: 24),
       child: Padding(
@@ -222,10 +236,11 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
 
             const SizedBox(height: 16),
 
-            FilledButton(
-              onPressed: checked || meterFuseBlown ? null : checkMeasurement,
-              child: const Text('Проверить измерение'),
-            ),
+            if (quizTask == null)
+              FilledButton(
+                onPressed: checked || meterFuseBlown ? null : checkMeasurement,
+                child: const Text('Проверить измерение'),
+              ),
 
             if (checked) ...[const SizedBox(height: 16), buildResult(context)],
           ],
@@ -350,7 +365,10 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
         child: Column(
           children: [
             Container(
-              height: 86,
+              height: quizTask == null ? 86 : null,
+              constraints: quizTask == null
+                  ? null
+                  : const BoxConstraints(minHeight: 86),
               width: double.infinity,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -394,8 +412,10 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
 
             const SizedBox(height: 20),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Wrap(
+              alignment: WrapAlignment.spaceEvenly,
+              spacing: 12,
+              runSpacing: 12,
               children: [
                 buildComPort(context),
 
@@ -652,11 +672,12 @@ class _CurrentMeasurementBlockState extends State<CurrentMeasurementBlock> {
 
         const SizedBox(height: 12),
 
-        OutlinedButton.icon(
-          onPressed: retry,
-          icon: const Icon(Icons.refresh),
-          label: const Text('Попробовать ещё раз'),
-        ),
+        if (quizTask == null)
+          OutlinedButton.icon(
+            onPressed: retry,
+            icon: const Icon(Icons.refresh),
+            label: const Text('Попробовать ещё раз'),
+          ),
       ],
     );
   }

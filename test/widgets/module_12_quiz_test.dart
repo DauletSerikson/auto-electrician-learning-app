@@ -1,3 +1,5 @@
+import '../support/quiz_test_actions.dart' as quiz_actions;
+
 import 'dart:async';
 
 import 'package:electrician/main.dart';
@@ -8,8 +10,6 @@ import 'package:electrician/services/course_service.dart';
 import 'package:electrician/widgets/lesson_blocks/question_block.dart';
 import 'package:electrician/widgets/lesson_blocks/calculation_block.dart';
 import 'package:electrician/widgets/lesson_blocks/oscilloscope_block.dart';
-
-import 'oscilloscope_block_test.dart' as scope_support show select;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -170,110 +170,38 @@ void main() {
       expect(find.byType(QuestionBlock), findsNWidgets(11));
       expect(find.byType(CalculationBlock), findsNWidgets(3));
       expect(find.byType(OscilloscopeBlock), findsOneWidget);
-      final indices = [
-        for (var i = 0; i < lesson.blocks.length; i++)
-          if (lesson.blocks[i] is QuestionLessonBlock ||
-              lesson.blocks[i] is CalculationLessonBlock ||
-              lesson.blocks[i] is OscilloscopeLessonBlock)
-            i,
-      ];
-      Finder card(int task) => find.byKey(
-        ValueKey('${lesson.blocks[indices[task]].type}_${indices[task]}'),
-      );
-      Future<void> answer(int task, bool correct) async {
-        final block = lesson.blocks[indices[task]];
-        final target = card(task);
-        if (block case QuestionLessonBlock(
-          :final correctAnswer,
-          :final answers,
-        )) {
-          await tap(
-            tester,
-            find
-                .descendant(
-                  of: target,
-                  matching: find.byType(RadioListTile<int>),
-                )
-                .at(
-                  correct
-                      ? correctAnswer
-                      : (correctAnswer + 1) % answers.length,
-                ),
-          );
-        } else if (block case OscilloscopeLessonBlock()) {
-          await scope_support.select(
-            tester,
-            'time',
-            correct ? '4.0 ms/div' : '1.0 ms/div',
-            within: target,
-          );
-          await tap(
-            tester,
-            find.descendant(
-              of: target,
-              matching: find.byKey(const ValueKey('scope_check')),
-            ),
-          );
-          return;
-        } else if (block case CalculationLessonBlock(:final correctValue)) {
-          await tester.enterText(
-            find.descendant(of: target, matching: find.byType(TextField)),
-            '${correct ? correctValue : correctValue + 1}'.replaceAll('.', ','),
-          );
-        }
-        await tap(
-          tester,
-          find.descendant(
-            of: target,
-            matching: find.widgetWithText(FilledButton, 'Проверить'),
-          ),
-        );
-      }
-
-      for (var task = 0; task < 15; task++) {
-        await answer(task, ![4, 7, 12, 14].contains(task));
-      }
+      final actualLesson = tester
+          .widget<LessonScreen>(find.byType(LessonScreen))
+          .lesson;
+      expect(quiz_actions.quizTaskIndices(actualLesson), hasLength(15));
+      expect(find.widgetWithText(FilledButton, 'Проверить'), findsNothing);
+      expect(find.byKey(const ValueKey('quiz_submit')), findsOneWidget);
       final complete = find.widgetWithText(FilledButton, 'Завершить проверку');
+      await quiz_actions.fillQuiz(
+        tester,
+        actualLesson,
+        wrongTasks: {11, 12, 13, 14},
+      );
       expect(tester.widget<FilledButton>(complete).onPressed, isNull);
       expect(preferences.writes, 0);
-      await tap(
-        tester,
-        find.descendant(
-          of: card(4),
-          matching: find.widgetWithText(OutlinedButton, 'Попробовать ещё раз'),
-        ),
-      );
+      await quiz_actions.submitQuiz(tester);
+      expect(find.text('73%'), findsOneWidget);
       expect(tester.widget<FilledButton>(complete).onPressed, isNull);
-      await answer(4, true);
-      expect(tester.widget<FilledButton>(complete).onPressed, isNotNull);
       expect(preferences.writes, 0);
-      // Editing a checked scope removes the same bool result as ordinary retry.
-      await scope_support.select(
-        tester,
-        'time',
-        '1.0 ms/div',
-        within: card(13),
-      );
+      await quiz_actions.retryQuiz(tester);
+      expect(find.text('73%'), findsNothing);
+      expect(find.text('Осталось без ответа: 15'), findsOneWidget);
       expect(tester.widget<FilledButton>(complete).onPressed, isNull);
-      await tap(
+      await quiz_actions.fillQuiz(
         tester,
-        find.descendant(
-          of: card(13),
-          matching: find.byKey(const ValueKey('scope_reset')),
-        ),
+        actualLesson,
+        wrongTasks: {12, 13, 14},
       );
-      await answer(13, true);
-      expect(tester.widget<FilledButton>(complete).onPressed, isNotNull);
-      // Even at 80%, a retried unanswered question blocks explicit completion.
-      await tap(
-        tester,
-        find.descendant(
-          of: card(12),
-          matching: find.widgetWithText(OutlinedButton, 'Попробовать ещё раз'),
-        ),
-      );
+      // Drafts alone must never enable explicit completion or write progress.
       expect(tester.widget<FilledButton>(complete).onPressed, isNull);
-      await answer(12, false);
+      expect(preferences.writes, 0);
+      await quiz_actions.submitQuiz(tester);
+      expect(find.text('80%'), findsOneWidget);
       expect(tester.widget<FilledButton>(complete).onPressed, isNotNull);
       expect(preferences.writes, 0);
       await tap(tester, complete);

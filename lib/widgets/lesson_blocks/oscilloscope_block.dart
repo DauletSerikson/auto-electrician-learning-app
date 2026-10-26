@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/lesson_block.dart';
+import '../quiz_task_controller.dart';
 import '../../simulation/oscilloscope_simulation.dart';
 import '../../simulation/scope_signal.dart';
 import 'scope_display.dart';
@@ -10,18 +11,24 @@ class OscilloscopeBlock extends StatefulWidget {
   final ValueChanged<bool> onAnswered;
   final VoidCallback onRetry;
 
+  final QuizTaskController? quizTask;
+
   const OscilloscopeBlock({
     super.key,
     required this.block,
     required this.onAnswered,
     required this.onRetry,
+    this.quizTask,
   });
 
   @override
   State<OscilloscopeBlock> createState() => _OscilloscopeBlockState();
 }
 
-class _OscilloscopeBlockState extends State<OscilloscopeBlock> {
+class _OscilloscopeBlockState extends State<OscilloscopeBlock>
+    with QuizTaskState<OscilloscopeBlock> {
+  @override
+  QuizTaskController? get quizTask => widget.quizTask;
   static const simulation = OscilloscopeSimulation();
   late ScopeScenario selected;
   late ScopeSettings settings;
@@ -86,6 +93,7 @@ class _OscilloscopeBlockState extends State<OscilloscopeBlock> {
 
   @override
   Widget build(BuildContext context) {
+    quizTask?.bind(submit: check, ready: () => quizTask!.interacted);
     final colorScheme = Theme.of(context).colorScheme;
     return Card(
       margin: const EdgeInsets.only(bottom: 24),
@@ -238,11 +246,12 @@ class _OscilloscopeBlockState extends State<OscilloscopeBlock> {
                 'Это не автоматические измерения по экрану.',
               ),
             const SizedBox(height: 12),
-            FilledButton(
-              key: const ValueKey('scope_check'),
-              onPressed: correct == null ? check : null,
-              child: const Text('Проверить настройку'),
-            ),
+            if (quizTask == null)
+              FilledButton(
+                key: const ValueKey('scope_check'),
+                onPressed: correct == null ? check : null,
+                child: const Text('Проверить настройку'),
+              ),
             OutlinedButton.icon(
               key: const ValueKey('scope_reset'),
               onPressed: reset,
