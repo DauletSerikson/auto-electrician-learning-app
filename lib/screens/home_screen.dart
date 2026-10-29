@@ -5,6 +5,7 @@ import '../services/course_service.dart';
 import '../services/progress_service.dart';
 import 'course_screen.dart';
 import 'lesson_screen.dart';
+import 'practice_catalog_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -197,6 +198,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
               await loadProgress();
             },
+          ),
+        ),
+        Card(
+          child: ListTile(
+            key: const ValueKey('open_diagnostic_practice'),
+            leading: const Icon(Icons.fact_check_outlined),
+            title: const Text('Практика диагноста'),
+            subtitle: const Text(
+              'Три комплексных сценария: проверки и доказательства',
+            ),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const PracticeCatalogScreen(),
+              ),
+            ),
           ),
         ),
       ],

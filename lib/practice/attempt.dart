@@ -182,6 +182,11 @@ final class PracticeSession {
     );
   }
 
+  void withdrawSafetyAcknowledgement() {
+    _editable();
+    _state = _state.copyWith(safetyAccepted: false);
+  }
+
   EvidenceRecord perform(String actionId, {bool confirmUnsafe = false}) {
     _editable();
     final action = _action(actionId);

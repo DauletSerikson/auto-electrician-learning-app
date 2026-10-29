@@ -22,6 +22,9 @@ sealed class PracticeObservation {
         if (!units.contains(unit) || data.number('resolution') <= 0) {
           data.fail('incompatible unit or resolution');
         }
+        if (quantity == Quantity.resistance && data.number('value') < 0) {
+          data.fail('passive resistance cannot be negative');
+        }
         return NumericObservation(
           quantity,
           data.number('value'),
