@@ -1,0 +1,789 @@
+{
+  "schemaVersion": 1,
+  "id": "dp01",
+  "title": "Тишина при попытке запуска",
+  "difficulty": "Средняя",
+  "prerequisites": [
+    "stage_0",
+    "stage_2",
+    "stage_5",
+    "stage_8"
+  ],
+  "vehicle": "Учебный автомобиль 12 V, отдельное промежуточное реле K1. Это не модель катушки втягивающего и не модель АКБ под стартерным током.",
+  "symptoms": "START запрошен, двигатель не вращается, щелчок промежуточного реле не слышен. Причина неизвестна.",
+  "topology": "P → разрешающий ключ → Q → контакт C → Kplus → катушка K1 (120 Ω) → Kminus=N.\nКонтакт K1 выдаёт S50, затем включается силовая ветвь стартера. Условный порог втягивания K1 — 8,0 V. N — минусовой вывод источника. Сопротивление C до проверки неизвестно. Проводники и возврат идеализированы; S50 имеет пассивный путь к N. Значения — условия модели, не OEM-нормы.",
+  "safety": "Только виртуальные проверки и подготовленные данные. Реальные измерения требуют применимой заводской процедуры и квалификации. Не обходить защиты. Здесь нет инструкций физического подключения.",
+  "explanation": "I катушки = 12,60/(180+120) = 0,042 A = 42 mA. На C теряется 7,56 V; катушка получает 5,04 V — ниже условных 8,0 V. Реле не втягивается. Это не доказывает неисправность самого стартера и не оценивает АКБ под его силовым током.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Высокое сопротивление контакта C в цепи управления K1",
+      "parameters": {
+        "sourceV": 12.6,
+        "coilOhm": 120,
+        "contactOhm": 180,
+        "returnOhm": 0,
+        "pullInV": 8
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "P",
+      "label": "P — источник"
+    },
+    {
+      "id": "N",
+      "label": "N — минус источника"
+    },
+    {
+      "id": "Q",
+      "label": "Q — до C"
+    },
+    {
+      "id": "Kplus",
+      "label": "Kplus — после C"
+    },
+    {
+      "id": "Kminus",
+      "label": "Kminus — возврат катушки"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные сведения",
+      "powered": false,
+      "isolated": false,
+      "load": "нет измерения",
+      "command": "чтение документа",
+      "snapshotId": "ST-D",
+      "temperatureC": 20
+    },
+    {
+      "id": "start",
+      "label": "Подготовленная запись START",
+      "powered": true,
+      "isolated": false,
+      "load": "катушка K1 под током; мотор не вращается",
+      "command": "START",
+      "snapshotId": "ST-A",
+      "temperatureC": 20
+    },
+    {
+      "id": "off",
+      "label": "Подготовленная запись OFF",
+      "powered": false,
+      "isolated": false,
+      "load": "ток 0 A",
+      "command": "OFF",
+      "snapshotId": "ST-OFF",
+      "temperatureC": 20
+    },
+    {
+      "id": "isolated",
+      "label": "Изолированный участок: готовый отчёт",
+      "powered": false,
+      "isolated": true,
+      "load": "электроника и параллельные пути исключены",
+      "command": "OFF",
+      "snapshotId": "ST-R",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "start"
+    },
+    {
+      "from": "briefing",
+      "to": "off"
+    },
+    {
+      "from": "briefing",
+      "to": "isolated"
+    },
+    {
+      "from": "start",
+      "to": "briefing"
+    },
+    {
+      "from": "start",
+      "to": "off"
+    },
+    {
+      "from": "start",
+      "to": "isolated"
+    },
+    {
+      "from": "off",
+      "to": "briefing"
+    },
+    {
+      "from": "off",
+      "to": "start"
+    },
+    {
+      "from": "off",
+      "to": "isolated"
+    },
+    {
+      "from": "isolated",
+      "to": "briefing"
+    },
+    {
+      "from": "isolated",
+      "to": "start"
+    },
+    {
+      "from": "isolated",
+      "to": "off"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "supply",
+      "label": "Недостаточное питание / состояние АКБ"
+    },
+    {
+      "id": "main",
+      "label": "Силовой путь стартера"
+    },
+    {
+      "id": "command",
+      "label": "Отсутствие разрешения или команды"
+    },
+    {
+      "id": "control",
+      "label": "Потеря в цепи управления"
+    },
+    {
+      "id": "starter",
+      "label": "Сам стартер или промежуточное реле"
+    }
+  ],
+  "actions": [
+    {
+      "id": "ST0",
+      "title": "Изучить схему и сообщение о разрешении",
+      "profileId": "briefing",
+      "kind": "document",
+      "safetyClass": "safeAnalysis",
+      "scope": "Разрешение относится к кадру ST-A. Состояние силовой цепи пока неизвестно.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Проверить архитектуру и разрешение запуска",
+          "justified": true
+        }
+      ]
+    },
+    {
+      "id": "ST1",
+      "title": "Питание P относительно N",
+      "profileId": "start",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Потенциал или падение относится только к ST-A и току катушки. По этому замеру мотор и силовые кабели не признаны исправными.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Сопоставить питание и потери под током управления",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "P",
+      "blackPoint": "N"
+    },
+    {
+      "id": "ST2",
+      "title": "Узел Q относительно N",
+      "profileId": "start",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Потенциал или падение относится только к ST-A и току катушки. По этому замеру мотор и силовые кабели не признаны исправными.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Сопоставить питание и потери под током управления",
+          "justified": true
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "Q",
+      "blackPoint": "N"
+    },
+    {
+      "id": "ST3",
+      "title": "Узел Kplus относительно N",
+      "profileId": "start",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Потенциал или падение относится только к ST-A и току катушки. По этому замеру мотор и силовые кабели не признаны исправными.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Сопоставить питание и потери под током управления",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "Kplus",
+      "blackPoint": "N"
+    },
+    {
+      "id": "ST4",
+      "title": "Возврат Kminus относительно N",
+      "profileId": "start",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Потенциал или падение относится только к ST-A и току катушки. По этому замеру мотор и силовые кабели не признаны исправными.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Сопоставить питание и потери под током управления",
+          "justified": true
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "Kminus",
+      "blackPoint": "N"
+    },
+    {
+      "id": "ST6",
+      "title": "Падение на контакте C",
+      "profileId": "start",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Потенциал или падение относится только к ST-A и току катушки. По этому замеру мотор и силовые кабели не признаны исправными.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Сопоставить питание и потери под током управления",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "Q",
+      "blackPoint": "Kplus"
+    },
+    {
+      "id": "ST5",
+      "title": "Ток обмотки K1: готовый capture",
+      "profileId": "start",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Направление Q→K1→N. Это ток катушки K1, не силовой ток стартера.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Проверить наличие тока именно в малотоковой ветви",
+          "justified": true
+        }
+      ],
+      "quantity": "current",
+      "redPoint": "Q",
+      "blackPoint": "N"
+    },
+    {
+      "id": "ST7",
+      "title": "Ток мотора и падение силового кабеля",
+      "profileId": "start",
+      "kind": "document",
+      "safetyClass": "safeAnalysis",
+      "scope": "0 V при I=0 не доказывает исправность силовой цепи.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Установить, что измерение без тока не испытывает силовой путь",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "ST8",
+      "title": "Падение C при OFF",
+      "profileId": "off",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "При OFF ток 0. Этот результат сам по себе не определяет сопротивление C.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Сравнить измерение без нагрузки с нагрузочным кадром",
+          "justified": true
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "Q",
+      "blackPoint": "Kplus"
+    },
+    {
+      "id": "ST9",
+      "title": "Сопротивление C: изолированный отчёт",
+      "profileId": "isolated",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Изоляция подтверждена специалистом. Ω не является измерением работающей цепи.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Проверить сопротивление локализованного участка в готовом отчёте",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ],
+      "quantity": "resistance",
+      "redPoint": "Q",
+      "blackPoint": "Kplus"
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод: обход защиты или питание неизвестного вывода",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Этот метод не выполняется. Он может повредить цепь или создать опасность. Для диагноза доступны безопасные подготовленные данные; обход защиты не является доказательством."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "ST0",
+      "result": {
+        "kind": "packet",
+        "text": "Для кадра ST-A запрос START принят, permit=true. Катушка K1: 120 Ω, возврат Kminus=N. Схема описывает отдельную малотоковую ветвь, не мотор.",
+        "source": "Подготовленная учебная запись специалиста"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "ST1",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 12.6,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "ST2",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 12.6,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "ST3",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 5.04,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "ST4",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "ST6",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 7.56,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "ST5",
+      "result": {
+        "kind": "numeric",
+        "quantity": "current",
+        "value": 42,
+        "unit": "mA",
+        "resolution": 1
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "ST7",
+      "result": {
+        "kind": "packet",
+        "text": "I мотора = 0 A. Падение на силовом кабеле = 0 V в том же кадре.",
+        "source": "Подготовленная учебная запись специалиста"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "ST8",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "ST9",
+      "result": {
+        "kind": "numeric",
+        "quantity": "resistance",
+        "value": 180,
+        "unit": "Ω",
+        "resolution": 1
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "context",
+      "label": "Контекст разрешения и питание",
+      "proof": {
+        "anyOf": [
+          [
+            "ST0",
+            "ST1"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "loss",
+      "label": "Локализация потери под током",
+      "proof": {
+        "anyOf": [
+          [
+            "ST5",
+            "ST6",
+            "ST4"
+          ],
+          [
+            "ST5",
+            "ST2",
+            "ST3",
+            "ST4"
+          ]
+        ],
+        "sameSnapshot": true
+      }
+    },
+    {
+      "id": "resistance",
+      "label": "Связь падения с сопротивлением C",
+      "proof": {
+        "anyOf": [
+          [
+            "ST5",
+            "ST6"
+          ],
+          [
+            "ST5",
+            "ST2",
+            "ST3"
+          ],
+          [
+            "ST9",
+            "ST3",
+            "ST5"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "battery",
+      "prompt": "Что доказывает проверка питания?",
+      "options": [
+        {
+          "id": "b",
+          "label": "АКБ полностью исправна при любой нагрузке"
+        },
+        {
+          "id": "a",
+          "label": "Питание управления доступно; состояние АКБ под стартерным током не установлено"
+        }
+      ],
+      "correctOptionId": "a",
+      "critical": true,
+      "proof": {
+        "anyOf": [
+          [
+            "ST1"
+          ]
+        ],
+        "sameSnapshot": true
+      },
+      "explanation": "Питание под малым током не является проверкой CCA/SOH."
+    },
+    {
+      "id": "relay",
+      "prompt": "Почему промежуточное реле не втягивается?",
+      "options": [
+        {
+          "id": "a",
+          "label": "Потеря на C при ненулевом токе снижает напряжение катушки ниже порога"
+        },
+        {
+          "id": "b",
+          "label": "Ток 42 mA — это ток мотора, значит неисправен стартер"
+        }
+      ],
+      "correctOptionId": "a",
+      "critical": true,
+      "proof": {
+        "anyOf": [
+          [
+            "ST5",
+            "ST6",
+            "ST4"
+          ],
+          [
+            "ST5",
+            "ST2",
+            "ST3",
+            "ST4"
+          ]
+        ],
+        "sameSnapshot": true
+      },
+      "explanation": "Различайте обмотку K1 и силовой мотор; учитывайте возврат и полярность."
+    },
+    {
+      "id": "main",
+      "prompt": "Что означает нулевое падение силового кабеля?",
+      "options": [
+        {
+          "id": "b",
+          "label": "Нулевое падение всегда доказывает исправность кабеля"
+        },
+        {
+          "id": "a",
+          "label": "Без тока мотора исправность кабеля не доказана"
+        }
+      ],
+      "correctOptionId": "a",
+      "critical": true,
+      "proof": {
+        "anyOf": [
+          [
+            "ST7"
+          ]
+        ],
+        "sameSnapshot": true
+      },
+      "explanation": "Нужны условия нагрузки; отсутствие потери при I=0 не является испытанием."
+    },
+    {
+      "id": "ohm",
+      "prompt": "Какое сопротивление C согласуется с данными?",
+      "options": [
+        {
+          "id": "a",
+          "label": "180 Ω: модуль падения разделён на ток той же ветви"
+        },
+        {
+          "id": "b",
+          "label": "120 Ω: сопротивление катушки равно сопротивлению C"
+        }
+      ],
+      "correctOptionId": "a",
+      "critical": true,
+      "proof": {
+        "anyOf": [
+          [
+            "ST5",
+            "ST6"
+          ],
+          [
+            "ST5",
+            "ST2",
+            "ST3"
+          ],
+          [
+            "ST9",
+            "ST3",
+            "ST5"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Используйте ΔU(C)/Icoil, а не сопротивление катушки; отдельный Ω-отчёт имеет иные условия."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "control",
+      "label": "Повышенное сопротивление контакта C цепи управления K1",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "Вывод относится к контакту управления. Состояние стартера и АКБ под силовым током требует отдельной проверки."
+    },
+    {
+      "id": "motor",
+      "label": "Заменить стартер",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Отсутствие прокрутки не локализует отказ в моторе."
+    },
+    {
+      "id": "battery",
+      "label": "Причина точно в АКБ",
+      "kind": "confirmed",
+      "credit": 0,
+      "explanation": "Измерения управляющей ветви не доказывают такой окончательный вывод."
+    },
+    {
+      "id": "ground",
+      "label": "Высокое сопротивление возврата K1",
+      "kind": "confirmed",
+      "credit": 0,
+      "explanation": "Сравните падения на плюсовом участке и возврате в одном кадре."
+    },
+    {
+      "id": "more",
+      "label": "Данных пока недостаточно: нужна дополнительная проверка",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Назовите следующую безопасную проверку, различающую оставшиеся гипотезы. Это допустимый промежуточный итог, но не подтверждение неисправности."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}

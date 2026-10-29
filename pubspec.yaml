@@ -55,6 +55,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/practice/
+    - assets/practice/cases/
     - assets/course/
     - assets/course/stage_0/
     - assets/course/stage_1/

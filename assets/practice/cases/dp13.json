@@ -1,0 +1,744 @@
+{
+  "schemaVersion": 1,
+  "id": "dp13",
+  "title": "P0102: от сообщения к проверке",
+  "difficulty": "Высокая",
+  "prerequisites": [
+    "stage_2",
+    "stage_5",
+    "stage_6",
+    "stage_7",
+    "stage_9"
+  ],
+  "vehicle": "Учебный бензиновый двигатель, аналоговый MAF с отдельным питанием 12 V. Не частотный и не цифровой интерфейс.",
+  "symptoms": "MIL и stored/confirmed P0102. Есть исторический Freeze Frame; clock ECU неизвестен. Точная причина не установлена.",
+  "topology": "Питание P и возврат G питают MAF; G связан с N. Внутренний аналоговый источник MAF → 1 kΩ → S → сигнальный путь → E (ECU). E → pull-down 100 kΩ → N.\nПри текущем idle источник MAF в исправной модели 1,600 V. Соединённый путь даёт 1,600×100/101≈1,584 V. J1/J2 — условные границы участка, не OEM-контакты. Высокоомные capture идеализированы. Числа — не универсальные нормы MAF.",
+  "safety": "Только виртуальные проверки и подготовленные данные. Реальные измерения требуют применимой заводской процедуры и квалификации. Не обходить защиты. Здесь нет инструкций физического подключения.",
+  "explanation": "Выход MAF S присутствует, а E удерживается pull-down около нуля. Изолированный отчёт подтверждает отсутствие проводимости S–E в диапазоне 20 MΩ. Подтверждён путь/оконцевания, не обязательно конкретный обрыв провода. P0102 сам не обосновывает замену MAF или ECU.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Практически разомкнут сигнальный путь S–E",
+      "parameters": {
+        "supplyV": 12.6,
+        "signalSourceV": 1.6,
+        "outputOhm": 1000,
+        "pullDownOhm": 100000,
+        "rangeOhm": 20000000
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "P",
+      "label": "P — питание MAF"
+    },
+    {
+      "id": "G",
+      "label": "G — возврат MAF"
+    },
+    {
+      "id": "N",
+      "label": "N — опора"
+    },
+    {
+      "id": "S",
+      "label": "S — сторона MAF"
+    },
+    {
+      "id": "E",
+      "label": "E — вход ECU"
+    },
+    {
+      "id": "J1",
+      "label": "J1 — граница участка"
+    },
+    {
+      "id": "J2",
+      "label": "J2 — граница участка"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные сведения",
+      "powered": false,
+      "isolated": false,
+      "load": "нет измерения",
+      "command": "чтение DTC/FF",
+      "snapshotId": "MF-D",
+      "temperatureC": 20
+    },
+    {
+      "id": "run",
+      "label": "RUN-A: прогретый холостой ход",
+      "powered": true,
+      "isolated": false,
+      "load": "MAF потребляет 50 mA; 800 rpm, стоянка",
+      "command": "RUN",
+      "snapshotId": "RUN-A",
+      "temperatureC": 88
+    },
+    {
+      "id": "isolated",
+      "label": "Изолированный сигнальный путь: отчёт",
+      "powered": false,
+      "isolated": true,
+      "load": "электроника/параллельные пути исключены",
+      "command": "OFF",
+      "snapshotId": "MF-R",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "run"
+    },
+    {
+      "from": "briefing",
+      "to": "isolated"
+    },
+    {
+      "from": "run",
+      "to": "briefing"
+    },
+    {
+      "from": "run",
+      "to": "isolated"
+    },
+    {
+      "from": "isolated",
+      "to": "briefing"
+    },
+    {
+      "from": "isolated",
+      "to": "run"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "power",
+      "label": "Питание MAF"
+    },
+    {
+      "id": "ground",
+      "label": "Возврат / опора"
+    },
+    {
+      "id": "sensor",
+      "label": "Сам MAF"
+    },
+    {
+      "id": "path",
+      "label": "Сигнальный путь / оконцевания"
+    },
+    {
+      "id": "short",
+      "label": "Замыкание сигнала на N"
+    },
+    {
+      "id": "ecu",
+      "label": "Входной тракт ECU"
+    }
+  ],
+  "actions": [
+    {
+      "id": "MF0",
+      "title": "Прочитать DTC, Freeze Frame и интерфейс",
+      "profileId": "briefing",
+      "kind": "document",
+      "safetyClass": "safeAnalysis",
+      "scope": "Код определяет направление проверки, а не компонент для замены.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Уточнить смысл кода, тип сигнала и время данных",
+          "justified": true
+        }
+      ]
+    },
+    {
+      "id": "MF1",
+      "title": "Питание P относительно G",
+      "profileId": "run",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Число относится к данному интерфейсу и кадру. Разность сторон не определяет компонент без проверок пути.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Сопоставить питание, опоры и сигнал в одном RUN-A",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "P",
+      "blackPoint": "G"
+    },
+    {
+      "id": "MF2",
+      "title": "Возврат G относительно N",
+      "profileId": "run",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Число относится к данному интерфейсу и кадру. Разность сторон не определяет компонент без проверок пути.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Сопоставить питание, опоры и сигнал в одном RUN-A",
+          "justified": true
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "G",
+      "blackPoint": "N"
+    },
+    {
+      "id": "MF3",
+      "title": "Сигнал S относительно G",
+      "profileId": "run",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Число относится к данному интерфейсу и кадру. Разность сторон не определяет компонент без проверок пути.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Сопоставить питание, опоры и сигнал в одном RUN-A",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "S",
+      "blackPoint": "G"
+    },
+    {
+      "id": "MF4",
+      "title": "Вход E относительно N",
+      "profileId": "run",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Число относится к данному интерфейсу и кадру. Разность сторон не определяет компонент без проверок пути.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Сопоставить питание, опоры и сигнал в одном RUN-A",
+          "justified": true
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "E",
+      "blackPoint": "N"
+    },
+    {
+      "id": "MF5",
+      "title": "Прочитать raw-input канал ECU",
+      "profileId": "run",
+      "kind": "document",
+      "safetyClass": "safeAnalysis",
+      "scope": "Согласованность E не доказывает исправность всего ECU.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Сопоставить независимую запись входа с внешним измерением",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "MF6",
+      "title": "Проводимость S–E: изолированный отчёт",
+      "profileId": "isolated",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "OL означает выше диапазона 20 MΩ, не измеренную математическую бесконечность.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Проверить непрерывность сигнального пути при подтверждённой изоляции",
+          "justified": true
+        }
+      ],
+      "quantity": "resistance",
+      "redPoint": "S",
+      "blackPoint": "E"
+    },
+    {
+      "id": "MF7",
+      "title": "Связь сигнального жгута с N: отчёт",
+      "profileId": "isolated",
+      "kind": "document",
+      "safetyClass": "safeAnalysis",
+      "scope": "Замыкание на N в пределах этого отчёта не обнаружено. Причина физического повреждения ещё не установлена.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Различить разрыв пути и замыкание изолированного жгута на N",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "MF8",
+      "title": "Секционный отчёт J1–J2",
+      "profileId": "isolated",
+      "kind": "document",
+      "safetyClass": "safeAnalysis",
+      "scope": "Допускает локализацию J1–J2, но не различает провод и оконцевания без осмотра.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Уточнить участок отсутствия проводимости альтернативным отчётом",
+          "justified": true
+        }
+      ]
+    },
+    {
+      "id": "MF9",
+      "title": "Запросить отсутствующие данные исторического события",
+      "profileId": "briefing",
+      "kind": "document",
+      "safetyClass": "safeAnalysis",
+      "scope": "Недоступные данные не являются нулевым напряжением и не создают доказательство неисправности.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Определить предел доступных исторических данных",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод: обход защиты или питание неизвестного вывода",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Этот метод не выполняется. Он может повредить цепь или создать опасность. Для диагноза доступны безопасные подготовленные данные; обход защиты не является доказательством."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "MF0",
+      "result": {
+        "kind": "packet",
+        "text": "P0102: низкий вход MAF-тракта. Stored/confirmed, историческое событие FF-A; часы ECU неизвестны. Интерфейс аналоговый. Статус кода не доказывает текущий отказ или неисправность детали.",
+        "source": "Подготовленная учебная запись специалиста"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "MF1",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 12.6,
+        "unit": "V",
+        "resolution": 0.001
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "MF2",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.001
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "MF3",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 1.6,
+        "unit": "V",
+        "resolution": 0.001
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "MF4",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.001
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "MF5",
+      "result": {
+        "kind": "packet",
+        "text": "Raw ECU input = 0,000 V, valid, подготовленный инженерный канал RUN-A. Это не обязательный стандартный OBD PID и не calculated mass flow.",
+        "source": "Подготовленная учебная запись специалиста"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "MF6",
+      "result": {
+        "kind": "openLoop",
+        "limitOhm": 20000000
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "MF7",
+      "result": {
+        "kind": "packet",
+        "text": "Изолированы обе электронные стороны. S–N >20 MΩ, E–N >20 MΩ. Диапазон проверки: 20 MΩ.",
+        "source": "Подготовленная учебная запись специалиста"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "MF8",
+      "result": {
+        "kind": "packet",
+        "text": "J1–J2: OL (>20 MΩ); S–J1: 0,2 Ω; J2–E: 0,2 Ω; связи с N >20 MΩ. Изоляция электроники и отсутствие параллельных путей подтверждены.",
+        "source": "Подготовленная учебная запись специалиста"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "MF9",
+      "result": {
+        "kind": "unavailable",
+        "reason": "Синхронные внешние измерения для исторического FF-A не предоставлены. Для текущего состояния доступны RUN-A и изолированный отчёт."
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "context",
+      "label": "Интерфейс и контекст DTC",
+      "proof": {
+        "anyOf": [
+          [
+            "MF0"
+          ]
+        ],
+        "sameSnapshot": true
+      }
+    },
+    {
+      "id": "supply",
+      "label": "Питание и опора под рабочей нагрузкой",
+      "proof": {
+        "anyOf": [
+          [
+            "MF1",
+            "MF2"
+          ]
+        ],
+        "sameSnapshot": true
+      }
+    },
+    {
+      "id": "sides",
+      "label": "Две стороны сигнального пути в RUN-A",
+      "proof": {
+        "anyOf": [
+          [
+            "MF3",
+            "MF4",
+            "MF2"
+          ]
+        ],
+        "sameSnapshot": true
+      }
+    },
+    {
+      "id": "path",
+      "label": "Изолированная проверка сигнального пути",
+      "proof": {
+        "anyOf": [
+          [
+            "MF6",
+            "MF7"
+          ],
+          [
+            "MF8"
+          ]
+        ],
+        "sameSnapshot": true
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "dtc",
+      "prompt": "Что означает P0102?",
+      "options": [
+        {
+          "id": "b",
+          "label": "P0102 требует сразу заменить MAF"
+        },
+        {
+          "id": "a",
+          "label": "Низкий вход тракта: причин несколько, confirmed не доказывает текущий отказ MAF"
+        }
+      ],
+      "correctOptionId": "a",
+      "critical": true,
+      "proof": {
+        "anyOf": [
+          [
+            "MF0"
+          ]
+        ],
+        "sameSnapshot": true
+      },
+      "explanation": "Отделите сообщение, время события и подтверждённую причину."
+    },
+    {
+      "id": "signal",
+      "prompt": "Как сравнить S и E?",
+      "options": [
+        {
+          "id": "a",
+          "label": "При подтверждённых питании и опоре сигнал есть на S, но отсутствует на E в одном RUN-A"
+        },
+        {
+          "id": "b",
+          "label": "Любой обрыв любого MAF всегда даёт 0 V"
+        }
+      ],
+      "correctOptionId": "a",
+      "critical": true,
+      "proof": {
+        "anyOf": [
+          [
+            "MF1",
+            "MF2",
+            "MF3",
+            "MF4"
+          ]
+        ],
+        "sameSnapshot": true
+      },
+      "explanation": "Вывод зависит от аналогового интерфейса, pull-down, опоры и одного режима."
+    },
+    {
+      "id": "isolation",
+      "prompt": "Как трактовать изолированный отчёт?",
+      "options": [
+        {
+          "id": "b",
+          "label": "OL равно точно бесконечности, Ω безопасно измерять при RUN"
+        },
+        {
+          "id": "a",
+          "label": "Проводимость пути не измерена в диапазоне; результаты Ω нельзя выдавать за RUN"
+        }
+      ],
+      "correctOptionId": "a",
+      "critical": true,
+      "proof": {
+        "anyOf": [
+          [
+            "MF6",
+            "MF7"
+          ],
+          [
+            "MF8"
+          ]
+        ],
+        "sameSnapshot": true
+      },
+      "explanation": "Учитывайте предел прибора, изоляцию и разные состояния цепи."
+    },
+    {
+      "id": "scope",
+      "prompt": "Насколько точно установлено место?",
+      "options": [
+        {
+          "id": "a",
+          "label": "Подтверждён сигнальный путь; без осмотра провод и оконцевания не различены"
+        },
+        {
+          "id": "b",
+          "label": "Точно порван провод в конкретном месте, любой контакт и ECU исключены навсегда"
+        }
+      ],
+      "correctOptionId": "a",
+      "critical": true,
+      "proof": {
+        "anyOf": [
+          [
+            "MF3",
+            "MF4",
+            "MF6",
+            "MF7"
+          ],
+          [
+            "MF3",
+            "MF4",
+            "MF8"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Уровень диагноза не должен быть точнее доказательств."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "path",
+      "label": "Практически разомкнут сигнальный путь S–E / его оконцевания",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "Подтверждён сигнальный путь в границах модели. Точная физическая причина без дополнительного осмотра не установлена."
+    },
+    {
+      "id": "maf",
+      "label": "Заменить MAF по коду P0102",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "DTC — не доказательство неисправности MAF."
+    },
+    {
+      "id": "ecu",
+      "label": "Заменить ECU: на его входе 0 V",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Один низкий вход не отделяет ECU от питания, опор и проводки."
+    },
+    {
+      "id": "short",
+      "label": "Подтверждено замыкание сигнала на N",
+      "kind": "confirmed",
+      "credit": 0,
+      "explanation": "Сопоставьте стороны сигнала и изолированную связь жгута с N."
+    },
+    {
+      "id": "more",
+      "label": "Данных пока недостаточно: нужна дополнительная проверка",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Назовите следующую безопасную проверку, различающую оставшиеся гипотезы. Это допустимый промежуточный итог, но не подтверждение неисправности."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}

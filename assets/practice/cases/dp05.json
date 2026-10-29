@@ -1,0 +1,813 @@
+{
+  "schemaVersion": 1,
+  "id": "dp05",
+  "title": "Один источник света тусклее",
+  "difficulty": "Начальная",
+  "prerequisites": [
+    "stage_1",
+    "stage_2",
+    "stage_4",
+    "stage_5"
+  ],
+  "vehicle": "Условная лампа накаливания в 12 V ветви. Лампа заменена постоянным резистором 5 Ω; тепловой динамики, LED-драйвера и оптики здесь нет.",
+  "symptoms": "Левая лампа светит слабее. Это может быть связано с питанием, лампой или одним из путей тока. Причина не задана.",
+  "topology": "P → плюсовой контакт C1 → A → лампа (5 Ω) → B → возврат → N. Источник идеальный 12 V, R источника и проводов 0 Ω; сопротивления C1 и возврата до проверки неизвестны. N — минус источника. При OFF источник отключён, нагрузка остаётся в пути к N. Числа — параметры модели, не нормы настоящей лампы.",
+  "safety": "Только виртуальные проверки и подготовленные данные. Реальные измерения требуют применимой заводской процедуры и квалификации. Не обходить защиты. Здесь нет инструкций физического подключения.",
+  "explanation": "I=12/(5+1)=2 A. На C1 теряется 2 V, на лампе 10 V, на возврате 0 V. Pлампы=10×2=20 W, Pконтакта=2×2=4 W, источник отдаёт 24 W. Без потери в C1 в этой резистивной модели лампа получила бы 28,8 W. Это не модель LED или реальной температурной характеристики нити.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Повышенное сопротивление плюсового контакта C1",
+      "parameters": {
+        "sourceV": 12,
+        "sourceOhm": 0,
+        "lampOhm": 5,
+        "positiveOhm": 1,
+        "groundOhm": 0
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "P",
+      "label": "P — источник"
+    },
+    {
+      "id": "N",
+      "label": "N — опора"
+    },
+    {
+      "id": "A",
+      "label": "A — плюс лампы"
+    },
+    {
+      "id": "B",
+      "label": "B — возврат лампы"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные сведения",
+      "powered": false,
+      "isolated": false,
+      "load": "нет измерения",
+      "command": "чтение схемы",
+      "snapshotId": "LP-D",
+      "temperatureC": 20
+    },
+    {
+      "id": "load",
+      "label": "LOAD: лампа включена",
+      "powered": true,
+      "isolated": false,
+      "load": "лампа под током",
+      "command": "ON",
+      "snapshotId": "LP-A",
+      "temperatureC": 20
+    },
+    {
+      "id": "off",
+      "label": "OFF: без тока",
+      "powered": false,
+      "isolated": false,
+      "load": "I=0 A",
+      "command": "OFF",
+      "snapshotId": "LP-OFF",
+      "temperatureC": 20
+    },
+    {
+      "id": "isolated",
+      "label": "Изолированная лампа: отчёт",
+      "powered": false,
+      "isolated": true,
+      "load": "лампа отделена от цепи, параллельных путей нет",
+      "command": "OFF",
+      "snapshotId": "LP-R",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "load"
+    },
+    {
+      "from": "briefing",
+      "to": "off"
+    },
+    {
+      "from": "briefing",
+      "to": "isolated"
+    },
+    {
+      "from": "load",
+      "to": "briefing"
+    },
+    {
+      "from": "load",
+      "to": "off"
+    },
+    {
+      "from": "load",
+      "to": "isolated"
+    },
+    {
+      "from": "off",
+      "to": "briefing"
+    },
+    {
+      "from": "off",
+      "to": "load"
+    },
+    {
+      "from": "off",
+      "to": "isolated"
+    },
+    {
+      "from": "isolated",
+      "to": "briefing"
+    },
+    {
+      "from": "isolated",
+      "to": "load"
+    },
+    {
+      "from": "isolated",
+      "to": "off"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "lamp",
+      "label": "Неисправность лампы"
+    },
+    {
+      "id": "source",
+      "label": "Недостаточное питание"
+    },
+    {
+      "id": "positive",
+      "label": "Потеря на плюсовом пути"
+    },
+    {
+      "id": "ground",
+      "label": "Потеря в возврате"
+    }
+  ],
+  "actions": [
+    {
+      "id": "LP0",
+      "title": "Изучить резистивную модель",
+      "profileId": "briefing",
+      "kind": "document",
+      "safetyClass": "safeAnalysis",
+      "scope": "Модель не применяется к LED-драйверу и не учитывает нагрев нити.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Установить допущения схемы и тип нагрузки",
+          "justified": true
+        }
+      ]
+    },
+    {
+      "id": "LP1",
+      "title": "Источник P относительно N",
+      "profileId": "load",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Потенциалы и напряжение на лампе различаются. Для вывода нужна информация о токе и возврате.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Различить источник, нагрузку и потери на путях под током",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "P",
+      "blackPoint": "N"
+    },
+    {
+      "id": "LP2",
+      "title": "Узел A относительно N",
+      "profileId": "load",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Потенциалы и напряжение на лампе различаются. Для вывода нужна информация о токе и возврате.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Различить источник, нагрузку и потери на путях под током",
+          "justified": true
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "A",
+      "blackPoint": "N"
+    },
+    {
+      "id": "LP3",
+      "title": "Падение возврата B–N",
+      "profileId": "load",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Потенциалы и напряжение на лампе различаются. Для вывода нужна информация о токе и возврате.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Различить источник, нагрузку и потери на путях под током",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "B",
+      "blackPoint": "N"
+    },
+    {
+      "id": "LP4",
+      "title": "Напряжение на лампе A–B",
+      "profileId": "load",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Потенциалы и напряжение на лампе различаются. Для вывода нужна информация о токе и возврате.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Различить источник, нагрузку и потери на путях под током",
+          "justified": true
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "A",
+      "blackPoint": "B"
+    },
+    {
+      "id": "LP5",
+      "title": "Падение плюсового контакта P–A",
+      "profileId": "load",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Потенциалы и напряжение на лампе различаются. Для вывода нужна информация о токе и возврате.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Различить источник, нагрузку и потери на путях под током",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "P",
+      "blackPoint": "A"
+    },
+    {
+      "id": "LP6",
+      "title": "Ток ветви: готовый capture",
+      "profileId": "load",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Ток относится к единственной последовательной ветви LP-A.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Проверить нагрузочный ток для ΔU/I и мощности",
+          "justified": true
+        }
+      ],
+      "quantity": "current",
+      "redPoint": "A",
+      "blackPoint": "B"
+    },
+    {
+      "id": "LP7",
+      "title": "Мощность лампы: готовая запись",
+      "profileId": "load",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Pлампы относится к резистивной модели под LOAD.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Сопоставить полезную мощность с напряжением и током",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ],
+      "quantity": "power",
+      "redPoint": "A",
+      "blackPoint": "B"
+    },
+    {
+      "id": "LP8",
+      "title": "Мощность потерь C1: готовая запись",
+      "profileId": "load",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Это потери на C1, не дополнительная мощность лампы.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Проверить энергетический баланс ветви",
+          "justified": true
+        }
+      ],
+      "quantity": "power",
+      "redPoint": "P",
+      "blackPoint": "A"
+    },
+    {
+      "id": "LP9",
+      "title": "Падение P–A при OFF",
+      "profileId": "off",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "0 V без тока не доказывает исправность C1.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Сравнить ненагрузочный и нагрузочный режим",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "P",
+      "blackPoint": "A"
+    },
+    {
+      "id": "LP10",
+      "title": "Сопротивление изолированной лампы",
+      "profileId": "isolated",
+      "kind": "reading",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Это готовый обесточенный отчёт. В модели R не зависит от нагрева; на реальную лампу допущение не переносится.",
+      "purposes": [
+        {
+          "id": "p2",
+          "label": "По одной этой проверке признать исправным весь узел",
+          "justified": false
+        },
+        {
+          "id": "p3",
+          "label": "Собрать показание без диагностической цели",
+          "justified": false
+        },
+        {
+          "id": "p1",
+          "label": "Сопоставить сопротивление нагрузки с заданной моделью",
+          "justified": true
+        }
+      ],
+      "quantity": "resistance",
+      "redPoint": "A",
+      "blackPoint": "B"
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод: обход защиты или питание неизвестного вывода",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Этот метод не выполняется. Он может повредить цепь или создать опасность. Для диагноза доступны безопасные подготовленные данные; обход защиты не является доказательством."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "LP0",
+      "result": {
+        "kind": "packet",
+        "text": "Идеальный источник 12 V, Rлампы=5 Ω постоянно. Rисточника/проводов=0 Ω; C1 и возврат — отдельные элементы. Проверяется электрическая мощность, не оптика.",
+        "source": "Подготовленная учебная запись специалиста"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "LP1",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 12,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "LP2",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 10,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "LP3",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "LP4",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 10,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "LP5",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 2,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "LP6",
+      "result": {
+        "kind": "numeric",
+        "quantity": "current",
+        "value": 2,
+        "unit": "A",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "LP7",
+      "result": {
+        "kind": "numeric",
+        "quantity": "power",
+        "value": 20,
+        "unit": "W",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "LP8",
+      "result": {
+        "kind": "numeric",
+        "quantity": "power",
+        "value": 4,
+        "unit": "W",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "LP9",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "LP10",
+      "result": {
+        "kind": "numeric",
+        "quantity": "resistance",
+        "value": 5,
+        "unit": "Ω",
+        "resolution": 0.01
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "context",
+      "label": "Модель нагрузки и источник",
+      "proof": {
+        "anyOf": [
+          [
+            "LP0",
+            "LP1"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "loss",
+      "label": "Различение плюсового и возвратного пути под током",
+      "proof": {
+        "anyOf": [
+          [
+            "LP5",
+            "LP3",
+            "LP6"
+          ],
+          [
+            "LP1",
+            "LP2",
+            "LP3",
+            "LP6"
+          ]
+        ],
+        "sameSnapshot": true
+      }
+    },
+    {
+      "id": "lamp",
+      "label": "Нагрузка и её напряжение",
+      "proof": {
+        "anyOf": [
+          [
+            "LP10",
+            "LP4"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "route",
+      "prompt": "Где теряется напряжение?",
+      "options": [
+        {
+          "id": "b",
+          "label": "Любое падение напряжения означает плохую массу"
+        },
+        {
+          "id": "a",
+          "label": "На плюсовом контакте; нулевой возврат проверен при том же токе"
+        }
+      ],
+      "correctOptionId": "a",
+      "critical": true,
+      "proof": {
+        "anyOf": [
+          [
+            "LP5",
+            "LP3",
+            "LP6"
+          ],
+          [
+            "LP1",
+            "LP2",
+            "LP3",
+            "LP6"
+          ]
+        ],
+        "sameSnapshot": true
+      },
+      "explanation": "Сопоставьте прямую потерю/потенциалы и возврат в одном LP-A."
+    },
+    {
+      "id": "power",
+      "prompt": "Как согласуются мощности?",
+      "options": [
+        {
+          "id": "a",
+          "label": "Лампа 20 W, контакт 4 W, источник 24 W: энергия согласована"
+        },
+        {
+          "id": "b",
+          "label": "Лампа получает 24 W, а контакт не рассеивает мощность"
+        }
+      ],
+      "correctOptionId": "a",
+      "critical": true,
+      "proof": {
+        "anyOf": [
+          [
+            "LP6",
+            "LP4",
+            "LP5"
+          ],
+          [
+            "LP7",
+            "LP8",
+            "LP1",
+            "LP6"
+          ]
+        ],
+        "sameSnapshot": true
+      },
+      "explanation": "P=U×I; падение на контакте имеет ненулевую мощность."
+    },
+    {
+      "id": "load",
+      "prompt": "Что известно о лампе?",
+      "options": [
+        {
+          "id": "b",
+          "label": "Нужно заменить лампу, потому что она тусклая"
+        },
+        {
+          "id": "a",
+          "label": "Изолированные 5 Ω соответствуют условию; при LOAD на ней только 10 V"
+        }
+      ],
+      "correctOptionId": "a",
+      "critical": true,
+      "proof": {
+        "anyOf": [
+          [
+            "LP10",
+            "LP4"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Симптом яркости не определяет деталь; оптика и реальная температурная характеристика вне модели."
+    },
+    {
+      "id": "off",
+      "prompt": "Что доказывает измерение при OFF?",
+      "options": [
+        {
+          "id": "a",
+          "label": "Без тока контакт не испытывается, нужна нагрузочная проверка"
+        },
+        {
+          "id": "b",
+          "label": "0 V при OFF исключают высокое сопротивление контакта"
+        }
+      ],
+      "correctOptionId": "a",
+      "critical": true,
+      "proof": {
+        "anyOf": [
+          [
+            "LP9"
+          ]
+        ],
+        "sameSnapshot": true
+      },
+      "explanation": "Отличайте отсутствие падения от доказательства низкого сопротивления."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "positive",
+      "label": "Повышенное сопротивление плюсового контакта C1",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "Вывод локализует электрическую потерю на C1; реальная оптика и температурное поведение лампы не проверялись."
+    },
+    {
+      "id": "lamp",
+      "label": "Заменить лампу из-за тусклого света",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Нужно различить нагрузку и доставленное напряжение."
+    },
+    {
+      "id": "source",
+      "label": "Недостаточное напряжение источника",
+      "kind": "confirmed",
+      "credit": 0,
+      "explanation": "Сравните источник и напряжение на нагрузке."
+    },
+    {
+      "id": "ground",
+      "label": "Подтверждено высокое сопротивление возврата",
+      "kind": "confirmed",
+      "credit": 0,
+      "explanation": "Учитывайте падение возврата именно под нагрузкой."
+    },
+    {
+      "id": "more",
+      "label": "Данных пока недостаточно: нужна дополнительная проверка",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Назовите следующую безопасную проверку, различающую оставшиеся гипотезы. Это допустимый промежуточный итог, но не подтверждение неисправности."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}
