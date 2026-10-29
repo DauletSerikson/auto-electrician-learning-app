@@ -552,7 +552,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
               '${(result.fractions[c]! * d.weights[c]!).toStringAsFixed(1)} / ${d.weights[c]!.toInt()}',
             ),
           const Text(
-            'PASS: полный допустимый вывод, все proof groups, критические интерпретации, '
+            'PASS: обоснованный вывод, все обязательные доказательства, верная интерпретация ключевых измерений, '
             'безопасность и минимум 80 баллов до округления. Правильного угадывания недостаточно.',
           ),
           for (final message in result.feedback) Text(message),
