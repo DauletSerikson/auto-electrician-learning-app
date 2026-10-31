@@ -20,13 +20,14 @@ class PreferencesPlatformFake {
                 await onRead?.call();
                 return Map<String, Object>.from(values);
               case 'setStringList':
+              case 'setString':
                 writes++;
                 final saved = await (onWrite?.call() ?? Future.value(true));
                 if (saved) {
                   final args = call.arguments as Map;
-                  values[args['key'] as String] = List<String>.from(
-                    args['value'] as List,
-                  );
+                  values[args['key'] as String] = call.method == 'setString'
+                      ? args['value'] as String
+                      : List<String>.from(args['value'] as List);
                 }
                 return saved;
               default:

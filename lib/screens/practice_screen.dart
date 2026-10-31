@@ -557,17 +557,31 @@ class _PracticeScreenState extends State<PracticeScreen> {
           ),
           for (final message in result.feedback) Text(message),
           if (result.passed) Text(d.explanation),
-          const Text(
-            'Результат хранится только до выхода из сценария. Прогресс курса не изменён.',
+          Text(
+            controller.saving
+                ? 'Сохранение результата…'
+                : controller.saveError != null
+                ? 'Не удалось сохранить результат. Попытка остаётся открытой; повторите сохранение. Прогресс курса не изменён.'
+                : controller.resultSaved
+                ? 'Результат сохранён на устройстве. Прогресс курса не изменён.'
+                : 'Прогресс курса не изменён.',
           ),
+          if (controller.saveError != null)
+            TextButton(
+              key: const ValueKey('practice_save_retry'),
+              onPressed: controller.saveResult,
+              child: const Text('Повторить сохранение'),
+            ),
           OutlinedButton(
             key: const ValueKey('practice_retry'),
-            onPressed: () {
-              controller.edit((s) => s.retry());
-              setState(() {
-                tab = 0;
-              });
-            },
+            onPressed: controller.saving || controller.saveError != null
+                ? null
+                : () {
+                    controller.edit((s) => s.retry());
+                    setState(() {
+                      tab = 0;
+                    });
+                  },
             child: const Text('Повторить попытку'),
           ),
         ],
@@ -586,15 +600,19 @@ class _PracticeScreenState extends State<PracticeScreen> {
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: controller,
     builder: (context, _) => PopScope(
-      canPop: frozen || !hasDraft,
+      canPop:
+          (frozen && !controller.saving && controller.saveError == null) ||
+          !hasDraft,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
         final leave = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
             title: const Text('Выйти из попытки?'),
-            content: const Text(
-              'Черновик и журнал текущего сценария не сохранятся. Прогресс курса останется.',
+            content: Text(
+              controller.saving || controller.saveError != null
+                  ? 'Сохранение результата ещё не подтверждено. При выходе он может быть потерян. Прогресс курса останется.'
+                  : 'Черновик и журнал текущего сценария не сохранятся. Прогресс курса останется.',
             ),
             actions: [
               TextButton(
@@ -632,7 +650,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
                       ),
                       Text(d.safety),
                       const Text(
-                        'Пилот: состояние попытки и результат не сохраняются после выхода.',
+                        'Итог завершённой попытки сохраняется на устройстве. Черновик и журнал после выхода не сохраняются.',
                       ),
                       FilledButton(
                         key: const ValueKey('practice_start'),

@@ -3,6 +3,7 @@ import 'package:electrician/practice/attempt.dart';
 import 'package:electrician/practice/definition.dart';
 import 'package:electrician/practice/practice_controller.dart';
 import 'package:electrician/practice/practice_service.dart';
+import 'package:electrician/practice/practice_result_repository.dart';
 import 'package:electrician/screens/practice_catalog_screen.dart';
 import 'package:electrician/screens/practice_screen.dart';
 import 'package:electrician/theme/app_theme.dart';
@@ -304,7 +305,7 @@ void main() {
   );
 
   testWidgets(
-    'reopening a passed session starts clean and does not persist practice scores',
+    'reopening starts a clean draft while retaining the completed result summary',
     (tester) async {
       final d = await definition(tester, 'dp01');
       final c = PracticeController(d);
@@ -328,7 +329,13 @@ void main() {
       expect(find.textContaining('Журнал пуст.'), findsOneWidget);
       expect(find.text('PASS — обоснованный вывод'), findsNothing);
       final prefs = await SharedPreferences.getInstance();
-      expect(prefs.getKeys(), {'completed_lessons'});
+      expect(prefs.getKeys(), {
+        'completed_lessons',
+        PreferencesPracticeResultRepository.keyFor('dp01'),
+      });
+      final saved = await PreferencesPracticeResultRepository().read('dp01');
+      expect(saved!.passed, isTrue);
+      expect(saved.completedAttempts, 1);
       expect(prefs.getStringList('completed_lessons'), ['safety_01']);
       expect(tester.takeException(), isNull);
     },
