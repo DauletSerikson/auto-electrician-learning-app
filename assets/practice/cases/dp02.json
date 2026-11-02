@@ -1,0 +1,502 @@
+{
+  "schemaVersion": 1,
+  "id": "dp02",
+  "title": "Прокрутка без запуска",
+  "difficulty": "Средняя",
+  "prerequisites": [
+    "stage_2",
+    "stage_3",
+    "stage_4",
+    "stage_5",
+    "stage_6",
+    "stage_7",
+    "stage_10"
+  ],
+  "vehicle": "Учебный бензиновый двигатель: трёхпроводной Hall CKP 5 V и отдельный CMP.",
+  "symptoms": "Двигатель прокручивается равномерно, но не запускается. Причина пока неизвестна; доступны записи ECU и подготовленные отчёты цепей.",
+  "topology": "R — источник reference 5 V; R → питающий путь → P(CKP); G → N. На P задан локальный pull-down 100 kΩ; он определяет потенциал при разрыве, а не шунтирует исправный источник. S → E ECU, вход pull-down 100 kΩ. Исправный Hall формирует 0–5 V; без питания выход высокоомный. CKP — не единственная возможная причина no-start. Условные точки не OEM pinout.",
+  "safety": "Все данные синтетические, только чтение готовых записей. Не руководство по работе с автомобилем. Реальный аналог требует применимой OEM-процедуры и квалификации; здесь нет шагов подключения, изоляции или ремонта.",
+  "explanation": "Есть 5 V до пути питания и нет на P; отдельный изолированный отчёт подтверждает разрыв R–P. Отсутствие фронтов CKP объяснимо отсутствием его питания. Это не доказательство отказа CKP или механики; нужен последующий контроль после восстановления пути.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Разомкнут путь R–P питания CKP",
+      "parameters": {
+        "referenceV": 5,
+        "pullDownOhm": 100000,
+        "signalPathOhm": 0.2,
+        "returnOhm": 0.2
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "N",
+      "label": "N — условная LV-опора; не HV-минус и не точка SRS"
+    },
+    {
+      "id": "R",
+      "label": "R — источник 5 V"
+    },
+    {
+      "id": "P",
+      "label": "P — питание CKP"
+    },
+    {
+      "id": "G",
+      "label": "G — возврат CKP"
+    },
+    {
+      "id": "S",
+      "label": "S — выход CKP"
+    },
+    {
+      "id": "E",
+      "label": "E — вход ECU"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные документы",
+      "powered": false,
+      "isolated": false,
+      "load": "нет физической проверки",
+      "command": "анализ",
+      "snapshotId": "D02-DOC",
+      "temperatureC": 20
+    },
+    {
+      "id": "crank",
+      "label": "CRANK: готовый capture C2-A",
+      "powered": true,
+      "isolated": false,
+      "load": "CKP ожидается включён; capture ECU при прокрутке",
+      "command": "CRANK",
+      "snapshotId": "C2-A",
+      "temperatureC": 20
+    },
+    {
+      "id": "isolated",
+      "label": "Изолированные цепи CKP: готовый отчёт",
+      "powered": false,
+      "isolated": true,
+      "load": "электроника и параллельные пути исключены",
+      "command": "OFF",
+      "snapshotId": "C2-R",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "crank"
+    },
+    {
+      "from": "briefing",
+      "to": "isolated"
+    },
+    {
+      "from": "crank",
+      "to": "briefing"
+    },
+    {
+      "from": "crank",
+      "to": "isolated"
+    },
+    {
+      "from": "isolated",
+      "to": "briefing"
+    },
+    {
+      "from": "isolated",
+      "to": "crank"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h0",
+      "label": "Механическая синхронизация"
+    },
+    {
+      "id": "h1",
+      "label": "Сам CKP"
+    },
+    {
+      "id": "h2",
+      "label": "Питание/возврат CKP"
+    },
+    {
+      "id": "h3",
+      "label": "Сигнальный путь до ECU"
+    }
+  ],
+  "actions": [
+    {
+      "id": "C0",
+      "title": "Контекст ECU и правила интерфейса",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "RPM и CMP не определяют исправность CKP и механики.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "C1",
+      "title": "Источник reference",
+      "kind": "reading",
+      "profileId": "crank",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "R",
+      "blackPoint": "N"
+    },
+    {
+      "id": "C2",
+      "title": "Питание у CKP",
+      "kind": "reading",
+      "profileId": "crank",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "P",
+      "blackPoint": "N"
+    },
+    {
+      "id": "C3",
+      "title": "Возврат и сигнальный путь",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Подтверждены указанные пути, не исправность датчика.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "C4",
+      "title": "Проводимость питания",
+      "kind": "reading",
+      "profileId": "isolated",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "resistance",
+      "redPoint": "R",
+      "blackPoint": "P"
+    },
+    {
+      "id": "C5",
+      "title": "Секционный отчёт питания",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Альтернативная локализация пути без вывода о механике.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Нельзя обходить разрешение запуска или подавать питание в неизвестные контакты."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "C0",
+      "result": {
+        "kind": "packet",
+        "text": "C2-A, t=0…2 s: CMP имеет фронты; CKP edge_count=0, ECU RPM=0 rpm. Ноль RPM здесь вычислен из CKP; он не доказывает отсутствие вращения. Исправный интерфейс 0–5 V, питание 5 V.",
+        "source": "Синтетический подготовленный отчёт dp02/C0; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "C1",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 5,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "C2",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "C3",
+      "result": {
+        "kind": "packet",
+        "text": "C2-R: отдельно изолированные G–N=0.2 Ω, S–E=0.2 Ω; C2-A: G–N=0.004 V при заданной проверочной нагрузке возврата 20 mA (0.00 V при разрешении 0.01 V). Это разные подписанные режимы.",
+        "source": "Синтетический подготовленный отчёт dp02/C3; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "C4",
+      "result": {
+        "kind": "openLoop",
+        "limitOhm": 20000000
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "C5",
+      "result": {
+        "kind": "packet",
+        "text": "C2-R-alt: разъединённый от электроники путь R–P не проводит в диапазоне 20 MΩ; соседние контрольные участки проводимы. C2-A: источник R=5 V, P=0 V при локальном pull-down.",
+        "source": "Синтетический подготовленный отчёт dp02/C5; не реальный автомобиль"
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "context",
+      "label": "Отделить ECU RPM от физической прокрутки",
+      "proof": {
+        "anyOf": [
+          [
+            "C0"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "path",
+      "label": "Локализовать путь питания",
+      "proof": {
+        "anyOf": [
+          [
+            "C1",
+            "C2",
+            "C4"
+          ],
+          [
+            "C5"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "alternatives",
+      "label": "Проверить возврат и доставку сигнала",
+      "proof": {
+        "anyOf": [
+          [
+            "C3"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "c_context",
+      "prompt": "Отделить ECU RPM от физической прокрутки",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Отсутствие CKP при CMP не устанавливает неисправную деталь"
+        },
+        {
+          "id": "overreach",
+          "label": "RPM=0 доказывает неподвижный коленвал"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "C0"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "ECU вычисляет RPM по отсутствующему входу."
+    },
+    {
+      "id": "c_path",
+      "prompt": "Локализовать путь питания",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Питание теряется на R–P; CKP без питания не оценён"
+        },
+        {
+          "id": "overreach",
+          "label": "Сразу заменить CKP"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "C1",
+            "C2",
+            "C4"
+          ],
+          [
+            "C5"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Источник есть, путь отдельно подтверждён разомкнутым."
+    },
+    {
+      "id": "c_alternatives",
+      "prompt": "Проверить возврат и доставку сигнала",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Эти пути подтверждены только в заданных режимах"
+        },
+        {
+          "id": "overreach",
+          "label": "CMP доказывает всё питание CKP"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "C3"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Питание, возврат и сигнал проверяются отдельно."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "supported",
+      "label": "Разомкнут путь питания CKP R–P; сам CKP и механика ещё не оценены",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "Есть 5 V до пути питания и нет на P; отдельный изолированный отчёт подтверждает разрыв R–P. Отсутствие фронтов CKP объяснимо отсутствием его питания. Это не доказательство отказа CKP или механики; нужен последующий контроль после восстановления пути."
+    },
+    {
+      "id": "wrong0",
+      "label": "Заменить CKP по нулю RPM",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "wrong1",
+      "label": "Утверждать механическую неисправность",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "more",
+      "label": "Пока недостаточно данных: выбрать следующую безопасную проверку",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Нужны ещё доступные доказательства. Для полного зачёта обоснуйте допустимую область вывода."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}

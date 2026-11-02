@@ -1,0 +1,417 @@
+{
+  "schemaVersion": 1,
+  "id": "dp11",
+  "title": "Запрос дворников не выполняется",
+  "difficulty": "Высокая",
+  "prerequisites": [
+    "stage_4",
+    "stage_5",
+    "stage_6",
+    "stage_7",
+    "stage_11"
+  ],
+  "vehicle": "Конкретная BCM-схема с обязательным valid park-feedback перед пуском.",
+  "symptoms": "Запрошенный цикл дворников не начинается. Известно только отсутствие движения; запрос, питание и обратная связь ещё требуют проверки.",
+  "topology": "В этой учебной архитектуре BCM требует valid park до разрешения пуска; это не универсальное правило. S — park-источник, E — вход BCM с pull-up 5 V через 10 kΩ к N. В отдельной готовой стендовой записи S переключается; неподвижный механизм исходной жалобы в этот момент не измеряется.",
+  "safety": "Все данные синтетические, только чтение готовых записей. Не руководство по работе с автомобилем. Реальный аналог требует применимой OEM-процедуры и квалификации; здесь нет шагов подключения, изоляции или ремонта.",
+  "explanation": "Запрос принят, выходная команда отклонена как park_feedback_invalid. В отдельной стендовой записи источник переключается 0/5 V, а E удерживается pull-up на 5 V; изолированный путь OL. Подтверждён park-путь; мотор не был запитан в исходном состоянии и не оценён.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Разомкнут park-путь S–E",
+      "parameters": {
+        "pullUpV": 5,
+        "pullUpOhm": 10000,
+        "sourceLowV": 0,
+        "sourceHighV": 5,
+        "inputV": 5
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "N",
+      "label": "N — условная LV-опора; не HV-минус и не точка SRS"
+    },
+    {
+      "id": "S",
+      "label": "S — park-источник"
+    },
+    {
+      "id": "E",
+      "label": "E — вход BCM"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные документы",
+      "powered": false,
+      "isolated": false,
+      "load": "нет физической проверки",
+      "command": "анализ",
+      "snapshotId": "D11-DOC",
+      "temperatureC": 20
+    },
+    {
+      "id": "bench",
+      "label": "Готовая стендовая запись K11-B",
+      "powered": true,
+      "isolated": false,
+      "load": "park-источник изменяется на стенде; не исходная неподвижная машина",
+      "command": "prepared capture",
+      "snapshotId": "K11-B",
+      "temperatureC": 20
+    },
+    {
+      "id": "isolated",
+      "label": "OFF K11-R: отделённый park-путь",
+      "powered": false,
+      "isolated": true,
+      "load": "источник и BCM исключены из R-проверки",
+      "command": "OFF",
+      "snapshotId": "K11-R",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "bench"
+    },
+    {
+      "from": "briefing",
+      "to": "isolated"
+    },
+    {
+      "from": "bench",
+      "to": "briefing"
+    },
+    {
+      "from": "bench",
+      "to": "isolated"
+    },
+    {
+      "from": "isolated",
+      "to": "briefing"
+    },
+    {
+      "from": "isolated",
+      "to": "bench"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h0",
+      "label": "Запрос/сеть"
+    },
+    {
+      "id": "h1",
+      "label": "Питание мотора"
+    },
+    {
+      "id": "h2",
+      "label": "Park-источник"
+    },
+    {
+      "id": "h3",
+      "label": "Park-путь"
+    },
+    {
+      "id": "h4",
+      "label": "BCM"
+    }
+  ],
+  "actions": [
+    {
+      "id": "K0",
+      "title": "Питание BCM, запрос и выдача команды",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Принятие запроса и выдача команды — разные стадии.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "K1",
+      "title": "Источник park в отдельной стендовой записи",
+      "kind": "document",
+      "profileId": "bench",
+      "safetyClass": "safeAnalysis",
+      "scope": "Источник меняется, но доставку к BCM нужно проверить.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "K2",
+      "title": "Вход BCM в том же окне",
+      "kind": "document",
+      "profileId": "bench",
+      "safetyClass": "safeAnalysis",
+      "scope": "Одновременная форма отличается от S; ещё требуется контроль пути.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "K3",
+      "title": "Изолированный park-провод",
+      "kind": "reading",
+      "profileId": "isolated",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "resistance",
+      "redPoint": "S",
+      "blackPoint": "E"
+    },
+    {
+      "id": "K4",
+      "title": "Альтернативный секционный park-отчёт",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Локализует доставку feedback, не механику мотора.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Нельзя принудительно обходить park или защиты; реальный движущийся механизм и подключения находятся вне приложения."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "K0",
+      "result": {
+        "kind": "packet",
+        "text": "K11-A: питание BCM подтверждено готовым нагрузочным отчётом; request=accepted, motor_command=withheld, reason=park_feedback_invalid. Алгоритм требует valid park только в этой модели.",
+        "source": "Синтетический подготовленный отчёт dp11/K0; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "K1",
+      "result": {
+        "kind": "packet",
+        "text": "K11-B: общее окно t=0,10,20,30 ms; S–N=[0,5,0,5] V. Это отдельный стендовый опыт с воспроизводимым источником, не движение дворников жалобы.",
+        "source": "Синтетический подготовленный отчёт dp11/K1; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "K2",
+      "result": {
+        "kind": "packet",
+        "text": "K11-B: t=0,10,20,30 ms; E–N=[5,5,5,5] V, pull-up известен, опора общая.",
+        "source": "Синтетический подготовленный отчёт dp11/K2; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "K3",
+      "result": {
+        "kind": "openLoop",
+        "limitOhm": 20000000
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "K4",
+      "result": {
+        "kind": "packet",
+        "text": "K11-alt: отдельный непитаемый изолированный путь S–E не проводит в диапазоне 20 MΩ. В готовом K11-B capture источник переключается 0/5 V, вход E фиксирован 5 V с объявленным pull-up.",
+        "source": "Синтетический подготовленный отчёт dp11/K4; не реальный автомобиль"
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "command",
+      "label": "Отделить запрос от моторной команды",
+      "proof": {
+        "anyOf": [
+          [
+            "K0"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "path",
+      "label": "Разделить park-источник и путь",
+      "proof": {
+        "anyOf": [
+          [
+            "K1",
+            "K2",
+            "K3"
+          ],
+          [
+            "K4"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "c_command",
+      "prompt": "Отделить запрос от моторной команды",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "BCM удержал команду из-за feedback"
+        },
+        {
+          "id": "overreach",
+          "label": "Неподвижность доказывает сгоревший мотор"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "K0"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "В исходном состоянии мотор не запитан."
+    },
+    {
+      "id": "c_path",
+      "prompt": "Разделить park-источник и путь",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Источник меняется, путь разомкнут, вход удерживается pull-up"
+        },
+        {
+          "id": "overreach",
+          "label": "Источник park не меняется"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "K1",
+            "K2",
+            "K3"
+          ],
+          [
+            "K4"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Стендовая запись отдельно обозначена; сравниваются синхронные каналы."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "supported",
+      "label": "Разомкнут путь park-feedback S–E; последующая механика не оценена",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "Запрос принят, выходная команда отклонена как park_feedback_invalid. В отдельной стендовой записи источник переключается 0/5 V, а E удерживается pull-up на 5 V; изолированный путь OL. Подтверждён park-путь; мотор не был запитан в исходном состоянии и не оценён."
+    },
+    {
+      "id": "wrong0",
+      "label": "Заменить мотор по отсутствию движения",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "wrong1",
+      "label": "Заменить BCM без проверки feedback",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "more",
+      "label": "Пока недостаточно данных: выбрать следующую безопасную проверку",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Нужны ещё доступные доказательства. Для полного зачёта обоснуйте допустимую область вывода."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}

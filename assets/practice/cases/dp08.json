@@ -1,0 +1,499 @@
+{
+  "schemaVersion": 1,
+  "id": "dp08",
+  "title": "Сигнал пропадает ненадолго",
+  "difficulty": "Высокая",
+  "prerequisites": [
+    "stage_4",
+    "stage_5",
+    "stage_6",
+    "stage_7",
+    "stage_9",
+    "stage_10"
+  ],
+  "vehicle": "Аналоговый источник и ECU с фиксированным pull-down, готовые синхронные окна.",
+  "symptoms": "Иногда пропадает отклик датчика; сохранено историческое сообщение, но момент и причина отказа не установлены.",
+  "topology": "Идеализированный низкоомный выход S=2.5 V; S → путь → E, E → 100 kΩ → N. Питание P=5 V, возврат G=N. Окно A и событие B — заранее записанные данные одного опыта, не случайный таймер. Исторический DTC не подменяет эти окна.",
+  "safety": "Все данные синтетические, только чтение готовых записей. Не руководство по работе с автомобилем. Реальный аналог требует применимой OEM-процедуры и квалификации; здесь нет шагов подключения, изоляции или ремонта.",
+  "explanation": "В хорошем окне S=E=2.5 V; при B источник S остаётся 2.5 V, E падает к нулю из-за pull-down при неизменных питании и возврате. Отдельный синхронизированный отчёт подтверждает разрыв S–E в B. Доказан периодический путь/оконцевания, но материал повреждения не установлен.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "При событии B кратковременно открыт S–E",
+      "parameters": {
+        "signalV": 2.5,
+        "supplyV": 5,
+        "pullDownOhm": 100000,
+        "eventMs": 1200
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "N",
+      "label": "N — условная LV-опора; не HV-минус и не точка SRS"
+    },
+    {
+      "id": "S",
+      "label": "S — выход датчика"
+    },
+    {
+      "id": "E",
+      "label": "E — вход ECU"
+    },
+    {
+      "id": "P",
+      "label": "P — питание датчика"
+    },
+    {
+      "id": "G",
+      "label": "G — возврат"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные документы",
+      "powered": false,
+      "isolated": false,
+      "load": "нет физической проверки",
+      "command": "анализ",
+      "snapshotId": "D08-DOC",
+      "temperatureC": 20
+    },
+    {
+      "id": "windowA",
+      "label": "Готовое окно A, t=0…1000 ms",
+      "powered": true,
+      "isolated": false,
+      "load": "стационарная нагрузка входа ECU",
+      "command": "capture A",
+      "snapshotId": "I8-A",
+      "temperatureC": 20
+    },
+    {
+      "id": "windowB",
+      "label": "Событие B, t=1200…1210 ms",
+      "powered": true,
+      "isolated": false,
+      "load": "та же нагрузка; синхронные каналы S/E/P/G",
+      "command": "capture B",
+      "snapshotId": "I8-B",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "windowA"
+    },
+    {
+      "from": "briefing",
+      "to": "windowB"
+    },
+    {
+      "from": "windowA",
+      "to": "briefing"
+    },
+    {
+      "from": "windowA",
+      "to": "windowB"
+    },
+    {
+      "from": "windowB",
+      "to": "briefing"
+    },
+    {
+      "from": "windowB",
+      "to": "windowA"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h0",
+      "label": "Сам датчик"
+    },
+    {
+      "id": "h1",
+      "label": "Питание"
+    },
+    {
+      "id": "h2",
+      "label": "Возврат"
+    },
+    {
+      "id": "h3",
+      "label": "Сигнальный путь"
+    },
+    {
+      "id": "h4",
+      "label": "ECU"
+    }
+  ],
+  "actions": [
+    {
+      "id": "I0",
+      "title": "Контекст и синхронизация",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Исторический DTC сам не подтверждает текущий путь.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "I1",
+      "title": "Окно A: подготовленные каналы",
+      "kind": "document",
+      "profileId": "windowA",
+      "safetyClass": "safeAnalysis",
+      "scope": "Один хороший отрезок не исключает intermittent.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "I2",
+      "title": "Источник S в событии B",
+      "kind": "reading",
+      "profileId": "windowB",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "S",
+      "blackPoint": "N"
+    },
+    {
+      "id": "I3",
+      "title": "Вход E в событии B",
+      "kind": "reading",
+      "profileId": "windowB",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "E",
+      "blackPoint": "N"
+    },
+    {
+      "id": "I4",
+      "title": "Питание/возврат и проводимость во время B",
+      "kind": "document",
+      "profileId": "windowB",
+      "safetyClass": "safeAnalysis",
+      "scope": "Без этого отчёта пара потенциалов не исключала бы ошибку measurement chain.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "I5",
+      "title": "Альтернативный синхронный пакет двух концов",
+      "kind": "document",
+      "profileId": "windowB",
+      "safetyClass": "safeAnalysis",
+      "scope": "Два одновременных конца пути, не несвязанные кадры.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Нельзя замыкать или питать неизвестный сигнал; не предлагается физически раскачивать жгут возле механизмов."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "I0",
+      "result": {
+        "kind": "packet",
+        "text": "Запись I8: общая шкала t в ms; A=0…1000, B=1200…1210. Исторический DTC имеет неизвестный ECU-clock, поэтому к B не привязывается.",
+        "source": "Синтетический подготовленный отчёт dp08/I0; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "I1",
+      "result": {
+        "kind": "packet",
+        "text": "I8-A: S–N=2.5 V, E–N=2.5 V, P–N=5 V, G–N=0 V. Это только исправный отрезок записи.",
+        "source": "Синтетический подготовленный отчёт dp08/I1; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "I2",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 2.5,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "I3",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "I4",
+      "result": {
+        "kind": "packet",
+        "text": "I8-B: P–N=5 V и G–N=0 V при той же нагрузке; отдельный подготовленный синхронизированный контроль пути сообщает loss_of_continuity S–E ровно в 1200…1210 ms. Это специализированный отчёт, не режим омметра на питаемой цепи.",
+        "source": "Синтетический подготовленный отчёт dp08/I4; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "I5",
+      "result": {
+        "kind": "packet",
+        "text": "I8-B-alt: общий t=1200…1210 ms, S–N=2.5 V при E–N=0 V; перед событием и после него оба=2.5 V. Те же каналы, источник и опора.",
+        "source": "Синтетический подготовленный отчёт dp08/I5; не реальный автомобиль"
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "time",
+      "label": "Отделить историю и хороший отрезок",
+      "proof": {
+        "anyOf": [
+          [
+            "I0",
+            "I1"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "split",
+      "label": "Сопоставить два конца в событии",
+      "proof": {
+        "anyOf": [
+          [
+            "I2",
+            "I3"
+          ],
+          [
+            "I5"
+          ]
+        ],
+        "sameSnapshot": true
+      }
+    },
+    {
+      "id": "path",
+      "label": "Подтвердить условия и разрыв пути",
+      "proof": {
+        "anyOf": [
+          [
+            "I4"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "c_time",
+      "prompt": "Отделить историю и хороший отрезок",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Хорошее A не исключает B; ECU DTC clock неизвестен"
+        },
+        {
+          "id": "overreach",
+          "label": "Один хороший замер исключает проводку"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "I0",
+            "I1"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Нужно выбранное окно отказа."
+    },
+    {
+      "id": "c_split",
+      "prompt": "Сопоставить два конца в событии",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "В B источник сохраняется, вход теряет сигнал"
+        },
+        {
+          "id": "overreach",
+          "label": "Датчик перестал формировать сигнал"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "I2",
+            "I3"
+          ],
+          [
+            "I5"
+          ]
+        ],
+        "sameSnapshot": true
+      },
+      "explanation": "E стянут вниз объявленным pull-down, S остаётся активным."
+    },
+    {
+      "id": "c_path",
+      "prompt": "Подтвердить условия и разрыв пути",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Подтверждён S–E в B; точный вид повреждения неизвестен"
+        },
+        {
+          "id": "overreach",
+          "label": "Проверена вся проводка во всех режимах"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "I4"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Синхронная локализация ограничивает область вывода."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "supported",
+      "label": "Периодически размыкается сигнальный путь S–E в окне B",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "В хорошем окне S=E=2.5 V; при B источник S остаётся 2.5 V, E падает к нулю из-за pull-down при неизменных питании и возврате. Отдельный синхронизированный отчёт подтверждает разрыв S–E в B. Доказан периодический путь/оконцевания, но материал повреждения не установлен."
+    },
+    {
+      "id": "wrong0",
+      "label": "Заменить датчик по DTC",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "wrong1",
+      "label": "Объявить путь исправным по окну A",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "more",
+      "label": "Пока недостаточно данных: выбрать следующую безопасную проверку",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Нужны ещё доступные доказательства. Для полного зачёта обоснуйте допустимую область вывода."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}

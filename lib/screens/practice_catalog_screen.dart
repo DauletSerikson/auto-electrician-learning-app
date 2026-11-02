@@ -71,7 +71,7 @@ class _PracticeCatalogScreenState extends State<PracticeCatalogScreen> {
               padding: const EdgeInsets.all(20),
               children: [
                 Text(
-                  'Три диагностических сценария',
+                  'Диагностические сценарии: ${snapshot.data!.length}',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 12),

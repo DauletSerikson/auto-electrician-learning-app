@@ -1,0 +1,512 @@
+{
+  "schemaVersion": 1,
+  "id": "dp07",
+  "title": "Странные напряжения при включении нагрузки",
+  "difficulty": "Средняя",
+  "prerequisites": [
+    "stage_1",
+    "stage_2",
+    "stage_3",
+    "stage_4",
+    "stage_5",
+    "stage_9"
+  ],
+  "vehicle": "Условная резистивная LV-нагрузка с отдельным возвратным контактом.",
+  "symptoms": "Нагрузка работает слабее ожидаемого; при выключении на её возврате было около 0 V. Этого недостаточно, чтобы оценить возврат под током.",
+  "topology": "P=12 V → идеальный плюс → A → нагрузка с номинальными 5 Ω → B → проверяемый контакт → N. Вольтметр идеальный. Это фиксированный резистор, не температурная модель реальной лампы/мотора. При OFF ток нагрузки ноль.",
+  "safety": "Все данные синтетические, только чтение готовых записей. Не руководство по работе с автомобилем. Реальный аналог требует применимой OEM-процедуры и квалификации; здесь нет шагов подключения, изоляции или ремонта.",
+  "explanation": "Под LOAD A=12 V, B=2 V, на нагрузке 10 V при 2 A. Возврат теряет 2 V: R=1 Ω. При OFF и I=0 потенциал B=0 V не доказывает исправность под током. Вывод относится только к B–N, не ко всей массе автомобиля.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Возвратный контакт B–N имеет 1 Ω",
+      "parameters": {
+        "sourceV": 12,
+        "loadOhm": 5,
+        "returnOhm": 1,
+        "currentA": 2,
+        "loadV": 10,
+        "returnV": 2
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "N",
+      "label": "N — условная LV-опора; не HV-минус и не точка SRS"
+    },
+    {
+      "id": "P",
+      "label": "P — плюс источника"
+    },
+    {
+      "id": "A",
+      "label": "A — плюс нагрузки"
+    },
+    {
+      "id": "B",
+      "label": "B — минус нагрузки"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные документы",
+      "powered": false,
+      "isolated": false,
+      "load": "нет физической проверки",
+      "command": "анализ",
+      "snapshotId": "D07-DOC",
+      "temperatureC": 20
+    },
+    {
+      "id": "load",
+      "label": "LOAD M7-A",
+      "powered": true,
+      "isolated": false,
+      "load": "номинальная нагрузка 5 Ω включена",
+      "command": "ON",
+      "snapshotId": "M7-A",
+      "temperatureC": 20
+    },
+    {
+      "id": "off",
+      "label": "OFF M7-B",
+      "powered": false,
+      "isolated": false,
+      "load": "I нагрузки=0 A",
+      "command": "OFF",
+      "snapshotId": "M7-B",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "load"
+    },
+    {
+      "from": "briefing",
+      "to": "off"
+    },
+    {
+      "from": "load",
+      "to": "briefing"
+    },
+    {
+      "from": "load",
+      "to": "off"
+    },
+    {
+      "from": "off",
+      "to": "briefing"
+    },
+    {
+      "from": "off",
+      "to": "load"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h0",
+      "label": "Источник"
+    },
+    {
+      "id": "h1",
+      "label": "Плюсовая потеря"
+    },
+    {
+      "id": "h2",
+      "label": "Возвратный контакт"
+    },
+    {
+      "id": "h3",
+      "label": "Сама нагрузка"
+    }
+  ],
+  "actions": [
+    {
+      "id": "M0",
+      "title": "Паспорт ограниченной модели",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Номинал нагрузки ещё не является измерением текущего дефекта.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "M1",
+      "title": "Плюс нагрузки относительно N",
+      "kind": "reading",
+      "profileId": "load",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "A",
+      "blackPoint": "N"
+    },
+    {
+      "id": "M2",
+      "title": "Возврат B относительно N",
+      "kind": "reading",
+      "profileId": "load",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "B",
+      "blackPoint": "N"
+    },
+    {
+      "id": "M3",
+      "title": "Напряжение на нагрузке",
+      "kind": "reading",
+      "profileId": "load",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "A",
+      "blackPoint": "B"
+    },
+    {
+      "id": "M4",
+      "title": "Ток нагрузки",
+      "kind": "reading",
+      "profileId": "load",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "current",
+      "redPoint": "A",
+      "blackPoint": "B"
+    },
+    {
+      "id": "M5",
+      "title": "Потенциал возврата при OFF",
+      "kind": "reading",
+      "profileId": "off",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "B",
+      "blackPoint": "N"
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Нельзя обходить защиты случайными перемычками; реальное измерение под током требует подготовки."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "M0",
+      "result": {
+        "kind": "packet",
+        "text": "Источник 12 V, сравнительная нагрузка 5 Ω, идеальные измерители. Потенциал B относительно N и напряжение A–B — разные величины. Значения не являются универсальным допуском массы.",
+        "source": "Синтетический подготовленный отчёт dp07/M0; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "M1",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 12,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "M2",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 2,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "M3",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 10,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "M4",
+      "result": {
+        "kind": "numeric",
+        "quantity": "current",
+        "value": 2,
+        "unit": "A",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "M5",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "model",
+      "label": "Различить потенциал и напряжение нагрузки",
+      "proof": {
+        "anyOf": [
+          [
+            "M0"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "return",
+      "label": "Выделить потерю возврата под током",
+      "proof": {
+        "anyOf": [
+          [
+            "M1",
+            "M2",
+            "M4"
+          ],
+          [
+            "M1",
+            "M3",
+            "M4"
+          ]
+        ],
+        "sameSnapshot": true
+      }
+    },
+    {
+      "id": "off",
+      "label": "Ограничить вывод OFF-измерения",
+      "proof": {
+        "anyOf": [
+          [
+            "M5"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "c_model",
+      "prompt": "Различить потенциал и напряжение нагрузки",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Величины относятся к конкретным двум точкам"
+        },
+        {
+          "id": "overreach",
+          "label": "Масса всегда должна быть математически нулём"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "M0"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Потенциал под током зависит от сопротивления пути."
+    },
+    {
+      "id": "c_return",
+      "prompt": "Выделить потерю возврата под током",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Потеря B–N равна 2 V при 2 A"
+        },
+        {
+          "id": "overreach",
+          "label": "Нагрузка получает все 12 V"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "M1",
+            "M2",
+            "M4"
+          ],
+          [
+            "M1",
+            "M3",
+            "M4"
+          ]
+        ],
+        "sameSnapshot": true
+      },
+      "explanation": "12−10=2 V на возврате в том же snapshot."
+    },
+    {
+      "id": "c_off",
+      "prompt": "Ограничить вывод OFF-измерения",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Нулевой потенциал без тока не доказывает низкое R"
+        },
+        {
+          "id": "overreach",
+          "label": "M5 исключает дефект возврата"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "M5"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "При I=0 падение равно нулю даже на большом конечном R."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "supported",
+      "label": "Подтверждена потеря на возвратном контакте B–N под нагрузкой",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "Под LOAD A=12 V, B=2 V, на нагрузке 10 V при 2 A. Возврат теряет 2 V: R=1 Ω. При OFF и I=0 потенциал B=0 V не доказывает исправность под током. Вывод относится только к B–N, не ко всей массе автомобиля."
+    },
+    {
+      "id": "wrong0",
+      "label": "Источник слабый по одному OFF-замеру",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "wrong1",
+      "label": "Вся масса автомобиля неисправна",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "more",
+      "label": "Пока недостаточно данных: выбрать следующую безопасную проверку",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Нужны ещё доступные доказательства. Для полного зачёта обоснуйте допустимую область вывода."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}

@@ -1,0 +1,495 @@
+{
+  "schemaVersion": 1,
+  "id": "dp12",
+  "title": "Воздух идёт только на максимуме",
+  "difficulty": "Средняя",
+  "prerequisites": [
+    "stage_1",
+    "stage_2",
+    "stage_3",
+    "stage_4",
+    "stage_5",
+    "stage_11"
+  ],
+  "vehicle": "Классический резисторный отопитель, не PWM-контроллер.",
+  "symptoms": "Вентилятор работает на максимальной скорости, на низкой и средней потока нет. Причина отсутствия тока и возможного перегрева пока неизвестна.",
+  "topology": "LOW/MED → термозащита T → резисторные секции → мотор → N. HIGH штатно обходит эту ветвь. A/B — стороны T. Выход B стянут к N пассивной нагрузкой; в разрыве U(B,N)=0 V не означает питание моторной ветви. R-данные только изолированные.",
+  "safety": "Все данные синтетические, только чтение готовых записей. Не руководство по работе с автомобилем. Реальный аналог требует применимой OEM-процедуры и квалификации; здесь нет шагов подключения, изоляции или ремонта.",
+  "explanation": "LOW принят, до T есть 12 V, после нет; T отдельно OL при проводимых секциях и проводах. HIGH подтверждает только свой режим мотора. Открытая термозащита локализована, причина её срабатывания неизвестна: нужны отдельные подготовленные проверки тока/воздушного потока; обход недопустим.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Термозащита T низких скоростей открыта",
+      "parameters": {
+        "sourceV": 12,
+        "beforeV": 12,
+        "afterV": 0,
+        "section1Ohm": 0.4,
+        "section2Ohm": 0.8,
+        "wireOhm": 0.2
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "N",
+      "label": "N — условная LV-опора; не HV-минус и не точка SRS"
+    },
+    {
+      "id": "A",
+      "label": "A — до термозащиты"
+    },
+    {
+      "id": "B",
+      "label": "B — после термозащиты"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные документы",
+      "powered": false,
+      "isolated": false,
+      "load": "нет физической проверки",
+      "command": "анализ",
+      "snapshotId": "D12-DOC",
+      "temperatureC": 20
+    },
+    {
+      "id": "low",
+      "label": "LOW H12-A",
+      "powered": true,
+      "isolated": false,
+      "load": "низкая скорость запрошена; пассивный путь B к N",
+      "command": "LOW",
+      "snapshotId": "H12-A",
+      "temperatureC": 20
+    },
+    {
+      "id": "isolated",
+      "label": "OFF H12-R: термозащита отделена",
+      "powered": false,
+      "isolated": true,
+      "load": "секции и проводники проверены отдельно",
+      "command": "OFF",
+      "snapshotId": "H12-R",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "low"
+    },
+    {
+      "from": "briefing",
+      "to": "isolated"
+    },
+    {
+      "from": "low",
+      "to": "briefing"
+    },
+    {
+      "from": "low",
+      "to": "isolated"
+    },
+    {
+      "from": "isolated",
+      "to": "briefing"
+    },
+    {
+      "from": "isolated",
+      "to": "low"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h0",
+      "label": "Переключатель"
+    },
+    {
+      "id": "h1",
+      "label": "Термозащита/резисторы"
+    },
+    {
+      "id": "h2",
+      "label": "Проводка"
+    },
+    {
+      "id": "h3",
+      "label": "Мотор"
+    },
+    {
+      "id": "h4",
+      "label": "Разрешение HVAC"
+    }
+  ],
+  "actions": [
+    {
+      "id": "H0",
+      "title": "Запрос и штатный HIGH-bypass",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "HIGH не проверяет LOW-ветвь и не устанавливает причину перегрева.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "H1",
+      "title": "До термозащиты",
+      "kind": "reading",
+      "profileId": "low",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "A",
+      "blackPoint": "N"
+    },
+    {
+      "id": "H2",
+      "title": "После термозащиты",
+      "kind": "reading",
+      "profileId": "low",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "B",
+      "blackPoint": "N"
+    },
+    {
+      "id": "H3",
+      "title": "Термозащита отдельно",
+      "kind": "reading",
+      "profileId": "isolated",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "resistance",
+      "redPoint": "A",
+      "blackPoint": "B"
+    },
+    {
+      "id": "H4",
+      "title": "Секции резистора и проводники",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Неизвестную первопричину нельзя заменить догадкой.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "H5",
+      "title": "Альтернативный секционный отчёт T",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Открыта T, причина её открытия пока не установлена.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Запрещён шунт термозащиты; нет процедуры работы с горячими или движущимися частями."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "H0",
+      "result": {
+        "kind": "packet",
+        "text": "H12-A: LOW-request принят, ограничений HVAC нет. В отдельной HIGH-записи на моторе 12 V и движение. HIGH идёт по другой штатной ветви.",
+        "source": "Синтетический подготовленный отчёт dp12/H0; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "H1",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 12,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "H2",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "H3",
+      "result": {
+        "kind": "openLoop",
+        "limitOhm": 20000000
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "H4",
+      "result": {
+        "kind": "packet",
+        "text": "H12-R: изолированные секции 0.4 Ω и 0.8 Ω; отдельные проводники 0.2 Ω. Причина перегрева и ток реального мотора под разными режимами не предоставлены.",
+        "source": "Синтетический подготовленный отчёт dp12/H4; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "H5",
+      "result": {
+        "kind": "packet",
+        "text": "H12-alt: отдельно изолированная T >20 MΩ; готовый LOW-кадр A–N=12 V, B–N=0 V с пассивной нагрузкой к N. Это не измерение Ω под напряжением.",
+        "source": "Синтетический подготовленный отчёт dp12/H5; не реальный автомобиль"
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "topology",
+      "label": "Различить HIGH и LOW",
+      "proof": {
+        "anyOf": [
+          [
+            "H0"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "protection",
+      "label": "Локализовать открытый элемент",
+      "proof": {
+        "anyOf": [
+          [
+            "H1",
+            "H2",
+            "H3"
+          ],
+          [
+            "H5"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "cause",
+      "label": "Разделить отказ защиты и его причину",
+      "proof": {
+        "anyOf": [
+          [
+            "H4"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "c_topology",
+      "prompt": "Различить HIGH и LOW",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "HIGH обходит LOW-ветвь и не проверяет её"
+        },
+        {
+          "id": "overreach",
+          "label": "Работа HIGH доказывает исправность всех скоростей"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "H0"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Топология определяет границы сравнения."
+    },
+    {
+      "id": "c_protection",
+      "prompt": "Локализовать открытый элемент",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "T разомкнута, потери локализованы на ней"
+        },
+        {
+          "id": "overreach",
+          "label": "Сгорел мотор по отсутствию LOW"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "H1",
+            "H2",
+            "H3"
+          ],
+          [
+            "H5"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Нужны питание с двух сторон и изолированное подтверждение."
+    },
+    {
+      "id": "c_cause",
+      "prompt": "Разделить отказ защиты и его причину",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Причина перегрева ещё не установлена"
+        },
+        {
+          "id": "overreach",
+          "label": "Достаточно заменить T и считать причину устранённой"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "H4"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Работа защиты не объясняет первопричину; обход запрещён."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "supported",
+      "label": "Открыта термозащита LOW/MED; причина перегрева требует отдельной диагностики",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "LOW принят, до T есть 12 V, после нет; T отдельно OL при проводимых секциях и проводах. HIGH подтверждает только свой режим мотора. Открытая термозащита локализована, причина её срабатывания неизвестна: нужны отдельные подготовленные проверки тока/воздушного потока; обход недопустим."
+    },
+    {
+      "id": "wrong0",
+      "label": "Заменить мотор без проверки LOW-ветви",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "wrong1",
+      "label": "Шунтировать T как окончательное решение",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "more",
+      "label": "Пока недостаточно данных: выбрать следующую безопасную проверку",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Нужны ещё доступные доказательства. Для полного зачёта обоснуйте допустимую область вывода."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}

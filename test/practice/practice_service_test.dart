@@ -22,27 +22,31 @@ Map<String, String> files() => {
     'cases/dp01.json',
     'cases/dp13.json',
     'cases/dp05.json',
+    for (var i = 1; i <= 18; i++)
+      if (![1, 13, 5].contains(i))
+        'cases/dp${i.toString().padLeft(2, '0')}.json',
   ])
     'assets/practice/$name': File('assets/practice/$name').readAsStringSync(),
 };
 
 void main() {
-  test(
-    'catalog loads exactly three validated pilots, separate from course',
-    () async {
-      final items = await PracticeService(bundle: MemoryBundle(files()))
-          .loadCatalog();
-      expect(items.map((d) => d.id), ['dp01', 'dp13', 'dp05']);
-      expect(
-        items.every((d) => d.claims.isNotEmpty && d.evidenceGroups.isNotEmpty),
-        isTrue,
-      );
-      expect(
-        items.map((d) => d.weights.values.reduce((a, b) => a + b)),
-        everyElement(100),
-      );
-    },
-  );
+  test('catalog loads all eighteen definitions and retains pilot order, separate from course', () async {
+    final items = await PracticeService(bundle: MemoryBundle(files()))
+        .loadCatalog();
+    expect(items.take(3).map((d) => d.id), ['dp01', 'dp13', 'dp05']);
+    expect(items.map((d) => d.id).toSet(), {
+      for (var i = 1; i <= 18; i++) 'dp${i.toString().padLeft(2, '0')}',
+    });
+    expect(items, hasLength(18));
+    expect(
+      items.every((d) => d.claims.isNotEmpty && d.evidenceGroups.isNotEmpty),
+      isTrue,
+    );
+    expect(
+      items.map((d) => d.weights.values.reduce((a, b) => a + b)),
+      everyElement(100),
+    );
+  });
   for (final ids in <List<String>>[
     [],
     ['dp01', 'dp01'],

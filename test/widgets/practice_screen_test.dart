@@ -117,7 +117,7 @@ void main() {
     });
   });
   testWidgets(
-    'Home opens isolated three-case catalog without changing course progress',
+    'Home opens isolated eighteen-case catalog without changing course progress',
     (tester) async {
       await tester.pumpWidget(const AutoElectricianApp());
       await settle(tester);
@@ -127,7 +127,11 @@ void main() {
       final cases = await tester.runAsync(
         () => PracticeService().loadCatalog(),
       );
-      expect(cases!.map((d) => d.id), ['dp01', 'dp13', 'dp05']);
+      expect(cases!.take(3).map((d) => d.id), ['dp01', 'dp13', 'dp05']);
+      expect(cases, hasLength(18));
+      expect(cases.map((d) => d.id).toSet(), {
+        for (var i = 1; i <= 18; i++) 'dp${i.toString().padLeft(2, '0')}',
+      });
       await tap(tester, find.byKey(const ValueKey('practice_case_dp01')));
       expect(find.byType(PracticeScreen), findsOneWidget);
       expect(find.text('Исходные симптомы'), findsOneWidget);

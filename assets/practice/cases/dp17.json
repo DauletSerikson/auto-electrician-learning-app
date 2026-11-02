@@ -1,0 +1,391 @@
+{
+  "schemaVersion": 1,
+  "id": "dp17",
+  "title": "Зарядная сессия не начинается",
+  "difficulty": "Высокая",
+  "prerequisites": [
+    "stage_7",
+    "stage_13"
+  ],
+  "vehicle": "Учебный BEV + EVSE, только синтетические сообщения.",
+  "symptoms": "AC-сессия не начинается, общее сообщение charging=false. Нет данных для вывода о тяговой батарее, OBC или внешней инфраструктуре.",
+  "topology": "Контекст разделён на внешний EVSE и разрешение автомобиля. HV-минус не равен кузову; HV-точек и измерений нет. Статусы имеют общую session id и время; значения not_run/unknown не равны passed. Рассматривается условие запуска сессии, не исправность силовой HV-системы.",
+  "safety": "Все данные синтетические, только чтение готовых записей. Не руководство по работе с автомобилем. Реальный аналог требует применимой OEM-процедуры и квалификации; здесь нет шагов подключения, изоляции или ремонта.",
+  "explanation": "В одной session запрос автомобиля принят и LV ready сообщён, но EVSE authorization_rejected и power_delivery_not_permitted. Подтверждено внешнее условие блокировки; обращаться к оператору/квалифицированному сервису. Непроверенные OBC и HV не объявляются исправными.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Внешняя EVSE-авторизация отклонена",
+      "parameters": {
+        "sessionIndex": 17,
+        "timestampS": 10
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "N",
+      "label": "N — условная LV-опора; не HV-минус и не точка SRS"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные документы",
+      "powered": false,
+      "isolated": false,
+      "load": "нет физической проверки",
+      "command": "анализ",
+      "snapshotId": "D17-DOC",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [],
+  "hypotheses": [
+    {
+      "id": "h0",
+      "label": "Внешняя авторизация EVSE"
+    },
+    {
+      "id": "h1",
+      "label": "Доступность сети"
+    },
+    {
+      "id": "h2",
+      "label": "LV/готовность автомобиля"
+    },
+    {
+      "id": "h3",
+      "label": "Внутреннее разрешение"
+    },
+    {
+      "id": "h4",
+      "label": "OBC/HV"
+    }
+  ],
+  "actions": [
+    {
+      "id": "E0",
+      "title": "Контекст сессии и смысл статусов",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Общее charging=false не определяет сторону отказа.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "E1",
+      "title": "Готовый пакет автомобиля",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Отчёт подтверждает разрешение, но не все компоненты HV.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "E2",
+      "title": "Готовый пакет EVSE",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Причина отказа учётных прав у оператора этим пакетом не раскрыта.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "E3",
+      "title": "Альтернативная связанная хронология EVSE",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Альтернатива E2, не сообщение автомобиля о физическом HV-состоянии.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "E4",
+      "title": "Граница безопасного решения",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Нет процедур HV или сетевого питания.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Нельзя вскрывать HV, обходить HVIL/контакторы/разрешения или работать с EVSE mains; только анализ синтетических сообщений."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "E0",
+      "result": {
+        "kind": "packet",
+        "text": "EV17, t=10 s: charging=false, AC session requested. Словарь: not_run означает тест не выполнялся; отсутствие сообщения не означает passed. Это синтетический протокол, не OEM PID.",
+        "source": "Синтетический подготовленный отчёт dp17/E0; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "E1",
+      "result": {
+        "kind": "packet",
+        "text": "EV17, t=10 s: LV_ready=reported_true, vehicle_request=accepted, vehicle_permission=reported_true. Внутренние HV self-tests=not_run в рамках этого пакета.",
+        "source": "Синтетический подготовленный отчёт dp17/E1; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "E2",
+      "result": {
+        "kind": "packet",
+        "text": "EV17, t=10 s: authorization=rejected, mains_available=reported_true, power_delivery=not_permitted. Описание external-auth: требуется разбор оператором; ни питание, ни блокировки не обходятся.",
+        "source": "Синтетический подготовленный отчёт dp17/E2; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "E3",
+      "result": {
+        "kind": "packet",
+        "text": "EV17 linked audit: t=9 s request_received; t=10 s external_authorization_rejected, power_delivery_not_permitted; mains_available=reported_true. Session совпадает, источник — подготовленный внешний отчёт.",
+        "source": "Синтетический подготовленный отчёт dp17/E3; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "E4",
+      "result": {
+        "kind": "packet",
+        "text": "EV17: в этой задаче нет диагностических данных OBC/изоляции/контакторов. Нельзя переносить отсутствие зарядки на неисправность тяговой батареи. Допустим разбор внешней авторизации оператором и дальнейшая квалифицированная диагностика при необходимости.",
+        "source": "Синтетический подготовленный отчёт dp17/E4; не реальный автомобиль"
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "context",
+      "label": "Связать сообщения одной сессии",
+      "proof": {
+        "anyOf": [
+          [
+            "E0",
+            "E1"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "external",
+      "label": "Определить условие блокировки",
+      "proof": {
+        "anyOf": [
+          [
+            "E2"
+          ],
+          [
+            "E3"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "boundary",
+      "label": "Ограничить вывод и безопасно передать вопрос",
+      "proof": {
+        "anyOf": [
+          [
+            "E4"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "c_context",
+      "prompt": "Связать сообщения одной сессии",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Разрешение автомобиля сообщено; неисполненные тесты не зачтены"
+        },
+        {
+          "id": "overreach",
+          "label": "LV ready доказывает исправность всего HV"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "E0",
+            "E1"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Готовность и целостность HV — разные утверждения."
+    },
+    {
+      "id": "c_external",
+      "prompt": "Определить условие блокировки",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Внешняя авторизация отклонена, выдача энергии не разрешена"
+        },
+        {
+          "id": "overreach",
+          "label": "Неисправна тяговая батарея"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "E2"
+          ],
+          [
+            "E3"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Синхронный внешний packet локализует условие, не ремонтируемую деталь."
+    },
+    {
+      "id": "c_boundary",
+      "prompt": "Ограничить вывод и безопасно передать вопрос",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Разбор с оператором; внутренние HV-компоненты не оценены"
+        },
+        {
+          "id": "overreach",
+          "label": "Можно обойти разрешение для подтверждения"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "E4"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Недостаток HV-данных не заполняется догадкой."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "supported",
+      "label": "Сессия блокируется внешней авторизацией EVSE; вопрос оператору, HV не оценён",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "В одной session запрос автомобиля принят и LV ready сообщён, но EVSE authorization_rejected и power_delivery_not_permitted. Подтверждено внешнее условие блокировки; обращаться к оператору/квалифицированному сервису. Непроверенные OBC и HV не объявляются исправными."
+    },
+    {
+      "id": "wrong0",
+      "label": "Заменить тяговую батарею по charging=false",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "wrong1",
+      "label": "Объявить OBC неисправным без данных",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "more",
+      "label": "Пока недостаточно данных: выбрать следующую безопасную проверку",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Нужны ещё доступные доказательства. Для полного зачёта обоснуйте допустимую область вывода."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}

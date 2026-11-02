@@ -1,0 +1,496 @@
+{
+  "schemaVersion": 1,
+  "id": "dp10",
+  "title": "Стекло движется только вниз",
+  "difficulty": "Средняя",
+  "prerequisites": [
+    "stage_4",
+    "stage_5",
+    "stage_6",
+    "stage_11"
+  ],
+  "vehicle": "Дверной модуль с дискретным UP-входом и H-bridge.",
+  "symptoms": "DOWN работает, UP не выполняется. Состояние входа, разрешений, драйвера и механики вверх ещё неизвестно.",
+  "topology": "U — вход UP модуля с pull-up 5 V через 10 kΩ; W — провод к контакту UP, контакт при нажатии должен связать W с G=N. DOWN отдельный. H-bridge управляется только распознанной командой. Есть anti-pinch; оно не отключается. Изолированные отчёты не являются инструкцией разборки.",
+  "safety": "Все данные синтетические, только чтение готовых записей. Не руководство по работе с автомобилем. Реальный аналог требует применимой OEM-процедуры и квалификации; здесь нет шагов подключения, изоляции или ремонта.",
+  "explanation": "UP-вход остаётся высоким при запросе; провод проводим, но отдельно изолированный UP-контакт в нажатом состоянии OL. DOWN-контакт проводим. Причина отсутствия входной команды локализована в UP-контакте. Работоспособность силового направления вверх и механики после устранения ещё не проверена.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Нажатый UP-контакт остаётся открытым",
+      "parameters": {
+        "pullUpV": 5,
+        "pullUpOhm": 10000,
+        "upInputV": 5,
+        "wireOhm": 0.2,
+        "downContactOhm": 0.2
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "N",
+      "label": "N — условная LV-опора; не HV-минус и не точка SRS"
+    },
+    {
+      "id": "U",
+      "label": "U — UP-вход модуля"
+    },
+    {
+      "id": "W",
+      "label": "W — сторона переключателя"
+    },
+    {
+      "id": "G",
+      "label": "G — опора переключателя"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные документы",
+      "powered": false,
+      "isolated": false,
+      "load": "нет физической проверки",
+      "command": "анализ",
+      "snapshotId": "D10-DOC",
+      "temperatureC": 20
+    },
+    {
+      "id": "request",
+      "label": "UP W10-A: подготовленная запись",
+      "powered": true,
+      "isolated": false,
+      "load": "UP запрошен; мотор не получает команду",
+      "command": "UP",
+      "snapshotId": "W10-A",
+      "temperatureC": 20
+    },
+    {
+      "id": "isolated",
+      "label": "OFF W10-R: вход, провод и контакты отделены",
+      "powered": false,
+      "isolated": true,
+      "load": "параллельные пути исключены",
+      "command": "OFF",
+      "snapshotId": "W10-R",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "request"
+    },
+    {
+      "from": "briefing",
+      "to": "isolated"
+    },
+    {
+      "from": "request",
+      "to": "briefing"
+    },
+    {
+      "from": "request",
+      "to": "isolated"
+    },
+    {
+      "from": "isolated",
+      "to": "briefing"
+    },
+    {
+      "from": "isolated",
+      "to": "request"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h0",
+      "label": "Контакт UP"
+    },
+    {
+      "id": "h1",
+      "label": "Провод входа"
+    },
+    {
+      "id": "h2",
+      "label": "Запрет/anti-pinch"
+    },
+    {
+      "id": "h3",
+      "label": "H-bridge"
+    },
+    {
+      "id": "h4",
+      "label": "Механика"
+    }
+  ],
+  "actions": [
+    {
+      "id": "W0",
+      "title": "Контекст входа и разрешений",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Принятый низкий уровень UP должен быть около 0 V только в этой схеме.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "W1",
+      "title": "UP-вход при запросе",
+      "kind": "reading",
+      "profileId": "request",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "U",
+      "blackPoint": "G"
+    },
+    {
+      "id": "W2",
+      "title": "Изолированный UP-провод",
+      "kind": "reading",
+      "profileId": "isolated",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "resistance",
+      "redPoint": "U",
+      "blackPoint": "W"
+    },
+    {
+      "id": "W3",
+      "title": "Нажатый UP-контакт в отчёте",
+      "kind": "reading",
+      "profileId": "isolated",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "resistance",
+      "redPoint": "W",
+      "blackPoint": "G"
+    },
+    {
+      "id": "W4",
+      "title": "Сравнительный DOWN-контакт",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Сравнение условий контактов, не гарантия всего переключателя.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "W5",
+      "title": "Альтернативный отчёт входной ветви",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Локализует контакт, не выходную силовую цепь.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Запрещены обход anti-pinch и принудительное движение; физическая работа со стеклом требует квалифицированной процедуры."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "W0",
+      "result": {
+        "kind": "packet",
+        "text": "W10-A: питание модуля штатное по нагрузочному отчёту, запретов нет; DOWN распознаётся. UP software_request=false, поэтому силовой UP-output не запрошен. Движение DOWN не проверяет UP-драйвер.",
+        "source": "Синтетический подготовленный отчёт dp10/W0; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "W1",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 5,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "W2",
+      "result": {
+        "kind": "numeric",
+        "quantity": "resistance",
+        "value": 0.2,
+        "unit": "Ω",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "W3",
+      "result": {
+        "kind": "openLoop",
+        "limitOhm": 20000000
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "W4",
+      "result": {
+        "kind": "packet",
+        "text": "W10-R: отдельно снятый DOWN-контакт при нажатии 0.2 Ω; состояние UP для W3 также подтверждено как нажатое.",
+        "source": "Синтетический подготовленный отчёт dp10/W4; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "W5",
+      "result": {
+        "kind": "packet",
+        "text": "W10-alt: UP-input=5 V при подтверждённом нажатии; отдельно изолированный U–W=0.2 Ω; UP-контакт W–G >20 MΩ в диапазоне отчёта. Модуль и pull-up исключены из R-проверок.",
+        "source": "Синтетический подготовленный отчёт dp10/W5; не реальный автомобиль"
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "logic",
+      "label": "Проследить input → command",
+      "proof": {
+        "anyOf": [
+          [
+            "W0"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "contact",
+      "label": "Различить провод и контакт",
+      "proof": {
+        "anyOf": [
+          [
+            "W1",
+            "W2",
+            "W3"
+          ],
+          [
+            "W5"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "comparison",
+      "label": "Удержать одинаковые условия сравнения",
+      "proof": {
+        "anyOf": [
+          [
+            "W4"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "c_logic",
+      "prompt": "Проследить input → command",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Нет распознанного UP, запрета не зарегистрировано"
+        },
+        {
+          "id": "overreach",
+          "label": "DOWN доказывает исправность UP-драйвера"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "W0"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Выход не запрошен; нельзя объявлять его неисправным."
+    },
+    {
+      "id": "c_contact",
+      "prompt": "Различить провод и контакт",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "UP-контакт разомкнут при нажатии, провод проводим"
+        },
+        {
+          "id": "overreach",
+          "label": "Провод входа разомкнут"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "W1",
+            "W2",
+            "W3"
+          ],
+          [
+            "W5"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Условия и изоляция делают контактный вывод допустимым."
+    },
+    {
+      "id": "c_comparison",
+      "prompt": "Удержать одинаковые условия сравнения",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Состояния кнопок в отчёте подтверждены"
+        },
+        {
+          "id": "overreach",
+          "label": "Любое OL говорит о поломке даже отпущенной кнопки"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "W4"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "В отпущенном состоянии OL могло бы быть нормальным."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "supported",
+      "label": "Подтверждён открытый UP-контакт переключателя; силовой UP и механика отдельно",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "UP-вход остаётся высоким при запросе; провод проводим, но отдельно изолированный UP-контакт в нажатом состоянии OL. DOWN-контакт проводим. Причина отсутствия входной команды локализована в UP-контакте. Работоспособность силового направления вверх и механики после устранения ещё не проверена."
+    },
+    {
+      "id": "wrong0",
+      "label": "Заменить мотор по работе только вниз",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "wrong1",
+      "label": "Отключить anti-pinch ради проверки",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "more",
+      "label": "Пока недостаточно данных: выбрать следующую безопасную проверку",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Нужны ещё доступные доказательства. Для полного зачёта обоснуйте допустимую область вывода."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}

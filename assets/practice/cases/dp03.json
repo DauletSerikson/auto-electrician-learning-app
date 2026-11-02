@@ -1,0 +1,486 @@
+{
+  "schemaVersion": 1,
+  "id": "dp03",
+  "title": "Разрядка после стоянки",
+  "difficulty": "Средняя",
+  "prerequisites": [
+    "stage_2",
+    "stage_5",
+    "stage_8"
+  ],
+  "vehicle": "Условная LV-сеть с sleep и отдельной ветвью освещения багажника.",
+  "symptoms": "После ночной стоянки энергии АКБ недостаточно для обычного запуска. Состояние АКБ, зарядки и потребителей ещё не установлено.",
+  "topology": "В исправном settled-окне задан фоновый ток 0.03 A. Ветвь лампы багажника при включении добавляет 0.40 A при 12 V. Состояния awake и sleep не сравниваются как одинаковые нагрузки. Подготовленная изоляция ветви не является командой вытаскивать предохранитель на реальной машине.",
+  "safety": "Все данные синтетические, только чтение готовых записей. Не руководство по работе с автомобилем. Реальный аналог требует применимой OEM-процедуры и квалификации; здесь нет шагов подключения, изоляции или ремонта.",
+  "explanation": "В сопоставимых settled-окнах лишние 0.40 A исчезают вместе с ветвью лампы; отчёт наблюдения подтверждает свечение и несоответствие концевика закрытому багажнику. 0.03+0.40=0.43 A; за 8 h добавляется 3.2 Ah расхода. Это причина дополнительного расхода, но не доказательство исправности АКБ или гарантированного разряда любой АКБ.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Концевик оставляет лампу багажника включённой",
+      "parameters": {
+        "supplyV": 12,
+        "sleepA": 0.03,
+        "lampA": 0.4,
+        "totalA": 0.43,
+        "lampW": 4.8,
+        "lampOhm": 30,
+        "windowHours": 8,
+        "extraAh": 3.2
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "N",
+      "label": "N — условная LV-опора; не HV-минус и не точка SRS"
+    },
+    {
+      "id": "P",
+      "label": "P — суммарная LV-ветвь"
+    },
+    {
+      "id": "L",
+      "label": "L — ветвь лампы"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные документы",
+      "powered": false,
+      "isolated": false,
+      "load": "нет физической проверки",
+      "command": "анализ",
+      "snapshotId": "D03-DOC",
+      "temperatureC": 20
+    },
+    {
+      "id": "sleep",
+      "label": "Settled A, после 30 min без пробуждений",
+      "powered": true,
+      "isolated": false,
+      "load": "багажник закрыт; стабильное окно 30…40 min",
+      "command": "sleep",
+      "snapshotId": "S3-A",
+      "temperatureC": 20
+    },
+    {
+      "id": "branch",
+      "label": "Settled B после подготовленной изоляции ветви",
+      "powered": true,
+      "isolated": false,
+      "load": "повторный sleep 30…40 min; та же фоновая нагрузка",
+      "command": "sleep",
+      "snapshotId": "S3-B",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "sleep"
+    },
+    {
+      "from": "briefing",
+      "to": "branch"
+    },
+    {
+      "from": "sleep",
+      "to": "briefing"
+    },
+    {
+      "from": "sleep",
+      "to": "branch"
+    },
+    {
+      "from": "branch",
+      "to": "briefing"
+    },
+    {
+      "from": "branch",
+      "to": "sleep"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h0",
+      "label": "АКБ/SOH"
+    },
+    {
+      "id": "h1",
+      "label": "Постоянный потребитель"
+    },
+    {
+      "id": "h2",
+      "label": "Периодическое пробуждение"
+    },
+    {
+      "id": "h3",
+      "label": "Недостаточная зарядка"
+    }
+  ],
+  "actions": [
+    {
+      "id": "S0",
+      "title": "Паспорт сети и временных окон",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Номиналы только для этой модели.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "S1",
+      "title": "Суммарный ток в sleep A",
+      "kind": "reading",
+      "profileId": "sleep",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "current",
+      "redPoint": "P",
+      "blackPoint": "N"
+    },
+    {
+      "id": "S2",
+      "title": "Ток в sleep B",
+      "kind": "reading",
+      "profileId": "branch",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "current",
+      "redPoint": "P",
+      "blackPoint": "N"
+    },
+    {
+      "id": "S3",
+      "title": "Наблюдение ветви и концевика",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Потребитель и управляющее условие подтверждены; первопричина внутри концевика/механизма не разбиралась.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "S4",
+      "title": "Альтернативный отчёт баланса ветвей",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Суммирование токов локализует ветвь, не исправность АКБ.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "S5",
+      "title": "Контроль пробуждения",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Нельзя сравнивать awake 1.20 A с settled 0.03 A как доказательство дефекта.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Запрещено включать амперметр поперёк АКБ; приложение не даёт процедуры реального измерения или изоляции."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "S0",
+      "result": {
+        "kind": "packet",
+        "text": "Условная модель при 12 V: sleep baseline 0.03 A, лампа при включении 0.40 A. A и B: одинаковая температура, повторный sleep после 30 min; открывание двери выводит сеть в awake. Общий ток не оценивает SOH.",
+        "source": "Синтетический подготовленный отчёт dp03/S0; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "S1",
+      "result": {
+        "kind": "numeric",
+        "quantity": "current",
+        "value": 0.43,
+        "unit": "A",
+        "resolution": 0.001
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "S2",
+      "result": {
+        "kind": "numeric",
+        "quantity": "current",
+        "value": 0.03,
+        "unit": "A",
+        "resolution": 0.001
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "S3",
+      "result": {
+        "kind": "packet",
+        "text": "S3-A: багажник физически закрыт по независимому признаку; лампа продолжает светиться. В готовом отчёте концевик сообщает «открыто». Ток именно ветви лампы 0.40 A.",
+        "source": "Синтетический подготовленный отчёт dp03/S3; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "S4",
+      "result": {
+        "kind": "packet",
+        "text": "S3-alt: в одном settled-окне 30…40 min итог 0.43 A, ветвь лампы 0.40 A, прочие ветви суммарно 0.03 A; без новых пробуждений. Отдельное S3-A наблюдение S3 требуется для выбора потребителя.",
+        "source": "Синтетический подготовленный отчёт dp03/S4; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "S5",
+      "result": {
+        "kind": "packet",
+        "text": "Awake при открытой двери: 1.20 A, t=5 s после события. Это не settled-профиль и не норма sleep.",
+        "source": "Синтетический подготовленный отчёт dp03/S5; не реальный автомобиль"
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "context",
+      "label": "Сопоставить режимы и границы расхода",
+      "proof": {
+        "anyOf": [
+          [
+            "S0"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "branch",
+      "label": "Выделить избыточную ветвь",
+      "proof": {
+        "anyOf": [
+          [
+            "S1",
+            "S2"
+          ],
+          [
+            "S4"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "load",
+      "label": "Определить потребитель и ограничить вывод",
+      "proof": {
+        "anyOf": [
+          [
+            "S3"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "c_context",
+      "prompt": "Сопоставить режимы и границы расхода",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Сравниваются повторные settled-окна; SOH не известен"
+        },
+        {
+          "id": "overreach",
+          "label": "Любое напряжение 12 V подтверждает SOH"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "S0"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Условия тока и состояние АКБ различны."
+    },
+    {
+      "id": "c_branch",
+      "prompt": "Выделить избыточную ветвь",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Дополнительные 0.40 A относятся к ветви лампы"
+        },
+        {
+          "id": "overreach",
+          "label": "Неисправен сам вынутый предохранитель"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "S1",
+            "S2"
+          ],
+          [
+            "S4"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Падение тока не делает защитный элемент причиной."
+    },
+    {
+      "id": "c_load",
+      "prompt": "Определить потребитель и ограничить вывод",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Лампа включена при закрытом багажнике; расход подтверждён"
+        },
+        {
+          "id": "overreach",
+          "label": "АКБ гарантированно исправна"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "S3"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Нужен независимый контроль батареи и зарядки."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "supported",
+      "label": "Лампа багажника остаётся включённой из-за условия концевика; SOH АКБ отдельно",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "В сопоставимых settled-окнах лишние 0.40 A исчезают вместе с ветвью лампы; отчёт наблюдения подтверждает свечение и несоответствие концевика закрытому багажнику. 0.03+0.40=0.43 A; за 8 h добавляется 3.2 Ah расхода. Это причина дополнительного расхода, но не доказательство исправности АКБ или гарантированного разряда любой АКБ."
+    },
+    {
+      "id": "wrong0",
+      "label": "Заменить АКБ без проверки потребителя",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "wrong1",
+      "label": "Виноват предохранитель",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "more",
+      "label": "Пока недостаточно данных: выбрать следующую безопасную проверку",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Нужны ещё доступные доказательства. Для полного зачёта обоснуйте допустимую область вывода."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}

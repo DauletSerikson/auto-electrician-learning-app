@@ -1,0 +1,492 @@
+{
+  "schemaVersion": 1,
+  "id": "dp15",
+  "title": "Один блок не отвечает",
+  "difficulty": "Высокая",
+  "prerequisites": [
+    "stage_4",
+    "stage_5",
+    "stage_6",
+    "stage_7",
+    "stage_9"
+  ],
+  "vehicle": "CAN-сегмент с известным gateway и отдельным питанием ECU.",
+  "symptoms": "Сканер не получает ответ одного ECU. Пока не установлено, связано ли это с инструментом, адресацией, сетью, питанием или самим блоком.",
+  "topology": "Известная топология: gateway → сегмент с ECU-X и соседями; Fout защищённой LV-ветви → P ECU-X; G → N. Вход питания ECU-X в модели имеет пассивную нагрузку 100 kΩ к N, поэтому разрыв не оставляет P произвольно плавающим. Работа соседей не доказывает исправность ответвления X.",
+  "safety": "Все данные синтетические, только чтение готовых записей. Не руководство по работе с автомобилем. Реальный аналог требует применимой OEM-процедуры и квалификации; здесь нет шагов подключения, изоляции или ремонта.",
+  "explanation": "Правильный инструмент и адрес подтверждены; до пути есть 12 V, у ECU 0 V с известной входной нагрузкой, а изолированный путь OL. Возврат проверен отдельно под нагрузкой. Подтверждено отсутствие доставки питания; сеть и способность ECU общаться после восстановления отдельно не оценены.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Открыт питающий путь Fout–P ECU-X",
+      "parameters": {
+        "sourceV": 12,
+        "inputV": 0,
+        "inputLoadOhm": 100000,
+        "rangeOhm": 20000000
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "N",
+      "label": "N — условная LV-опора; не HV-минус и не точка SRS"
+    },
+    {
+      "id": "F",
+      "label": "F — Fout защищённой ветви"
+    },
+    {
+      "id": "P",
+      "label": "P — вход питания ECU-X"
+    },
+    {
+      "id": "G",
+      "label": "G — возврат ECU-X"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные документы",
+      "powered": false,
+      "isolated": false,
+      "load": "нет физической проверки",
+      "command": "анализ",
+      "snapshotId": "D15-DOC",
+      "temperatureC": 20
+    },
+    {
+      "id": "on",
+      "label": "ON N15-A",
+      "powered": true,
+      "isolated": false,
+      "load": "входная нагрузка P–N=100 kΩ; ECU-X не отвечает",
+      "command": "ON",
+      "snapshotId": "N15-A",
+      "temperatureC": 20
+    },
+    {
+      "id": "isolated",
+      "label": "OFF N15-R: отдельный питающий путь",
+      "powered": false,
+      "isolated": true,
+      "load": "ECU и источник исключены из R-проверки",
+      "command": "OFF",
+      "snapshotId": "N15-R",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "on"
+    },
+    {
+      "from": "briefing",
+      "to": "isolated"
+    },
+    {
+      "from": "on",
+      "to": "briefing"
+    },
+    {
+      "from": "on",
+      "to": "isolated"
+    },
+    {
+      "from": "isolated",
+      "to": "briefing"
+    },
+    {
+      "from": "isolated",
+      "to": "on"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h0",
+      "label": "Инструмент/адрес/режим"
+    },
+    {
+      "id": "h1",
+      "label": "Питание/возврат"
+    },
+    {
+      "id": "h2",
+      "label": "Сегмент/ответвление CAN"
+    },
+    {
+      "id": "h3",
+      "label": "Сам ECU"
+    }
+  ],
+  "actions": [
+    {
+      "id": "N0",
+      "title": "Инструмент, адресация и карта сети",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Не применять универсальные 60 Ω как полный тест сети.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "N1",
+      "title": "Питание на Fout",
+      "kind": "reading",
+      "profileId": "on",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "F",
+      "blackPoint": "N"
+    },
+    {
+      "id": "N2",
+      "title": "Питание у ECU-X",
+      "kind": "reading",
+      "profileId": "on",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "P",
+      "blackPoint": "N"
+    },
+    {
+      "id": "N3",
+      "title": "Готовый нагрузочный отчёт возврата",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Подтверждён данный возврат в данном режиме, не вся масса.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "N4",
+      "title": "Изолированный Fout–P",
+      "kind": "reading",
+      "profileId": "isolated",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "resistance",
+      "redPoint": "F",
+      "blackPoint": "P"
+    },
+    {
+      "id": "N5",
+      "title": "Альтернативный секционный отчёт питания",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Разрыв питания подтверждён; отсутствие связи после ремонта пока неизвестно.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Запрещены перемычки CAN, подача питания в DLC и неизвестные контакты; реальная шина требует квалифицированной процедуры."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "N0",
+      "result": {
+        "kind": "packet",
+        "text": "N15-A: применимый инструмент, адрес и режим ECU-X подтверждены документом; соседние узлы обмениваются кадрами. Это подтверждает часть контекста, но не всё ответвление CAN-X.",
+        "source": "Синтетический подготовленный отчёт dp15/N0; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "N1",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 12,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "N2",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "N3",
+      "result": {
+        "kind": "packet",
+        "text": "N15-ground: G–N=0 V при отдельно заданной проверочной нагрузке 0.10 A; допустимость нагрузки подтверждена подготовленным отчётом. Это не вывод из нуля на обесточенном ECU.",
+        "source": "Синтетический подготовленный отчёт dp15/N3; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "N4",
+      "result": {
+        "kind": "openLoop",
+        "limitOhm": 20000000
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "N5",
+      "result": {
+        "kind": "packet",
+        "text": "N15-alt: Fout–N=12 V, P–N=0 V при входной нагрузке 100 kΩ; отдельный OFF отчёт показывает Fout–P >20 MΩ с исключённой электроникой.",
+        "source": "Синтетический подготовленный отчёт dp15/N5; не реальный автомобиль"
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "context",
+      "label": "Проверить применимость сообщения no communication",
+      "proof": {
+        "anyOf": [
+          [
+            "N0"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "power",
+      "label": "Локализовать отсутствующее питание",
+      "proof": {
+        "anyOf": [
+          [
+            "N1",
+            "N2",
+            "N4"
+          ],
+          [
+            "N5"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "return",
+      "label": "Подтвердить возврат под нагрузкой",
+      "proof": {
+        "anyOf": [
+          [
+            "N3"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "c_context",
+      "prompt": "Проверить применимость сообщения no communication",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Другие ECU не проверяют ответвление и питание X"
+        },
+        {
+          "id": "overreach",
+          "label": "CAN полностью исправен раз отвечают соседи"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "N0"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Нужны отдельные проверки перед заменой ECU."
+    },
+    {
+      "id": "c_power",
+      "prompt": "Локализовать отсутствующее питание",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Питающий путь Fout–P разомкнут"
+        },
+        {
+          "id": "overreach",
+          "label": "Не отвечает значит отказал ECU"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "N1",
+            "N2",
+            "N4"
+          ],
+          [
+            "N5"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Проверка питания предшествует выводу о блоке."
+    },
+    {
+      "id": "c_return",
+      "prompt": "Подтвердить возврат под нагрузкой",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Возврат подтверждён отдельным нагрузочным отчётом"
+        },
+        {
+          "id": "overreach",
+          "label": "0 V на непитаемом блоке всегда доказывает массу"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "N3"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Ноль без тока не был бы достаточным доказательством."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "supported",
+      "label": "Разомкнут питающий путь ECU-X; связь после восстановления ещё не проверена",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "Правильный инструмент и адрес подтверждены; до пути есть 12 V, у ECU 0 V с известной входной нагрузкой, а изолированный путь OL. Возврат проверен отдельно под нагрузкой. Подтверждено отсутствие доставки питания; сеть и способность ECU общаться после восстановления отдельно не оценены."
+    },
+    {
+      "id": "wrong0",
+      "label": "Заменить ECU по no communication",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "wrong1",
+      "label": "Объявить весь CAN исправным по соседям",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "more",
+      "label": "Пока недостаточно данных: выбрать следующую безопасную проверку",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Нужны ещё доступные доказательства. Для полного зачёта обоснуйте допустимую область вывода."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}

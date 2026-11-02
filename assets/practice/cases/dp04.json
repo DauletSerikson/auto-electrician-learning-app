@@ -1,0 +1,551 @@
+{
+  "schemaVersion": 1,
+  "id": "dp04",
+  "title": "Зарядка меняется под нагрузкой",
+  "difficulty": "Высокая",
+  "prerequisites": [
+    "stage_2",
+    "stage_3",
+    "stage_4",
+    "stage_5",
+    "stage_6",
+    "stage_8"
+  ],
+  "vehicle": "Генератор с ECU target и отдельным B+ соединением.",
+  "symptoms": "При включении потребителей показание на АКБ снижается. Это может быть стратегия управления, ограничение генератора или потери в цепи.",
+  "topology": "A — B+ генератора; P — плюс АКБ; G — корпус генератора; N — минус АКБ. Учебная модель имеет идеальный возврат G–N и один проверяемый контакт A–P. Работа при стабильных 1500 rpm; ток здесь относится именно к A–P ветви, а не сумме всех токов автомобиля.",
+  "safety": "Все данные синтетические, только чтение готовых записей. Не руководство по работе с автомобилем. Реальный аналог требует применимой OEM-процедуры и квалификации; здесь нет шагов подключения, изоляции или ремонта.",
+  "explanation": "При target=14.4 V генератор даёт 14.4 V, но контакт теряет 1.2 V при 40 A: R=1.2/40=0.03 Ω, Pпотерь=48 W. Возврат в модели без потери. OFF кадр 0 V при I=0 не оправдывает контакт. Подтверждён участок B+, а не необходимость замены генератора или батареи.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Контакт B+ A–P имеет 0.03 Ω",
+      "parameters": {
+        "targetV": 14.4,
+        "alternatorV": 14.4,
+        "batteryV": 13.2,
+        "branchA": 40,
+        "contactOhm": 0.03,
+        "dropV": 1.2,
+        "lossW": 48
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "N",
+      "label": "N — условная LV-опора; не HV-минус и не точка SRS"
+    },
+    {
+      "id": "A",
+      "label": "A — B+ генератора"
+    },
+    {
+      "id": "P",
+      "label": "P — плюс АКБ"
+    },
+    {
+      "id": "G",
+      "label": "G — возврат генератора"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные документы",
+      "powered": false,
+      "isolated": false,
+      "load": "нет физической проверки",
+      "command": "анализ",
+      "snapshotId": "D04-DOC",
+      "temperatureC": 20
+    },
+    {
+      "id": "run",
+      "label": "RUN G4-A: 1500 rpm, постоянная нагрузка",
+      "powered": true,
+      "isolated": false,
+      "load": "ток B+ ветви 40 A; target 14.4 V",
+      "command": "RUN",
+      "snapshotId": "G4-A",
+      "temperatureC": 20
+    },
+    {
+      "id": "off",
+      "label": "OFF G4-B: без тока ветви",
+      "powered": false,
+      "isolated": false,
+      "load": "I A–P=0 A",
+      "command": "OFF",
+      "snapshotId": "G4-B",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "run"
+    },
+    {
+      "from": "briefing",
+      "to": "off"
+    },
+    {
+      "from": "run",
+      "to": "briefing"
+    },
+    {
+      "from": "run",
+      "to": "off"
+    },
+    {
+      "from": "off",
+      "to": "briefing"
+    },
+    {
+      "from": "off",
+      "to": "run"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h0",
+      "label": "Штатная стратегия ECU"
+    },
+    {
+      "id": "h1",
+      "label": "Генератор/управление"
+    },
+    {
+      "id": "h2",
+      "label": "Плюсовой путь B+"
+    },
+    {
+      "id": "h3",
+      "label": "Возврат"
+    },
+    {
+      "id": "h4",
+      "label": "АКБ"
+    }
+  ],
+  "actions": [
+    {
+      "id": "G0",
+      "title": "Requested и actual с условиями",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Изменение на АКБ ещё не доказывает стратегию или отказ генератора.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "G1",
+      "title": "Напряжение на A",
+      "kind": "reading",
+      "profileId": "run",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "A",
+      "blackPoint": "N"
+    },
+    {
+      "id": "G2",
+      "title": "Напряжение на P",
+      "kind": "reading",
+      "profileId": "run",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "P",
+      "blackPoint": "N"
+    },
+    {
+      "id": "G3",
+      "title": "Падение непосредственно A–P",
+      "kind": "reading",
+      "profileId": "run",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "A",
+      "blackPoint": "P"
+    },
+    {
+      "id": "G4",
+      "title": "Ток B+ ветви",
+      "kind": "reading",
+      "profileId": "run",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "current",
+      "redPoint": "A",
+      "blackPoint": "P"
+    },
+    {
+      "id": "G5",
+      "title": "Возврат G–N под указанным током",
+      "kind": "reading",
+      "profileId": "run",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "G",
+      "blackPoint": "N"
+    },
+    {
+      "id": "G6",
+      "title": "Падение A–P без тока",
+      "kind": "reading",
+      "profileId": "off",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "A",
+      "blackPoint": "P"
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Нельзя отключать АКБ при работающем двигателе; реальная проверка возле привода требует специалиста."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "G0",
+      "result": {
+        "kind": "packet",
+        "text": "G4-A: ECU requested=14.4 V, actual на A относительно G=14.4 V, 1500 rpm; команда стабильна. Диапазоны относятся только к этой модели.",
+        "source": "Синтетический подготовленный отчёт dp04/G0; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "G1",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 14.4,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "G2",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 13.2,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "G3",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 1.2,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "G4",
+      "result": {
+        "kind": "numeric",
+        "quantity": "current",
+        "value": 40,
+        "unit": "A",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "G5",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "G6",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "strategy",
+      "label": "Различить управление и потери",
+      "proof": {
+        "anyOf": [
+          [
+            "G0"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "positive",
+      "label": "Подтвердить локальную потерю",
+      "proof": {
+        "anyOf": [
+          [
+            "G3",
+            "G4"
+          ],
+          [
+            "G1",
+            "G2",
+            "G4"
+          ]
+        ],
+        "sameSnapshot": true
+      }
+    },
+    {
+      "id": "limits",
+      "label": "Проверить возврат и нулевой ток",
+      "proof": {
+        "anyOf": [
+          [
+            "G5",
+            "G6"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "c_strategy",
+      "prompt": "Различить управление и потери",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Генератор следует заданию в этом режиме"
+        },
+        {
+          "id": "overreach",
+          "label": "Любое снижение на АКБ — штатная умная зарядка"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "G0"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Нужно сопоставлять requested/actual и точки."
+    },
+    {
+      "id": "c_positive",
+      "prompt": "Подтвердить локальную потерю",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "При 40 A путь A–P теряет 1.2 V, R=0.03 Ω"
+        },
+        {
+          "id": "overreach",
+          "label": "Генератор даёт только 13.2 V"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "G3",
+            "G4"
+          ],
+          [
+            "G1",
+            "G2",
+            "G4"
+          ]
+        ],
+        "sameSnapshot": true
+      },
+      "explanation": "Падение подтверждается прямым замером или синхронной разностью."
+    },
+    {
+      "id": "c_limits",
+      "prompt": "Проверить возврат и нулевой ток",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "0 V при OFF не доказывает исправность контакта под током"
+        },
+        {
+          "id": "overreach",
+          "label": "Контакт исправен по G6"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "G5",
+            "G6"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "У G6 ток ноль; доказателен G4 вместе с нагрузочными V."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "supported",
+      "label": "Под нагрузкой подтверждено высокое сопротивление соединения B+ A–P",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "При target=14.4 V генератор даёт 14.4 V, но контакт теряет 1.2 V при 40 A: R=1.2/40=0.03 Ω, Pпотерь=48 W. Возврат в модели без потери. OFF кадр 0 V при I=0 не оправдывает контакт. Подтверждён участок B+, а не необходимость замены генератора или батареи."
+    },
+    {
+      "id": "wrong0",
+      "label": "Заменить генератор по напряжению АКБ",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "wrong1",
+      "label": "Заменить АКБ без других данных",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "more",
+      "label": "Пока недостаточно данных: выбрать следующую безопасную проверку",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Нужны ещё доступные доказательства. Для полного зачёта обоснуйте допустимую область вывода."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}

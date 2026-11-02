@@ -1,0 +1,501 @@
+{
+  "schemaVersion": 1,
+  "id": "dp09",
+  "title": "Одна дверь не запирается",
+  "difficulty": "Средняя",
+  "prerequisites": [
+    "stage_2",
+    "stage_3",
+    "stage_4",
+    "stage_5",
+    "stage_6",
+    "stage_11"
+  ],
+  "vehicle": "Индивидуальный H-bridge канала дверного замка.",
+  "symptoms": "Одна дверь не запирается, остальные срабатывают. Причина может находиться в запросе, выходе, проводке или механизме этой двери.",
+  "topology": "Выходы BCM A/B → проводники → мотор a/b. LOCK: A=12 V, B=0 V; мотор неподвижен. Только LV; нет общего постоянного плюса мотора. При разрыве A-пути моторный a связан с b через обмотку и получает её потенциал. Изолированные R-проверки отделены от LOCK.",
+  "safety": "Все данные синтетические, только чтение готовых записей. Не руководство по работе с автомобилем. Реальный аналог требует применимой OEM-процедуры и квалификации; здесь нет шагов подключения, изоляции или ремонта.",
+  "explanation": "BCM выдал 12 V между A/B, но мотор получает 0 V между a/b и ток ноль. Изолированный A–a не проводит, B–b и обмотка проводимы. Подтверждён A-путь; исправность механики или поведения мотора после восстановления не гарантируется.",
+  "contentRevision": 1,
+  "rubricVersion": 1,
+  "assessmentGoal": "confirmable",
+  "selectedVariantId": "fault",
+  "initialProfileId": "briefing",
+  "faultVariants": [
+    {
+      "id": "fault",
+      "description": "Разомкнут проводник A–a",
+      "parameters": {
+        "supplyV": 12,
+        "outputAV": 12,
+        "outputBV": 0,
+        "motorAV": 0,
+        "motorBV": 0,
+        "currentA": 0,
+        "motorOhm": 4,
+        "returnPathOhm": 0.2
+      }
+    }
+  ],
+  "points": [
+    {
+      "id": "N",
+      "label": "N — условная LV-опора; не HV-минус и не точка SRS"
+    },
+    {
+      "id": "A",
+      "label": "A — выход A BCM"
+    },
+    {
+      "id": "B",
+      "label": "B — выход B BCM"
+    },
+    {
+      "id": "a",
+      "label": "a — вывод a мотора"
+    },
+    {
+      "id": "b",
+      "label": "b — вывод b мотора"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "briefing",
+      "label": "Исходные документы",
+      "powered": false,
+      "isolated": false,
+      "load": "нет физической проверки",
+      "command": "анализ",
+      "snapshotId": "D09-DOC",
+      "temperatureC": 20
+    },
+    {
+      "id": "lock",
+      "label": "LOCK L9-A",
+      "powered": true,
+      "isolated": false,
+      "load": "мотор неподвижен, команда принята",
+      "command": "LOCK",
+      "snapshotId": "L9-A",
+      "temperatureC": 20
+    },
+    {
+      "id": "isolated",
+      "label": "OFF L9-R: мотор и проводники отделены",
+      "powered": false,
+      "isolated": true,
+      "load": "электроника/параллельные пути исключены",
+      "command": "OFF",
+      "snapshotId": "L9-R",
+      "temperatureC": 20
+    }
+  ],
+  "transitions": [
+    {
+      "from": "briefing",
+      "to": "lock"
+    },
+    {
+      "from": "briefing",
+      "to": "isolated"
+    },
+    {
+      "from": "lock",
+      "to": "briefing"
+    },
+    {
+      "from": "lock",
+      "to": "isolated"
+    },
+    {
+      "from": "isolated",
+      "to": "briefing"
+    },
+    {
+      "from": "isolated",
+      "to": "lock"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "h0",
+      "label": "Запрос/разрешение"
+    },
+    {
+      "id": "h1",
+      "label": "Драйвер канала"
+    },
+    {
+      "id": "h2",
+      "label": "Проводники A/B"
+    },
+    {
+      "id": "h3",
+      "label": "Мотор/механика"
+    }
+  ],
+  "actions": [
+    {
+      "id": "L0",
+      "title": "Запрос, схема и сравнительная дверь",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Работа других дверей не доказывает исправность данного канала.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "L1",
+      "title": "Выход H-bridge A–B",
+      "kind": "reading",
+      "profileId": "lock",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "A",
+      "blackPoint": "B"
+    },
+    {
+      "id": "L2",
+      "title": "Напряжение a–b мотора",
+      "kind": "reading",
+      "profileId": "lock",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "voltage",
+      "redPoint": "a",
+      "blackPoint": "b"
+    },
+    {
+      "id": "L3",
+      "title": "Отчёт B-пути и обмотки",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Конечное R не доказывает исправность механики или коммутации.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "L4",
+      "title": "Изолированный A-путь",
+      "kind": "reading",
+      "profileId": "isolated",
+      "safetyClass": "qualifiedProcedureOnly",
+      "scope": "Только указанные точки и подготовленный режим; не общий вывод об исправности системы.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Локализовать участок и сопоставить с альтернативной причиной",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ],
+      "quantity": "resistance",
+      "redPoint": "A",
+      "blackPoint": "a"
+    },
+    {
+      "id": "L5",
+      "title": "Альтернативный отчёт оконцеваний A",
+      "kind": "document",
+      "profileId": "briefing",
+      "safetyClass": "safeAnalysis",
+      "scope": "Подтверждает только A-путь, не работу мотора после восстановления.",
+      "purposes": [
+        {
+          "id": "p1",
+          "label": "Разделить конкурирующие гипотезы по условиям и данным",
+          "justified": true
+        },
+        {
+          "id": "p2",
+          "label": "Объявить весь автомобиль исправным по этой записи",
+          "justified": false
+        }
+      ]
+    },
+    {
+      "id": "unsafe",
+      "title": "Недопустимый метод",
+      "kind": "forbidden",
+      "profileId": "briefing",
+      "safetyClass": "forbidden",
+      "reason": "Нельзя подавать внешнее питание на неизвестные выводы и обходить защиту; движение замка реально требует безопасной процедуры."
+    }
+  ],
+  "outcomes": [
+    {
+      "variantId": "fault",
+      "actionId": "L0",
+      "result": {
+        "kind": "packet",
+        "text": "L9-A: запрос LOCK принят и разрешён для этого канала. Другие двери сработали, но используют свои H-bridge. Реальная механическая проверка не моделируется.",
+        "source": "Синтетический подготовленный отчёт dp09/L0; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "L1",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 12,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "L2",
+      "result": {
+        "kind": "numeric",
+        "quantity": "voltage",
+        "value": 0,
+        "unit": "V",
+        "resolution": 0.01
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "L3",
+      "result": {
+        "kind": "packet",
+        "text": "L9-R: B–b=0.2 Ω; a–b обмотки=4 Ω. L9-A: a=b=0 V, ток=0 A. Это отдельные подписанные OFF и LOCK данные, не одновременный омметр под питанием.",
+        "source": "Синтетический подготовленный отчёт dp09/L3; не реальный автомобиль"
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "L4",
+      "result": {
+        "kind": "openLoop",
+        "limitOhm": 20000000
+      }
+    },
+    {
+      "variantId": "fault",
+      "actionId": "L5",
+      "result": {
+        "kind": "packet",
+        "text": "L9-alt: при LOCK источник A относительно B=12 V, моторный a относительно b=0 V; отдельный OFF контроль локализует отсутствие проводимости между оконцеваниями A и a, диапазон 20 MΩ.",
+        "source": "Синтетический подготовленный отчёт dp09/L5; не реальный автомобиль"
+      }
+    }
+  ],
+  "evidenceGroups": [
+    {
+      "id": "command",
+      "label": "Разделить запрос и канал",
+      "proof": {
+        "anyOf": [
+          [
+            "L0"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "delivery",
+      "label": "Локализовать потерю доставки команды",
+      "proof": {
+        "anyOf": [
+          [
+            "L1",
+            "L2",
+            "L4"
+          ],
+          [
+            "L5"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    },
+    {
+      "id": "limits",
+      "label": "Проверить альтернативный провод и обмотку",
+      "proof": {
+        "anyOf": [
+          [
+            "L3"
+          ]
+        ],
+        "sameSnapshot": false
+      }
+    }
+  ],
+  "claims": [
+    {
+      "id": "c_command",
+      "prompt": "Разделить запрос и канал",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "Запрос именно этого канала принят"
+        },
+        {
+          "id": "overreach",
+          "label": "Другие двери доказывают исправность канала"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "L0"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Нужна проверка собственного выхода."
+    },
+    {
+      "id": "c_delivery",
+      "prompt": "Локализовать потерю доставки команды",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "A–a разомкнут, выход существует"
+        },
+        {
+          "id": "overreach",
+          "label": "BCM не выдал команду"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "L1",
+            "L2",
+            "L4"
+          ],
+          [
+            "L5"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "Замер нужен между обоими моторными выводами, не произвольным плюсом."
+    },
+    {
+      "id": "c_limits",
+      "prompt": "Проверить альтернативный провод и обмотку",
+      "correctOptionId": "supported",
+      "critical": true,
+      "options": [
+        {
+          "id": "supported",
+          "label": "B и обмотка проводимы, механика не оценена"
+        },
+        {
+          "id": "overreach",
+          "label": "Механика точно исправна по омметру"
+        }
+      ],
+      "proof": {
+        "anyOf": [
+          [
+            "L3"
+          ]
+        ],
+        "sameSnapshot": false
+      },
+      "explanation": "R обмотки не является функциональным тестом мотора."
+    }
+  ],
+  "conclusions": [
+    {
+      "id": "supported",
+      "label": "Разомкнут A-путь между BCM и мотором; механика отдельно",
+      "kind": "confirmed",
+      "credit": 1,
+      "explanation": "BCM выдал 12 V между A/B, но мотор получает 0 V между a/b и ток ноль. Изолированный A–a не проводит, B–b и обмотка проводимы. Подтверждён A-путь; исправность механики или поведения мотора после восстановления не гарантируется."
+    },
+    {
+      "id": "wrong0",
+      "label": "Заменить мотор по отсутствию движения",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "wrong1",
+      "label": "Заменить BCM по одной двери",
+      "kind": "replacement",
+      "credit": 0,
+      "explanation": "Доступные доказательства не подтверждают этот вывод; отделите симптом от причины и границ проверки."
+    },
+    {
+      "id": "more",
+      "label": "Пока недостаточно данных: выбрать следующую безопасную проверку",
+      "kind": "insufficient",
+      "credit": 0.5,
+      "explanation": "Нужны ещё доступные доказательства. Для полного зачёта обоснуйте допустимую область вывода."
+    }
+  ],
+  "rubric": {
+    "passingScore": 80,
+    "weights": {
+      "diagnosis": 25,
+      "evidence": 30,
+      "interpretation": 25,
+      "safety": 15,
+      "route": 5
+    }
+  }
+}
