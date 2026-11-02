@@ -531,6 +531,37 @@ class _PracticeScreenState extends State<PracticeScreen> {
     Criterion.route: 'Обоснованность маршрута',
   };
 
+  Future<void> retryAttempt() async {
+    final attemptId = state.id;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Начать новую попытку?'),
+        content: const Text(
+          'Журнал, гипотезы и ответы текущей попытки будут очищены. '
+          'Сохранённый лучший результат и прогресс курса останутся.',
+        ),
+        actions: [
+          TextButton(
+            key: const ValueKey('practice_retry_cancel'),
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Остаться'),
+          ),
+          FilledButton(
+            key: const ValueKey('practice_retry_confirm'),
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Начать новую'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted || state.id != attemptId) return;
+    controller.edit((s) => s.retry());
+    setState(() {
+      tab = 0;
+    });
+  }
+
   List<Widget> evaluation() {
     final result = state.evaluation!;
     return [
@@ -576,12 +607,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
             key: const ValueKey('practice_retry'),
             onPressed: controller.saving || controller.saveError != null
                 ? null
-                : () {
-                    controller.edit((s) => s.retry());
-                    setState(() {
-                      tab = 0;
-                    });
-                  },
+                : retryAttempt,
             child: const Text('Повторить попытку'),
           ),
         ],
@@ -594,7 +620,12 @@ class _PracticeScreenState extends State<PracticeScreen> {
       state.purposes.isNotEmpty ||
       state.responses.isNotEmpty ||
       state.hypotheses.isNotEmpty ||
-      state.conclusionId != null;
+      state.conclusionId != null ||
+      state.followUpActionId != null ||
+      state.reversePolarity.isNotEmpty ||
+      state.profileId != d.initialProfileId ||
+      state.safetyAccepted ||
+      state.unsafeDecision;
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(

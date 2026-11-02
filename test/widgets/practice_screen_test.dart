@@ -80,6 +80,13 @@ Future<void> top(WidgetTester tester) async {
   await settle(tester);
 }
 
+Future<void> retry(WidgetTester tester) async {
+  await tap(tester, find.byKey(const ValueKey('practice_retry')));
+  expect(find.text('Начать новую попытку?'), findsOneWidget);
+  await tester.tap(find.byKey(const ValueKey('practice_retry_confirm')));
+  await settle(tester);
+}
+
 Future<PracticeDefinition> definition(WidgetTester tester, String id) async =>
     (await tester.runAsync(() => PracticeService().loadCatalog()))!
         .firstWhere((d) => d.id == id);
@@ -217,7 +224,7 @@ void main() {
           await tap(tester, find.byKey(const ValueKey('practice_submit')));
           expect(find.text('FAIL — вывод не подтверждён'), findsOneWidget);
           expect(c.state.evaluation!.passed, isFalse);
-          await tap(tester, find.byKey(const ValueKey('practice_retry')));
+          await retry(tester);
           expect(c.state.journal, isEmpty);
           expect(c.state.purposes, isEmpty);
           expect(tester.takeException(), isNull);
@@ -244,7 +251,7 @@ void main() {
       expect(find.text('PASS — обоснованный вывод'), findsOneWidget);
       expect(find.text('100.0 / 100'), findsOneWidget);
       expect(c.state.submitted, isTrue);
-      await tap(tester, find.byKey(const ValueKey('practice_retry')));
+      await retry(tester);
       expect(c.state.submitted, isFalse);
       expect(c.state.journal, isEmpty);
       expect(c.state.responses, isEmpty);
@@ -364,7 +371,7 @@ void main() {
       await tap(tester, find.byKey(const ValueKey('practice_submit')));
       expect(find.text('FAIL — вывод не подтверждён'), findsOneWidget);
       expect(c.state.evaluation!.passed, isFalse);
-      await tap(tester, find.byKey(const ValueKey('practice_retry')));
+      await retry(tester);
       await tester.tap(find.byKey(const ValueKey('practice_tab_3')));
       await settle(tester);
       await tap(tester, find.byKey(const ValueKey('practice_safety')));

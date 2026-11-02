@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../practice/practice_engine_test.dart'
     as engine
     show preparePass, routes, perform;
-import 'practice_screen_test.dart' show settle, tap, definition, reveal;
+import 'practice_screen_test.dart' show settle, tap, definition, reveal, retry;
 
 class CountingRepository implements PracticeResultRepository {
   final delegate = PreferencesPracticeResultRepository();
@@ -107,7 +107,7 @@ void main() {
       }
       expect(repository.writes, 1);
       expect(find.text('100.0 / 100'), findsOneWidget);
-      await tap(tester, find.byKey(const ValueKey('practice_retry')));
+      await retry(tester);
       expect(c.state.hypotheses, isEmpty);
       expect(c.state.responses, isEmpty);
       expect(c.state.journal, isEmpty);

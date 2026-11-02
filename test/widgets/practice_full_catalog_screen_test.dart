@@ -13,7 +13,7 @@ import '../practice/full_catalog_routes.dart';
 import '../practice/practice_engine_test.dart'
     as engine
     show loadCase, preparePass;
-import 'practice_screen_test.dart' show settle, tap, top, check;
+import 'practice_screen_test.dart' show settle, tap, top, check, retry;
 
 void main() {
   setUp(() {
@@ -65,7 +65,7 @@ void main() {
           );
           await tap(tester, find.byKey(const ValueKey('practice_submit')));
           expect(c.state.evaluation!.passed, isFalse);
-          await tap(tester, find.byKey(const ValueKey('practice_retry')));
+          await retry(tester);
           expect(c.state.journal, isEmpty);
           expect(c.state.responses, isEmpty);
           expect(tester.takeException(), isNull);
