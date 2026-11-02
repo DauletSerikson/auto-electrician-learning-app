@@ -338,18 +338,20 @@ PracticeEvaluation evaluatePractice(
     for (final g in d.evidenceGroups.values)
       g.id: satisfiesEvidence(g.requirement, records),
   };
+  final claimEvidence = {
+    for (final c in d.claims.values)
+      c.id: satisfiesEvidence(
+        c.requirement,
+        records.where(
+          (r) => state.responses[c.id]?.recordIds.contains(r.sequence) ?? false,
+        ),
+      ),
+  };
   final interpretations = {
     for (final c in d.claims.values)
       c.id:
           state.responses[c.id]?.optionId == c.correctOptionId &&
-          satisfiesEvidence(
-            c.requirement,
-            records.where(
-              (r) =>
-                  state.responses[c.id]?.recordIds.contains(r.sequence) ??
-                  false,
-            ),
-          ),
+          claimEvidence[c.id]!,
   };
   final unique = <String, EvidenceRecord>{};
   for (final record in records.where((r) => r.isEvidence)) {
@@ -397,21 +399,29 @@ PracticeEvaluation evaluatePractice(
     0.0,
     (sum, e) => sum + d.weights[e.key]! * e.value,
   );
+  final criticalInterpreted = d.claims.values
+      .where((c) => c.critical)
+      .every((c) => interpretations[c.id]!);
   final passed =
       diagnosis == 1 &&
       completeEvidence &&
-      d.claims.values
-          .where((c) => c.critical)
-          .every((c) => interpretations[c.id]!) &&
+      criticalInterpreted &&
       fractions[Criterion.safety] == 1 &&
       score >= d.passingScore;
   final feedback = <String>[
     if (!completeEvidence)
       'Не подтверждены: ${d.evidenceGroups.values.where((g) => !groups[g.id]!).map((g) => g.label).join('; ')}.',
     for (final c in d.claims.values.where((c) => !interpretations[c.id]!))
-      '${c.prompt}: ${c.explanation}',
+      claimEvidence[c.id]!
+          ? '${c.prompt}: ${c.explanation}'
+          : '${c.prompt}: не хватает связанных доказательств. Выполните нужные проверки и свяжите их записи с интерпретацией. Правильный ответ без измерений не подтверждает вывод.',
     if (fractions[Criterion.safety] != 1) 'Безопасность: примите безопасную границу. Подтверждённое опасное решение требует новой попытки.',
-    if (conclusion != null) conclusion.explanation,
+    if (conclusion != null)
+      (completeEvidence && criticalInterpreted) ||
+              (conclusion.kind == ConclusionKind.insufficient &&
+                  diagnosis == .5)
+          ? conclusion.explanation
+          : 'Выбранный вывод не подтверждён собранными и интерпретированными данными.',
     if (fractions[Criterion.route]! < 1) 'Не все проверки имеют обоснованную цель. Повтор одной записи не увеличивает баллы.',
   ];
   return PracticeEvaluation(
