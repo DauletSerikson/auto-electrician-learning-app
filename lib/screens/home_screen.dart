@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/home_progress.dart';
+import '../practice/practice_service.dart';
 import '../services/course_service.dart';
 import '../services/progress_service.dart';
 import 'course_screen.dart';
@@ -19,6 +20,11 @@ class _HomeScreenState extends State<HomeScreen> {
   final ProgressService progressService = ProgressService();
 
   HomeProgress? progress;
+  int moduleCount = 0;
+  // Start with the subtitle's FutureBuilder, which also handles load errors.
+  late final Future<int> practiceCaseCount = PracticeService()
+      .loadCatalog()
+      .then((definitions) => definitions.length);
 
   bool loading = true;
 
@@ -41,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (!mounted) return;
       setState(() {
         progress = result;
+        moduleCount = allLessons.map((item) => item.module.id).toSet().length;
         loading = false;
       });
     } catch (_) {
@@ -138,12 +145,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Общий прогресс',
-                      style: Theme.of(context).textTheme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Text(
+                        'Общий прогресс',
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
                     ),
-
+                    const SizedBox(width: 12),
                     Text(
                       '${(data.progress * 100).round()}%',
                       style: Theme.of(context).textTheme.titleMedium,
@@ -188,7 +197,9 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListTile(
             leading: const Icon(Icons.school),
             title: const Text('Курс'),
-            subtitle: const Text('Посмотреть все модули и уроки'),
+            subtitle: Text(
+              'Учебных модулей: $moduleCount\nУроков: ${data.totalLessons}',
+            ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () async {
               await Navigator.push(
@@ -205,8 +216,14 @@ class _HomeScreenState extends State<HomeScreen> {
             key: const ValueKey('open_diagnostic_practice'),
             leading: const Icon(Icons.fact_check_outlined),
             title: const Text('Практика диагноста'),
-            subtitle: const Text(
-              'Три комплексных сценария: проверки и доказательства',
+            subtitle: FutureBuilder<int>(
+              future: practiceCaseCount,
+              builder: (context, snapshot) => Text(
+                snapshot.hasData
+                    ? 'Диагностических кейсов: ${snapshot.data}\n'
+                          'Проверки и доказательства'
+                    : 'Проверки и доказательства',
+              ),
             ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => Navigator.of(context).push(
