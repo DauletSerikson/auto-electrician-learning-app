@@ -1,14 +1,24 @@
 # R19.2B — Физическая Android QA и TalkBack
 
-Дата: **2 ноября 2026, Asia/Qyzylorda**.
+Первичный проход: **2 ноября 2026, Asia/Qyzylorda**.
+Продолжение на подключённом телефоне: **3 ноября 2026, Asia/Qyzylorda**.
 
 ## Итог: PARTIAL
 
-Физическое Android-устройство не обнаружено. **Все физические сценарии:
-NOT TESTED. TalkBack: MANUAL QA REQUIRED / NOT TESTED.**
-R19.2B не подтверждает работоспособность текущего APK на телефоне, сохранность
-данных при обновлении или доступность TalkBack. Статус выпуска остаётся
-**NOT READY**. Автоматические проверки отдельно приведены ниже.
+**Актуально на 3 ноября:** функциональный physical smoke на Samsung SM-S931B
+выполнен: upgrade без очистки, Home, quiz, полный положительный/отрицательный
+маршрут dp01, native persistence и три приборных сценария прошли.
+TalkBack включался, но полный проход с прослушиванием не подтверждён:
+**MANUAL QA REQUIRED**. Выявлено замечание P2 к семантике completion в списке уроков.
+Поэтому общий R19.2B остаётся **PARTIAL**, готовность к выпуску — **NOT READY**.
+Подробности актуального прохода приведены в разделе «Продолжение 3 ноября».
+
+## История: первичный проход 2 ноября
+
+Разделы ниже до «Продолжение 3 ноября» сохраняют результаты первоначального
+прохода, когда устройства не было. Их NOT TESTED не заменяют актуальную матрицу
+от 3 ноября. Тогда физическое устройство не обнаруживалось и все physical
+сценарии оставались NOT TESTED; автоматические проверки прошли.
 
 ## Baseline и подключение
 
@@ -194,3 +204,183 @@ Reset, checkout, изменение кода и включение generated fil
 TalkBack нельзя считать главный критерий R19.2B выполненным.
 
 **STOP после R19.2B. Push, merge, tag, Release и разработка новых функций не выполнялись.**
+
+## Продолжение 3 ноября — физический Samsung
+
+### Окружение и безопасное обновление
+
+Продолжение разрешено владельцем после подключения телефона через USB debugging.
+HEAD перед продолжением — `5793bc02796a5b52bed49fac6b0e5ada6a154a98`, ветка
+`fix/r19-release-readiness`, worktree `electrician-r19`, исходно чистый.
+Этот HEAD добавляет только первоначальный отчёт к проверенному production baseline
+`69698b1`; APK и production-код R19.2A не менялись.
+
+| Параметр | Фактическое значение |
+|---|---|
+| Модель | Samsung **SM-S931B** |
+| Android | **17 / API 37**, android-arm64 |
+| Подключение | Flutter обнаружил mobile device; ADB — **device**, авторизован |
+| Serial | **[MASKED]**; в отчёте не публикуется |
+| Build fingerprint | `samsung/pa1qxser/pa1q:17/CP2A.260605.016/S931BXXSDDZJ1_OXMDDZJ1:user/release-keys` |
+| Экран | 1080×2340 px, density 480 dpi; ширина соответствует 360 logical px |
+| APK | `build/app/outputs/flutter-apk/app-debug.apk`, 224871013 байт |
+| APK SHA-256 | `20a75f58ac88a3a57794ae88be2b575cc8ca20c5d89f4cf938f2fdc23539af4e` |
+
+Перед установкой через `pm path` получен APK именно установленного package;
+локальная копия проверена aapt/apksigner. Старый и новый APK имеют applicationId
+`com.dauletserikson.autoelectrician`, versionName=0.1.0, versionCode=1,
+сертификат SHA-256
+`72fe40666599647f40d946340a2926e05fbdaaf66fbce789c7d802793f1fe295`.
+Подписи совпали. `adb install -r` завершился **Success**. Uninstall/clear data,
+смена applicationId, версии, signing или подмена preferences не выполнялись.
+
+Нативный файл `FlutterSharedPreferences.xml` прочитан через `run-as` до и после
+установки: содержимое совпало. Список уроков хранится плагином как строка с
+префиксом списка, а не XML set. Проверены реальные ID **safety_01–safety_05**
+и Home **5 из 132, 4%**; ранее сохранённых practice keys не было.
+Первый запуск после установки — `am start -W`, **Status: ok / COLD**, 967 ms.
+
+### Актуальная матрица физических сценариев
+
+Управление выполнялось настоящими Android pointer/key events через ADB;
+состояние проверялось native UI hierarchy, app screenshots, PID logs и чтением
+нативного storage. Готовые answers/evidence/results не подставлялись в controller
+или preferences. Это physical UI smoke, не instrumented integration test suite.
+
+| Сценарий | Результат и фактический охват |
+|---|---|
+| Обновление без потери данных | **PASS**: совместимые сертификаты, install -r Success; все пять прежних completed IDs сохранены |
+| Home ×1 / light, ×1 / dark, ×2 / light, ×2 / dark | **PASS в этих четырёх конфигурациях**: progress и карточки доступны; важный текст переносится и достигается scroll; переполнения строки progress не обнаружено |
+| Курс | **PASS**: Home показывает 14 модулей / 132 урока; прокруткой найдены все 14 карточек stage_0–stage_13, включая длинные названия |
+| Практикум | **PASS**: отдельный раздел Home, каталог показывает 18; прокруткой найдены все 18 карточек dp01–dp18 в фактическом порядке каталога |
+| Quiz первого модуля | **PASS**: safety_05, пять ответов, общая проверка 5/5 и 100%; после проверки варианты disabled |
+| Quiz scroll | **PASS**: три полных цикла первый ↔ последний вопрос; оба выбранных ответа checked=true в каждом цикле |
+| Quiz retry | **PASS**: повторная попытка доступна; отдельным дополнительным проходом после оценки проверены «Осталось без ответа: 5» и checked=false у всех пяти прежних ответов |
+| Explicit completion / restart | **PASS для повторного завершения существующего safety_05**: кнопка возвращает в Module; force-stop/start даёт COLD и те же пять ID / 5 из 132 |
+| Полный кейс dp01 | **PASS**: запуск из Home, просмотр intro/symptoms, цели, профили, 6 результатов/журнал, гипотеза и citations, четыре интерпретации с evidence, conclusion, оценка **100/100 PASS** |
+| Retry практикума | **PASS**: диалог «Начать новую попытку?», cancel не меняет сохранённый summary; confirm создаёт новую попытку |
+| Guard выхода | **PASS**: после изменения только safety acknowledgement Back показывает «Выйти из попытки?»; «Остаться» сохраняет выбранную отметку |
+| Отрицательный маршрут | **PASS как отрицательный тест**: «Заменить стартер» без evidence получает **FAIL, 15/100**, а не зачёт |
+| Best после native restart | **PASS**: после положительной и отрицательной попыток storage и каталог сохраняют passed=true, bestScore=100, completedAttempts=2 |
+| Мультиметр | **PASS**: открытие реального урока stage_2/lesson_01, переключение OFF → V DC → Ω, изменение отображения/описания и OL |
+| Падение напряжения | **PASS**: stage_2/lesson_05, красный A / чёрный B: 4.00 V при включённой лампе, 0.00 V без нагрузки; после возврата нагрузки «Проверить измерение» даёт правильный результат |
+| Осциллограф | **PASS для управления и оценки настройки**: stage_10/lesson_03, 0.5 → 2.0 V/div, Normal → Single, «Захватить», «Проверить настройку»; статус Single event found/stopped и «Настройка верна» |
+
+Positive dp01 использовал записи **ST0, ST1, ST4, ST6, ST5, ST7** (в этом
+порядке). Проверены модальные результаты и условия, включая 12.60 V питания,
+0.00 V возврата, падение на C, capture тока и границы силового вывода.
+Гипотеза «Потеря в цепи управления» получила статус «Поддерживается» и ссылку
+на реальную запись #4. Интерпретации battery/relay/main/ohm связаны соответственно
+с #2 / #3,#4,#5 / #6 / #4,#5. Итог PASS показал все пять полных критериев.
+Это проверка реализации заданного synthetic route, не независимая экспертиза схемы.
+
+После negative и cold restart чтение реального Android storage подтвердило
+best=100, passed=true, attempts=2; каталог показывает «Пройден · лучший результат:
+100.0 / 100». Повторные просмотры, приборы и дополнительная проверка quiz retry
+не добавили попыток практикума и не изменили lesson IDs.
+Единственные новые учебные данные на устройстве — естественно сохранённый
+summary **dp01** после двух отправленных попыток. Старые уроки/результаты не удалялись.
+Первое сохранение нового lesson ID отдельно не проверялось: safety_05 был завершён
+до QA. Новая native запись practice summary и её сохранность проверены фактически.
+
+### TalkBack и восстановление настроек
+
+Владелец отдельно разрешил временно менять ×1/×2, light/dark и включить TalkBack
+с последующим восстановлением. Сохранены исходные значения: font_scale=1.0,
+night=auto, enabled_accessibility_services=null, accessibility_enabled=0.
+
+Включён установленный Google TalkBack
+`com.google.android.marvin.talkback/.TalkBackService`. `dumpsys accessibility`
+подтвердил **Bound service**, touchExplorationEnabled=true и spoken/haptic/audible
+feedback capabilities. На Home появился настоящий accessibility focus outline.
+Выполнены шесть пробных ADB swipe gestures; screenshots подтверждают фокус на
+карточке заголовка, **но не доказывают полный последовательный обход фокуса**.
+Одинаковое положение рамки в нескольких пробах не названо дефектом/ловушкой
+приложения: ручной gesture/voice проход не выполнен.
+
+**Полный TalkBack — MANUAL QA REQUIRED.** Автоматизация не слушала динамик,
+не подтвердила произношение, объявления всех выбранных состояний/ошибок и отсутствие
+фокусных ловушек в quiz, evidence sheet и итоговом экране. Владельцу предложено
+прослушивание; подтверждённые результаты полного ручного прохода не получены.
+Чек-лист из первоначального раздела остаётся открытым и применимым.
+Ни widget assertions, ни native hierarchy, ни факт включения службы не названы
+полноценным TalkBack PASS.
+
+В блоке finally восстановлены все перечисленные настройки, затем их значения
+повторно сравнены с исходными: **точное совпадение**. TalkBack выключен,
+font_scale=1.0, night=auto; приложение оставлено на Home после COLD restart.
+Пользовательские preferences приложения не очищались.
+
+### Новое замечание доступности R19-2B-D01 — P2
+
+**В accessibility-названии завершённого урока отсутствует признак completion.**
+
+На screenshot `quiz_completed_module.png` у safety_01–safety_05 видны галочки.
+В соответствующем native XML каждая lesson row содержит только title,
+description и estimated time; нет доступного названия «завершён» или
+соответствующего состояния. Существующие completed IDs независимо подтверждены
+native preferences. `lib/screens/module_screen.dart:111` отображает для completion
+`Icon(Icons.check)` без semanticLabel; доступный текст ListTile не добавляет статус.
+
+Подтверждён именно недостаток доступных метаданных; фактическая звуковая фраза
+TalkBack не прослушивалась. Вероятность проявления высокая для завершённых строк;
+пользователю screen reader сложнее отличить пройденный урок от непройденного.
+Это существующее ограничение ModuleScreen, не регрессия изменённого Home.
+
+Минимальное предлагаемое исправление отдельной задачей: добавить один ясный
+semantic completion status для lesson row без дублирования текста и проверить
+completed/incomplete через semantics regression плюс реальный TalkBack.
+**Код не исправлялся**, поскольку текущий этап разрешает только QA и отчёт.
+Подтверждённых новых P0/P1 в проверенных сценариях не выявлено.
+
+### Логи, доказательства и ограничения охвата
+
+Сохранены PID-filtered app logcat segments: `quiz`, четыре `home_*`,
+`practice_full`, `simulators`, `final` и `quiz_retry_clear`. В собранных сегментах
+не найдено `E/flutter`, `FATAL EXCEPTION`, `RenderFlex ... overflow`,
+`Unhandled Exception`. Это вывод только по сохранённым логам проверенных PID,
+не гарантия отсутствия любых ошибок в системе/приложении.
+Native progress checks и видимые результаты не показали потери состояния,
+ошибок записи или неожиданных переходов в описанных маршрутах.
+
+Локальные evidence находятся в `%TEMP%/r19-2b-device-20261103/`:
+`home_*` screenshots/XML, `quiz_100`, `quiz_selected_after_scroll`,
+`quiz_retry_empty_*`, `quiz_completed_module`, `dp01_record_1`–`6`,
+`dp01_citations_*`, `dp01_positive_result`, `dp01_negative_result`,
+`dp01_retry_confirmation`, `dp01_exit_guard`, `catalog_after_restart`,
+`catalog_all_18_end`, `course_all_14_end`, `multimeter_*`, `voltage_drop_*`,
+`oscilloscope_*`, `talkback_focus_*`, `talkback_service_summary.txt`,
+`preferences_before/after_install/after_native_restart/final*.xml`, `final_summary.json`
+и app logs. Temp не является постоянным публичным evidence archive; ключевые
+результаты и условия воспроизведения зафиксированы непосредственно в отчёте.
+В Git включён только отчёт. Serial в документе замаскирован; raw device/system
+logs и пользовательские preferences не публикуются.
+
+Не проверены: все 132 урока end-to-end на телефоне, все 18 полных case routes,
+release/AOT APK, другие устройства/Android versions, намеренные storage failures,
+аварийная потеря питания, первое завершение нового lesson ID, полный TalkBack
+и независимая электротехническая экспертиза. Маленький title в app bar может
+сокращаться, а крупный текст переносит слова; полное содержимое доступно в body/scroll.
+Новая функция/редизайн по итогам QA не выполнялись.
+
+### Регрессия 3 ноября и Git
+
+| Команда | Повторный фактический результат |
+|---|---|
+| `dart format --output=none --set-exit-if-changed lib test` | PASS, 141 файл, 0 изменений |
+| `flutter pub get` | PASS, lockfile/dependencies неизменны |
+| `flutter analyze` | PASS, No issues found!, 15.3 s |
+| `flutter test --reporter expanded` | PASS, **1442**, 2:56 |
+| `flutter build apk --debug` | PASS, assembleDebug 27.6 s; hash совпадает с установленным APK |
+| `git diff --check` | PASS |
+
+Generated registrants получили только line-ending изменения от Flutter;
+после проверки равенства содержимого HEAD восстановлены через Git filters.
+Production code, тесты, assets, storage/scoring rules, версия, applicationId и
+зависимости совпадают с исходным HEAD. Изменён только этот отчёт; допускается
+новый локальный docs commit с фактическими результатами продолжения, без amend.
+Остальные worktree и их незакоммиченные документы сохранены.
+
+**Итог продолжения: functional physical smoke PASS в указанном охвате;
+общий R19.2B PARTIAL из-за открытой полной TalkBack QA и P2 semantics finding.
+STOP. Push, merge, tag и Release не выполнялись.**
