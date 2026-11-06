@@ -134,81 +134,87 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
 
-        const SizedBox(height: 24),
-
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Общий прогресс',
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
+        Padding(
+          padding: const EdgeInsets.only(top: 24),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Общий прогресс',
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
                       ),
+                      const SizedBox(width: 12),
+                      Text(
+                        '${(data.progress * 100).round()}%',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: ExcludeSemantics(
+                      // The card already announces the percentage and lesson count.
+                      child: LinearProgressIndicator(value: data.progress),
                     ),
-                    const SizedBox(width: 12),
-                    Text(
-                      '${(data.progress * 100).round()}%',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  ],
-                ),
+                  ),
 
-                const SizedBox(height: 12),
+                  const SizedBox(height: 10),
 
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: LinearProgressIndicator(value: data.progress),
-                ),
-
-                const SizedBox(height: 10),
-
-                Text(
-                  '${data.completedLessons} '
-                  'из ${data.totalLessons} уроков',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
+                  Text(
+                    '${data.completedLessons} '
+                    'из ${data.totalLessons} уроков',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
 
-        const SizedBox(height: 24),
-
-        if (data.nextLesson != null)
-          buildContinueCard(context, data)
-        else if (data.totalLessons > 0)
-          const Card(
-            child: Padding(
-              padding: EdgeInsets.all(20),
-              child: Text('✓ Все доступные уроки завершены!'),
-            ),
+        if (data.nextLesson != null || data.totalLessons > 0)
+          Padding(
+            padding: const EdgeInsets.only(top: 24),
+            child: data.nextLesson != null
+                ? buildContinueCard(context, data)
+                : const Card(
+                    child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Text('✓ Все доступные уроки завершены!'),
+                    ),
+                  ),
           ),
 
-        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.only(top: 16),
+          child: Card(
+            child: ListTile(
+              leading: const Icon(Icons.school),
+              title: const Text('Курс'),
+              subtitle: Text(
+                'Учебных модулей: $moduleCount\nУроков: ${data.totalLessons}',
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const CourseScreen()),
+                );
 
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.school),
-            title: const Text('Курс'),
-            subtitle: Text(
-              'Учебных модулей: $moduleCount\nУроков: ${data.totalLessons}',
+                await loadProgress();
+              },
             ),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const CourseScreen()),
-              );
-
-              await loadProgress();
-            },
           ),
         ),
         Card(
