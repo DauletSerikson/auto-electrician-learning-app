@@ -101,10 +101,12 @@ void main() {
     expect(preferences.values['flutter.completed_lessons'], ['safety_01']);
     expect(preferences.writes, 1);
 
-    await tester.pageBack();
+    expect(find.byTooltip('Назад'), findsOneWidget);
+    await tester.tap(find.byTooltip('Назад'));
     await _settle(tester);
     expect(find.byType(CourseScreen), findsOneWidget);
-    await tester.pageBack();
+    expect(find.byTooltip('Назад'), findsOneWidget);
+    await tester.tap(find.byTooltip('Назад'));
     await _settle(tester);
     expect(find.text('1 из 132 уроков'), findsOneWidget);
     expect(find.text('Опасность большого тока'), findsOneWidget);

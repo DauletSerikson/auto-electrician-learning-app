@@ -110,8 +110,14 @@ class _ModuleScreenState extends State<ModuleScreen> {
 
                   leading: CircleAvatar(
                     child: isCompleted
-                        ? const Icon(Icons.check)
-                        : Text('${lesson.order}'),
+                        ? Icon(
+                            Icons.check,
+                            semanticLabel: 'Урок ${lesson.order}, завершён',
+                          )
+                        : Text(
+                            '${lesson.order}',
+                            semanticsLabel: 'Урок ${lesson.order}, не завершён',
+                          ),
                   ),
 
                   title: Text(
