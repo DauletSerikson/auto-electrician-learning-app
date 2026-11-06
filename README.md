@@ -195,7 +195,9 @@ Android проверку он не заменяет. Фактические пр
 GitHub Actions: один job с Flutter 3.47.5 stable выполняет `flutter pub get`,
 `flutter analyze`, `flutter test` при push в main/release/r6-readiness,
 pull request и ручном запуске. [Workflow](.github/workflows/flutter.yml).
-Удалённый результат CI для текущей ветки R19.2A не проверен. Push в feature/fix
+Исторический [CI для ca1262e](https://github.com/DauletSerikson/auto-electrician-learning-app/actions/runs/38069846487)
+завершился успешно (R6, 600 тестов); подробности — в [R6.7](docs/verification/R6_7.md).
+Удалённый результат CI для текущей ветки R19 не проверен. Push в feature/fix
 ветки сам по себе не входит в указанный фильтр; сборка Android в workflow
 не настроена. Исторический проект release notes: [v0.1.0](docs/releases/v0.1.0.md).
 

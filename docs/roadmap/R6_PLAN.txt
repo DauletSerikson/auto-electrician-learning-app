@@ -70,7 +70,7 @@ Current course:
 
 3 modules
 22 lessons
-197 lesson blocks
+195 lesson blocks
 13 JSON block types
 
 Current practical target platform:
