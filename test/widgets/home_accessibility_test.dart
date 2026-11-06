@@ -76,9 +76,9 @@ void main() {
       configFile.uri.resolve(flutter['rootUri'] as String),
     ).parent.parent;
     final loader = FontLoader('Roboto');
-    for (final weight in ['regular', 'medium', 'bold']) {
+    for (final weight in ['Regular', 'Medium', 'Bold']) {
       final bytes = await File(
-        '${sdk.path}/bin/cache/artifacts/material_fonts/roboto-$weight.ttf',
+        '${sdk.path}/bin/cache/artifacts/material_fonts/Roboto-$weight.ttf',
       ).readAsBytes();
       loader.addFont(Future.value(ByteData.sublistView(bytes)));
     }
