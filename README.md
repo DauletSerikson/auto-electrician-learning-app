@@ -5,7 +5,7 @@
 Портфолио-проект для начинающих: теория закрепляется расчётами, измерениями
 и диагностикой.
 
-Версия **0.1.0+1** готовится к первому Android portfolio/sideload релизу.
+Техническая версия **0.1.0-rc.1+2** — Android RC1 для локальной проверки.
 Реализованы этапы курса R7–R17 и отдельный практикум R18; R19.2A устраняет
 замечания технического аудита. Статус готовности к выпуску — **NOT READY**:
 полная физическая приёмка текущего baseline, TalkBack и независимое профильное
@@ -209,7 +209,7 @@ flutter build apk --release
 ```
 
 Release APK: `build/app/outputs/flutter-apk/app-release.apk`.
-Версия: `0.1.0`, versionCode: `1`.
+Версия: `0.1.0-rc.1`, versionCode: `2`.
 
 Release-mode APK использует **debug signing** для portfolio/sideload
 демонстрации. Это не production-store signing и не заявка на готовность
